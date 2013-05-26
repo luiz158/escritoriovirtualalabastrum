@@ -110,7 +110,7 @@
       if($.isFunction(_this.options[state]) && !bypass) {
         _this.options[state].apply(_this.$details)
       } else {
-        _this.isOpen ? _this.$details.fadeOut(200, "linear") : _this.$details.fadeIn(200, "linear");
+        _this.isOpen ? _this.$details.hide() : _this.$details.show();
       }
       _this.$summary.removeClass("open close").addClass(state);
       _this.$details.attr("aria-hidden", state == "close");
