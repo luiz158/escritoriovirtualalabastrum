@@ -2,20 +2,6 @@ package escritoriovirtualalabastrum.interceptor;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-
-import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
-import escritoriovirtualalabastrum.anotacoes.Public;
-import escritoriovirtualalabastrum.controller.LoginController;
-import escritoriovirtualalabastrum.hibernate.HibernateUtil;
-import escritoriovirtualalabastrum.modelo.Empresa;
-import escritoriovirtualalabastrum.modelo.Usuario;
-import escritoriovirtualalabastrum.sessao.SessaoUsuario;
-import escritoriovirtualalabastrum.util.Util;
-
-import org.hibernate.criterion.MatchMode;
 
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
@@ -24,21 +10,23 @@ import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 import br.com.caelum.vraptor.validator.ValidationMessage;
+import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.anotacoes.Public;
+import escritoriovirtualalabastrum.controller.LoginController;
+import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.sessao.SessaoUsuario;
+import escritoriovirtualalabastrum.util.Util;
 
 @Intercepts
 public class InterceptadorDeAutorizacao implements Interceptor {
 
-	private final SessaoUsuario sessaoUsuario;
+	private SessaoUsuario sessaoUsuario;
 	private Result result;
-	private HttpServletRequest request;
-	private HibernateUtil hibernateUtil;
-	private static HashMap<String, Usuario> usuariosLogados;
 
-	public InterceptadorDeAutorizacao(SessaoUsuario sessaoUsuario, Result result, HttpServletRequest request, HibernateUtil hibernateUtil) {
+	public InterceptadorDeAutorizacao(SessaoUsuario sessaoUsuario, Result result) {
+
 		this.sessaoUsuario = sessaoUsuario;
 		this.result = result;
-		this.request = request;
-		this.hibernateUtil = hibernateUtil;
 	}
 
 	public boolean accepts(ResourceMethod method) {
@@ -52,88 +40,7 @@ public class InterceptadorDeAutorizacao implements Interceptor {
 
 		if (Util.vazio(sessaoUsuario.getUsuario())) {
 
-			String login = request.getParameter("loginescritoriovirtualalabastrum");
-			String senha = request.getParameter("senhaescritoriovirtualalabastrum");
-			String nome = request.getParameter("nomeescritoriovirtualalabastrum");
-			String nomeEmpresa = request.getParameter("nomeEmpresaescritoriovirtualalabastrum");
-
-			if (Util.vazio(login) || Util.vazio(senha) || Util.vazio(nomeEmpresa)) {
-
-				usuarioNaoLogadoNoSistema();
-				return;
-			}
-
-			Usuario usuarioLogado = null;
-
-			Empresa empresa = new Empresa();
-			empresa.setNome(nomeEmpresa);
-
-			if (this.hibernateUtil.contar(empresa, MatchMode.EXACT) == 0) {
-
-				this.hibernateUtil.salvarOuAtualizar(empresa);
-
-				Usuario usuario = new Usuario();
-				usuario.setLogin(login);
-				usuario.setSenha(senha);
-				usuario.setNome(nome);
-				usuario.setAdministrador(false);
-				usuario.setEmpresa(empresa);
-
-				this.hibernateUtil.salvarOuAtualizar(usuario);
-
-				usuarioLogado = usuario;
-			}
-
-			else {
-
-				empresa = this.hibernateUtil.selecionar(empresa);
-
-				Usuario usuario = new Usuario();
-				usuario.setLogin(login);
-				usuario.setEmpresa(empresa);
-
-				Usuario usuarioBanco = this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
-
-				if (Util.vazio(usuarioBanco)) {
-
-					usuario.setSenha(senha);
-					usuario.setNome(nome);
-					usuario.setAdministrador(false);
-					this.hibernateUtil.salvarOuAtualizar(usuario);
-				}
-
-				else {
-
-					if (!usuarioBanco.getSenha().equals(senha)) {
-
-						result.redirectTo(LoginController.class).telaLogin();
-						return;
-					}
-				}
-
-				usuarioLogado = usuario;
-			}
-
-			this.sessaoUsuario.login((Usuario) usuarioLogado);
-
-			if (usuariosLogados == null) {
-
-				usuariosLogados = new HashMap<String, Usuario>();
-			}
-
-			usuariosLogados.put(usuarioLogado.getKeyEmpresaUsuario(), usuarioLogado);
-
-			if (possuiPermissao(stack, method, resourceInstance, usuarioLogado)) {
-
-				stack.next(method, resourceInstance);
-			}
-
-			else {
-
-				permissaoNegada();
-				return;
-			}
-
+			usuarioNaoLogadoNoSistema();
 		}
 
 		else {
@@ -188,20 +95,5 @@ public class InterceptadorDeAutorizacao implements Interceptor {
 	private void permissaoNegada() {
 
 		result.redirectTo(LoginController.class).permissaoNegada();
-	}
-
-	public static HashMap<String, Usuario> getUsuariosLogados() {
-
-		if (usuariosLogados == null) {
-
-			usuariosLogados = new HashMap<String, Usuario>();
-		}
-
-		return usuariosLogados;
-	}
-
-	public static void setUsuariosLogados(HashMap<String, Usuario> usuariosLogados) {
-
-		InterceptadorDeAutorizacao.usuariosLogados = usuariosLogados;
 	}
 }

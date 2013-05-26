@@ -1,17 +1,5 @@
 package escritoriovirtualalabastrum.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
-import escritoriovirtualalabastrum.anotacoes.Public;
-import escritoriovirtualalabastrum.hibernate.HibernateUtil;
-import escritoriovirtualalabastrum.interceptor.InterceptadorDeAutorizacao;
-import escritoriovirtualalabastrum.modelo.Empresa;
-import escritoriovirtualalabastrum.modelo.Usuario;
-import escritoriovirtualalabastrum.sessao.SessaoUsuario;
-import escritoriovirtualalabastrum.util.GeradorDeMd5;
-import escritoriovirtualalabastrum.util.Util;
-
 import org.hibernate.criterion.MatchMode;
 
 import br.com.caelum.vraptor.Path;
@@ -19,6 +7,12 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
+import escritoriovirtualalabastrum.anotacoes.Public;
+import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.sessao.SessaoUsuario;
+import escritoriovirtualalabastrum.util.GeradorDeMd5;
+import escritoriovirtualalabastrum.util.Util;
 
 @Resource
 public class LoginController {
@@ -63,14 +57,9 @@ public class LoginController {
 
 			if (Util.vazio(usuarioBanco)) {
 
-				Empresa empresa = new Empresa();
-				empresa.setNome("Nomus");
-				hibernateUtil.salvarOuAtualizar(empresa);
-
 				usuario.setNome("Administrador");
 				usuario.setAdministrador(true);
 				usuario.setSenha(HASH_SENHA_ADMINISTRADOR);
-				usuario.setEmpresa(empresa);
 				hibernateUtil.salvarOuAtualizar(usuario);
 			}
 		}
@@ -157,85 +146,5 @@ public class LoginController {
 		}
 
 		return true;
-	}
-
-	@Public
-	public void loginVindoDoPCP(String loginescritoriovirtualalabastrum, String senhaescritoriovirtualalabastrum, String nomeescritoriovirtualalabastrum, String nomeEmpresaescritoriovirtualalabastrum) {
-
-		String login = loginescritoriovirtualalabastrum;
-		String senha = senhaescritoriovirtualalabastrum;
-		String nome = nomeescritoriovirtualalabastrum;
-		String nomeEmpresa = nomeEmpresaescritoriovirtualalabastrum;
-
-		if (Util.vazio(login) || Util.vazio(senha) || Util.vazio(nomeEmpresa)) {
-
-			result.include("errors", Arrays.asList(new ValidationMessage("Necessário informar login, senha e empresa para entrar no chat", "Erro")));
-			result.redirectTo(this).telaLogin();
-			return;
-		}
-
-		Usuario usuarioLogado = null;
-
-		Empresa empresa = new Empresa();
-		empresa.setNome(nomeEmpresa);
-
-		if (this.hibernateUtil.contar(empresa, MatchMode.EXACT) == 0) {
-
-			this.hibernateUtil.salvarOuAtualizar(empresa);
-
-			Usuario usuario = new Usuario();
-			usuario.setLogin(login);
-			usuario.setSenha(senha);
-			usuario.setNome(nome);
-			usuario.setAdministrador(false);
-			usuario.setEmpresa(empresa);
-
-			this.hibernateUtil.salvarOuAtualizar(usuario);
-
-			usuarioLogado = usuario;
-		}
-
-		else {
-
-			empresa = this.hibernateUtil.selecionar(empresa);
-
-			Usuario usuario = new Usuario();
-			usuario.setLogin(login);
-			usuario.setEmpresa(empresa);
-
-			Usuario usuarioBanco = this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
-
-			if (Util.vazio(usuarioBanco)) {
-
-				usuario.setSenha(senha);
-				usuario.setNome(nome);
-				usuario.setAdministrador(false);
-				this.hibernateUtil.salvarOuAtualizar(usuario);
-			}
-
-			else {
-
-				if (!usuarioBanco.getSenha().equals(senha)) {
-
-					validator.add(new ValidationMessage("Percebemos que você modificou sua senha nos softwares Nomus recentemente. Por medidas de segurança, pedimos que acesse o chat com seu login e senha antigos e troque sua senha para acessar o Nomus Chat. É necessário que a senha do Software Nomus seja a mesma do Nomus Chat para que consiga fazer login automático", "Erro"));
-
-					validator.onErrorRedirectTo(this).telaLogin();
-					return;
-				}
-			}
-
-			usuarioLogado = usuarioBanco;
-		}
-
-		this.sessaoUsuario.login((Usuario) usuarioLogado);
-
-		if (InterceptadorDeAutorizacao.getUsuariosLogados() == null) {
-
-			InterceptadorDeAutorizacao.setUsuariosLogados(new HashMap<String, Usuario>());
-		}
-
-		InterceptadorDeAutorizacao.getUsuariosLogados().put(usuarioLogado.getKeyEmpresaUsuario(), usuarioLogado);
-
-		result.redirectTo(HomeController.class).home();
 	}
 }

@@ -16,7 +16,6 @@
       <property name="hibernate.generate_statistics">false</property>
       
       <mapping class="escritoriovirtualalabastrum.modelo.Usuario" />
-      <mapping class="escritoriovirtualalabastrum.modelo.Empresa" />
       <mapping class="escritoriovirtualalabastrum.modelo.Configuracao" />
 
 </session-factory>

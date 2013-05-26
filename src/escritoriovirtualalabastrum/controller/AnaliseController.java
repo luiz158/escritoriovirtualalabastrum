@@ -1,12 +1,11 @@
 package escritoriovirtualalabastrum.controller;
 
-import escritoriovirtualalabastrum.anotacoes.Public;
-import escritoriovirtualalabastrum.hibernate.HibernateUtil;
-import escritoriovirtualalabastrum.interceptor.InterceptadorDeAutorizacao;
-import escritoriovirtualalabastrum.listener.CounterListener;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import escritoriovirtualalabastrum.anotacoes.Public;
+import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.listener.CounterListener;
 
 @Resource
 public class AnaliseController {
@@ -16,7 +15,6 @@ public class AnaliseController {
 	public AnaliseController(Result result) {
 
 		this.result = result;
-
 	}
 
 	@Public
@@ -24,7 +22,6 @@ public class AnaliseController {
 	public void analisar() {
 
 		result.include("sessoesTomcat", CounterListener.getCount());
-		result.include("quantidadeUsuariosOnline", InterceptadorDeAutorizacao.getUsuariosLogados().size());
 
 		HibernateUtil.gerarEstatisticas();
 

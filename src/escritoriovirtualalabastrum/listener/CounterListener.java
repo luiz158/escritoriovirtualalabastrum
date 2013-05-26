@@ -4,10 +4,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import escritoriovirtualalabastrum.interceptor.InterceptadorDeAutorizacao;
-import escritoriovirtualalabastrum.sessao.SessaoUsuario;
-import escritoriovirtualalabastrum.util.Util;
-
 public final class CounterListener implements HttpSessionListener {
 
 	private static int count = 1;
@@ -20,16 +16,6 @@ public final class CounterListener implements HttpSessionListener {
 	}
 
 	public synchronized void sessionDestroyed(HttpSessionEvent se) {
-
-		if (Util.preenchido(se.getSession().getAttribute("sessaoUsuario")) && se.getSession().getAttribute("sessaoUsuario") instanceof SessaoUsuario) {
-
-			SessaoUsuario sessaoUsuario = (SessaoUsuario) se.getSession().getAttribute("sessaoUsuario");
-
-			if (Util.preenchido(InterceptadorDeAutorizacao.getUsuariosLogados()) && Util.preenchido(sessaoUsuario) && Util.preenchido(sessaoUsuario.getUsuario()) && Util.preenchido(sessaoUsuario.getUsuario().getLogin())) {
-
-				InterceptadorDeAutorizacao.getUsuariosLogados().remove(sessaoUsuario.getUsuario().getEmpresa().getNome() + "_" + sessaoUsuario.getUsuario().getLogin());
-			}
-		}
 
 		count--;
 		log("sessionDestroyed(" + se.getSession().getId() + ") count=" + count);

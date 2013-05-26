@@ -2,15 +2,6 @@ package escritoriovirtualalabastrum.controller;
 
 import java.util.List;
 
-import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
-import escritoriovirtualalabastrum.hibernate.HibernateUtil;
-import escritoriovirtualalabastrum.modelo.Empresa;
-import escritoriovirtualalabastrum.modelo.Usuario;
-import escritoriovirtualalabastrum.sessao.SessaoGeral;
-import escritoriovirtualalabastrum.util.GeradorDeMd5;
-import escritoriovirtualalabastrum.util.Util;
-import escritoriovirtualalabastrum.util.UtilController;
-
 import org.hibernate.criterion.MatchMode;
 
 import br.com.caelum.vraptor.Path;
@@ -18,6 +9,13 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
+import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.sessao.SessaoGeral;
+import escritoriovirtualalabastrum.util.GeradorDeMd5;
+import escritoriovirtualalabastrum.util.Util;
+import escritoriovirtualalabastrum.util.UtilController;
 
 @Resource
 public class UsuarioController {
@@ -65,7 +63,6 @@ public class UsuarioController {
 	@Funcionalidade(administrativa = "true")
 	public void criarEditarUsuario() {
 
-		result.include("empresas", this.hibernateUtil.buscar(new Empresa()));
 	}
 
 	@Path("/usuario/excluirUsuario/{usuario.id}")
