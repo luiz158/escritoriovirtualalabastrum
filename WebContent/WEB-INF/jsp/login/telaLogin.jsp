@@ -8,13 +8,42 @@
 	</head>
 
 	<style type="text/css">
+	
       body {
+      
+    	background-image: url("http://imagensface.com.br/imagens/imagens-imagem-paisagem-e03050.jp");
+        background-repeat: no-repeat;
+        background-size: 100%;
         padding-top: 40px;
         padding-bottom: 40px;
-        background-color: #f5f5f5;
+      }
+      
+      .alert-error {
+		margin: auto;
+		width: 500px;
+	  }
+      
+      .btn {
+      	float: right;
+      }
+      
+      .inputLoginSenha{
+      	width: 200px;
+      	border-color: rgb(17, 109, 162);
+      }
+      
+      .labelLoginSenha{
+      	
+      	display: inline;
+      	color: rgb(17, 109, 162);
       }
 
       .form-signin {
+      	
+      	right: 10px;
+      	top: 10px;
+		position: fixed;
+      	
         max-width: 300px;
         padding: 19px 29px 29px;
         margin: 0 auto 20px;
@@ -54,13 +83,16 @@
 		<div class="container">
 	
 	      <form class="form-signin" action="<c:url value="/login/efetuarLogin"/>" method="post" >
-	        <h3 class="form-signin-heading"> Login </h3>
-	        <input type="text" class="input-block-level" placeholder="Usuario" name="usuario.login" >
-	        <input type="password" class="input-block-level" placeholder="Senha" name="usuario.senha" >
+	      
+		      <label class="labelLoginSenha" > Código: </label>  
+		      <input type="text" class="inputLoginSenha" name="usuario.login" >
+		      <br>
+		      <label class="labelLoginSenha" > Senha:&nbsp;</label>  
+		      <input type="password" class="inputLoginSenha" name="usuario.senha" >
+		      
+		      <br> <br>
 	        
-	        <br> <br> 
-	        
-	        <button class="btn btn-large btn-primary" type="submit" onclick="this.disabled=true;this.form.submit();" >Entrar</button>
+	      	  <button class="btn btn-large btn-primary" type="submit" onclick="this.disabled=true;this.form.submit();" >Entrar</button>
 	      </form>
 	      
 	
