@@ -11,7 +11,7 @@
 	
       body {
       
-    	background-image: url("http://imagensface.com.br/imagens/imagens-imagem-paisagem-e03050.jp");
+    	background-image: url("http://imagensface.com.br/imagens/imagens-imagem-paisagem-e03050.jpg");
         background-repeat: no-repeat;
         background-size: 100%;
         padding-top: 40px;
