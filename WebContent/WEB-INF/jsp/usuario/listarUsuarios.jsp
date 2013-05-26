@@ -15,7 +15,6 @@
 	
 	<input type="text" class="input-small" name="usuario.login" value="${sessaoGeral.valor.get('usuario').login}" placeholder="Login">
 	<input type="text" class="input-small" name="usuario.nome" value="${sessaoGeral.valor.get('usuario').nome}" placeholder="Nome">
-	<input type="text" class="input-small" name="usuario.empresa.nome" value="${sessaoGeral.valor.get('usuario').empresa.nome}" placeholder="Empresa">
 	<select name="usuario.administrador" >
 		<option value="" style='display:none;' >Administrador</option>
 		<option value="" > Todos </option>
@@ -39,7 +38,6 @@
 		    <tr>
 		      <th>Login</th>
 		      <th>Nome</th>
-		      <th>Empresa</th>
 		      <th>Administrador</th>
 		    </tr>
 		  </thead>
@@ -48,7 +46,6 @@
 				<tr id="usuario_${item.id}">
 				  <td> ${item.login} </td>
 				  <td> ${item.nome} </td>
-				  <td> ${item.empresa.nome} </td>
 				  <td> <tags:simNao valor="${item.administrador}" />  </td>
 				</tr>
 		  	</c:forEach>  	

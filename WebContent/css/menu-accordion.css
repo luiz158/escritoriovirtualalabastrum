@@ -1,0 +1,72 @@
+
+.menu-accordion.close {
+	background-image: -webkit-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	background-image: -o-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	background-image: -moz-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	background-image: -ms-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	float: none;
+	font-size: 11px;
+	opacity: 1;
+	line-height: normal;
+}
+
+.menu-accordion.open {
+	background-image: -webkit-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	background-image: -o-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	background-image: -moz-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	background-image: -ms-linear-gradient(bottom, rgba(10, 27, 228, 0.92) 14%, rgb(37, 147, 209) 57%);
+	font-size: 11px;
+	line-height: normal;
+}
+
+.menu-accordion.open:hover{
+	background-color: white;
+}
+
+.menu-accordion.close:hover{
+	background-color: white;
+}
+
+.menu-accordion {
+  display: block;
+  margin: 0;
+}
+
+.menu-accordion a {
+  background: url("images/sprite.png") 15px 13px no-repeat;
+  display: block;
+  padding: 10px;
+  padding-left: 32px;
+  margin: 0;
+  color: #fff;
+  text-decoration: none;
+  font-weight: normal;
+  border-bottom: 1px solid rgba(128, 10, 85, 0.5);
+  text-shadow: 1px 1px 1px rgb(128,10,85);
+}
+
+.submenu-accordion {
+	background-image: -webkit-linear-gradient(bottom, rgba(50, 170, 180, 0.92) 14%, rgba(37, 147, 209, 0.51) 57%);
+	background-image: -o-linear-gradient(bottom, rgba(50, 170, 180, 0.92) 14%, rgba(37, 147, 209, 0.51) 57%);
+	background-image: -moz-linear-gradient(bottom, rgba(50, 170, 180, 0.92) 14%, rgba(37, 147, 209, 0.51) 57%);
+	background-image: -ms-linear-gradient(bottom, rgba(50, 170, 180, 0.92) 14%, rgba(37, 147, 209, 0.51) 57%);
+	display: block;
+	padding: 10px;
+	padding-left: 32px;
+	margin: 0;
+	color: rgb(59, 78, 179);
+	text-decoration: none;
+	font-weight: bold;
+	border-bottom: 1px solid rgb(223, 218, 218);
+	font-size: 11px;
+	line-height: normal;
+}
+
+.submenu-accordion:hover {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+	background-color: rgb(223, 218, 218);
+}
+
+.menu-accordion.open a { background-position: 13px -25px; }
