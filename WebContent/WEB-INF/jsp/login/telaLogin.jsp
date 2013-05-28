@@ -10,12 +10,11 @@
 	<style type="text/css">
 	
       body {
-      
-    	background-image: url("http://imagensface.com.br/imagens/imagens-imagem-paisagem-e03050.jpg");
-        background-repeat: no-repeat;
-        background-size: 100%;
-        padding-top: 40px;
-        padding-bottom: 40px;
+        
+        background-image: url("css/images/login.jpg"); 
+ 		background-repeat: no-repeat;
+		background-size: 100%;
+
       }
       
       .alert-error {
@@ -25,6 +24,7 @@
       
       .btn {
       	float: right;
+      	margin-right: 25px;
       }
       
       .inputLoginSenha{
@@ -45,7 +45,7 @@
 		position: fixed;
       	
         max-width: 300px;
-        padding: 19px 29px 29px;
+        padding: 21px 0px 13px 17px;
         margin: 0 auto 20px;
         background-color: #fff;
         border: 1px solid #e5e5e5;
@@ -89,8 +89,6 @@
 		      <br>
 		      <label class="labelLoginSenha" > Senha:&nbsp;</label>  
 		      <input type="password" class="inputLoginSenha" name="usuario.senha" >
-		      
-		      <br> <br>
 	        
 	      	  <button class="btn btn-large btn-primary" type="submit" onclick="this.disabled=true;this.form.submit();" >Entrar</button>
 	      </form>

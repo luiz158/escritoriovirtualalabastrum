@@ -1,13 +1,13 @@
 
 .menu-accordion.close {
 	float: none;
-	font-size: 11px;
+	font-size: 14px;
 	opacity: 1;
 	line-height: normal;
 }
 
 .menu-accordion.open {
-	font-size: 11px;
+	font-size: 14px;
 	line-height: normal;
 }
 

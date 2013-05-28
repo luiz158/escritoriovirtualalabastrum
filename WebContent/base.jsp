@@ -41,7 +41,7 @@
 	        	<a class="submenu-accordion" > Dados cadastrais </a>
 	        	<a href="<c:url value="/login/trocarPropriaSenha"/>" class="submenu-accordion" > Troque sua senha </a>
 	        </div>
-	        <h3 class="menu-accordion" >Teste</h3>
+	        <h3 class="menu-accordion" >TESTE</h3>
 	        <div>
 	        	<a class="submenu-accordion" > Teste </a>
 	        </div>
