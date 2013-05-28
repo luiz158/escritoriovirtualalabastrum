@@ -13,7 +13,8 @@
         
         background-image: url("css/images/login.jpg"); 
  		background-repeat: no-repeat;
-		background-size: 100%;
+		background-size: 85%;
+		background-position-x: 50%;
 
       }
       
@@ -23,13 +24,17 @@
 	  }
       
       .btn {
-      	float: right;
       	margin-right: 25px;
+		margin-left: 20px;
+		margin-top: -10px;
+		padding: 5px 15px;
+		font-size: 12px;
       }
       
       .inputLoginSenha{
-      	width: 200px;
+      	width: 100px;
       	border-color: rgb(17, 109, 162);
+      	text-align: center;
       }
       
       .labelLoginSenha{
@@ -44,7 +49,7 @@
       	top: 10px;
 		position: fixed;
       	
-        max-width: 300px;
+        max-width: 700px;
         padding: 21px 0px 13px 17px;
         margin: 0 auto 20px;
         background-color: #fff;
@@ -84,10 +89,9 @@
 	
 	      <form class="form-signin" action="<c:url value="/login/efetuarLogin"/>" method="post" >
 	      
-		      <label class="labelLoginSenha" > Código: </label>  
+		      <label class="labelLoginSenha" >Código:</label>  
 		      <input type="text" class="inputLoginSenha" name="usuario.login" >
-		      <br>
-		      <label class="labelLoginSenha" > Senha:&nbsp;</label>  
+		      <label class="labelLoginSenha" >Senha:</label>  
 		      <input type="password" class="inputLoginSenha" name="usuario.senha" >
 	        
 	      	  <button class="btn btn-large btn-primary" type="submit" onclick="this.disabled=true;this.form.submit();" >Entrar</button>
