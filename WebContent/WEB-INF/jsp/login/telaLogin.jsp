@@ -20,7 +20,8 @@
       
       .alert-error {
 		margin: auto;
-		width: 500px;
+		margin-top: 10px;
+		width: 300px;
 	  }
       
       .btn {
