@@ -1,0 +1,17 @@
+<%@ include file="/base.jsp" %> 
+
+<form class="form-horizontal" action="<c:url value="/importacaoArquivo/importarArquivoTabelaRelacionamentos"/>" method="post" enctype="multipart/form-data" >
+  <fieldset>
+    <legend>Importar arquivo: tabela relacionamentos</legend>
+    
+    <div class="control-group warning">
+    	<label class="control-label">Arquivo</label>
+    	<div class="controls">
+    		<input type="file" name="arquivo"/>
+		</div>
+    </div>
+            
+    <button type="submit" class="btn btn-primary">Importar</button>
+    <a class="btn btn-danger" href="<c:url value="/home/home"/>" > Cancelar </a>
+  </fieldset>
+</form>

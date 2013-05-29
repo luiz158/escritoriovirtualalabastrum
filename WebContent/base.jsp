@@ -41,10 +41,12 @@
 	        	<a class="submenu-accordion" > Dados cadastrais </a>
 	        	<a href="<c:url value="/login/trocarPropriaSenha"/>" class="submenu-accordion" > Troque sua senha </a>
 	        </div>
-	        <h3 class="menu-accordion" >TESTE</h3>
-	        <div>
-	        	<a class="submenu-accordion" > Teste </a>
-	        </div>
+	        <c:if test="${sessaoUsuario.usuario.administrador}">
+		        <h3 class="menu-accordion" >IMPORTAÇÃO DE ARQUIVOS</h3>
+		        <div>
+		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivoTabelaRelacionamentos"/>" class="submenu-accordion" > Importar tabela de relacionamentos </a>
+		        </div>
+	        </c:if>
 		</div>
 		
 		<a id="sair" style="float: right; padding-right: 15px; font-weight: bold; margin-top: -20px; font-size: 12px; cursor: pointer; " href="<c:url value="/login/logout"/>"> Sair </a>

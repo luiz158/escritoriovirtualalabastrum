@@ -1,20 +1,15 @@
 
 .menu-accordion.close {
 	float: none;
-	font-size: 14px;
 	opacity: 1;
-	line-height: normal;
-}
-
-.menu-accordion.open {
-	font-size: 14px;
-	line-height: normal;
 }
 
 .menu-accordion {
   display: block;
   margin: 0;
   background-color: rgb(76, 76, 202);
+  line-height: normal;
+  font-size: 13px;
 }
 
 .menu-accordion a {
