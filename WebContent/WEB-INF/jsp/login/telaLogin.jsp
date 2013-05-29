@@ -26,7 +26,7 @@
       .btn {
       	margin-right: 25px;
 		margin-left: 20px;
-		margin-top: -10px;
+		margin-top: -16px;
 		padding: 5px 15px;
 		font-size: 12px;
       }
