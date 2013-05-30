@@ -1,10 +1,8 @@
 package escritoriovirtualalabastrum.modelo;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import escritoriovirtualalabastrum.hibernate.Entidade;
 
@@ -15,9 +13,7 @@ public class Usuario implements Entidade {
 	@GeneratedValue
 	private Integer id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private InformacoesFixasUsuario informacoesFixasUsuario;
-
+	private String id_Codigo;
 	private String PosAtual;
 	private String vNome;
 	private String PosIngresso;
@@ -315,12 +311,12 @@ public class Usuario implements Entidade {
 		EV = eV;
 	}
 
-	public InformacoesFixasUsuario getInformacoesFixasUsuario() {
-		return informacoesFixasUsuario;
+	public String getId_Codigo() {
+		return id_Codigo;
 	}
 
-	public void setInformacoesFixasUsuario(InformacoesFixasUsuario informacoesFixasUsuario) {
-		this.informacoesFixasUsuario = informacoesFixasUsuario;
+	public void setId_Codigo(String id_Codigo) {
+		this.id_Codigo = id_Codigo;
 	}
 
 }

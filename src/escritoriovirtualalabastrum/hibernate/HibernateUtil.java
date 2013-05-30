@@ -15,12 +15,12 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import escritoriovirtualalabastrum.modelo.Configuracao;
-import escritoriovirtualalabastrum.util.Util;
-import escritoriovirtualalabastrum.util.UtilReflection;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.RequestScoped;
+import escritoriovirtualalabastrum.modelo.Configuracao;
+import escritoriovirtualalabastrum.util.Util;
+import escritoriovirtualalabastrum.util.UtilReflection;
 
 @Component
 @RequestScoped
@@ -128,6 +128,28 @@ public class HibernateUtil {
 			throw e;
 		}
 
+	}
+
+	public void executarSQL(String sql) {
+
+		try {
+
+			iniciarSessionFactory();
+
+			abrirSessao();
+			session.beginTransaction();
+
+			session.createSQLQuery(sql).executeUpdate();
+
+			session.getTransaction().commit();
+		}
+
+		catch (RuntimeException e) {
+
+			session.getTransaction().rollback();
+			fecharSessao();
+			throw e;
+		}
 	}
 
 	public void deletar(Entidade entidade) {

@@ -45,28 +45,23 @@ public class LoginController {
 
 	private void tentarEfetuarLogin(Usuario usuario) {
 
-		if (Util.vazio(usuario.getId()) || usuario.getId().equals(0) || Util.vazio(usuario.getInformacoesFixasUsuario().getSenha())) {
+		if (Util.vazio(usuario.getId_Codigo()) || usuario.getId_Codigo().equals("0") || Util.vazio(usuario.getInformacoesFixasUsuario().getSenha())) {
 
-			validator.add(new ValidationMessage("Login ou senha incorretos", "Erro"));
+			validator.add(new ValidationMessage("Código ou senha incorretos", "Erro"));
 			validator.onErrorRedirectTo(this).telaLogin();
 			return;
 		}
 
 		usuario.getInformacoesFixasUsuario().setSenha(GeradorDeMd5.converter(usuario.getInformacoesFixasUsuario().getSenha()));
 
-		Usuario usuarioBanco = null;
+		Usuario usuarioFiltro = new Usuario();
+		usuarioFiltro.setId_Codigo(usuario.getId_Codigo());
 
-		if (Util.preenchido(usuario.getId()) && usuario.getId() != 0) {
-
-			Usuario usuarioFiltro = new Usuario();
-			usuarioFiltro.setId(usuario.getId());
-
-			usuarioBanco = hibernateUtil.selecionar(usuarioFiltro, MatchMode.EXACT);
-		}
+		Usuario usuarioBanco = hibernateUtil.selecionar(usuarioFiltro, MatchMode.EXACT);
 
 		if (Util.vazio(usuarioBanco) || !usuarioBanco.getInformacoesFixasUsuario().getSenha().equals(usuario.getInformacoesFixasUsuario().getSenha())) {
 
-			validator.add(new ValidationMessage("Login ou senha incorretos", "Erro"));
+			validator.add(new ValidationMessage("Código ou senha incorretos", "Erro"));
 			validator.onErrorRedirectTo(this).telaLogin();
 			return;
 		}

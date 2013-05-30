@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.hibernate.criterion.MatchMode;
+
 import au.com.bytecode.opencsv.CSVReader;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
@@ -21,6 +23,7 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.util.Util;
 
 @Resource
 public class ImportacaoArquivoController {
@@ -93,6 +96,8 @@ public class ImportacaoArquivoController {
 
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
+		this.hibernateUtil.executarSQL("delete from usuario");
+
 		String[] nextLine;
 		while ((nextLine = reader.readNext()) != null) {
 
@@ -106,9 +111,23 @@ public class ImportacaoArquivoController {
 
 			else {
 
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
 				if (!colunas[0].contains("id_Codigo")) {
 
-					Usuario usuario = new Usuario(Integer.valueOf(colunas[0]));
+					Usuario usuario = new Usuario();
+					usuario.setId_Codigo(colunas[0]);
+
+					usuario = this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
+
+					if (Util.vazio(usuario)) {
+
+						usuario = new Usuario();
+						usuario.setId_Codigo(colunas[0]);
+					}
 
 					usuario.setPosAtual(colunas[1]);
 					usuario.setvNome(colunas[2]);

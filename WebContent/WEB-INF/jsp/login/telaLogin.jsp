@@ -92,7 +92,7 @@
 	      <form class="form-signin" action="<c:url value="/login/efetuarLogin"/>" method="post" >
 	      
 		      <label class="labelLoginSenha" >Código:</label>  
-		      <input type="text" class="inputLoginSenha numero-inteiro" name="usuario.id" maxlength="8" >
+		      <input type="text" class="inputLoginSenha numero-inteiro" name="usuario.id_Codigo" maxlength="8" >
 		      <label class="labelLoginSenha" >Senha:</label>  
 		      <input type="password" class="inputLoginSenha" name="usuario.informacoesFixasUsuario.senha" >
 	        
