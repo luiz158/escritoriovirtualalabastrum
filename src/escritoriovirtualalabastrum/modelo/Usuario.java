@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import escritoriovirtualalabastrum.hibernate.Entidade;
 
@@ -15,7 +15,7 @@ public class Usuario implements Entidade {
 	@GeneratedValue
 	private Integer id;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private InformacoesFixasUsuario informacoesFixasUsuario;
 
 	private String PosAtual;

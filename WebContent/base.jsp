@@ -32,7 +32,7 @@
 		
 		</div>
 		
-		<p class="bem-vindo" > ${sessaoUsuario.usuario.nome}, bem vindo(a) ao seu escritório virtual!  </p>
+		<p class="bem-vindo" > ${sessaoUsuario.usuario.vNome}, bem vindo(a) ao seu escritório virtual!  </p>
 
  		<div class="menu" data-collapse="persist">
 	
@@ -41,7 +41,7 @@
 	        	<a class="submenu-accordion" > Dados cadastrais </a>
 	        	<a href="<c:url value="/login/trocarPropriaSenha"/>" class="submenu-accordion" > Troque sua senha </a>
 	        </div>
-	        <c:if test="${sessaoUsuario.usuario.administrador}">
+	        <c:if test="${sessaoUsuario.usuario.informacoesFixasUsuario.administrador}">
 		        <h3 class="menu-accordion" >IMPORTAÇÃO DE ARQUIVOS</h3>
 		        <div>
 		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivoTabelaRelacionamentos"/>" class="submenu-accordion" > Importar tabela de relacionamentos </a>

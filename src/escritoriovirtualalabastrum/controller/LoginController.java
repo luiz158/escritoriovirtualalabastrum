@@ -64,7 +64,7 @@ public class LoginController {
 			usuarioBanco = hibernateUtil.selecionar(usuarioFiltro, MatchMode.EXACT);
 		}
 
-		if (Util.vazio(usuarioBanco) || !usuarioBanco.getInformacoesFixasUsuario().getSenha().equals(GeradorDeMd5.converter(usuario.getInformacoesFixasUsuario().getSenha()))) {
+		if (Util.vazio(usuarioBanco) || !usuarioBanco.getInformacoesFixasUsuario().getSenha().equals(usuario.getInformacoesFixasUsuario().getSenha())) {
 
 			validator.add(new ValidationMessage("Login ou senha incorretos", "Erro"));
 			validator.onErrorRedirectTo(this).telaLogin();

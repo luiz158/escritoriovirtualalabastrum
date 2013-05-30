@@ -1,10 +1,8 @@
 package escritoriovirtualalabastrum.modelo;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import escritoriovirtualalabastrum.hibernate.Entidade;
@@ -17,10 +15,6 @@ public class InformacoesFixasUsuario implements Entidade {
 	private Integer id;
 
 	@NotNull
-	@OneToOne(fetch = FetchType.LAZY)
-	private Usuario usuario;
-
-	@NotNull
 	private String senha;
 
 	private Boolean administrador;
@@ -31,14 +25,6 @@ public class InformacoesFixasUsuario implements Entidade {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 	public String getSenha() {
