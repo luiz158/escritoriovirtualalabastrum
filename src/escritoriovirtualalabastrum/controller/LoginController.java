@@ -17,8 +17,6 @@ import escritoriovirtualalabastrum.util.Util;
 @Resource
 public class LoginController {
 
-	private static final String HASH_SENHA_ADMINISTRADOR = "b9bde749700bd25648b0a3f2ecaa81c2";
-
 	private final Result result;
 	private SessaoUsuario sessaoUsuario;
 	private Validator validator;
@@ -40,56 +38,49 @@ public class LoginController {
 	@Public
 	public void efetuarLogin(Usuario usuario) {
 
-		verificaExistenciaAdministrador(usuario);
 		tentarEfetuarLogin(usuario);
 		colocarUsuarioNaSessao(usuario);
 		result.redirectTo(HomeController.class).home();
 	}
 
-	private void verificaExistenciaAdministrador(Usuario usuario) {
-
-		if (usuario.getLogin().equals("administrador") && GeradorDeMd5.converter(usuario.getSenha()).equals(HASH_SENHA_ADMINISTRADOR)) {
-
-			Usuario usuarioFiltro = new Usuario();
-			usuarioFiltro.setLogin("administrador");
-
-			Usuario usuarioBanco = hibernateUtil.selecionar(usuarioFiltro, MatchMode.EXACT);
-
-			if (Util.vazio(usuarioBanco)) {
-
-				usuario.setNome("Administrador");
-				usuario.setAdministrador(true);
-				usuario.setSenha(HASH_SENHA_ADMINISTRADOR);
-				hibernateUtil.salvarOuAtualizar(usuario);
-			}
-		}
-	}
-
 	private void tentarEfetuarLogin(Usuario usuario) {
 
-		usuario.setSenha(GeradorDeMd5.converter(usuario.getSenha()));
+		if (Util.vazio(usuario.getId()) || usuario.getId().equals(0) || Util.vazio(usuario.getInformacoesFixasUsuario().getSenha())) {
+
+			validator.add(new ValidationMessage("Login ou senha incorretos", "Erro"));
+			validator.onErrorRedirectTo(this).telaLogin();
+			return;
+		}
+
+		usuario.getInformacoesFixasUsuario().setSenha(GeradorDeMd5.converter(usuario.getInformacoesFixasUsuario().getSenha()));
 
 		Usuario usuarioBanco = null;
 
-		if (Util.preenchido(usuario.getLogin())) {
+		if (Util.preenchido(usuario.getId()) && usuario.getId() != 0) {
 
 			Usuario usuarioFiltro = new Usuario();
-			usuarioFiltro.setLogin(usuario.getLogin());
+			usuarioFiltro.setId(usuario.getId());
 
 			usuarioBanco = hibernateUtil.selecionar(usuarioFiltro, MatchMode.EXACT);
 		}
 
-		if (Util.vazio(usuarioBanco) || !usuarioBanco.getSenha().equals(usuario.getSenha())) {
+		if (Util.vazio(usuarioBanco) || !usuarioBanco.getInformacoesFixasUsuario().getSenha().equals(GeradorDeMd5.converter(usuario.getInformacoesFixasUsuario().getSenha()))) {
 
 			validator.add(new ValidationMessage("Login ou senha incorretos", "Erro"));
+			validator.onErrorRedirectTo(this).telaLogin();
+			return;
 		}
 
-		validator.onErrorRedirectTo(this).telaLogin();
 	}
 
 	private void colocarUsuarioNaSessao(Usuario usuario) {
 
-		this.sessaoUsuario.login((Usuario) this.hibernateUtil.selecionar(usuario, MatchMode.EXACT));
+		usuario = (Usuario) this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
+
+		usuario.setInformacoesFixasUsuario(usuario.getInformacoesFixasUsuario());
+
+		this.sessaoUsuario.login(usuario);
+
 	}
 
 	@Public
@@ -121,14 +112,14 @@ public class LoginController {
 
 		Usuario usuario = hibernateUtil.selecionar(new Usuario(sessaoUsuario.getUsuario().getId()));
 
-		if (!GeradorDeMd5.converter(senhaAntiga).equals(usuario.getSenha())) {
+		if (!GeradorDeMd5.converter(senhaAntiga).equals(usuario.getInformacoesFixasUsuario().getSenha())) {
 
 			validator.add(new ValidationMessage("Senha antiga incorreta", "Erro"));
 
 			validator.onErrorRedirectTo(this).trocarPropriaSenha();
 		}
 
-		usuario.setSenha(GeradorDeMd5.converter(senhaNova));
+		usuario.getInformacoesFixasUsuario().setSenha(GeradorDeMd5.converter(senhaNova));
 
 		hibernateUtil.salvarOuAtualizar(usuario);
 

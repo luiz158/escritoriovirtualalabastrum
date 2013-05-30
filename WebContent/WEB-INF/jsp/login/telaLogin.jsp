@@ -5,6 +5,7 @@
 	<head>
 		<title> Login </title>
 		<link type="text/css" href="css/bootstrap.css" rel="stylesheet" />	
+		<script type="text/javascript" src="<c:url value="/js/jquery-1.8.3.js"/>"></script>
 	</head>
 
 	<style type="text/css">
@@ -91,15 +92,38 @@
 	      <form class="form-signin" action="<c:url value="/login/efetuarLogin"/>" method="post" >
 	      
 		      <label class="labelLoginSenha" >Código:</label>  
-		      <input type="text" class="inputLoginSenha" name="usuario.login" >
+		      <input type="text" class="inputLoginSenha numero-inteiro" name="usuario.id" maxlength="8" >
 		      <label class="labelLoginSenha" >Senha:</label>  
-		      <input type="password" class="inputLoginSenha" name="usuario.senha" >
+		      <input type="password" class="inputLoginSenha" name="usuario.informacoesFixasUsuario.senha" >
 	        
 	      	  <button class="btn btn-large btn-primary" type="submit" onclick="this.disabled=true;this.form.submit();" >Entrar</button>
 	      </form>
 	      
-	
 	    </div>
+	    
+	    <script>
+	    
+		    jQuery(document).ready(function() {
+	
+		    	jQuery(".numero-inteiro").keypress(function(e) {
+	
+		    		var tecla = (window.event) ? event.keyCode : e.which;
+	
+		    		if ((tecla > 47 && tecla < 58))
+		    			return true;
+		    		
+		    		else {
+		    			
+		    			if (tecla == 8 || tecla == 0)
+		    				return true;
+	
+		    			else
+		    				return false;
+		    		}
+		    	});
+		    });
+	    
+	    </script>
 		
 	</body>
 </html>
