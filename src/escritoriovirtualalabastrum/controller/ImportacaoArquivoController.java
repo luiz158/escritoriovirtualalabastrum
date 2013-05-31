@@ -95,8 +95,6 @@ public class ImportacaoArquivoController {
 
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
-		this.hibernateUtil.executarSQL("delete from usuario");
-
 		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
 
 		String[] nextLine;
@@ -155,6 +153,8 @@ public class ImportacaoArquivoController {
 				}
 			}
 		}
+
+		this.hibernateUtil.executarSQL("delete from usuario");
 
 		this.hibernateUtil.salvarOuAtualizar(usuarios);
 

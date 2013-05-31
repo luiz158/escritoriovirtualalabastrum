@@ -1,3 +1,5 @@
+package escritoriovirtualalabastrum.util;
+
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -10,7 +12,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class JavaMailApp {
-	public static void main(String[] args) {
+
+	public static void enviarEmail(String titulo, String mensagem) {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -22,7 +25,7 @@ public class JavaMailApp {
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 
-				return new PasswordAuthentication("renanvaz@nomus.com.br", "senhaaqui");
+				return new PasswordAuthentication("alabastrumnotificacoes@gmail.com", "senhadificil");
 			}
 		});
 
@@ -31,21 +34,18 @@ public class JavaMailApp {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("seuemail@gmail.com"));
+			message.setFrom(new InternetAddress("alabastrumnotificacoes@gmail.com"));
 
-			Address[] toUser = InternetAddress.parse("renanandrade_rj@hotmail.com, patriciasantos_rj@hotmail.com");
+			Address[] toUser = InternetAddress.parse("alabastrumnotificacoes@gmail.com, renanandrade_rj@hotmail.com");
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
-			message.setSubject("Enviando email com JavaMail");
-			message.setText("Enviei este email utilizando JavaMail com minha conta GMail!");
+			message.setSubject(titulo);
+			message.setText(mensagem);
 
 			Transport.send(message);
-
-			System.out.println("Feito!!!");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
 }
