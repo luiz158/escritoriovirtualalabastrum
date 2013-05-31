@@ -22,6 +22,7 @@ public class Usuario implements Entidade {
 	private InformacoesFixasUsuario informacoesFixasUsuario;
 
 	private String id_Codigo;
+	private String CPF;
 	private String PosAtual;
 	private String vNome;
 	private String PosIngresso;
@@ -349,6 +350,14 @@ public class Usuario implements Entidade {
 
 	public void setInformacoesFixasUsuario(InformacoesFixasUsuario informacoesFixasUsuario) {
 		this.informacoesFixasUsuario = informacoesFixasUsuario;
+	}
+
+	public String getCPF() {
+		return CPF;
+	}
+
+	public void setCPF(String cPF) {
+		CPF = cPF;
 	}
 
 }
