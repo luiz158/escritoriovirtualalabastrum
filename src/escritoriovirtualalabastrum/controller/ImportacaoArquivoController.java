@@ -7,12 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import org.hibernate.criterion.MatchMode;
 
 import au.com.bytecode.opencsv.CSVReader;
 import br.com.caelum.vraptor.Resource;
@@ -23,7 +23,6 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
-import escritoriovirtualalabastrum.util.Util;
 
 @Resource
 public class ImportacaoArquivoController {
@@ -87,7 +86,7 @@ public class ImportacaoArquivoController {
 
 	private void validarFormato() {
 
-		validator.add(new ValidationMessage("O formato de arquivo escolhido não é suportado. Utilize csv ou um csv compactado no formato zip. As colunas dentro do csv devem estar separadas por ponto-virgula ';' ", "Erro"));
+		validator.add(new ValidationMessage("O formato de arquivo escolhido não é suportado. Utilize csv ou um csv compactado no formato zip. As colunas dentro do csv devem estar separadas por ponto-virgula ';' . E a primeira linha do csv deve conter o cabeçalho com os nomes das colunas. ", "Erro"));
 
 		validator.onErrorForwardTo(this).acessarTelaImportacaoArquivoTabelaRelacionamentos();
 	}
@@ -97,6 +96,8 @@ public class ImportacaoArquivoController {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
 		this.hibernateUtil.executarSQL("delete from usuario");
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
 
 		String[] nextLine;
 		while ((nextLine = reader.readNext()) != null) {
@@ -118,50 +119,70 @@ public class ImportacaoArquivoController {
 
 				if (!colunas[0].contains("id_Codigo")) {
 
-					Usuario usuario = new Usuario();
-					usuario.setId_Codigo(colunas[0]);
+					if (hashColunas.size() == 0) {
 
-					usuario = this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
-
-					if (Util.vazio(usuario)) {
-
-						usuario = new Usuario();
-						usuario.setId_Codigo(colunas[0]);
+						validarFormato();
 					}
 
-					usuario.setPosAtual(colunas[1]);
-					usuario.setvNome(colunas[2]);
-					usuario.setPosIngresso(colunas[3]);
-					usuario.setDt_Ingresso(colunas[4]);
-					usuario.setTel(colunas[5]);
-					usuario.seteMail(colunas[6]);
-					usuario.setDt_Nasc(colunas[7]);
-					usuario.setId_Patroc(colunas[8]);
-					usuario.setId_Dem(colunas[9]);
-					usuario.setId_S(colunas[10]);
-					usuario.setId_M(colunas[11]);
-					usuario.setId_GB(colunas[12]);
-					usuario.setId_GP(colunas[13]);
-					usuario.setId_GO(colunas[14]);
-					usuario.setId_GE(colunas[15]);
-					usuario.setId_M1(colunas[16]);
-					usuario.setId_M2(colunas[17]);
-					usuario.setId_M3(colunas[18]);
-					usuario.setId_M4(colunas[19]);
-					usuario.setId_M5(colunas[20]);
-					usuario.setId_LA(colunas[21]);
-					usuario.setId_LA1(colunas[22]);
-					usuario.setId_LA2(colunas[23]);
-					usuario.setId_CR(colunas[24]);
-					usuario.setId_CR1(colunas[25]);
-					usuario.setId_CR2(colunas[26]);
-					usuario.setId_DR(colunas[27]);
-					usuario.setId_DD(colunas[28]);
-					usuario.setId_DS(colunas[29]);
-					usuario.setId_Pres(colunas[30]);
-					usuario.setEV(colunas[31]);
+					Usuario usuario = new Usuario();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = usuario.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.set(usuario, colunas[i]);
+
+						} catch (Exception e) {
+
+						}
+					}
+
+					// usuario.setId_Codigo(colunas[0]);
+					// usuario.setPosAtual(colunas[1]);
+					// usuario.setvNome(colunas[2]);
+					// usuario.setPosIngresso(colunas[3]);
+					// usuario.setDt_Ingresso(colunas[4]);
+					// usuario.setTel(colunas[5]);
+					// usuario.seteMail(colunas[6]);
+					// usuario.setDt_Nasc(colunas[7]);
+					// usuario.setId_Patroc(colunas[8]);
+					// usuario.setId_Dem(colunas[9]);
+					// usuario.setId_S(colunas[10]);
+					// usuario.setId_M(colunas[11]);
+					// usuario.setId_GB(colunas[12]);
+					// usuario.setId_GP(colunas[13]);
+					// usuario.setId_GO(colunas[14]);
+					// usuario.setId_GE(colunas[15]);
+					// usuario.setId_M1(colunas[16]);
+					// usuario.setId_M2(colunas[17]);
+					// usuario.setId_M3(colunas[18]);
+					// usuario.setId_M4(colunas[19]);
+					// usuario.setId_M5(colunas[20]);
+					// usuario.setId_LA(colunas[21]);
+					// usuario.setId_LA1(colunas[22]);
+					// usuario.setId_LA2(colunas[23]);
+					// usuario.setId_CR(colunas[24]);
+					// usuario.setId_CR1(colunas[25]);
+					// usuario.setId_CR2(colunas[26]);
+					// usuario.setId_DR(colunas[27]);
+					// usuario.setId_DD(colunas[28]);
+					// usuario.setId_DS(colunas[29]);
+					// usuario.setId_Pres(colunas[30]);
+					// usuario.setEV(colunas[31]);
 
 					usuarios.add(usuario);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i]);
+					}
 				}
 			}
 		}

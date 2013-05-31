@@ -3,8 +3,13 @@ package escritoriovirtualalabastrum.modelo;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.hibernate.criterion.MatchMode;
 
 import escritoriovirtualalabastrum.hibernate.Entidade;
+import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.util.Util;
 
 @Entity
 public class Usuario implements Entidade {
@@ -12,6 +17,9 @@ public class Usuario implements Entidade {
 	@Id
 	@GeneratedValue
 	private Integer id;
+
+	@Transient
+	private InformacoesFixasUsuario informacoesFixasUsuario;
 
 	private String id_Codigo;
 	private String PosAtual;
@@ -317,6 +325,30 @@ public class Usuario implements Entidade {
 
 	public void setId_Codigo(String id_Codigo) {
 		this.id_Codigo = id_Codigo;
+	}
+
+	public InformacoesFixasUsuario getInformacoesFixasUsuario() {
+
+		if (Util.preenchido(informacoesFixasUsuario)) {
+
+			return informacoesFixasUsuario;
+		}
+
+		InformacoesFixasUsuario informacoesFixasUsuario = new InformacoesFixasUsuario();
+		informacoesFixasUsuario.setCodigoUsuario(this.id_Codigo);
+
+		HibernateUtil hibernateUtil = new HibernateUtil();
+
+		informacoesFixasUsuario = hibernateUtil.selecionar(informacoesFixasUsuario, MatchMode.EXACT);
+		this.setInformacoesFixasUsuario(informacoesFixasUsuario);
+
+		hibernateUtil.fecharSessao();
+
+		return informacoesFixasUsuario;
+	}
+
+	public void setInformacoesFixasUsuario(InformacoesFixasUsuario informacoesFixasUsuario) {
+		this.informacoesFixasUsuario = informacoesFixasUsuario;
 	}
 
 }
