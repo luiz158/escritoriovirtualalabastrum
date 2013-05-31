@@ -68,7 +68,7 @@ public class InterceptadorDeAutorizacao implements Interceptor {
 
 			if (Util.preenchido(anotacao.administrativa())) {
 
-				if (usuario.getInformacoesFixasUsuario().getAdministrador()) {
+				if (usuario.obterInformacoesFixasUsuario().getAdministrador()) {
 
 					return true;
 				}

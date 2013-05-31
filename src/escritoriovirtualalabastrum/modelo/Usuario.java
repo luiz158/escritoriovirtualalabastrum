@@ -1,9 +1,10 @@
 package escritoriovirtualalabastrum.modelo;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.criterion.MatchMode;
 
@@ -18,7 +19,7 @@ public class Usuario implements Entidade {
 	@GeneratedValue
 	private Integer id;
 
-	@Transient
+	@ManyToOne(fetch = FetchType.LAZY)
 	private InformacoesFixasUsuario informacoesFixasUsuario;
 
 	private String id_Codigo;
@@ -62,6 +63,35 @@ public class Usuario implements Entidade {
 	public Usuario(Integer id) {
 
 		this.setId(id);
+	}
+
+	public InformacoesFixasUsuario obterInformacoesFixasUsuario() {
+
+		if (Util.preenchido(informacoesFixasUsuario)) {
+
+			return informacoesFixasUsuario;
+		}
+
+		InformacoesFixasUsuario informacoesFixasUsuario = new InformacoesFixasUsuario();
+		informacoesFixasUsuario.setCodigoUsuario(this.id_Codigo);
+
+		HibernateUtil hibernateUtil = new HibernateUtil();
+
+		informacoesFixasUsuario = hibernateUtil.selecionar(informacoesFixasUsuario, MatchMode.EXACT);
+		this.setInformacoesFixasUsuario(informacoesFixasUsuario);
+
+		hibernateUtil.fecharSessao();
+
+		return informacoesFixasUsuario;
+	}
+
+	public void setInformacoesFixasUsuario(InformacoesFixasUsuario informacoesFixasUsuario) {
+		this.informacoesFixasUsuario = informacoesFixasUsuario;
+	}
+
+	public InformacoesFixasUsuario getInformacoesFixasUsuario() {
+
+		return informacoesFixasUsuario;
 	}
 
 	public Integer getId() {
@@ -326,30 +356,6 @@ public class Usuario implements Entidade {
 
 	public void setId_Codigo(String id_Codigo) {
 		this.id_Codigo = id_Codigo;
-	}
-
-	public InformacoesFixasUsuario getInformacoesFixasUsuario() {
-
-		if (Util.preenchido(informacoesFixasUsuario)) {
-
-			return informacoesFixasUsuario;
-		}
-
-		InformacoesFixasUsuario informacoesFixasUsuario = new InformacoesFixasUsuario();
-		informacoesFixasUsuario.setCodigoUsuario(this.id_Codigo);
-
-		HibernateUtil hibernateUtil = new HibernateUtil();
-
-		informacoesFixasUsuario = hibernateUtil.selecionar(informacoesFixasUsuario, MatchMode.EXACT);
-		this.setInformacoesFixasUsuario(informacoesFixasUsuario);
-
-		hibernateUtil.fecharSessao();
-
-		return informacoesFixasUsuario;
-	}
-
-	public void setInformacoesFixasUsuario(InformacoesFixasUsuario informacoesFixasUsuario) {
-		this.informacoesFixasUsuario = informacoesFixasUsuario;
 	}
 
 	public String getCPF() {

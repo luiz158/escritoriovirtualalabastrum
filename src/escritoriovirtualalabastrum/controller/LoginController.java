@@ -80,7 +80,7 @@ public class LoginController {
 				return;
 			}
 
-			InformacoesFixasUsuario informacoesFixasUsuario = usuarioBanco.getInformacoesFixasUsuario();
+			InformacoesFixasUsuario informacoesFixasUsuario = usuarioBanco.obterInformacoesFixasUsuario();
 
 			if (Util.vazio(informacoesFixasUsuario)) {
 
@@ -123,7 +123,7 @@ public class LoginController {
 
 		usuario = (Usuario) this.hibernateUtil.selecionar(usuarioFiltro, MatchMode.EXACT);
 
-		usuario.setInformacoesFixasUsuario(usuario.getInformacoesFixasUsuario());
+		usuario.setInformacoesFixasUsuario(usuario.obterInformacoesFixasUsuario());
 
 		this.sessaoUsuario.login(usuario);
 
@@ -217,14 +217,14 @@ public class LoginController {
 
 		Usuario usuario = hibernateUtil.selecionar(new Usuario(sessaoUsuario.getUsuario().getId()));
 
-		if (!GeradorDeMd5.converter(senhaAntiga).equals(usuario.getInformacoesFixasUsuario().getSenha())) {
+		if (!GeradorDeMd5.converter(senhaAntiga).equals(usuario.obterInformacoesFixasUsuario().getSenha())) {
 
 			validator.add(new ValidationMessage("Senha antiga incorreta", "Erro"));
 
 			validator.onErrorRedirectTo(this).trocarPropriaSenha();
 		}
 
-		usuario.getInformacoesFixasUsuario().setSenha(GeradorDeMd5.converter(senhaNova));
+		usuario.obterInformacoesFixasUsuario().setSenha(GeradorDeMd5.converter(senhaNova));
 
 		hibernateUtil.salvarOuAtualizar(usuario);
 
