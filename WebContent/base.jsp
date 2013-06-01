@@ -39,7 +39,7 @@
 	      	<h3 class="menu-accordion" > MEUS DADOS </h3>
 	        <div>
 	        	<a href="<c:url value="/home/home"/>" class="submenu-accordion" > Página inicial </a>
-	        	<a class="submenu-accordion" > Dados cadastrais </a>
+	        	<a href="<c:url value="/atualizacaoDados/acessarTelaAtualizacaoDados"/>" class="submenu-accordion" > Dados cadastrais </a>
 	        	<a href="<c:url value="/login/trocarPropriaSenha"/>" class="submenu-accordion" > Troque sua senha </a>
 	        </div>
 	        <c:if test="${sessaoUsuario.usuario.informacoesFixasUsuario.administrador}">
