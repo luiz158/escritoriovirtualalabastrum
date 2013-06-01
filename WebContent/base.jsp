@@ -35,9 +35,10 @@
 		<p class="bem-vindo" > ${sessaoUsuario.usuario.vNome}, bem vindo(a) ao seu escritório virtual!  </p>
 
  		<div class="menu" data-collapse="persist">
-	
+
 	      	<h3 class="menu-accordion" > MEUS DADOS </h3>
 	        <div>
+	        	<a href="<c:url value="/home/home"/>" class="submenu-accordion" > Página inicial </a>
 	        	<a class="submenu-accordion" > Dados cadastrais </a>
 	        	<a href="<c:url value="/login/trocarPropriaSenha"/>" class="submenu-accordion" > Troque sua senha </a>
 	        </div>
@@ -47,6 +48,10 @@
 		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivoTabelaRelacionamentos"/>" class="submenu-accordion" > Importar tabela de relacionamentos </a>
 		        </div>
 	        </c:if>
+	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
+	        <div>
+	        	<a href="<c:url value="/home/emails"/>" class="submenu-accordion" > E-mails </a>
+	        </div>
 		</div>
 		
 		<a id="sair" style="float: right; padding-right: 15px; font-weight: bold; margin-top: -20px; font-size: 12px; cursor: pointer; " href="<c:url value="/login/logout"/>"> Sair </a>

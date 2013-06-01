@@ -11,7 +11,7 @@
 		</div>
     </div>
             
-    <button type="submit" class="btn btn-primary">Importar</button>
+    <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();" >Importar</button>
     <a class="btn btn-danger" href="<c:url value="/home/home"/>" > Cancelar </a>
   </fieldset>
 </form>

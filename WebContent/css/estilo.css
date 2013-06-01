@@ -16,6 +16,15 @@ table:hover{
 	height: 181px;
 }
 
+.emails{
+
+	background-image: url("images/emails.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	width: 500px;
+	height: 423px;
+}
+
 .trocarSenha{
 	
 	width: 479px;
