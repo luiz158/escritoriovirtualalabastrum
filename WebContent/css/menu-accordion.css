@@ -6,37 +6,40 @@
 
 .menu-accordion {
   display: block;
-  margin: 0;
-  background-color: rgb(76, 76, 202);
+  margin-top: 2px;
+  margin-bottom: 1.5px;
+  background-color: rgb(46, 48, 145);
   line-height: normal;
-  font-size: 13px;
+  font-size: 14px;
+  border-radius: 5px;
+  font-family: Helvetica, Arial, Sans-Serif;
 }
 
 .menu-accordion a {
-  background: url("images/sprite.png") 15px 13px no-repeat;
-  display: block;
-  padding: 10px;
-  padding-left: 32px;
-  margin: 0;
-  color: #fff;
-  text-decoration: none;
-  font-weight: normal;
-  border-bottom: 1px solid rgba(128, 10, 85, 0.5);
-  text-shadow: 1px 1px 1px rgb(128,10,85);
+  	display: block;
+  	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+  	margin: 0;
+  	color: #fff;
+  	text-decoration: none;
+  	font-weight: normal;
+  	font-family: Helvetica, Arial, Sans-Serif;
 }
 
 .submenu-accordion {
-	background-color: rgb(63, 184, 179);
+	background-color: rgb(161, 208, 207);
 	display: block;
-	padding: 10px;
-	padding-left: 32px;
-	margin: 0;
-	color: rgb(45, 58, 126);
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	margin-bottom: 1px;
+	color: rgb(46, 48, 145);
 	text-decoration: none;
 	font-weight: bold;
-	border-bottom: 1px solid rgb(223, 218, 218);
-	font-size: 11px;
+	font-size: 12px;
 	line-height: normal;
+	border-radius: 4px;
 }
 
 .submenu-accordion:hover {
@@ -45,5 +48,3 @@
 	cursor: pointer;
 	background-color: rgb(136, 180, 178);
 }
-
-.menu-accordion.open a { background-position: 13px -25px; }

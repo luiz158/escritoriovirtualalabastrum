@@ -89,7 +89,7 @@
       this.isOpen ? this.close() : this.open();
     },
     close: function(bypass) {
-      this._changeState("close", bypass)
+      this._changeState("", bypass)
     },
     open: function(bypass) {
       var _this = this;
