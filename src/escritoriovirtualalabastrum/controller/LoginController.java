@@ -212,6 +212,14 @@ public class LoginController {
 	@Funcionalidade
 	public void salvarTrocarPropriaSenha(String senhaAntiga, String senhaNova) {
 
+		if (Util.vazio(senhaAntiga) || Util.vazio(senhaNova)) {
+
+			validator.add(new ValidationMessage("Campos requeridos", "Erro"));
+
+			validator.onErrorRedirectTo(this).trocarPropriaSenha();
+			return;
+		}
+
 		Usuario usuario = hibernateUtil.selecionar(new Usuario(sessaoUsuario.getUsuario().getId()));
 
 		if (!GeradorDeMd5.converter(senhaAntiga).equals(usuario.obterInformacoesFixasUsuario().getSenha())) {
@@ -219,6 +227,7 @@ public class LoginController {
 			validator.add(new ValidationMessage("Senha antiga incorreta", "Erro"));
 
 			validator.onErrorRedirectTo(this).trocarPropriaSenha();
+			return;
 		}
 
 		usuario.obterInformacoesFixasUsuario().setSenha(GeradorDeMd5.converter(senhaNova));

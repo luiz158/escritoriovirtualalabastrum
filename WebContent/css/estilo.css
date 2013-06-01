@@ -16,6 +16,47 @@ table:hover{
 	height: 181px;
 }
 
+.trocarSenha{
+	
+	width: 479px;
+	height: 223px;
+	background-image: url("images/trocarSenha.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	border: 1px solid rgb(152, 160, 233);
+	border-radius: 5px;
+}
+
+.trocarSenha p.tituloTrocarSenha{
+	padding-left: 20px;
+	padding-top: 7px;
+	font-weight: bold;
+	color: rgb(114, 114, 187);
+}
+
+.labelTrocarSenha{
+	margin-left: -30px;
+	color: rgb(41, 28, 109) !important;
+	font-weight: bold;
+	font-size: 13px; 
+}
+
+.senhaAntiga{
+	
+	margin-top: 5px;
+	margin-left: -40px;
+	height: 17px !important;
+	width: 90px;
+}
+
+.novaSenha{
+	
+	margin-top: 15px;
+	margin-left: -40px;
+	height: 17px !important;
+	width: 90px;
+}
+
 .menu {
     float: left;
     width: 230px;
