@@ -1,4 +1,4 @@
 
  $(document).ready(function(){
-    $(".form-horizontal").validate();
+    $(".requerido").validate();
   });

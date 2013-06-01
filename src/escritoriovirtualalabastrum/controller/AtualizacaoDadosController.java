@@ -27,7 +27,10 @@ public class AtualizacaoDadosController {
 	}
 
 	@Funcionalidade
-	public void salvarAtualizacaoDados() {
-
+	public void salvarAtualizacaoDados(SessaoAtualizacaoDados sessaoAtualizacaoDados) {
+		
+		this.sessaoAtualizacaoDados = sessaoAtualizacaoDados;
+		
+		System.out.println(this.sessaoAtualizacaoDados.getDataNascimento());
 	}
 }
