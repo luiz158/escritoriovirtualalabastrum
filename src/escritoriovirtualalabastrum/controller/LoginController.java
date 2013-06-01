@@ -44,13 +44,6 @@ public class LoginController {
 	@Public
 	public void efetuarLogin(Usuario usuario) {
 
-		tentarEfetuarLogin(usuario);
-		colocarUsuarioNaSessao(usuario);
-		result.redirectTo(HomeController.class).home();
-	}
-
-	private void tentarEfetuarLogin(Usuario usuario) {
-
 		if (Util.vazio(usuario.getId_Codigo()) || usuario.getId_Codigo().equals("0") || Util.vazio(usuario.getInformacoesFixasUsuario().getSenha())) {
 
 			codigoOuSenhaIncorretos();
@@ -108,6 +101,10 @@ public class LoginController {
 
 			}
 		}
+
+		colocarUsuarioNaSessao(usuario);
+
+		result.redirectTo(HomeController.class).home();
 	}
 
 	private void codigoOuSenhaIncorretos() {
@@ -147,7 +144,7 @@ public class LoginController {
 
 	}
 
-	@Funcionalidade
+	@Public
 	public void salvarTrocarSenhaPrimeiroAcesso(String senhaNova, String confirmacaoSenhaNova, String cpf, String email) {
 
 		if (!senhaNova.equals(confirmacaoSenhaNova)) {
