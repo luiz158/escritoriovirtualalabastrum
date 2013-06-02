@@ -199,7 +199,7 @@ public class LoginController {
 
 		this.hibernateUtil.salvarOuAtualizar(informacoesFixasUsuario);
 
-		JavaMailApp.enviarEmail("Troca de senha de usuário", "O usuário com código " + usuarioBanco.getId_Codigo() + " efetuou a troca de senha no escritório virtual. \n\nEmail informado: " + email + " \nCPF informado: " + cpf);
+		JavaMailApp.enviarEmail("Troca de senha de usuário", "O usuário com código " + usuarioBanco.getId_Codigo() + " efetuou a troca de senha no escritório virtual. <br><br>Email informado: " + email + " <br>CPF informado: " + cpf);
 
 		result.redirectTo(this).telaLogin();
 	}

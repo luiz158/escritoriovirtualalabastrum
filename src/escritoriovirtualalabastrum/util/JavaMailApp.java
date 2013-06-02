@@ -35,12 +35,13 @@ public class JavaMailApp {
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("alabastrumnotificacoes@gmail.com"));
+			message.setContent(mensagem, "text/html; charset=utf-8");
 
 			Address[] toUser = InternetAddress.parse("alabastrumnotificacoes@gmail.com, renanandrade_rj@hotmail.com");
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
 			message.setSubject(titulo);
-			message.setText(mensagem);
+			// message.setText(mensagem);
 
 			Transport.send(message);
 
