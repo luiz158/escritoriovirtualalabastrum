@@ -230,9 +230,10 @@ public class LoginController {
 			return;
 		}
 
-		usuario.obterInformacoesFixasUsuario().setSenha(GeradorDeMd5.converter(senhaNova));
+		InformacoesFixasUsuario informacoesFixasUsuario = usuario.obterInformacoesFixasUsuario();
+		informacoesFixasUsuario.setSenha(GeradorDeMd5.converter(senhaNova));
 
-		hibernateUtil.salvarOuAtualizar(usuario);
+		hibernateUtil.salvarOuAtualizar(informacoesFixasUsuario);
 
 		result.include("sucesso", "Senha trocada com sucesso");
 
