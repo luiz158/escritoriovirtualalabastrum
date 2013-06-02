@@ -98,6 +98,7 @@
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >CEP </label> 
 			<input type="text" style="width: 90px;" name="sessaoAtualizacaoDados.CEP" value="${sessaoAtualizacaoDados.CEP}" >	
+			<a style="margin-left: 30px;" href="http://www.buscacep.correios.com.br" target="_blank" > Pesquisar CEP </a>			
 		</div>
 		
 		<div class="corClara divFormulario" >

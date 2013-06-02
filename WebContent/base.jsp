@@ -4,6 +4,7 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
+		 <meta charset="utf-8">
 		<title> Escritório virtual Alabastrum </title>
 		<link type="text/css" href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/bootstrap-alterado.css"/>" rel="stylesheet" />
