@@ -44,7 +44,7 @@ public class LoginController {
 	@Public
 	public void efetuarLogin(Usuario usuario) {
 
-		if (Util.vazio(usuario.getId_Codigo()) || usuario.getId_Codigo().equals("0") || Util.vazio(usuario.getInformacoesFixasUsuario().getSenha())) {
+		if (Util.vazio(usuario.getId_Codigo()) || usuario.getId_Codigo().equals(0) || Util.vazio(usuario.getInformacoesFixasUsuario().getSenha())) {
 
 			codigoOuSenhaIncorretos();
 			return;
@@ -168,7 +168,7 @@ public class LoginController {
 			return;
 		}
 
-		String codigoUsuario = (String) this.sessaoGeral.getValor("codigoUsuarioPrimeiroAcesso");
+		Integer codigoUsuario = (Integer) this.sessaoGeral.getValor("codigoUsuarioPrimeiroAcesso");
 
 		Usuario usuarioFiltro = new Usuario();
 		usuarioFiltro.setId_Codigo(codigoUsuario);

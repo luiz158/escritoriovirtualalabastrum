@@ -32,7 +32,7 @@ public class AtualizacaoDadosController {
 
 		this.sessaoAtualizacaoDados = sessaoAtualizacaoDados;
 
-		String codigoUsuario = this.sessaoUsuario.getUsuario().getId_Codigo();
+		Integer codigoUsuario = this.sessaoUsuario.getUsuario().getId_Codigo();
 
 		String textoEmail = "O usuário com código " + codigoUsuario + " atualizou seus dados no escritório virtual<br><br>";
 

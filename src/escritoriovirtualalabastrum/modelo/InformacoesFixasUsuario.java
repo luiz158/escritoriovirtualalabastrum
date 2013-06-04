@@ -15,7 +15,7 @@ public class InformacoesFixasUsuario implements Entidade {
 	private Integer id;
 
 	@NotNull
-	private String codigoUsuario;
+	private Integer codigoUsuario;
 
 	@NotNull
 	private String senha;
@@ -28,6 +28,14 @@ public class InformacoesFixasUsuario implements Entidade {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getCodigoUsuario() {
+		return codigoUsuario;
+	}
+
+	public void setCodigoUsuario(Integer codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
 	}
 
 	public String getSenha() {
@@ -45,13 +53,4 @@ public class InformacoesFixasUsuario implements Entidade {
 	public void setAdministrador(Boolean administrador) {
 		this.administrador = administrador;
 	}
-
-	public String getCodigoUsuario() {
-		return codigoUsuario;
-	}
-
-	public void setCodigoUsuario(String codigoUsuario) {
-		this.codigoUsuario = codigoUsuario;
-	}
-
 }

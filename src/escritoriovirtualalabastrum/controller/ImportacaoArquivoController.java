@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -134,10 +135,21 @@ public class ImportacaoArquivoController {
 
 							field.setAccessible(true);
 
-							field.set(usuario, colunas[i]);
+							try {
+
+								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
+
+								field.set(usuario, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
+							}
+
+							catch (Exception e) {
+
+								field.set(usuario, colunas[i]);
+							}
 
 						} catch (Exception e) {
 
+							e.printStackTrace();
 						}
 					}
 
