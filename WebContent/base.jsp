@@ -48,7 +48,7 @@
 	        	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" class="submenu-accordion" > Mala direta </a>
 	        </div>
 	        <c:if test="${sessaoUsuario.usuario.informacoesFixasUsuario.administrador}">
-		        <h3 class="menu-accordion" >IMPORTAÇÃO DE ARQUIVOS</h3>
+		        <h3 class="menu-accordion" >ADMINISTRATIVO </h3>
 		        <div>
 		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivoTabelaRelacionamentos"/>" class="submenu-accordion" > Importar tabela de relacionamentos </a>
 		        </div>
