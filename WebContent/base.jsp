@@ -43,6 +43,10 @@
 	        	<a href="<c:url value="/atualizacaoDados/acessarTelaAtualizacaoDados"/>" class="submenu-accordion" > Dados cadastrais </a>
 	        	<a href="<c:url value="/login/trocarPropriaSenha"/>" class="submenu-accordion" > Troque sua senha </a>
 	        </div>
+	        <h3 class="menu-accordion" > REDE </h3>
+	        <div>
+	        	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" class="submenu-accordion" > Mala direta </a>
+	        </div>
 	        <c:if test="${sessaoUsuario.usuario.informacoesFixasUsuario.administrador}">
 		        <h3 class="menu-accordion" >IMPORTAÇÃO DE ARQUIVOS</h3>
 		        <div>

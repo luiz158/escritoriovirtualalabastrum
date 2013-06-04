@@ -6,55 +6,50 @@ import java.util.List;
 
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.Validator;
+import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 
 @Resource
 public class MalaDiretaController {
 
 	private Result result;
-	private Validator validator;
 	private HibernateUtil hibernateUtil;
+	private SessaoUsuario sessaoUsuario;
 
-	public MalaDiretaController(Result result, Validator validator, HibernateUtil hibernateUtil) {
+	public MalaDiretaController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario) {
 
 		this.result = result;
-		this.validator = validator;
 		this.hibernateUtil = hibernateUtil;
+		this.sessaoUsuario = sessaoUsuario;
 	}
 
+	@Funcionalidade
 	public void acessarTelaMalaDireta() {
 
 	}
 
-	public void gerarMalaDireta() {
+	@Funcionalidade
+	public void gerarMalaDireta(String posicao) {
 
-		Integer codigoUsuario = 20;
-
-		String coluna = "id_Patroc";
+		Integer codigoUsuario = this.sessaoUsuario.getUsuario().getId_Codigo();
 
 		List<MalaDireta> malaDireta = new ArrayList<MalaDireta>();
 
-		this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1, coluna);
+		this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1, posicao);
 
-		for (MalaDireta x : malaDireta) {
-
-			System.out.println(x.getUsuario().getId_Codigo());
-			System.out.println(x.getNivel());
-			System.out.println();
-
-		}
+		result.include("malaDireta", malaDireta);
 	}
 
-	private void pesquisarMalaDireta(Integer codigo, List<MalaDireta> malaDireta, int nivel, String coluna) {
+	private void pesquisarMalaDireta(Integer codigo, List<MalaDireta> malaDireta, int nivel, String posicao) {
 
 		Usuario usuario = new Usuario();
 
 		try {
 
-			Field field = usuario.getClass().getDeclaredField(coluna);
+			Field field = usuario.getClass().getDeclaredField(posicao);
 
 			field.setAccessible(true);
 
@@ -73,7 +68,7 @@ public class MalaDiretaController {
 			if (!codigo.equals(usuarioPatrocinado.getId_Codigo())) {
 
 				malaDireta.add(new MalaDireta(usuarioPatrocinado, nivel));
-				pesquisarMalaDireta(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1, coluna);
+				pesquisarMalaDireta(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1, posicao);
 			}
 		}
 	}

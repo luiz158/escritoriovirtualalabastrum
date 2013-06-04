@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Mala direta</legend>
     
-    <div class="control-group warning">
+    <div class="control-group warning" style="margin-left: -90px; margin-bottom: 50px;" > 
         <label class="control-label">Posição</label>
         <div class="controls">
           <select name="posicao" >
