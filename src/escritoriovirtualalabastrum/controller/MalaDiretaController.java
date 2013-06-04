@@ -6,6 +6,7 @@ import java.util.List;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
+import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
 
@@ -29,14 +30,14 @@ public class MalaDiretaController {
 
 	public void gerarMalaDireta() {
 
-		Integer codigoUsuario = 1;
+		Integer codigoUsuario = 20;
 
-		List<Usuario> malaDireta = new ArrayList<Usuario>();
+		List<MalaDireta> malaDireta = new ArrayList<MalaDireta>();
 
-		this.pesquisarMalaDireta(codigoUsuario, malaDireta);
+		this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1);
 	}
 
-	public void pesquisarMalaDireta(Integer codigo, List<Usuario> malaDireta) {
+	private void pesquisarMalaDireta(Integer codigo, List<MalaDireta> malaDireta, int nivel) {
 
 		Usuario usuario = new Usuario();
 		usuario.setId_Patroc(codigo);
@@ -47,8 +48,8 @@ public class MalaDiretaController {
 
 			if (!codigo.equals(usuarioPatrocinado.getId_Codigo())) {
 
-				malaDireta.add(usuarioPatrocinado);
-				pesquisarMalaDireta(usuarioPatrocinado.getId_Codigo(), malaDireta);
+				malaDireta.add(new MalaDireta(usuarioPatrocinado, nivel));
+				pesquisarMalaDireta(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1);
 			}
 		}
 	}
