@@ -13,6 +13,7 @@
 			<thead>
 		    	<tr>
                     <th> Código </th>
+                    <th> Nível </th>
                     <th> Posição </th>
                     <th> Nome </th>
 				</tr>
@@ -22,10 +23,11 @@
 					<tr>
                         <td class="centralizado">
                         	<c:forEach begin="2" end="${item.nivel}" >
-                        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        		&nbsp;&nbsp;&nbsp;&nbsp;
                         	</c:forEach>
                         	${item.usuario.id_Codigo}
                         </td>
+                         <td> ${item.nivel}º </td>
                         <td> ${item.usuario.posAtual} </td>
                         <td class="centralizado"> ${item.usuario.vNome} </td>
 					</tr>
