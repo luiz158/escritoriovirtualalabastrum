@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.controller;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +33,38 @@ public class MalaDiretaController {
 
 		Integer codigoUsuario = 20;
 
+		String coluna = "id_Patroc";
+
 		List<MalaDireta> malaDireta = new ArrayList<MalaDireta>();
 
-		this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1);
+		this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1, coluna);
+
+		for (MalaDireta x : malaDireta) {
+
+			System.out.println(x.getUsuario().getId_Codigo());
+			System.out.println(x.getNivel());
+			System.out.println();
+
+		}
 	}
 
-	private void pesquisarMalaDireta(Integer codigo, List<MalaDireta> malaDireta, int nivel) {
+	private void pesquisarMalaDireta(Integer codigo, List<MalaDireta> malaDireta, int nivel, String coluna) {
 
 		Usuario usuario = new Usuario();
-		usuario.setId_Patroc(codigo);
+
+		try {
+
+			Field field = usuario.getClass().getDeclaredField(coluna);
+
+			field.setAccessible(true);
+
+			field.set(usuario, codigo);
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
 
 		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario);
 
@@ -49,7 +73,7 @@ public class MalaDiretaController {
 			if (!codigo.equals(usuarioPatrocinado.getId_Codigo())) {
 
 				malaDireta.add(new MalaDireta(usuarioPatrocinado, nivel));
-				pesquisarMalaDireta(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1);
+				pesquisarMalaDireta(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1, coluna);
 			}
 		}
 	}
