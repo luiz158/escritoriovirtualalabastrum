@@ -16,12 +16,15 @@
                     <th> Nível </th>
                     <th> Posição </th>
                     <th> Nome </th>
+                    <th> Nome </th>
+                    <th> Nome </th>
+                    <th> Nome </th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${malaDireta}" var="item">
 					<tr>
-                        <td class="centralizado">
+                        <td class="centralizado" style="white-space:nowrap" > 
                         	<c:forEach begin="2" end="${item.nivel}" >
                         		&nbsp;&nbsp;&nbsp;&nbsp;
                         	</c:forEach>
@@ -30,6 +33,9 @@
                          <td> ${item.nivel}º </td>
                         <td> ${item.usuario.posAtual} </td>
                         <td class="centralizado"> ${item.usuario.vNome} </td>
+                         <td class="centralizado"> ${item.usuario.vNome} </td>
+                          <td class="centralizado"> ${item.usuario.vNome} </td>
+                           <td class="centralizado"> ${item.usuario.vNome} </td>
 					</tr>
 				</c:forEach>
 			</tbody>
