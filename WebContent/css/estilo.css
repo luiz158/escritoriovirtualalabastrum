@@ -95,3 +95,14 @@ table:hover{
 .centralizado{
 	text-align: left !important;
 }
+
+.imagensLink{
+	
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
+.imagemLink{
+	
+	margin-right: 20px;
+}

@@ -137,11 +137,18 @@
 
   <div class="container">
     <div id="slides">
-      <img src="../css/img/example-slide-1.jpg" >
-      <img src="../css/img/example-slide-2.jpg" >
-      <img src="../css/img/example-slide-3.jpg" >
-      <img src="../css/img/example-slide-4.jpg" >
+      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide1.jpg" >
+      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide2.jpg" >
+      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide3.jpg" >
+      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide4.jpg" >
+      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide5.jpg" >
     </div>
+  </div>
+  
+  <div class="imagensLink" style="margin-top: 300px;" >
+	<a href="<c:url value="/atualizacaoDados/acessarTelaAtualizacaoDados"/>"> <img class="imagemLink" src="../css/images/imagem-link-atualize-seus-dados.jpg"  name="" /> </a>
+	<a href="<c:url value="/home/emails"/>"> <img class="imagemLink" src="../css/images/imagem-link-emails.jpg"  name="" /> </a>
+	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>"> <img class="imagemLink" src="../css/images/imagem-link-mala-direta.jpg"  name="" /> </a>
   </div>
 
   <script type="text/javascript" src="<c:url value="/js/jquery.slides.js"/>"></script>
