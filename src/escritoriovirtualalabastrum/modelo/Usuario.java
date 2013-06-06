@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.criterion.MatchMode;
 
 import escritoriovirtualalabastrum.hibernate.Entidade;
@@ -22,7 +23,6 @@ public class Usuario implements Entidade {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private InformacoesFixasUsuario informacoesFixasUsuario;
 
-	private Integer id_Codigo;
 	private String CPF;
 	private String PosAtual;
 	private String vNome;
@@ -32,28 +32,77 @@ public class Usuario implements Entidade {
 	private String eMail;
 	private String Dt_Nasc;
 	private String EV;
+
+	@Index(name = "index_id_Codigo")
+	private Integer id_Codigo;
+
+	@Index(name = "index_id_Patroc")
 	private Integer id_Patroc;
+
+	@Index(name = "index_id_Dem")
 	private Integer id_Dem;
+
+	@Index(name = "index_id_S")
 	private Integer id_S;
+
+	@Index(name = "index_id_M")
 	private Integer id_M;
+
+	@Index(name = "index_id_GB")
 	private Integer id_GB;
+
+	@Index(name = "index_id_GP")
 	private Integer id_GP;
+
+	@Index(name = "index_id_GO")
 	private Integer id_GO;
+
+	@Index(name = "index_id_GE")
 	private Integer id_GE;
+
+	@Index(name = "index_id_M1")
 	private Integer id_M1;
+
+	@Index(name = "index_id_M2")
 	private Integer id_M2;
+
+	@Index(name = "index_id_M3")
 	private Integer id_M3;
+
+	@Index(name = "index_id_M4")
 	private Integer id_M4;
+
+	@Index(name = "index_id_M5")
 	private Integer id_M5;
+
+	@Index(name = "index_id_LA")
 	private Integer id_LA;
+
+	@Index(name = "index_id_LA1")
 	private Integer id_LA1;
+
+	@Index(name = "index_id_LA2")
 	private Integer id_LA2;
+
+	@Index(name = "index_id_CR")
 	private Integer id_CR;
+
+	@Index(name = "index_id_CR1")
 	private Integer id_CR1;
+
+	@Index(name = "index_id_CR2")
 	private Integer id_CR2;
+
+	@Index(name = "index_id_DR")
 	private Integer id_DR;
+
+	@Index(name = "index_id_DD")
 	private Integer id_DD;
+
+	@Index(name = "index_id_DS")
 	private Integer id_DS;
+
+	@Index(name = "index_id_Pres")
 	private Integer id_Pres;
 
 	public Usuario() {
@@ -99,14 +148,6 @@ public class Usuario implements Entidade {
 
 	public void setInformacoesFixasUsuario(InformacoesFixasUsuario informacoesFixasUsuario) {
 		this.informacoesFixasUsuario = informacoesFixasUsuario;
-	}
-
-	public Integer getId_Codigo() {
-		return id_Codigo;
-	}
-
-	public void setId_Codigo(Integer id_Codigo) {
-		this.id_Codigo = id_Codigo;
 	}
 
 	public String getCPF() {
@@ -179,6 +220,14 @@ public class Usuario implements Entidade {
 
 	public void setEV(String eV) {
 		EV = eV;
+	}
+
+	public Integer getId_Codigo() {
+		return id_Codigo;
+	}
+
+	public void setId_Codigo(Integer id_Codigo) {
+		this.id_Codigo = id_Codigo;
 	}
 
 	public Integer getId_Patroc() {
@@ -364,4 +413,5 @@ public class Usuario implements Entidade {
 	public void setId_Pres(Integer id_Pres) {
 		this.id_Pres = id_Pres;
 	}
+
 }

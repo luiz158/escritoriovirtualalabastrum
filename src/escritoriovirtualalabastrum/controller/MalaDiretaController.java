@@ -34,7 +34,8 @@ public class MalaDiretaController {
 	@Funcionalidade
 	public void gerarMalaDireta(String posicao) {
 
-		Integer codigoUsuario = this.sessaoUsuario.getUsuario().getId_Codigo();
+		//Integer codigoUsuario = this.sessaoUsuario.getUsuario().getId_Codigo();
+		Integer codigoUsuario = 1;
 
 		List<MalaDireta> malaDireta = new ArrayList<MalaDireta>();
 
