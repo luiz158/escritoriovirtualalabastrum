@@ -36,7 +36,18 @@ table:hover{
 	border-radius: 5px;
 }
 
-.trocarSenha p.tituloTrocarSenha{
+.trocaSenhaPrimeiroAcesso{
+	
+	width: 530px;
+	height: 400px;
+	background-image: url("images/troca-senha-primeiro-acesso.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	border: 1px solid rgb(152, 160, 233);
+	border-radius: 5px;
+}
+
+.tituloTrocarSenha{
 	padding-left: 20px;
 	padding-top: 7px;
 	font-weight: bold;
@@ -64,6 +75,13 @@ table:hover{
 	margin-left: -40px;
 	height: 17px !important;
 	width: 90px;
+}
+
+.inputTelaPrimeiroAcesso{
+	
+	margin-left: -40px;
+	height: 17px !important;
+	width: 150px;
 }
 
 .menu {
