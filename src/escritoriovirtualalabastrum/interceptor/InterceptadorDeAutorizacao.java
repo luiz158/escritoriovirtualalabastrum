@@ -33,7 +33,7 @@ public class InterceptadorDeAutorizacao implements Interceptor {
 
 		boolean contemAnotacaoPublic = !method.containsAnnotation(Public.class);
 
-		return false;
+		return contemAnotacaoPublic;
 	}
 
 	public void intercept(InterceptorStack stack, ResourceMethod method, Object resourceInstance) throws InterceptionException {
