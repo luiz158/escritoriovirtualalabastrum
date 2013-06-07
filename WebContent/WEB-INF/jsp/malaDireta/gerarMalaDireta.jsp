@@ -16,9 +16,9 @@
                     <th> Nível </th>
                     <th> Posição </th>
                     <th> Nome </th>
-                    <th> Nome </th>
-                    <th> Nome </th>
-                    <th> Nome </th>
+                    <th> Telefone </th>
+                    <th> Celular </th>
+                    <th> Email </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,9 +33,9 @@
                          <td> ${item.nivel}º </td>
                         <td> ${item.usuario.posAtual} </td>
                         <td class="centralizado"> ${item.usuario.vNome} </td>
-                         <td class="centralizado"> ${item.usuario.vNome} </td>
-                          <td class="centralizado"> ${item.usuario.vNome} </td>
-                           <td class="centralizado"> ${item.usuario.vNome} </td>
+                        <td class="centralizado"> ${item.usuario.tel} </td>
+                        <td class="centralizado"> ${item.usuario.cadCelular} </td>
+                        <td class="centralizado"> ${item.usuario.eMail} </td>
 					</tr>
 				</c:forEach>
 			</tbody>
