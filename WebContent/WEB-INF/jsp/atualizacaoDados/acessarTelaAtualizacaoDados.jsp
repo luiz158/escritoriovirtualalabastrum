@@ -80,46 +80,42 @@
 	
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Data nasc. </label> 
-			<input type="text" style="width: 90px;" class="data" name="sessaoAtualizacaoDados.dataNascimento" value="${sessaoAtualizacaoDados.dataNascimento}" >
+			<input type="text" style="width: 90px;" class="data" name="sessaoAtualizacaoDados.dt_Nasc" value="${sessaoAtualizacaoDados.dt_Nasc}" >
 			<label class="labelFormulario" >Sexo </label> 
-			<select name="sessaoAtualizacaoDados.sexo" style="width: 130px;" >
-				<option value="Masculino" > Masculino </option>
-				<option value="Feminino" > Feminino </option>
+			<select name="sessaoAtualizacaoDados.cadSexo" style="width: 130px;" >
+				<option value="Masculino" <c:if test="${sessaoAtualizacaoDados.cadSexo == 'Masc'}"> selected="selected" </c:if>  > Masc </option>
+				<option value="Feminino" <c:if test="${sessaoAtualizacaoDados.cadSexo == 'Fem'}"> selected="selected" </c:if> > Fem </option>
 			</select>
 			<label class="labelFormulario" >Estado civil </label>
-			<select name="sessaoAtualizacaoDados.estadoCivil" style="width: 170px;" >
-				<option value="Solteiro(a)" > Solteiro(a) </option>
-				<option value="Casado(a)" > Casado(a) </option>
-				<option value="Divorciado(a)" > Divorciado(a) </option>
-				<option value="Viúvo(a)" > Viúvo(a) </option>
+			<select name="sessaoAtualizacaoDados.cadEstCivil" style="width: 170px;" >
+				<option value="Solteiro(a)" <c:if test="${sessaoAtualizacaoDados.cadEstCivil == 'Solteiro(a)'}"> selected="selected" </c:if>  > Solteiro(a) </option>
+				<option value="Casado(a)" <c:if test="${sessaoAtualizacaoDados.cadEstCivil == 'Casado(a)'}"> selected="selected" </c:if> > Casado(a) </option>
+				<option value="Divorciado(a)" <c:if test="${sessaoAtualizacaoDados.cadEstCivil == 'Divorciado(a)'}"> selected="selected" </c:if> > Divorciado(a) </option>
+				<option value="Viúvo(a)" <c:if test="${sessaoAtualizacaoDados.cadEstCivil == 'Viúvo(a)'}"> selected="selected" </c:if> > Viúvo(a) </option>
 			</select> 		
 		</div>
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >CEP </label> 
-			<input type="text" style="width: 90px;" name="sessaoAtualizacaoDados.CEP" value="${sessaoAtualizacaoDados.CEP}" >	
+			<input type="text" style="width: 90px;" name="sessaoAtualizacaoDados.cadCEP" value="${sessaoAtualizacaoDados.cadCEP}" >	
 			<a style="margin-left: 30px;" href="http://www.buscacep.correios.com.br" target="_blank" > Pesquisar CEP </a>			
 		</div>
 		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >End. Resid. </label> 
-			<input type="text" style="width: 430px;" name="sessaoAtualizacaoDados.endereco" value="${sessaoAtualizacaoDados.endereco}" >
-			<label class="labelFormulario" >N.º </label> 
-			<input type="text" style="width: 50px;" name="sessaoAtualizacaoDados.numeroEndereco" value="${sessaoAtualizacaoDados.numeroEndereco}" >
+			<input type="text" style="width: 540px;" name="sessaoAtualizacaoDados.cadEndereco" value="${sessaoAtualizacaoDados.cadEndereco}" >
 		</div>
 		
 		<div class="corMedia divFormulario" >
-			<label class="labelFormulario" >Complemento </label> 
-			<input type="text" style="width: 220px;" name="sessaoAtualizacaoDados.complementoEndereco" value="${sessaoAtualizacaoDados.complementoEndereco}" >
 			<label class="labelFormulario" >Bairro </label> 
-			<input type="text" style="width: 225px;" name="sessaoAtualizacaoDados.bairro" value="${sessaoAtualizacaoDados.bairro}" >
+			<input type="text" style="width: 575px;" name="sessaoAtualizacaoDados.cadBairro" value="${sessaoAtualizacaoDados.cadBairro}" >
 		</div>
 		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Cidade </label> 
-			<input type="text" style="width: 340px;" name="sessaoAtualizacaoDados.cidade" value="${sessaoAtualizacaoDados.cidade}" >
+			<input type="text" style="width: 340px;" name="sessaoAtualizacaoDados.cadCidade" value="${sessaoAtualizacaoDados.cadCidade}" >
 			<label class="labelFormulario" >Estado </label> 
-			<select name="sessaoAtualizacaoDados.estado" style="width: 155px;" >
+			<select name="sessaoAtualizacaoDados.cadUF" style="width: 155px;" >
 				<option value="AC">Acre</option>
 				<option value="AL">Alagoas</option>
 				<option value="AP">Amapá</option>
@@ -152,86 +148,16 @@
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Tel. resid. </label> 
-			<input type="text" style="width: 20px; margin-left: 2px;" name="sessaoAtualizacaoDados.telefoneResidencialDDD" value="${sessaoAtualizacaoDados.telefoneResidencialDDD}" maxlength="2" >
-			<input type="text" style="width: 150px;" name="sessaoAtualizacaoDados.telefoneResidencial" value="${sessaoAtualizacaoDados.telefoneResidencial}" maxlength="9" >
+			<input type="text" style="width: 225px;" name="sessaoAtualizacaoDados.tel" value="${sessaoAtualizacaoDados.tel}" >
 			
-			<label class="labelFormulario" style="margin-left: 85px;" >Tel. Com. </label> 
-			<input type="text" style="width: 20px; margin-left: 4px;" name="sessaoAtualizacaoDados.telefoneComercialDDD" value="${sessaoAtualizacaoDados.telefoneComercialDDD}" maxlength="2" >
-			<input type="text" style="width: 150px;" name="sessaoAtualizacaoDados.telefoneComercial" value="${sessaoAtualizacaoDados.telefoneComercial}" maxlength="9" >
-			
-			<br>
-			
-			<label class="labelFormulario" >Tel. Cel. 1 </label> 
-			<input type="text" style="width: 20px;" name="sessaoAtualizacaoDados.telefoneCelular1DDD" value="${sessaoAtualizacaoDados.telefoneCelular1DDD}" maxlength="2" >
-			<input type="text" style="width: 150px;" name="sessaoAtualizacaoDados.telefoneCelular1" value="${sessaoAtualizacaoDados.telefoneCelular1}" maxlength="9" >
-			
-			<label class="labelFormulario" style="margin-left: 85px;" >Tel. Cel. 2 </label> 
-			<input type="text" style="width: 20px;" name="sessaoAtualizacaoDados.telefoneCelular2DDD" value="${sessaoAtualizacaoDados.telefoneCelular2DDD}" maxlength="2" >
-			<input type="text" style="width: 150px;" name="sessaoAtualizacaoDados.telefoneCelular2" value="${sessaoAtualizacaoDados.telefoneCelular2}" maxlength="9" >
-			
+			<label class="labelFormulario" >Tel. Cel. </label> 
+			<input type="text" style="width: 230px;" name="sessaoAtualizacaoDados.cadCelular" value="${sessaoAtualizacaoDados.cadCelular}" >
+
 		</div>
 		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Email </label> 
-			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.email" value="${sessaoAtualizacaoDados.email}">
-		</div>
-		
-		<div class="divFormulario" id="entregaMercadoria" >
-			<label class="labelFormulario" > <b> Endereço de ENTREGA da MERCADORIA </b> - Clique aqui caso seja o endereço residencial </label> 
-		</div>
-		
-		<div class="corMedia divFormulario" >
-			<label class="labelFormulario" >CEP </label> 
-			<input type="text" style="width: 90px;" name="sessaoAtualizacaoDados.CEPEntregaMercadoria" value="${sessaoAtualizacaoDados.CEPEntregaMercadoria}" >	
-		</div>
-		
-		<div class="corClara divFormulario" >
-			<label class="labelFormulario" >End. Resid. </label> 
-			<input type="text" style="width: 430px;" name="sessaoAtualizacaoDados.enderecoEntregaMercadoria" value="${sessaoAtualizacaoDados.enderecoEntregaMercadoria}" >
-			<label class="labelFormulario" >N.º </label> 
-			<input type="text" style="width: 50px;" name="sessaoAtualizacaoDados.numeroEnderecoEntregaMercadoria" value="${sessaoAtualizacaoDados.numeroEnderecoEntregaMercadoria}" >
-		</div>
-		
-		<div class="corMedia divFormulario" >
-			<label class="labelFormulario" >Complemento </label> 
-			<input type="text" style="width: 220px;" name="sessaoAtualizacaoDados.complementoEnderecoEntregaMercadoria" value="${sessaoAtualizacaoDados.complementoEnderecoEntregaMercadoria}" >
-			<label class="labelFormulario" >Bairro </label> 
-			<input type="text" style="width: 225px;" name="sessaoAtualizacaoDados.bairroEntregaMercadoria" value="${sessaoAtualizacaoDados.bairroEntregaMercadoria}" >
-		</div>
-		
-		<div class="corClara divFormulario" >
-			<label class="labelFormulario" >Cidade </label> 
-			<input type="text" style="width: 340px;" name="sessaoAtualizacaoDados.cidadeEntregaMercadoria" value="${sessaoAtualizacaoDados.cidadeEntregaMercadoria}" >
-			<label class="labelFormulario" >Estado </label> 
-			<select name="sessaoAtualizacaoDados.estadoEntregaMercadoria" style="width: 155px;" >
-				<option value="AC">Acre</option>
-				<option value="AL">Alagoas</option>
-				<option value="AP">Amapá</option>
-				<option value="AM">Amazonas</option>
-				<option value="BA">Bahia</option>
-				<option value="CE">Ceará</option>
-				<option value="DF">Distrito Federal</option>
-				<option value="ES">Espirito Santo</option>
-				<option value="GO">Goiás</option>
-				<option value="MA">Maranhão</option>
-				<option value="MT">Mato Grosso</option>
-				<option value="MS">Mato Grosso do Sul</option>
-				<option value="MG">Minas Gerais</option>
-				<option value="PA">Pará</option>
-				<option value="PB">Paraiba</option>
-				<option value="PR">Paraná</option>
-				<option value="PE">Pernambuco</option>
-				<option value="PI">Piauí</option>
-				<option value="RJ" selected="selected" >Rio de Janeiro</option>
-				<option value="RN">Rio Grande do Norte</option>
-				<option value="RS">Rio Grande do Sul</option>
-				<option value="RO">Rondônia</option>
-				<option value="RR">Roraima</option>
-				<option value="SC">Santa Catarina</option>
-				<option value="SP">São Paulo</option>
-				<option value="SE">Sergipe</option>
-				<option value="TO">Tocantis</option>
-			</select> 	
+			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.eMail" value="${sessaoAtualizacaoDados.eMail}">
 		</div>
 		
 		<div class="divFormulario" >
@@ -240,65 +166,60 @@
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Nome </label> 
-			<input type="text" style="width: 575px;;"  name="sessaoAtualizacaoDados.nomeSegundoTitular" value="${sessaoAtualizacaoDados.nomeSegundoTitular}" >
+			<input type="text" style="width: 575px;;"  name="sessaoAtualizacaoDados.vNomeTitular2" value="${sessaoAtualizacaoDados.vNomeTitular2}" >
 		</div>
 		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Data nasc. </label> 
-			<input type="text" style="width: 90px;" class="data" name="sessaoAtualizacaoDados.dataNascimentoSegundoTitular" value="${sessaoAtualizacaoDados.dataNascimentoSegundoTitular}" >
+			<input type="text" style="width: 90px;" class="data" name="sessaoAtualizacaoDados.dt_NascTitular2" value="${sessaoAtualizacaoDados.dt_NascTitular2}" >
 			<label class="labelFormulario" >Sexo </label> 
-			<select name="sessaoAtualizacaoDados.sexoSegundoTitular" style="width: 130px;" >
-				<option value="Masculino" > Masculino </option>
-				<option value="Feminino" > Feminino </option>
+			<select name="sessaoAtualizacaoDados.sexoTitular2" style="width: 130px;" >
+				<option value="Masculino" <c:if test="${sessaoAtualizacaoDados.sexoTitular2 == 'Masc'}"> selected="selected" </c:if>  > Masc </option>
+				<option value="Feminino" <c:if test="${sessaoAtualizacaoDados.sexoTitular2 == 'Fem'}"> selected="selected" </c:if> > Fem </option>
 			</select>
 			<label class="labelFormulario" >Estado civil </label>
-			<select name="sessaoAtualizacaoDados.estadoCivilSegundoTitular" style="width: 170px;" >
-				<option value="Solteiro(a)" > Solteiro(a) </option>
-				<option value="Casado(a)" > Casado(a) </option>
-				<option value="Divorciado(a)" > Divorciado(a) </option>
-				<option value="Viúvo(a)" > Viúvo(a) </option>
+			<select name="sessaoAtualizacaoDados.EstCivilTitular2" style="width: 170px;" >
+				<option value="Solteiro(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Solteiro(a)'}"> selected="selected" </c:if>  > Solteiro(a) </option>
+				<option value="Casado(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Casado(a)'}"> selected="selected" </c:if> > Casado(a) </option>
+				<option value="Divorciado(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Divorciado(a)'}"> selected="selected" </c:if> > Divorciado(a) </option>
+				<option value="Viúvo(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Viúvo(a)'}"> selected="selected" </c:if> > Viúvo(a) </option>
 			</select> 		
 		</div>
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" > CPF </label> 
-			<input type="text" style="width: 140px;"  name="sessaoAtualizacaoDados.CPFSegundoTitular" value="${sessaoAtualizacaoDados.CPFSegundoTitular}" >
+			<input type="text" style="width: 140px;"  name="sessaoAtualizacaoDados.CPFTitular2" value="${sessaoAtualizacaoDados.CPFTitular2}" >
 			<label class="labelFormulario" > RG </label> 
-			<input type="text" style="width: 140px;"  name="sessaoAtualizacaoDados.RGSegundoTitular" value="${sessaoAtualizacaoDados.RGSegundoTitular}" >
+			<input type="text" style="width: 140px;"  name="sessaoAtualizacaoDados.RGTitular2" value="${sessaoAtualizacaoDados.RGTitular2}" >
 			<label class="labelFormulario" > Emissor </label> 
-			<input type="text" style="width: 150px;"  name="sessaoAtualizacaoDados.emissorSegundoTitular" value="${sessaoAtualizacaoDados.emissorSegundoTitular}" >
+			<input type="text" style="width: 150px;"  name="sessaoAtualizacaoDados.emissorTitular2" value="${sessaoAtualizacaoDados.emissorTitular2}" >
 		</div>
 		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Email </label> 
-			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.emailSegundoTitular" value="${sessaoAtualizacaoDados.emailSegundoTitular}">
+			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.eMailTitular2" value="${sessaoAtualizacaoDados.eMailTitular2}">
 		</div>
 		
 		<div class="divFormulario" >
 			<label class="labelFormulario" > <b> Dados bancários para pagamento de bonificação </b></label> 
 		</div>
 		
-		<div class="corMedia divFormulario" >
-			<label class="labelFormulario" >Titular da conta </label> 
-			<input type="text" style="width: 515px; " name="sessaoAtualizacaoDados.titularConta" value="${sessaoAtualizacaoDados.titularConta}">
-		</div>
-		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Banco </label> 
-			<input type="text" style="width: 200px; " name="sessaoAtualizacaoDados.banco" value="${sessaoAtualizacaoDados.banco}">
+			<input type="text" style="width: 200px; " name="sessaoAtualizacaoDados.cadBanco" value="${sessaoAtualizacaoDados.cadBanco}">
 			<label class="labelFormulario" >Tipo de conta </label> 
-			<select name="sessaoAtualizacaoDados.tipoConta" style="width: 200px;" >
-				<option value="Conta corrente">Conta corrente</option>
-				<option value="Conta poupança">Conta poupança</option>
-				<option value="Conta salário">Conta salário</option>
+			<select name="sessaoAtualizacaoDados.cadTipoConta" style="width: 200px;" >
+				<option value="Conta corrente"  <c:if test="${sessaoAtualizacaoDados.cadTipoConta == 'Conta corrente'}"> selected="selected" </c:if> >Conta corrente</option>
+				<option value="Conta poupança" <c:if test="${sessaoAtualizacaoDados.cadTipoConta == 'Conta poupança'}"> selected="selected" </c:if> >Conta poupança</option>
+				<option value="Conta salário" <c:if test="${sessaoAtualizacaoDados.cadTipoConta == 'Conta salário'}"> selected="selected" </c:if> >Conta salário</option>
 			</select> 
 		</div>
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Nº Agência </label> 
-			<input type="text" style="width: 170px;;" name="sessaoAtualizacaoDados.numeroAgencia" value="${sessaoAtualizacaoDados.numeroAgencia}">
+			<input type="text" style="width: 170px;;" name="sessaoAtualizacaoDados.cadAgencia" value="${sessaoAtualizacaoDados.cadAgencia}">
 			<label class="labelFormulario" >Nº da Conta </label> 
-			<input type="text" style="width: 200px;" name="sessaoAtualizacaoDados.numeroConta" value="${sessaoAtualizacaoDados.numeroConta}">
+			<input type="text" style="width: 200px;" name="sessaoAtualizacaoDados.cadCCorrente" value="${sessaoAtualizacaoDados.cadCCorrente}">
 		</div>
 
 		
