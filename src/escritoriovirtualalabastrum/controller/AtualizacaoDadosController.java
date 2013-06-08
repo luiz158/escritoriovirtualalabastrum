@@ -84,7 +84,7 @@ public class AtualizacaoDadosController {
 		textoEmail += "<br> <b> Cidade: </b> " + this.sessaoAtualizacaoDados.getCadCidade();
 		textoEmail += "<br> <b> Estado: </b> " + this.sessaoAtualizacaoDados.getCadUF();
 		textoEmail += "<br> <b> Telefone residencial: </b> " + this.sessaoAtualizacaoDados.getTel();
-		textoEmail += "<br> <b> Telefone celular 1: </b> " + this.sessaoAtualizacaoDados.getCadCelular();
+		textoEmail += "<br> <b> Telefone celular: </b> " + this.sessaoAtualizacaoDados.getCadCelular();
 		textoEmail += "<br> <b> Email: </b> " + this.sessaoAtualizacaoDados.geteMail();
 		textoEmail += "<br><br><br> <b> Dados do segundo titular: </b> <br>";
 		textoEmail += "<br> <b> Nome: </b> " + this.sessaoAtualizacaoDados.getvNomeTitular2();
