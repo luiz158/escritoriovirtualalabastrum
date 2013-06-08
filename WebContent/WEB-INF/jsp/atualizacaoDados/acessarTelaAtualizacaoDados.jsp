@@ -157,7 +157,7 @@
 		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Email </label> 
-			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.eMail" value="${sessaoAtualizacaoDados.eMail}">
+			<input type="text" style="width: 580px;" name="sessaoAtualizacaoDados.email" value="${sessaoAtualizacaoDados.eMail}" >
 		</div>
 		
 		<div class="divFormulario" >
@@ -166,7 +166,7 @@
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Nome </label> 
-			<input type="text" style="width: 575px;;"  name="sessaoAtualizacaoDados.vNomeTitular2" value="${sessaoAtualizacaoDados.vNomeTitular2}" >
+			<input type="text" style="width: 575px;"  name="sessaoAtualizacaoDados.vnomeTitular2" value="${sessaoAtualizacaoDados.vNomeTitular2}" >
 		</div>
 		
 		<div class="corClara divFormulario" >
@@ -197,7 +197,7 @@
 		
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Email </label> 
-			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.eMailTitular2" value="${sessaoAtualizacaoDados.eMailTitular2}">
+			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.emailTitular2" value="${sessaoAtualizacaoDados.eMailTitular2}">
 		</div>
 		
 		<div class="divFormulario" >
