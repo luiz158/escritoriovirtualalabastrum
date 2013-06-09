@@ -25,9 +25,6 @@
 				<c:forEach items="${malaDireta}" var="item">
 					<tr>
                         <td class="centralizado" style="white-space:nowrap" > 
-                        	<c:forEach begin="2" end="${item.nivel}" >
-                        		&nbsp;&nbsp;&nbsp;&nbsp;
-                        	</c:forEach>
                         	${item.usuario.id_Codigo}
                         </td>
                          <td> ${item.nivel}º </td>
