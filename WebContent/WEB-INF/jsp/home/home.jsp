@@ -134,15 +134,21 @@
      }
      
      .informacoesHome{
-     	
+     
+		background-image: url("../css/images/sonhos.jpg");
+		background-repeat: no-repeat;
+		background-size: 100%;
+		width: 78%;
+		height: 300px;
      	margin-top: 250px;
-		border: 1px solid #AAA;
-		width: 800px;
 		margin-left: 70px;
+		padding: 30px;
+		color: rgb(80, 86, 224);
      }
      
      .labelInformacoesHome{
      	display: inline-block;
+     	font-weight: bold;
      }
 
 </style>
@@ -158,15 +164,15 @@
   </div>
   
   <div class="informacoesHome">
-      <label class="labelInformacoesHome" > CÓDIGO: </label> <span> ${sessaoUsuario.usuario.id_Codigo} </span> <br>
-      <label class="labelInformacoesHome" > STATUS: </label> <span> ${sessaoUsuario.usuario.posAtual}  </span> <br>
-      <label class="labelInformacoesHome" > PONTUAÇÃO PESSOAL: </label> <span> --- </span> <br>
-      <label class="labelInformacoesHome" > PONTUAÇÃO REDE: </label> <span> --- </span> <br>
-      <label class="labelInformacoesHome" > ATIVOS NA REDE: </label> <span> --- </span> <br>
-      <label class="labelInformacoesHome" > QUALIFICADOS NA REDE: </label> <span> --- </span> <br>
+      <label class="labelInformacoesHome" > * CÓDIGO: </label> <span> ${sessaoUsuario.usuario.id_Codigo} </span> <br>
+      <label class="labelInformacoesHome" > * STATUS: </label> <span> ${sessaoUsuario.usuario.posAtual}  </span> <br>
+      <label class="labelInformacoesHome" > * PONTUAÇÃO PESSOAL: </label> <span> --- </span> <br>
+      <label class="labelInformacoesHome" > * PONTUAÇÃO REDE: </label> <span> --- </span> <br>
+      <label class="labelInformacoesHome" > * ATIVOS NA REDE: </label> <span> --- </span> <br>
+      <label class="labelInformacoesHome" > * QUALIFICADOS NA REDE: </label> <span> --- </span> <br>
   </div>
   
-  <div class="imagensLink" >
+  <div class="imagensLink" style="margin-left: 10%;" >
 	<a href="<c:url value="/atualizacaoDados/acessarTelaAtualizacaoDados"/>"> <img class="imagemLink" src="../css/images/imagem-link-atualize-seus-dados.jpg"  name="" /> </a>
 	<a href="<c:url value="/home/emails"/>"> <img class="imagemLink" src="../css/images/imagem-link-emails.jpg"  name="" /> </a>
 	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>"> <img class="imagemLink" src="../css/images/imagem-link-mala-direta.jpg"  name="" /> </a>

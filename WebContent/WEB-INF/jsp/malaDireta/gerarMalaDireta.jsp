@@ -6,6 +6,8 @@
 
 <h3> Mala direta </h3>
 
+<h6 style="color: rgb(100, 100, 100);" > Quantidade de registros: ${quantidadeElementosMalaDireta} </h6>
+
 <c:choose>
 	<c:when test="${!empty malaDireta}">
 
@@ -13,7 +15,6 @@
 			<thead>
 		    	<tr>
                     <th> Código </th>
-                    <th> Nível </th>
                     <th> Posição </th>
                     <th> Nome </th>
                     <th> Telefone </th>
@@ -27,7 +28,6 @@
                         <td class="centralizado" style="white-space:nowrap" > 
                         	${item.usuario.id_Codigo}
                         </td>
-                         <td> ${item.nivel}º </td>
                         <td> ${item.usuario.posAtual} </td>
                         <td class="centralizado"> ${item.usuario.vNome} </td>
                         <td class="centralizado"> ${item.usuario.tel} </td>

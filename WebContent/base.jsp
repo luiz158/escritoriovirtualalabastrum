@@ -47,16 +47,17 @@
 	        <div>
 	        	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" class="submenu-accordion" > Mala direta </a>
 	        </div>
-	        <c:if test="${sessaoUsuario.usuario.informacoesFixasUsuario.administrador}">
-		        <h3 class="menu-accordion" >ADMINISTRATIVO </h3>
-		        <div>
-		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivoTabelaRelacionamentos"/>" class="submenu-accordion" > Importar tabela de relacionamentos </a>
-		        </div>
-	        </c:if>
 	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
 	        <div>
 	        	<a href="<c:url value="/home/emails"/>" class="submenu-accordion" > E-mails </a>
 	        </div>
+	        <c:if test="${sessaoUsuario.usuario.informacoesFixasUsuario.administrador}">
+		        <h3 class="menu-accordion" >ADMINISTRATIVO </h3>
+		        <div>
+		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivoTabelaRelacionamentos"/>" class="submenu-accordion" > Importar tabela de relacionamentos </a>
+		        	<a href="<c:url value="/assumirIdentidade/acessarTelaAssumirIdentidade"/>" class="submenu-accordion" > Assumir identidade </a>
+		        </div>
+	        </c:if>
 		</div>
 		
 		<a id="sair" style="float: right; padding-right: 15px; font-weight: bold; margin-top: -20px; font-size: 12px; cursor: pointer; " href="<c:url value="/login/logout"/>"> Sair </a>

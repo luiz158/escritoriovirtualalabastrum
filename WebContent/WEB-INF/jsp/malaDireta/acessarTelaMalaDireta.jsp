@@ -4,11 +4,21 @@
   <fieldset>
     <legend>Mala direta</legend>
     
+    <div class="control-group warning" style="margin-left: -90px;" > 
+    
+	     <label class="control-label">Código</label>
+	     <div class="controls">
+	     	<input type="text" class="numero-inteiro" name="codigoUsuario" value="${sessaoUsuario.usuario.id_Codigo}"  >
+	     </div>
+	</div>
+    
     <div class="control-group warning" style="margin-left: -90px; margin-bottom: 50px;" > 
+
         <label class="control-label">Posição</label>
         <div class="controls">
           <select name="posicao" >
-          	<option value="id_Patroc"> Patrocinador </option>
+          	<option value="Todas"> Todas </option>
+          	<option value="id_Patroc" selected="selected" > Patrocinador </option>
           	<option value="id_Dem"> Demonstrador </option>
           	<option value="id_S"> Sênior </option>
           	<option value="id_GB"> Gerente bronze </option>
