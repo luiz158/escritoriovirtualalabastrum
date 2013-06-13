@@ -21,25 +21,20 @@
           	<option value="id_Patroc" selected="selected" > Patrocinador </option>
           	<option value="id_Dem"> Demonstrador </option>
           	<option value="id_S"> Sênior </option>
-          	<option value="id_GB"> Gerente bronze </option>
-          	<option value="id_GP"> Gerente prata </option>
-          	<option value="id_GO"> Gerente ouro </option>
-          	<option value="id_GE"> Gerente executivo </option>
-          	<option value="id_M"> M </option>
+          	<option value="id_M"> Gerente </option>
           	<option value="id_M1"> M1 </option>
           	<option value="id_M2"> M2 </option>
           	<option value="id_M3"> M3 </option>
           	<option value="id_M4"> M4 </option>
           	<option value="id_M5"> M5 </option>
-          	<option value="id_LA"> LA </option>
-          	<option value="id_LA1"> LA1 </option>
-          	<option value="id_LA2"> LA2 </option>
-          	<option value="id_CR"> CR </option>
-          	<option value="id_CR1"> CR1 </option>
-          	<option value="id_CR2"> CR2 </option>
-          	<option value="id_DR"> Diretor regional </option>
-          	<option value="id_DD"> Diretor divisional </option>
-          	<option value="id_DS"> Diretor superintendente </option>
+          	<option value="id_GB"> Gerente bronze </option>
+          	<option value="id_GP"> Gerente prata </option>
+          	<option value="id_GO"> Gerente ouro </option>
+          	<option value="id_GE"> Esmeralda </option>
+          	<option value="id_LA"> Topázio </option>
+          	<option value="id_CR"> Diamante </option>
+          	<option value="id_DR"> Diamante duplo </option>
+          	<option value="id_DD"> Diamante triplo </option>
           	<option value="id_Pres"> Presidente </option>
 		  </select>
         </div>
