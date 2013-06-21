@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -14,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import org.apache.commons.io.FileUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 import br.com.caelum.vraptor.Resource;
@@ -50,20 +51,11 @@ public class ImportacaoArquivoController {
 	@Funcionalidade(administrativa = "true")
 	public void importarArquivoTabelaRelacionamentos(UploadedFile arquivo) throws IOException {
 
-		String caminho = verificaSistemaOperacional();
-
 		InputStream file = arquivo.getFile();
 
 		if (arquivo.getFileName().endsWith(".zip")) {
 
-			CSVReader reader = descompactarZip(arquivo, caminho, file);
-
-			lerCSV(reader);
-		}
-
-		else if (arquivo.getFileName().endsWith(".csv")) {
-
-			CSVReader reader = new CSVReader(new InputStreamReader(file), '\t');
+			CSVReader reader = descompactarZip(arquivo, file);
 
 			lerCSV(reader);
 		}
@@ -87,7 +79,7 @@ public class ImportacaoArquivoController {
 
 	private void validarFormato() {
 
-		validator.add(new ValidationMessage("O formato de arquivo escolhido não é suportado. Utilize csv ou um csv compactado no formato zip. As colunas dentro do csv devem estar separadas por ponto-virgula ';' . E a primeira linha do csv deve conter o cabeçalho com os nomes das colunas. ", "Erro"));
+		validator.add(new ValidationMessage("O formato de arquivo escolhido não é suportado. Utilize um arquivo csv compactado no formato zip. As colunas dentro do csv devem estar separadas por ponto-virgula ';' . E a primeira linha do csv deve conter o cabeçalho com os nomes das colunas. ", "Erro"));
 
 		validator.onErrorForwardTo(this).acessarTelaImportacaoArquivoTabelaRelacionamentos();
 	}
@@ -149,7 +141,7 @@ public class ImportacaoArquivoController {
 
 						} catch (Exception e) {
 
-							//e.printStackTrace();
+							// e.printStackTrace();
 						}
 					}
 
@@ -188,7 +180,9 @@ public class ImportacaoArquivoController {
 		return caminho;
 	}
 
-	private CSVReader descompactarZip(UploadedFile arquivo, String caminho, InputStream file) throws IOException, FileNotFoundException {
+	private CSVReader descompactarZip(UploadedFile arquivo, InputStream file) throws IOException, FileNotFoundException {
+
+		String caminho = verificaSistemaOperacional();
 
 		byte[] buffer = new byte[1024];
 
@@ -218,7 +212,16 @@ public class ImportacaoArquivoController {
 		zis.closeEntry();
 		zis.close();
 
-		CSVReader reader = new CSVReader(new FileReader(new File(caminho + File.separator + arquivo.getFileName().split(".zip")[0] + ".csv")), '\t');
+		String nomeArquivo = arquivo.getFileName().split(".zip")[0];
+
+		nomeArquivo = nomeArquivo.replaceAll(".csv", "");
+
+		File arquivoNoDisco = new File(caminho + File.separator + nomeArquivo + ".csv");
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		CSVReader reader = new CSVReader(new FileReader(new File(caminho + File.separator + nomeArquivo + ".csv")), '\t');
+
 		return reader;
 	}
 }

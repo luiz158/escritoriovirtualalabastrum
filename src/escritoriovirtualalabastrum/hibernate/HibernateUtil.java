@@ -28,7 +28,7 @@ import escritoriovirtualalabastrum.util.UtilReflection;
 @RequestScoped
 public class HibernateUtil {
 
-	private static SessionFactory sessionFactory;
+	public static SessionFactory sessionFactory;
 	private Session session;
 	private Result result;
 
@@ -45,17 +45,23 @@ public class HibernateUtil {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private void iniciarSessionFactory() {
 
 		if (sessionFactory == null) {
 
-			Configuration configuration = new Configuration();
-
-			configuration.setNamingStrategy(new ImprovedNamingStrategy());
-
-			sessionFactory = configuration.configure().buildSessionFactory();
+			reiniciarSessionFactory();
+			ThreadRestartHibernate.iniciarThread();
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void reiniciarSessionFactory() {
+
+		Configuration configuration = new Configuration();
+
+		configuration.setNamingStrategy(new ImprovedNamingStrategy());
+
+		sessionFactory = configuration.configure().buildSessionFactory();
 	}
 
 	public void fecharSessao() {
