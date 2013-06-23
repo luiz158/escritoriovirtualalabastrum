@@ -4,7 +4,6 @@ table:hover{
 
 .bem-vindo {
 	margin-left: 3%;
-	margin-top: 10px;
 }
 
 .topo{
@@ -111,16 +110,16 @@ table:hover{
 }
 
 .centralizado{
-	text-align: left !important;
+	text-align: center !important;
 }
 
 .imagensLink{
 	
-	margin-top: 100px;
+	margin-top: 50px;
 	margin-bottom: 100px;
 }
 
 .imagemLink{
 	
-	margin-right: 20px;
+	margin-right: 50px;
 }

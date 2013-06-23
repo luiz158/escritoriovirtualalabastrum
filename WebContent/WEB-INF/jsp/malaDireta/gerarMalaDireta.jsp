@@ -1,12 +1,35 @@
 <%@ include file="/base.jsp" %> 
 
+<style>
+
+.menu {
+	display: none;
+    width: 0px;
+	min-width: 0px;
+}
+
+.conteudo {
+    width: 94%;
+}
+
+.dica{
+	color: rgb(170, 170, 170);
+	margin-left: 30px;
+}
+
+</style>
+
 <a class="btn" href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" > Voltar </a>
 
 <br><br>
 
-<h3> Mala direta </h3>
+<h3> Mala Direta </h3>
 
-<h6 style="color: rgb(100, 100, 100);" > Quantidade de registros: ${quantidadeElementosMalaDireta} </h6>
+<h6 style="color: rgb(100, 100, 100);" >Líder da equipe: ${usuarioPesquisado.id_Codigo} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome}  </h6>
+
+<h6 style="color: rgb(100, 100, 100);" >Posição considerada: ${posicaoConsiderada}    </h6>
+
+<h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementosMalaDireta} <span class="dica" > (Dica: Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho CTRL + F) </span> </h6> 
 
 <c:choose>
 	<c:when test="${!empty malaDireta}">
@@ -17,7 +40,7 @@
                     <th> Código </th>
                     <th> Posição </th>
                     <th> Nome </th>
-                    <th> Telefone </th>
+                    <th> Telefones </th>
                     <th> Celular </th>
                     <th> Email </th>
 				</tr>
@@ -25,14 +48,14 @@
 			<tbody>
 				<c:forEach items="${malaDireta}" var="item">
 					<tr>
-                        <td class="centralizado" style="white-space:nowrap" > 
+                        <td class="centralizado" > 
                         	${item.usuario.id_Codigo}
                         </td>
-                        <td> ${item.usuario.posAtual} </td>
-                        <td class="centralizado"> ${item.usuario.vNome} </td>
-                        <td class="centralizado"> ${item.usuario.tel} </td>
-                        <td class="centralizado"> ${item.usuario.cadCelular} </td>
-                        <td class="centralizado"> ${item.usuario.eMail} </td>
+                        <td class="centralizado" > ${item.usuario.posAtual} </td>
+                        <td> ${item.usuario.vNome} </td>
+                        <td> ${item.usuario.tel} </td>
+                        <td> ${item.usuario.cadCelular} </td>
+                        <td> ${item.usuario.eMail} </td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -43,8 +66,6 @@
 	</c:otherwise>
 </c:choose>
 
-<div class="imagensLink" >
-	<a href="<c:url value="/atualizacaoDados/acessarTelaAtualizacaoDados"/>"> <img class="imagemLink" src="../css/images/imagem-link-atualize-seus-dados.jpg"  name="" /> </a>
-	<a href="<c:url value="/home/emails"/>"> <img class="imagemLink" src="../css/images/imagem-link-emails.jpg"  name="" /> </a>
-	<a href="<c:url value="/login/trocarPropriaSenha"/>"> <img class="imagemLink" src="../css/images/imagem-link-troque-sua-senha.jpg"  name="" /> </a>
-</div>
+<br>
+
+<a class="btn" href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" > Voltar </a>

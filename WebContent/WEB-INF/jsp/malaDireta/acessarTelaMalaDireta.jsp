@@ -2,7 +2,7 @@
 
 <form class="form-horizontal" action="<c:url value="/malaDireta/gerarMalaDireta"/>" method="post" >
   <fieldset>
-    <legend>Mala direta</legend>
+    <legend>Mala Direta</legend>
     
     <div class="control-group warning" style="margin-left: -90px;" > 
     
@@ -17,25 +17,9 @@
         <label class="control-label">Posição</label>
         <div class="controls">
           <select name="posicao" >
-          	<option value="Todas"> Todas </option>
-          	<option value="id_Patroc" selected="selected" > Patrocinador </option>
-          	<option value="id_Dem"> Demonstrador </option>
-          	<option value="id_S"> Sênior </option>
-          	<option value="id_M"> Gerente </option>
-          	<option value="id_M1"> M1 </option>
-          	<option value="id_M2"> M2 </option>
-          	<option value="id_M3"> M3 </option>
-          	<option value="id_M4"> M4 </option>
-          	<option value="id_M5"> M5 </option>
-          	<option value="id_GB"> Gerente bronze </option>
-          	<option value="id_GP"> Gerente prata </option>
-          	<option value="id_GO"> Gerente ouro </option>
-          	<option value="id_GE"> Esmeralda </option>
-          	<option value="id_LA"> Topázio </option>
-          	<option value="id_CR"> Diamante </option>
-          	<option value="id_DR"> Diamante duplo </option>
-          	<option value="id_DD"> Diamante triplo </option>
-          	<option value="id_Pres"> Presidente </option>
+          	<c:forEach items="${posicoes}" var="posicao" >
+	          	<option value="${posicao.key}" <c:if test="${posicao.key == 'id_Patroc'}" > selected="selected" </c:if> > ${posicao.value} </option>
+          	</c:forEach>
 		  </select>
         </div>
     </div>

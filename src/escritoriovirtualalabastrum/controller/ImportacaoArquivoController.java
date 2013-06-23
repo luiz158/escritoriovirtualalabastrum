@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -24,7 +25,9 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.util.Util;
 
 @Resource
 public class ImportacaoArquivoController {
@@ -162,6 +165,16 @@ public class ImportacaoArquivoController {
 
 		this.hibernateUtil.salvarOuAtualizar(usuarios);
 
+		InformacoesUltimaAtualizacao informacoesUltimaAtualizacao = this.hibernateUtil.selecionar(new InformacoesUltimaAtualizacao());
+
+		if (Util.vazio(informacoesUltimaAtualizacao)) {
+
+			informacoesUltimaAtualizacao = new InformacoesUltimaAtualizacao();
+		}
+
+		informacoesUltimaAtualizacao.setDataHora(new GregorianCalendar());
+
+		this.hibernateUtil.salvarOuAtualizar(informacoesUltimaAtualizacao);
 	}
 
 	private String verificaSistemaOperacional() {

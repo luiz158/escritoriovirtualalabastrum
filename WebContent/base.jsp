@@ -5,7 +5,7 @@
 <html lang="pt-br">
 	<head>
 		 <meta charset="utf-8">
-		<title> Escritório virtual Alabastrum </title>
+		<title> Escritório Virtual Alabastrum </title>
 		<link type="text/css" href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/bootstrap-alterado.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/bootstrap-responsive.css"/>" rel="stylesheet" />
@@ -60,7 +60,7 @@
 	        </c:if>
 		</div>
 		
-		<a id="sair" style="float: right; padding-right: 15px; font-weight: bold; margin-top: -20px; font-size: 12px; cursor: pointer; " href="<c:url value="/login/logout"/>"> Sair </a>
+		<a id="sair" style="float: right; padding-right: 15px; font-weight: bold; margin-top: -30px; font-size: 12px; cursor: pointer; " href="<c:url value="/login/logout"/>"> Sair </a>
 		
 		<div class="conteudo">
 

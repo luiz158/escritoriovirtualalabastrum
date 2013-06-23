@@ -30,6 +30,6 @@
   background-image: url("images/glyphicons-halflings-white.png");
 }
 
-td, th {
+th {
 	text-align: center !important;
 }

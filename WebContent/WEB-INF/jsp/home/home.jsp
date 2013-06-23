@@ -143,12 +143,14 @@
      	margin-top: 250px;
 		margin-left: 70px;
 		padding: 30px;
+		padding-top: 40px;
 		color: rgb(80, 86, 224);
      }
      
      .labelInformacoesHome{
      	display: inline-block;
      	font-weight: bold;
+     	margin-left: 20px;
      }
 
 </style>
@@ -166,13 +168,16 @@
   <div class="informacoesHome">
       <label class="labelInformacoesHome" > * CÓDIGO: </label> <span> ${sessaoUsuario.usuario.id_Codigo} </span> <br>
       <label class="labelInformacoesHome" > * STATUS: </label> <span> ${sessaoUsuario.usuario.posAtual}  </span> <br>
+      <label class="labelInformacoesHome" > * SITUAÇÃO ATUAL - ATIVIDADE: </label> <span> ---  </span> <br>
       <label class="labelInformacoesHome" > * PONTUAÇÃO PESSOAL: </label> <span> --- </span> <br>
       <label class="labelInformacoesHome" > * PONTUAÇÃO REDE: </label> <span> --- </span> <br>
       <label class="labelInformacoesHome" > * ATIVOS NA REDE: </label> <span> --- </span> <br>
       <label class="labelInformacoesHome" > * QUALIFICADOS NA REDE: </label> <span> --- </span> <br>
+      <br>
+      <label class="labelInformacoesHome" > * Última atualização: </label> <span> ${dataHoraUltimaAtualizacao} </span> <br>
   </div>
   
-  <div class="imagensLink" style="margin-left: 10%;" >
+  <div class="imagensLink" style="margin-left: 10%; margin-top: 0px;" >
 	<a href="<c:url value="/atualizacaoDados/acessarTelaAtualizacaoDados"/>"> <img class="imagemLink" src="../css/images/imagem-link-atualize-seus-dados.jpg"  name="" /> </a>
 	<a href="<c:url value="/home/emails"/>"> <img class="imagemLink" src="../css/images/imagem-link-emails.jpg"  name="" /> </a>
 	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>"> <img class="imagemLink" src="../css/images/imagem-link-mala-direta.jpg"  name="" /> </a>

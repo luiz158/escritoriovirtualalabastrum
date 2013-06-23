@@ -1,8 +1,9 @@
 package escritoriovirtualalabastrum.controller;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import br.com.caelum.vraptor.Resource;
@@ -35,6 +36,7 @@ public class MalaDiretaController {
 	@Funcionalidade
 	public void acessarTelaMalaDireta() {
 
+		result.include("posicoes", obterPosicoes());
 	}
 
 	@Funcionalidade
@@ -70,6 +72,14 @@ public class MalaDiretaController {
 				gerarMalaDiretaDeAcordoComFiltros(posicao, codigoUsuario);
 			}
 		}
+
+		Usuario usuarioPesquisado = new Usuario();
+		usuarioPesquisado.setId_Codigo(codigoUsuario);
+
+		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado);
+
+		result.include("usuarioPesquisado", usuarioPesquisado);
+		result.include("posicaoConsiderada", obterPosicoes().get(posicao));
 	}
 
 	private void gerarMalaDiretaDeAcordoComFiltros(String posicao, Integer codigoUsuario) {
@@ -97,18 +107,21 @@ public class MalaDiretaController {
 
 	private void gerarMalaDiretaTodasPosicoes(Integer codigoUsuario, TreeMap<Integer, MalaDireta> malaDireta) {
 
-		List<String> posicoes = obterPosicoes();
+		LinkedHashMap<String, String> posicoes = obterPosicoes();
 
-		for (String posicaoLoop : posicoes) {
+		for (Entry<String, String> posicao : posicoes.entrySet()) {
 
-			if (posicaoLoop.equals("id_Patroc")) {
+			if (!posicao.getKey().equals("Todas")) {
 
-				this.pesquisarMalaDiretaSemRecursividade(codigoUsuario, malaDireta, 1, posicaoLoop);
-			}
+				if (posicao.getKey().equals("id_Patroc")) {
 
-			else {
+					this.pesquisarMalaDiretaSemRecursividade(codigoUsuario, malaDireta, 1, posicao.getKey());
+				}
 
-				this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1, posicaoLoop);
+				else {
+
+					this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1, posicao.getKey());
+				}
 			}
 		}
 	}
@@ -176,28 +189,30 @@ public class MalaDiretaController {
 		}
 	}
 
-	private List<String> obterPosicoes() {
+	private LinkedHashMap<String, String> obterPosicoes() {
 
-		List<String> posicoes = new ArrayList<String>();
+		LinkedHashMap<String, String> posicoes = new LinkedHashMap<String, String>();
 
-		posicoes.add("id_Patroc");
-		posicoes.add("id_Dem");
-		posicoes.add("id_S");
-		posicoes.add("id_M");
-		posicoes.add("id_M1");
-		posicoes.add("id_M2");
-		posicoes.add("id_M3");
-		posicoes.add("id_M4");
-		posicoes.add("id_M5");
-		posicoes.add("id_GB");
-		posicoes.add("id_GP");
-		posicoes.add("id_GO");
-		posicoes.add("id_GE");
-		posicoes.add("id_LA");
-		posicoes.add("id_CR");
-		posicoes.add("id_DR");
-		posicoes.add("id_DD");
-		posicoes.add("id_Pres");
+		posicoes.put("Todas", "Todas");
+		posicoes.put("id_Patroc", "Patrocinador");
+		posicoes.put("id_Dem", "Demonstrador");
+		posicoes.put("id_S", "Sênior");
+		posicoes.put("id_M", "Gerente");
+		posicoes.put("id_M1", "M1");
+		posicoes.put("id_M2", "M2");
+		posicoes.put("id_M3", "M3");
+		posicoes.put("id_M4", "M4");
+		posicoes.put("id_M5", "M5");
+		posicoes.put("id_GB", "Gerente Bronze");
+		posicoes.put("id_GP", "Gerente Prata");
+		posicoes.put("id_GO", "Gerente Ouro");
+		posicoes.put("id_GE", "Esmeralda");
+		posicoes.put("id_LA", "Topázio");
+		posicoes.put("id_CR", "Diamante");
+		posicoes.put("id_DR", "Diamante Duplo");
+		posicoes.put("id_DD", "Diamante Triplo");
+		posicoes.put("id_DS", "Diamante Plenus");
+		posicoes.put("id_Pres", "Presidente");
 
 		return posicoes;
 	}
