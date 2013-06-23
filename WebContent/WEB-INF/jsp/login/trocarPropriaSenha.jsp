@@ -18,7 +18,7 @@
 		</div>
     </div>
             
-    <button type="submit" class="btn btn-primary" style="margin-left: 15px;" >Salvar</button>
+    <button type="submit" class="btn btn-primary" style="margin-left: 15px;" onclick="this.disabled=true;this.form.submit();" >Salvar</button>
     <a class="btn btn-danger" href="<c:url value="/home/home"/>" > Cancelar </a>
   </fieldset>
 </form>

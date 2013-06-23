@@ -2,7 +2,7 @@ package escritoriovirtualalabastrum.hibernate;
 
 public class ThreadRestartHibernate implements Runnable {
 
-	private static final Integer TEMPO = 14400000;
+	private static final Integer TEMPO = 21600000;
 
 	public void run() {
 

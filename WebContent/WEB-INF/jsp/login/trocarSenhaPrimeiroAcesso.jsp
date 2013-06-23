@@ -33,7 +33,7 @@
     </div> 
     
     <div style="margin-top: 40px; margin-left: 20px;" >
-	    <button type="submit" class="btn btn-primary">Salvar</button>
+	    <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();">Salvar</button>
 	    <a class="btn btn-danger" href="<c:url value="/"/>" > Cancelar </a>
     </div>
             
