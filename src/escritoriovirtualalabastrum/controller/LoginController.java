@@ -209,6 +209,15 @@ public class LoginController {
 
 		InformacoesFixasUsuario informacoesFixasUsuario = new InformacoesFixasUsuario();
 		informacoesFixasUsuario.setCodigoUsuario(usuarioBanco.getId_Codigo());
+
+		informacoesFixasUsuario = this.hibernateUtil.selecionar(informacoesFixasUsuario);
+
+		if (Util.vazio(informacoesFixasUsuario)) {
+
+			informacoesFixasUsuario = new InformacoesFixasUsuario();
+			informacoesFixasUsuario.setCodigoUsuario(usuarioBanco.getId_Codigo());
+		}
+
 		informacoesFixasUsuario.setAdministrador(false);
 		informacoesFixasUsuario.setSenha(GeradorDeMd5.converter(senhaNova));
 
