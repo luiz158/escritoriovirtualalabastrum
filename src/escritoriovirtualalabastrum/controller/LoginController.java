@@ -233,6 +233,8 @@ public class LoginController {
 
 		colocarUsuarioNaSessao(usuarioBanco);
 
+		result.include("sucesso", "Senha trocada com sucesso! Agora, atualize seus dados para poder continuar.");
+
 		result.redirectTo(AtualizacaoDadosController.class).acessarTelaAtualizacaoDados();
 	}
 
