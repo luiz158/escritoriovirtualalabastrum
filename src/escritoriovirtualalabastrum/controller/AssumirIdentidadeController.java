@@ -1,5 +1,7 @@
 package escritoriovirtualalabastrum.controller;
 
+import org.hibernate.criterion.MatchMode;
+
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
@@ -32,7 +34,7 @@ public class AssumirIdentidadeController {
 		Usuario usuario = new Usuario();
 		usuario.setId_Codigo(codigo);
 
-		usuario = this.hibernateUtil.selecionar(usuario);
+		usuario = this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
 
 		this.sessaoUsuario.login(usuario);
 

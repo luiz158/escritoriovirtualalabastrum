@@ -31,6 +31,8 @@ public class SessaoAtualizacaoDados {
 	private String CPFTitular2;
 	private String RGTitular2;
 	private String EmissorTitular2;
+	private String TelTitular2;
+	private String CelTitular2;
 	private String eMailTitular2;
 	private String cadCCorrente;
 	private String cadBanco;
@@ -267,6 +269,22 @@ public class SessaoAtualizacaoDados {
 
 	public void setCadTipoConta(String cadTipoConta) {
 		this.cadTipoConta = cadTipoConta;
+	}
+
+	public String getTelTitular2() {
+		return TelTitular2;
+	}
+
+	public void setTelTitular2(String telTitular2) {
+		TelTitular2 = telTitular2;
+	}
+
+	public String getCelTitular2() {
+		return CelTitular2;
+	}
+
+	public void setCelTitular2(String celTitular2) {
+		CelTitular2 = celTitular2;
 	}
 
 }

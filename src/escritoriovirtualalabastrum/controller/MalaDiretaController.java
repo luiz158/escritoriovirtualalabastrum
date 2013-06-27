@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.hibernate.criterion.MatchMode;
+
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
@@ -76,7 +78,7 @@ public class MalaDiretaController {
 		Usuario usuarioPesquisado = new Usuario();
 		usuarioPesquisado.setId_Codigo(codigoUsuario);
 
-		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado);
+		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado, MatchMode.EXACT);
 
 		result.include("usuarioPesquisado", usuarioPesquisado);
 		result.include("posicaoConsiderada", obterPosicoes().get(posicao));

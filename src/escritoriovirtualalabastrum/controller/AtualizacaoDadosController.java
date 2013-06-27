@@ -2,6 +2,8 @@ package escritoriovirtualalabastrum.controller;
 
 import java.lang.reflect.Field;
 
+import org.hibernate.criterion.MatchMode;
+
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
@@ -31,7 +33,7 @@ public class AtualizacaoDadosController {
 	@Funcionalidade
 	public void acessarTelaAtualizacaoDados() {
 
-		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(this.sessaoUsuario.getUsuario().getId()));
+		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(this.sessaoUsuario.getUsuario().getId_Codigo()), MatchMode.EXACT);
 
 		Field[] fields = usuario.getClass().getDeclaredFields();
 

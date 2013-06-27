@@ -250,7 +250,7 @@ public class LoginController {
 			return;
 		}
 
-		Usuario usuario = hibernateUtil.selecionar(new Usuario(sessaoUsuario.getUsuario().getId()));
+		Usuario usuario = hibernateUtil.selecionar(new Usuario(sessaoUsuario.getUsuario().getId_Codigo()), MatchMode.EXACT);
 
 		if (!GeradorDeMd5.converter(senhaAntiga).equals(usuario.obterInformacoesFixasUsuario().getSenha())) {
 

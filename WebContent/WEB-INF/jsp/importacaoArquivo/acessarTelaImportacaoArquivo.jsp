@@ -1,6 +1,6 @@
 <%@ include file="/base.jsp" %> 
 
-<form class="form-horizontal" action="<c:url value="/importacaoArquivo/importarArquivoTabelaRelacionamentos"/>" method="post" enctype="multipart/form-data" >
+<form class="form-horizontal" action="<c:url value="/importacaoArquivo/importarArquivo"/>" method="post" enctype="multipart/form-data" >
   <fieldset>
     <legend>Atualizar o sistema</legend>
     

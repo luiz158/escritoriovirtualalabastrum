@@ -47,6 +47,8 @@ public class Usuario implements Entidade {
 	private String CPFTitular2;
 	private String RGTitular2;
 	private String EmissorTitular2;
+	private String TelTitular2;
+	private String CelTitular2;
 	private String eMailTitular2;
 	private String cadCCorrente;
 	private String cadBanco;
@@ -129,9 +131,9 @@ public class Usuario implements Entidade {
 
 	}
 
-	public Usuario(Integer id) {
+	public Usuario(Integer id_Codigo) {
 
-		this.setId(id);
+		this.setId_Codigo(id_Codigo);
 	}
 
 	public InformacoesFixasUsuario obterInformacoesFixasUsuario() {
@@ -592,5 +594,21 @@ public class Usuario implements Entidade {
 
 	public void setId_Pres(Integer id_Pres) {
 		this.id_Pres = id_Pres;
+	}
+
+	public String getTelTitular2() {
+		return TelTitular2;
+	}
+
+	public void setTelTitular2(String telTitular2) {
+		TelTitular2 = telTitular2;
+	}
+
+	public String getCelTitular2() {
+		return CelTitular2;
+	}
+
+	public void setCelTitular2(String celTitular2) {
+		CelTitular2 = celTitular2;
 	}
 }

@@ -47,12 +47,12 @@ public class ImportacaoArquivoController {
 	}
 
 	@Funcionalidade(administrativa = "true")
-	public void acessarTelaImportacaoArquivoTabelaRelacionamentos() {
+	public void acessarTelaImportacaoArquivo() {
 
 	}
 
 	@Funcionalidade(administrativa = "true")
-	public void importarArquivoTabelaRelacionamentos(UploadedFile arquivo) throws IOException {
+	public void importarArquivo(UploadedFile arquivo) throws IOException {
 
 		InputStream file = arquivo.getFile();
 
@@ -76,7 +76,7 @@ public class ImportacaoArquivoController {
 
 		result.include("sucesso", "Arquivo importado com sucesso");
 
-		result.forwardTo(this).acessarTelaImportacaoArquivoTabelaRelacionamentos();
+		result.forwardTo(this).acessarTelaImportacaoArquivo();
 
 	}
 
@@ -84,7 +84,7 @@ public class ImportacaoArquivoController {
 
 		validator.add(new ValidationMessage("O formato de arquivo escolhido não é suportado. Utilize um arquivo csv compactado no formato zip. As colunas dentro do csv devem estar separadas por ponto-virgula ';' . E a primeira linha do csv deve conter o cabeçalho com os nomes das colunas. ", "Erro"));
 
-		validator.onErrorForwardTo(this).acessarTelaImportacaoArquivoTabelaRelacionamentos();
+		validator.onErrorForwardTo(this).acessarTelaImportacaoArquivo();
 	}
 
 	private void lerCSV(CSVReader reader) throws IOException {
