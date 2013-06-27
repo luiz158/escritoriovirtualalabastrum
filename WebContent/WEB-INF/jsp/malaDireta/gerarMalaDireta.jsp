@@ -17,6 +17,12 @@
 	margin-left: 30px;
 }
 
+b{
+	font-weight: bold;
+	color: rgb(120, 120, 120);
+	font-size: 14px;
+}
+
 </style>
 
 <a class="btn" href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" > Voltar </a>
@@ -29,7 +35,7 @@
 
 <h6 style="color: rgb(100, 100, 100);" >Posição considerada: ${posicaoConsiderada}    </h6>
 
-<h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementosMalaDireta} <span class="dica" > (Dica: Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho CTRL + F) </span> </h6> 
+<h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementosMalaDireta} <span class="dica" > (<b>Dica:</b> Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho <b>CTRL + F</b>) </span> </h6> 
 
 <c:choose>
 	<c:when test="${!empty malaDireta}">

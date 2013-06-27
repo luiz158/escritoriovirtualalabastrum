@@ -78,6 +78,11 @@
 	
 	<form class='requerido' action="<c:url value="/atualizacaoDados/salvarAtualizacaoDados"/>" method="post" >	
 	
+		<div class="corMedia divFormulario" >
+			<label class="labelFormulario" >Nome: </label> 
+			<input type="text" style="width: 585px;" name="sessaoAtualizacaoDados.vnome" value="${sessaoAtualizacaoDados.vNome}" >
+		</div>
+	
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Data nasc.: </label> 
 			<input type="text" style="width: 90px;" class="data" name="sessaoAtualizacaoDados.dt_Nasc" value="${sessaoAtualizacaoDados.dt_Nasc}" >

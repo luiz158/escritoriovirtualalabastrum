@@ -86,19 +86,14 @@ public class MalaDiretaController {
 
 		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
 
-		if (posicao.equals("id_Patroc")) {
-
-			this.pesquisarMalaDiretaSemRecursividade(codigoUsuario, malaDireta, 1, posicao);
-		}
-
-		else if (posicao.equals("Todas")) {
+		if (posicao.equals("Todas")) {
 
 			gerarMalaDiretaTodasPosicoes(codigoUsuario, malaDireta);
 		}
 
 		else {
 
-			this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1, posicao);
+			this.pesquisarMalaDiretaSemRecursividade(codigoUsuario, malaDireta, 1, posicao);
 		}
 
 		result.include("malaDireta", malaDireta.values());
@@ -113,20 +108,12 @@ public class MalaDiretaController {
 
 			if (!posicao.getKey().equals("Todas")) {
 
-				if (posicao.getKey().equals("id_Patroc")) {
-
-					this.pesquisarMalaDiretaSemRecursividade(codigoUsuario, malaDireta, 1, posicao.getKey());
-				}
-
-				else {
-
-					this.pesquisarMalaDireta(codigoUsuario, malaDireta, 1, posicao.getKey());
-				}
+				this.pesquisarMalaDiretaComRecursividade(codigoUsuario, malaDireta, 1, posicao.getKey());
 			}
 		}
 	}
 
-	private void pesquisarMalaDireta(Integer codigo, TreeMap<Integer, MalaDireta> malaDireta, int nivel, String posicao) {
+	private void pesquisarMalaDiretaComRecursividade(Integer codigo, TreeMap<Integer, MalaDireta> malaDireta, int nivel, String posicao) {
 
 		Usuario usuario = new Usuario();
 
@@ -154,7 +141,7 @@ public class MalaDiretaController {
 
 					malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, nivel));
 
-					pesquisarMalaDireta(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1, "id_Patroc");
+					pesquisarMalaDiretaComRecursividade(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1, "id_Patroc");
 				}
 			}
 		}

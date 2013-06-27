@@ -2,7 +2,7 @@
 
 <form class="form-horizontal" action="<c:url value="/importacaoArquivo/importarArquivoTabelaRelacionamentos"/>" method="post" enctype="multipart/form-data" >
   <fieldset>
-    <legend>Importar arquivo: tabela relacionamentos</legend>
+    <legend>Atualizar o sistema</legend>
     
     <div class="control-group warning">
     	<label class="control-label">Arquivo</label>

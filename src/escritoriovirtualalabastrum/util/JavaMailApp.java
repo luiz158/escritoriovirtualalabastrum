@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 
 public class JavaMailApp {
 
-	public static void enviarEmail(String titulo, String mensagem) {
+	public static void enviarEmail(String titulo, String remetentes, String mensagem) {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -37,11 +37,10 @@ public class JavaMailApp {
 			message.setFrom(new InternetAddress("alabastrumnotificacoes@gmail.com"));
 			message.setContent(mensagem, "text/html; charset=utf-8");
 
-			Address[] toUser = InternetAddress.parse("alabastrumnotificacoes@gmail.com, renanandrade_rj@hotmail.com, atualizacaocadastro@alabastrum.com.br");
+			Address[] toUser = InternetAddress.parse("alabastrumnotificacoes@gmail.com, renanandrade_rj@hotmail.com, " + remetentes);
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
 			message.setSubject(titulo);
-			// message.setText(mensagem);
 
 			Transport.send(message);
 
