@@ -231,7 +231,9 @@ public class LoginController {
 
 		JavaMailApp.enviarEmail("Troca de senha de usuário", "trocadesenha@alabastrum.com.br", "O usuário com código " + usuarioBanco.getId_Codigo() + " efetuou a troca de senha no escritório virtual. <br><br>Email informado: " + email + " <br>CPF informado: " + cpf);
 
-		result.redirectTo(this).telaLogin();
+		colocarUsuarioNaSessao(usuarioBanco);
+
+		result.redirectTo(AtualizacaoDadosController.class).acessarTelaAtualizacaoDados();
 	}
 
 	@Funcionalidade
