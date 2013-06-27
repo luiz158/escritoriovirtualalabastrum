@@ -98,6 +98,8 @@ public class AtualizacaoDadosController {
 		textoEmail += "<br> <b> RG: </b> " + this.sessaoAtualizacaoDados.getRGTitular2();
 		textoEmail += "<br> <b> Emissor: </b> " + this.sessaoAtualizacaoDados.getEmissorTitular2();
 		textoEmail += "<br> <b> Email: </b> " + this.sessaoAtualizacaoDados.geteMailTitular2();
+		textoEmail += "<br> <b> Telefone residencial: </b> " + this.sessaoAtualizacaoDados.getTelTitular2();
+		textoEmail += "<br> <b> Telefone celular: </b> " + this.sessaoAtualizacaoDados.getCelTitular2();
 		textoEmail += "<br><br><br> <b> Dados bancários: </b> <br>";
 		textoEmail += "<br> <b> Banco: </b> " + this.sessaoAtualizacaoDados.getCadBanco();
 		textoEmail += "<br> <b> Tipo da conta: </b> " + this.sessaoAtualizacaoDados.getCadTipoConta();

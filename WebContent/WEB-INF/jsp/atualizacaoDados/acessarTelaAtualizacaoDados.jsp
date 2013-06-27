@@ -201,6 +201,15 @@
 		</div>
 		
 		<div class="corClara divFormulario" >
+			<label class="labelFormulario" >Tel. resid.: </label> 
+			<input type="text" style="width: 225px;" name="sessaoAtualizacaoDados.telTitular2" value="${sessaoAtualizacaoDados.telTitular2}" >
+			
+			<label class="labelFormulario" >Tel. Cel.: </label> 
+			<input type="text" style="width: 230px;" name="sessaoAtualizacaoDados.celTitular2" value="${sessaoAtualizacaoDados.celTitular2}" >
+
+		</div>
+		
+		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Email: </label> 
 			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.emailTitular2" value="${sessaoAtualizacaoDados.eMailTitular2}">
 		</div>
