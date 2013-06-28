@@ -265,32 +265,4 @@ jQuery("#entregaMercadoria").click(function(){
 	jQuery('input[name="sessaoAtualizacaoDados.estadoEntregaMercadoria"]').val(jQuery('input[name="sessaoAtualizacaoDados.estado"]').val());			
 });
 
-jQuery(".data").datepicker({
-
-	dateFormat: 'dd/mm/yy',
-	dayNames: [
-	'Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'
-	],
-	dayNamesMin: [
-	'D','S','T','Q','Q','S','S','D'
-	],
-	dayNamesShort: [
-	'Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'
-	],
-	monthNames: [
-	'Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro',
-	'Outubro','Novembro','Dezembro'
-	],
-	monthNamesShort: [
-	'Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set',
-	'Out','Nov','Dez'
-	],
-	yearRange: "-70: -10",
-	nextText: 'Próximo',
-	prevText: 'Anterior',
-	changeMonth: true,
-	changeYear: true
-
-});
-
 </script>

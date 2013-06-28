@@ -18,7 +18,7 @@
 		<script type="text/javascript" src="<c:url value="/js/jquery.collapse_storage.js"/>"></script>
 		<script type="text/javascript" src="<c:url value="/js/jquery.collapse_cookie_storage.js"/>"></script>		
 		<script type="text/javascript" src="<c:url value="/js/jquery.validate.js"/>"></script>
-		<script type="text/javascript" charset="utf-8" src="<c:url value="/js/scripts.gerais.js"/>"></script>			
+		<script type="text/javascript" charset="utf-8" src="<c:url value="/js/scripts.gerais.js?ver=1"/>"></script>			
 		<script type="text/javascript" src="<c:url value="/js/submenu.js"/>"></script>
 		<script type="text/javascript" src="<c:url value="/js/form.requerido.js"/>"></script>	
 	</head>
@@ -46,6 +46,7 @@
 	        <h3 class="menu-accordion" > REDE </h3>
 	        <div>
 	        	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" class="submenu-accordion" > Mala direta </a>
+	        	<a href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" class="submenu-accordion" > Pontuação </a>
 	        </div>
 	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
 	        <div>
