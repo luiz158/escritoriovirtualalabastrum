@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.util;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -101,4 +102,9 @@ public class Util {
 		return null;
 	}
 
+	public static BigDecimal converterStringParaBigDecimal(String numString) {
+
+		numString = numString.replaceAll(",", ".");
+		return new BigDecimal(numString);
+	}
 }

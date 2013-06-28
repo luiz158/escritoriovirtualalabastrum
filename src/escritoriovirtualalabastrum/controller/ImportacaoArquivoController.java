@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -16,6 +17,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import au.com.bytecode.opencsv.CSVReader;
 import br.com.caelum.vraptor.Resource;
@@ -26,6 +30,7 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao;
+import escritoriovirtualalabastrum.modelo.Pontuacao;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.util.Util;
 
@@ -58,9 +63,10 @@ public class ImportacaoArquivoController {
 
 		if (arquivo.getFileName().endsWith(".zip")) {
 
-			CSVReader reader = descompactarZip(arquivo, file);
+			descompactarZip(arquivo, file);
 
-			lerCSV(reader);
+			processarCSVRelacionamentos();
+			processarCSVPontuacao();
 		}
 
 		else {
@@ -87,7 +93,18 @@ public class ImportacaoArquivoController {
 		validator.onErrorForwardTo(this).acessarTelaImportacaoArquivo();
 	}
 
-	private void lerCSV(CSVReader reader) throws IOException {
+	private void processarCSVRelacionamentos() throws IOException {
+
+		String caminho = verificaSistemaOperacional();
+
+		String caminhoCompletoArquivo = caminho + File.separator + "tblRelacionamentos" + ".csv";
+
+		File arquivoNoDisco = new File(caminhoCompletoArquivo);
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		@SuppressWarnings("resource")
+		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
 
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
@@ -177,6 +194,118 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.salvarOuAtualizar(informacoesUltimaAtualizacao);
 	}
 
+	private void processarCSVPontuacao() throws IOException {
+
+		String caminho = verificaSistemaOperacional();
+
+		String caminhoCompletoArquivo = caminho + File.separator + "tblPontuacao" + ".csv";
+
+		File arquivoNoDisco = new File(caminhoCompletoArquivo);
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		@SuppressWarnings("resource")
+		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+
+		List<Pontuacao> pontuacoes = new ArrayList<Pontuacao>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length <= 2) {
+
+				validarFormato();
+				return;
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("id_Codigo")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					Pontuacao pontuacao = new Pontuacao();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = pontuacao.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
+								field.set(pontuacao, numero);
+							}
+
+							catch (Exception e) {
+
+								try {
+
+									DecimalFormatSymbols dsf = new DecimalFormatSymbols();
+									field.set(pontuacao, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
+								}
+
+								catch (Exception e2) {
+
+									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+									DateTime data = formatter.parseDateTime(colunas[i]);
+
+									field.set(pontuacao, data.toGregorianCalendar());
+								}
+							}
+
+						} catch (Exception e) {
+
+							// e.printStackTrace();
+						}
+					}
+
+					pontuacoes.add(pontuacao);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i]);
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from pontuacao");
+
+		this.hibernateUtil.salvarOuAtualizar(pontuacoes);
+
+		InformacoesUltimaAtualizacao informacoesUltimaAtualizacao = this.hibernateUtil.selecionar(new InformacoesUltimaAtualizacao());
+
+		if (Util.vazio(informacoesUltimaAtualizacao)) {
+
+			informacoesUltimaAtualizacao = new InformacoesUltimaAtualizacao();
+		}
+
+		informacoesUltimaAtualizacao.setDataHora(new GregorianCalendar());
+
+		this.hibernateUtil.salvarOuAtualizar(informacoesUltimaAtualizacao);
+	}
+
 	private String verificaSistemaOperacional() {
 
 		String caminho;
@@ -193,9 +322,23 @@ public class ImportacaoArquivoController {
 		return caminho;
 	}
 
-	private CSVReader descompactarZip(UploadedFile arquivo, InputStream file) throws IOException, FileNotFoundException {
+	private void removerArquivosDaPasta(File f) {
+
+		if (f.isDirectory()) {
+
+			File[] files = f.listFiles();
+
+			for (File file : files) {
+				file.delete();
+			}
+		}
+	}
+
+	private void descompactarZip(UploadedFile arquivo, InputStream file) throws IOException, FileNotFoundException {
 
 		String caminho = verificaSistemaOperacional();
+
+		removerArquivosDaPasta(new File(caminho));
 
 		byte[] buffer = new byte[1024];
 
@@ -224,17 +367,5 @@ public class ImportacaoArquivoController {
 
 		zis.closeEntry();
 		zis.close();
-
-		String nomeArquivo = arquivo.getFileName().split(".zip")[0];
-
-		nomeArquivo = nomeArquivo.replaceAll(".csv", "");
-
-		File arquivoNoDisco = new File(caminho + File.separator + nomeArquivo + ".csv");
-		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
-		FileUtils.write(arquivoNoDisco, content, "UTF-8");
-
-		CSVReader reader = new CSVReader(new FileReader(new File(caminho + File.separator + nomeArquivo + ".csv")), '\t');
-
-		return reader;
 	}
 }

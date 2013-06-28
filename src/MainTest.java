@@ -1,9 +1,11 @@
-import escritoriovirtualalabastrum.util.GeradorDeMd5;
+import escritoriovirtualalabastrum.util.Util;
 
 public class MainTest {
 
 	public static void main(String[] args) {
 
-		System.out.println(GeradorDeMd5.converter("alabastrum130591"));
+		System.out.println(Util.converterStringParaBigDecimal("3.7"));
+		System.out.println(Util.converterStringParaBigDecimal("3,7"));
+		System.out.println(Util.converterStringParaBigDecimal("0"));
 	}
 }
