@@ -67,6 +67,8 @@ public class ImportacaoArquivoController {
 
 			processarCSVRelacionamentos();
 			processarCSVPontuacao();
+
+			atualizarInformacoesUltimaAtualizacao();
 		}
 
 		else {
@@ -84,6 +86,20 @@ public class ImportacaoArquivoController {
 
 		result.forwardTo(this).acessarTelaImportacaoArquivo();
 
+	}
+
+	private void atualizarInformacoesUltimaAtualizacao() {
+
+		InformacoesUltimaAtualizacao informacoesUltimaAtualizacao = this.hibernateUtil.selecionar(new InformacoesUltimaAtualizacao());
+
+		if (Util.vazio(informacoesUltimaAtualizacao)) {
+
+			informacoesUltimaAtualizacao = new InformacoesUltimaAtualizacao();
+		}
+
+		informacoesUltimaAtualizacao.setDataHora(new GregorianCalendar());
+
+		this.hibernateUtil.salvarOuAtualizar(informacoesUltimaAtualizacao);
 	}
 
 	private void validarFormato() {
@@ -181,17 +197,6 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.executarSQL("delete from usuario");
 
 		this.hibernateUtil.salvarOuAtualizar(usuarios);
-
-		InformacoesUltimaAtualizacao informacoesUltimaAtualizacao = this.hibernateUtil.selecionar(new InformacoesUltimaAtualizacao());
-
-		if (Util.vazio(informacoesUltimaAtualizacao)) {
-
-			informacoesUltimaAtualizacao = new InformacoesUltimaAtualizacao();
-		}
-
-		informacoesUltimaAtualizacao.setDataHora(new GregorianCalendar());
-
-		this.hibernateUtil.salvarOuAtualizar(informacoesUltimaAtualizacao);
 	}
 
 	private void processarCSVPontuacao() throws IOException {
@@ -293,17 +298,6 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.executarSQL("delete from pontuacao");
 
 		this.hibernateUtil.salvarOuAtualizar(pontuacoes);
-
-		InformacoesUltimaAtualizacao informacoesUltimaAtualizacao = this.hibernateUtil.selecionar(new InformacoesUltimaAtualizacao());
-
-		if (Util.vazio(informacoesUltimaAtualizacao)) {
-
-			informacoesUltimaAtualizacao = new InformacoesUltimaAtualizacao();
-		}
-
-		informacoesUltimaAtualizacao.setDataHora(new GregorianCalendar());
-
-		this.hibernateUtil.salvarOuAtualizar(informacoesUltimaAtualizacao);
 	}
 
 	private String verificaSistemaOperacional() {
