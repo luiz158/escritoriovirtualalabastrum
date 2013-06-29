@@ -144,6 +144,8 @@ public class PontuacaoController {
 
 		result.include("relatorioPontuacao", pontuacoes);
 		result.include("quantidadeElementos", pontuacoes.size());
+		result.include("dataInicialPesquisada", dataInicial);
+		result.include("dataFinalPesquisada", dataFinal);
 	}
 
 	private TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComFiltros(String posicao, Integer codigoUsuario) {

@@ -35,7 +35,9 @@ b{
 
 <h6 style="color: rgb(100, 100, 100);" >Posição considerada: ${posicaoConsiderada}    </h6>
 
-<h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementosMalaDireta} <span class="dica" > (<b>Dica:</b> Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho <b>CTRL + F</b>) </span> </h6> 
+<h6 style="color: rgb(100, 100, 100);" >Período: <fmt:formatDate value="${dataInicialPesquisada.time}" type="DATE" /> - <fmt:formatDate value="${dataFinalPesquisada.time}" type="DATE" />    </h6>
+
+<h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementos} <span class="dica" > (<b>Dica:</b> Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho <b>CTRL + F</b>) </span> </h6> 
 
 <c:choose>
 	<c:when test="${!empty relatorioPontuacao}">
@@ -46,9 +48,7 @@ b{
                     <th> Código </th>
                     <th> Posição </th>
                     <th> Nome </th>
-                    <th> Telefones </th>
-                    <th> Celular </th>
-                    <th> Email </th>
+                    <th> Informações para contato</th>
                     <th> Ingresso </th>
                     <th> Produtos </th>
                     <th> Bônus </th>
@@ -61,15 +61,17 @@ b{
                         <td class="centralizado" > 
                         	${item.malaDireta.usuario.id_Codigo}
                         </td>
-                        <td class="centralizado" > ${item.usuario.posAtual} </td>
+                        <td class="centralizado" > ${item.malaDireta.usuario.posAtual} </td>
                         <td> ${item.malaDireta.usuario.vNome} </td>
-                        <td> ${item.malaDireta.usuario.tel} </td>
-                        <td> ${item.malaDireta.usuario.cadCelular} </td>
-                        <td> ${item.malaDireta.usuario.eMail} </td>
-                        <td> ${item.pontuacaoIngresso} </td>
-                        <td> ${item.pontuacaoProdutos} </td>
-                        <td> ${item.pontuacaoAtividade} </td>
-                        <td> ${item.total} </td>
+                        <td> 
+                        	Tels fixos: ${item.malaDireta.usuario.tel} <br>
+                        	Celular: ${item.malaDireta.usuario.cadCelular} <br>
+                        	Email: ${item.malaDireta.usuario.eMail} <br>
+                        </td>
+                        <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoIngresso}" /> </td>
+                        <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoProdutos}" /> </td>
+                        <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoAtividade}" /> </td>
+                        <td class="centralizado" > <fmt:formatNumber value="${item.total}" /> </td>
 					</tr>
 				</c:forEach>
 			</tbody>
