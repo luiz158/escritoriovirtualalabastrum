@@ -23,9 +23,32 @@ b{
 	font-size: 14px;
 }
 
+.resumo{
+	
+	border: 1px solid #ddd;
+	border-radius: 7px;
+	width: 300px;
+	height: 100px;
+	position: absolute;
+	right: 20px;
+	padding: 20px;
+	padding-top: 10px;
+	margin-top: -40px;
+}
+
 </style>
 
 <a class="btn" href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" > Voltar </a>
+
+<div class="resumo" >
+	
+	<h5 style="text-align: center" > Resumo dos totais </h5>
+	
+	<h6 style="margin-top: 20px" > Pontuação pessoal: <fmt:formatNumber value="${pontuacaoPessoalUsuarioPesquisado}" />  </h6>
+	
+	<h6> Pontuação da rede: <fmt:formatNumber value="${pontuacaoRede}" />  </h6>
+
+</div>
 
 <br><br>
 
@@ -36,6 +59,8 @@ b{
 <h6 style="color: rgb(100, 100, 100);" >Posição considerada: ${posicaoConsiderada}    </h6>
 
 <h6 style="color: rgb(100, 100, 100);" >Período: <fmt:formatDate value="${dataInicialPesquisada.time}" type="DATE" /> - <fmt:formatDate value="${dataFinalPesquisada.time}" type="DATE" />    </h6>
+
+<h6 style="color: rgb(100, 100, 100);" >Possui movimentação? ${possuiMovimentacao} </h6>
 
 <h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementos} <span class="dica" > (<b>Dica:</b> Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho <b>CTRL + F</b>) </span> </h6> 
 

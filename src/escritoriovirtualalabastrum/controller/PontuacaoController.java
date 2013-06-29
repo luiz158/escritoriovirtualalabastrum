@@ -1,6 +1,7 @@
 package escritoriovirtualalabastrum.controller;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
@@ -55,7 +56,7 @@ public class PontuacaoController {
 	}
 
 	@Funcionalidade
-	public void gerarRelatorioPontuacao(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
+	public void gerarRelatorioPontuacao(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo) {
 
 		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario().getId_Codigo();
 
@@ -90,20 +91,30 @@ public class PontuacaoController {
 			}
 		}
 
-		gerarRelatorioPontuacao(dataInicial, dataFinal, malaDireta);
+		gerarRelatorioPontuacao(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo);
 
 		Usuario usuarioPesquisado = new Usuario();
 		usuarioPesquisado.setId_Codigo(codigoUsuario);
 
 		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado, MatchMode.EXACT);
 
+		calcularPontuacaoPessoalUsuarioPesquisado(dataInicial, dataFinal, usuarioPesquisado);
+
 		result.include("usuarioPesquisado", usuarioPesquisado);
 		result.include("posicaoConsiderada", obterPosicoes().get(posicao));
+		result.include("possuiMovimentacao", possuiMovimentacao);
 	}
 
-	private void gerarRelatorioPontuacao(GregorianCalendar dataInicial, GregorianCalendar dataFinal, TreeMap<Integer, MalaDireta> malaDireta) {
+	private void calcularPontuacaoPessoalUsuarioPesquisado(GregorianCalendar dataInicial, GregorianCalendar dataFinal, Usuario usuarioPesquisado) {
 
-		List<PontuacaoAuxiliar> pontuacoes = new ArrayList<PontuacaoAuxiliar>();
+		List<Criterion> restricoes = definirRestricoesDatas(dataInicial, dataFinal);
+
+		PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(restricoes, new MalaDireta(usuarioPesquisado, 0));
+
+		result.include("pontuacaoPessoalUsuarioPesquisado", pontuacaoAuxiliar.getTotal());
+	}
+
+	private List<Criterion> definirRestricoesDatas(GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
 
 		DateTime hoje = new DateTime();
 		DateTime primeiroDiaDoMesAtual = hoje.withDayOfMonth(1);
@@ -122,30 +133,80 @@ public class PontuacaoController {
 
 		restricoes.add(Restrictions.between("Dt_Pontos", dataInicial, dataFinal));
 
+		return restricoes;
+	}
+
+	private void gerarRelatorioPontuacao(GregorianCalendar dataInicial, GregorianCalendar dataFinal, TreeMap<Integer, MalaDireta> malaDireta, String possuiMovimentacao, String ativo) {
+
+		List<PontuacaoAuxiliar> pontuacoes = new ArrayList<PontuacaoAuxiliar>();
+
+		List<Criterion> restricoes = definirRestricoesDatas(dataInicial, dataFinal);
+
 		for (Entry<Integer, MalaDireta> usuario : malaDireta.entrySet()) {
 
-			PontuacaoAuxiliar pontuacaoAuxiliar = new PontuacaoAuxiliar();
-			pontuacaoAuxiliar.setMalaDireta(usuario.getValue());
+			PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(restricoes, usuario.getValue());
 
-			Pontuacao pontuacaoFiltro = new Pontuacao();
-			pontuacaoFiltro.setId_Codigo(usuario.getValue().getUsuario().getId_Codigo());
-
-			List<Pontuacao> pontuacoesBanco = hibernateUtil.buscar(pontuacaoFiltro, restricoes);
-
-			for (Pontuacao pontuacaoBanco : pontuacoesBanco) {
-
-				pontuacaoAuxiliar.setPontuacaoAtividade(pontuacaoAuxiliar.getPontuacaoAtividade().add(pontuacaoBanco.getPntAtividade()));
-				pontuacaoAuxiliar.setPontuacaoIngresso(pontuacaoAuxiliar.getPontuacaoIngresso().add(pontuacaoBanco.getPntIngresso()));
-				pontuacaoAuxiliar.setPontuacaoProdutos(pontuacaoAuxiliar.getPontuacaoProdutos().add(pontuacaoBanco.getPntProduto()));
-			}
-
-			pontuacoes.add(pontuacaoAuxiliar);
+			adicionarConformeMovimentacoes(possuiMovimentacao, pontuacoes, pontuacaoAuxiliar);
 		}
 
+		BigDecimal pontuacaoRede = BigDecimal.ZERO;
+
+		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoes) {
+
+			pontuacaoRede = pontuacaoRede.add(pontuacaoAuxiliar.getTotal());
+		}
+
+		result.include("pontuacaoRede", pontuacaoRede);
 		result.include("relatorioPontuacao", pontuacoes);
 		result.include("quantidadeElementos", pontuacoes.size());
 		result.include("dataInicialPesquisada", dataInicial);
 		result.include("dataFinalPesquisada", dataFinal);
+	}
+
+	private PontuacaoAuxiliar calcularPontuacoes(List<Criterion> restricoes, MalaDireta informacoesUsuario) {
+
+		PontuacaoAuxiliar pontuacaoAuxiliar = new PontuacaoAuxiliar();
+		pontuacaoAuxiliar.setMalaDireta(informacoesUsuario);
+
+		Pontuacao pontuacaoFiltro = new Pontuacao();
+		pontuacaoFiltro.setId_Codigo(informacoesUsuario.getUsuario().getId_Codigo());
+
+		List<Pontuacao> pontuacoesBanco = hibernateUtil.buscar(pontuacaoFiltro, restricoes);
+
+		for (Pontuacao pontuacaoBanco : pontuacoesBanco) {
+
+			pontuacaoAuxiliar.setPontuacaoAtividade(pontuacaoAuxiliar.getPontuacaoAtividade().add(pontuacaoBanco.getPntAtividade()));
+			pontuacaoAuxiliar.setPontuacaoIngresso(pontuacaoAuxiliar.getPontuacaoIngresso().add(pontuacaoBanco.getPntIngresso()));
+			pontuacaoAuxiliar.setPontuacaoProdutos(pontuacaoAuxiliar.getPontuacaoProdutos().add(pontuacaoBanco.getPntProduto()));
+		}
+		return pontuacaoAuxiliar;
+	}
+
+	private void adicionarConformeMovimentacoes(String possuiMovimentacao, List<PontuacaoAuxiliar> pontuacoes, PontuacaoAuxiliar pontuacaoAuxiliar) {
+
+		if (possuiMovimentacao.equals("Todos")) {
+
+			pontuacoes.add(pontuacaoAuxiliar);
+		}
+
+		else {
+
+			if (possuiMovimentacao.equals("Sim")) {
+
+				if (pontuacaoAuxiliar.getTotal().compareTo(BigDecimal.ZERO) > 0) {
+
+					pontuacoes.add(pontuacaoAuxiliar);
+				}
+			}
+
+			else if (possuiMovimentacao.equals("Não")) {
+
+				if (pontuacaoAuxiliar.getTotal().compareTo(BigDecimal.ZERO) == 0) {
+
+					pontuacoes.add(pontuacaoAuxiliar);
+				}
+			}
+		}
 	}
 
 	private TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComFiltros(String posicao, Integer codigoUsuario) {

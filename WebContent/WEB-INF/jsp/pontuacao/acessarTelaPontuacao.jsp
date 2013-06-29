@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Pontuação</legend>
     
-    <div class="control-group warning" style="margin-left: -90px;" > 
+    <div class="control-group warning" style="margin-left: -50px;" > 
     
 	     <label class="control-label">Código</label>
 	     <div class="controls">
@@ -12,19 +12,19 @@
 	     </div>
 	</div>
     
-    <div class="control-group warning" style="margin-left: -90px;" > 
+    <div class="control-group warning" style="margin-left: -50px;" > 
 
         <label class="control-label">Posição</label>
         <div class="controls">
           <select name="posicao" >
           	<c:forEach items="${posicoes}" var="posicao" >
-	          	<option value="${posicao.key}" <c:if test="${posicao.key == 'id_Patroc'}" > selected="selected" </c:if> > ${posicao.value} </option>
+	          	<option value="${posicao.key}" > ${posicao.value} </option>
           	</c:forEach>
 		  </select>
         </div>
     </div>
     
-    <div class="control-group warning" style="margin-left: -90px;" > 
+    <div class="control-group warning" style="margin-left: -50px;" > 
     
 	     <label class="control-label">Data inicial</label>
 	     <div class="controls">
@@ -32,16 +32,43 @@
 	     </div>
 	</div>
 	
-	<div class="control-group warning" style="margin-left: -90px; margin-bottom: 50px; " > 
+	<div class="control-group warning" style="margin-left: -50px; " > 
     
 	     <label class="control-label">Data final</label>
 	     <div class="controls">
 	     	<input type="text" class="data" name="dataFinal" value="<fmt:formatDate value="${dataAtual.time}" type="DATE" />"  >
 	     </div>
 	</div>
-            
-    <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();" >Gerar relatório</button>
-    <a class="btn btn-danger" href="<c:url value="/home/home"/>" > Cancelar </a>
+	
+	<div class="control-group warning" style="margin-left: -50px; " > 
+    
+	     <label class="control-label">Possui movimentação?</label>
+	     <div class="controls">
+          <select name="possuiMovimentacao" >
+	          <option value="Todos" > Todos </option>
+	          <option value="Sim" > Sim </option>
+	          <option value="Não" > Não </option>
+		  </select>
+        </div>
+	</div>
+	
+	<div class="control-group warning" style="margin-left: -50px; " > 
+    
+	     <label class="control-label">Ativo?</label>
+	     <div class="controls">
+          <select name="ativo" >
+	          <option value="Todos" > Todos </option>
+	          <option value="Sim" > Sim </option>
+	          <option value="Não" > Não </option>
+		  </select>
+        </div>
+	</div>
+    
+    <div style="margin-top: 50px;" >
+	    <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();" >Gerar relatório</button>
+	    <a class="btn btn-danger" href="<c:url value="/home/home"/>" > Cancelar </a>
+    </div>
+       
   </fieldset>
 </form>
 
