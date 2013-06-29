@@ -2,7 +2,6 @@ package escritoriovirtualalabastrum.controller;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -106,29 +105,27 @@ public class PontuacaoController {
 
 		List<PontuacaoAuxiliar> pontuacoes = new ArrayList<PontuacaoAuxiliar>();
 
+		DateTime hoje = new DateTime();
+		DateTime primeiroDiaDoMesAtual = hoje.withDayOfMonth(1);
+
+		if (Util.vazio(dataInicial)) {
+
+			dataInicial = primeiroDiaDoMesAtual.toGregorianCalendar();
+		}
+
+		if (Util.vazio(dataFinal)) {
+
+			dataFinal = hoje.toGregorianCalendar();
+		}
+
+		List<Criterion> restricoes = new ArrayList<Criterion>();
+
+		restricoes.add(Restrictions.between("Dt_Pontos", dataInicial, dataFinal));
+
 		for (Entry<Integer, MalaDireta> usuario : malaDireta.entrySet()) {
 
 			PontuacaoAuxiliar pontuacaoAuxiliar = new PontuacaoAuxiliar();
 			pontuacaoAuxiliar.setMalaDireta(usuario.getValue());
-
-			DateTime hoje = new DateTime();
-			DateTime primeiroDiaDoMesAtual = hoje.withDayOfMonth(1);
-
-			if (Util.vazio(dataInicial)) {
-
-				dataInicial = primeiroDiaDoMesAtual.toGregorianCalendar();
-			}
-
-			if (Util.vazio(dataFinal)) {
-
-				dataFinal = hoje.toGregorianCalendar();
-			}
-
-			dataFinal.add(Calendar.DAY_OF_MONTH, +1);
-
-			List<Criterion> restricoes = new ArrayList<Criterion>();
-
-			restricoes.add(Restrictions.between("Dt_Pontos", dataInicial, dataFinal));
 
 			Pontuacao pontuacaoFiltro = new Pontuacao();
 			pontuacaoFiltro.setId_Codigo(usuario.getValue().getUsuario().getId_Codigo());
@@ -143,16 +140,6 @@ public class PontuacaoController {
 			}
 
 			pontuacoes.add(pontuacaoAuxiliar);
-		}
-
-		for (PontuacaoAuxiliar x : pontuacoes) {
-
-			if (x.getMalaDireta().getUsuario().getId_Codigo().equals(71619)) {
-
-				System.out.println(x.getMalaDireta().getUsuario().getvNome());
-				System.out.println(x.getTotal());
-				System.out.println();
-			}
 		}
 
 		result.include("relatorioPontuacao", pontuacoes);
