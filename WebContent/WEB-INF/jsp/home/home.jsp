@@ -138,12 +138,12 @@
 		background-image: url("../css/images/sonhos.jpg");
 		background-repeat: no-repeat;
 		background-size: 100%;
-		width: 78%;
-		height: 300px;
+		width: 750px;
+		height: 350px;
      	margin-top: 250px;
 		margin-left: 70px;
 		padding: 30px;
-		padding-top: 40px;
+		padding-top: 25px;
 		color: rgb(80, 86, 224);
      }
      
@@ -171,6 +171,7 @@
       <label class="labelInformacoesHome" > * SITUAÇÃO ATUAL - ATIVIDADE: </label> <span> ---  </span> <br>
       <label class="labelInformacoesHome" > * PONTUAÇÃO PESSOAL: </label> <span> --- </span> <br>
       <label class="labelInformacoesHome" > * PONTUAÇÃO REDE: </label> <span> --- </span> <br>
+      <label class="labelInformacoesHome" > * ATIVOS DIRETOS: </label> <span> --- </span> <br>
       <label class="labelInformacoesHome" > * ATIVOS NA REDE: </label> <span> --- </span> <br>
       <label class="labelInformacoesHome" > * QUALIFICADOS NA REDE: </label> <span> --- </span> <br>
       <br>
