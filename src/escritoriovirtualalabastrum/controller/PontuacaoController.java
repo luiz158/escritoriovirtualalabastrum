@@ -163,18 +163,56 @@ public class PontuacaoController {
 
 		adicionarConformeAtividade(ativo, pontuacoesConformeMovimentacoes, pontuacoesConformeAtividade);
 
-		BigDecimal pontuacaoRede = BigDecimal.ZERO;
+		contarAtivosDiretos(pontuacoesConformeAtividade);
+		contarTodosAtivos(pontuacoesConformeAtividade);
 
-		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoesConformeAtividade) {
-
-			pontuacaoRede = pontuacaoRede.add(pontuacaoAuxiliar.getTotal());
-		}
+		BigDecimal pontuacaoRede = calcularPontuacaoRede(pontuacoesConformeAtividade);
 
 		result.include("pontuacaoRede", pontuacaoRede);
 		result.include("relatorioPontuacao", pontuacoesConformeAtividade);
 		result.include("quantidadeElementos", pontuacoesConformeAtividade.size());
 		result.include("dataInicialPesquisada", dataInicial);
 		result.include("dataFinalPesquisada", dataFinal);
+	}
+
+	private void contarAtivosDiretos(List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+
+		Integer ativosDiretos = 0;
+
+		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoesConformeAtividade) {
+
+			if (pontuacaoAuxiliar.isAtivo() && pontuacaoAuxiliar.getMalaDireta().getNivel() == 1) {
+
+				ativosDiretos++;
+			}
+		}
+
+		result.include("ativosDiretos", ativosDiretos);
+	}
+
+	private void contarTodosAtivos(List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+
+		Integer todosAtivos = 0;
+
+		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoesConformeAtividade) {
+
+			if (pontuacaoAuxiliar.isAtivo()) {
+
+				todosAtivos++;
+			}
+		}
+
+		result.include("todosAtivos", todosAtivos);
+	}
+
+	private BigDecimal calcularPontuacaoRede(List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+		BigDecimal pontuacaoRede = BigDecimal.ZERO;
+
+		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoesConformeAtividade) {
+
+			pontuacaoRede = pontuacaoRede.add(pontuacaoAuxiliar.getTotal());
+		}
+		return pontuacaoRede;
 	}
 
 	private void adicionarConformeAtividade(String ativo, List<PontuacaoAuxiliar> pontuacoes, List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {

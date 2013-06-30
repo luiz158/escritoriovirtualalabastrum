@@ -28,7 +28,6 @@ b{
 	border: 1px solid #ddd;
 	border-radius: 7px;
 	width: 300px;
-	height: 100px;
 	position: absolute;
 	right: 20px;
 	padding: 20px;
@@ -54,6 +53,8 @@ b{
 	<h6 style="margin-top: 20px" > Pontuação pessoal: <fmt:formatNumber value="${pontuacaoPessoalUsuarioPesquisado}" />  </h6>
 	
 	<h6> Pontuação da rede: <fmt:formatNumber value="${pontuacaoRede}" />  </h6>
+	<h6> Ativos diretos: <fmt:formatNumber value="${ativosDiretos}" />  </h6>
+	<h6> Ativos na rede: <fmt:formatNumber value="${todosAtivos}" />  </h6>
 
 </div>
 
