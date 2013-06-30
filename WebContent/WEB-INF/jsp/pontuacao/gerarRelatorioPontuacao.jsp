@@ -37,6 +37,12 @@ b{
 	box-shadow: 4px 4px 4px #888;
 }
 
+.informacoesContato{
+
+	font-weight: bold;
+	color: rgb(90, 90, 90);
+}
+
 </style>
 
 <a class="btn" href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" > Voltar </a>
@@ -63,6 +69,8 @@ b{
 
 <h6 style="color: rgb(100, 100, 100);" >Possui movimentação? ${possuiMovimentacao} </h6>
 
+<h6 style="color: rgb(100, 100, 100);" >Ativo? ${ativo} </h6>
+
 <h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementos} <span class="dica" > (<b>Dica:</b> Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho <b>CTRL + F</b>) </span> </h6> 
 
 <c:choose>
@@ -77,7 +85,7 @@ b{
                     <th> Informações para contato</th>
                     <th> Ingresso </th>
                     <th> Produtos </th>
-                    <th> Bônus </th>
+                    <th> Atividade </th>
                     <th> Total </th>
 				</tr>
 			</thead>
@@ -90,9 +98,9 @@ b{
                         <td class="centralizado" > ${item.malaDireta.usuario.posAtual} </td>
                         <td> ${item.malaDireta.usuario.vNome} </td>
                         <td> 
-                        	Tels fixos: ${item.malaDireta.usuario.tel} <br>
-                        	Celular: ${item.malaDireta.usuario.cadCelular} <br>
-                        	Email: ${item.malaDireta.usuario.eMail} <br>
+                        	<span class="informacoesContato" >Tels fixos:</span> ${item.malaDireta.usuario.tel} <br>
+                        	<span class="informacoesContato" >Celular:</span> ${item.malaDireta.usuario.cadCelular} <br>
+                        	<span class="informacoesContato" >Email:</span> ${item.malaDireta.usuario.eMail} <br>
                         </td>
                         <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoIngresso}" /> </td>
                         <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoProdutos}" /> </td>

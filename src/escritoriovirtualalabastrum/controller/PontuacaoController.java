@@ -103,6 +103,7 @@ public class PontuacaoController {
 		result.include("usuarioPesquisado", usuarioPesquisado);
 		result.include("posicaoConsiderada", obterPosicoes().get(posicao));
 		result.include("possuiMovimentacao", possuiMovimentacao);
+		result.include("ativo", ativo);
 	}
 
 	private void calcularPontuacaoPessoalUsuarioPesquisado(GregorianCalendar dataInicial, GregorianCalendar dataFinal, Usuario usuarioPesquisado) {
@@ -138,29 +139,72 @@ public class PontuacaoController {
 
 	private void gerarRelatorioPontuacao(GregorianCalendar dataInicial, GregorianCalendar dataFinal, TreeMap<Integer, MalaDireta> malaDireta, String possuiMovimentacao, String ativo) {
 
-		List<PontuacaoAuxiliar> pontuacoes = new ArrayList<PontuacaoAuxiliar>();
+		List<PontuacaoAuxiliar> pontuacoesConformeMovimentacoes = new ArrayList<PontuacaoAuxiliar>();
+		List<PontuacaoAuxiliar> pontuacoesConformeAtividade = new ArrayList<PontuacaoAuxiliar>();
 
 		List<Criterion> restricoes = definirRestricoesDatas(dataInicial, dataFinal);
+
+		int mesDataInicial = dataInicial.get(GregorianCalendar.MONTH);
+		int mesDataFinal = dataFinal.get(GregorianCalendar.MONTH);
+
+		if (mesDataInicial != mesDataFinal) {
+
+			validator.add(new ValidationMessage("Só é possível consultar o período de 1 mês por vez", "Erro"));
+			validator.onErrorRedirectTo(this).acessarTelaPontuacao();
+			return;
+		}
 
 		for (Entry<Integer, MalaDireta> usuario : malaDireta.entrySet()) {
 
 			PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(restricoes, usuario.getValue());
 
-			adicionarConformeMovimentacoes(possuiMovimentacao, pontuacoes, pontuacaoAuxiliar);
+			adicionarConformeMovimentacoes(possuiMovimentacao, pontuacoesConformeMovimentacoes, pontuacaoAuxiliar);
 		}
+
+		adicionarConformeAtividade(ativo, pontuacoesConformeMovimentacoes, pontuacoesConformeAtividade);
 
 		BigDecimal pontuacaoRede = BigDecimal.ZERO;
 
-		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoes) {
+		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoesConformeAtividade) {
 
 			pontuacaoRede = pontuacaoRede.add(pontuacaoAuxiliar.getTotal());
 		}
 
 		result.include("pontuacaoRede", pontuacaoRede);
-		result.include("relatorioPontuacao", pontuacoes);
-		result.include("quantidadeElementos", pontuacoes.size());
+		result.include("relatorioPontuacao", pontuacoesConformeAtividade);
+		result.include("quantidadeElementos", pontuacoesConformeAtividade.size());
 		result.include("dataInicialPesquisada", dataInicial);
 		result.include("dataFinalPesquisada", dataFinal);
+	}
+
+	private void adicionarConformeAtividade(String ativo, List<PontuacaoAuxiliar> pontuacoes, List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+
+		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoes) {
+
+			if (ativo.equals("Todos")) {
+
+				pontuacoesConformeAtividade.add(pontuacaoAuxiliar);
+			}
+
+			else {
+
+				if (ativo.equals("Sim")) {
+
+					if (pontuacaoAuxiliar.isAtivo()) {
+
+						pontuacoesConformeAtividade.add(pontuacaoAuxiliar);
+					}
+				}
+
+				else if (ativo.equals("Não")) {
+
+					if (!pontuacaoAuxiliar.isAtivo()) {
+
+						pontuacoesConformeAtividade.add(pontuacaoAuxiliar);
+					}
+				}
+			}
+		}
 	}
 
 	private PontuacaoAuxiliar calcularPontuacoes(List<Criterion> restricoes, MalaDireta informacoesUsuario) {
@@ -174,6 +218,8 @@ public class PontuacaoController {
 		List<Pontuacao> pontuacoesBanco = hibernateUtil.buscar(pontuacaoFiltro, restricoes);
 
 		for (Pontuacao pontuacaoBanco : pontuacoesBanco) {
+
+			pontuacaoAuxiliar.setParametroAtividade(pontuacaoBanco.getParametroAtividade());
 
 			pontuacaoAuxiliar.setPontuacaoAtividade(pontuacaoAuxiliar.getPontuacaoAtividade().add(pontuacaoBanco.getPntAtividade()));
 			pontuacaoAuxiliar.setPontuacaoIngresso(pontuacaoAuxiliar.getPontuacaoIngresso().add(pontuacaoBanco.getPntIngresso()));
