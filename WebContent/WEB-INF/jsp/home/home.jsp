@@ -151,6 +151,19 @@
      	display: inline-block;
      	font-weight: bold;
      	margin-left: 20px;
+     	color: rgb(80, 86, 224) !important;
+     }
+     
+     .spanInformacoesHome{
+     
+     	float: none;
+		margin-left: 0px;
+		color: rgb(80, 86, 224) !important;
+     }
+     
+     .spanInformacoesHome:hover{
+     
+     	text-decoration: none;
      }
 
 </style>
@@ -166,16 +179,13 @@
   </div>
   
   <div class="informacoesHome">
-      <label class="labelInformacoesHome" > * CÓDIGO: </label> <span> ${sessaoUsuario.usuario.id_Codigo} </span> <br>
-      <label class="labelInformacoesHome" > * STATUS: </label> <span> ${sessaoUsuario.usuario.posAtual}  </span> <br>
-      <label class="labelInformacoesHome" > * SITUAÇÃO ATUAL - ATIVIDADE: </label> <span> ---  </span> <br>
-      <label class="labelInformacoesHome" > * PONTUAÇÃO PESSOAL: </label> <span> --- </span> <br>
-      <label class="labelInformacoesHome" > * PONTUAÇÃO REDE: </label> <span> --- </span> <br>
-      <label class="labelInformacoesHome" > * ATIVOS DIRETOS: </label> <span> --- </span> <br>
-      <label class="labelInformacoesHome" > * ATIVOS NA REDE: </label> <span> --- </span> <br>
-      <label class="labelInformacoesHome" > * QUALIFICADOS NA REDE: </label> <span> --- </span> <br>
-      <br>
-      <label class="labelInformacoesHome" > * Última atualização: </label> <span> ${dataHoraUltimaAtualizacao} </span> <br>
+  	  <a style="text-decoration: none;" href="<c:url value="/pontuacao/gerarRelatorioVindoDaTelaInicial"/>"> 
+  	  	  <br>
+	      <label class="labelInformacoesHome" > * CÓDIGO: </label> <span class="spanInformacoesHome" > ${sessaoUsuario.usuario.id_Codigo}</span><br>
+	      <label class="labelInformacoesHome" > * STATUS: </label> <span class="spanInformacoesHome" > ${sessaoUsuario.usuario.posAtual}</span><br>
+	      <label style="font-size: 18px; color: rgb(119, 47, 119) !important; padding-left: 20px; padding-bottom: 50px; padding-top: 50px; margin-left: 0px;" class="labelInformacoesHome" > CLIQUE PARA CONSULTAR A PONTUAÇÃO DA SUA REDE!</label><br>
+	      <label class="labelInformacoesHome" > * Última atualização: </label> <span class="spanInformacoesHome" > ${dataHoraUltimaAtualizacao}</span><br>
+      </a>
   </div>
   
   <div class="imagensLink" style="margin-left: 10%; margin-top: 0px;" >

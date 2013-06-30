@@ -48,10 +48,9 @@ b{
 
 <div class="resumo" >
 	
-	<h5 style="text-align: center" > Resumo dos totais </h5>
-	
-	<h6 style="margin-top: 20px" > Pontuação pessoal: <fmt:formatNumber value="${pontuacaoPessoalUsuarioPesquisado}" />  </h6>
-	
+	<h5 style="text-align: center" > RESUMO </h5>
+	<h6 style="margin-top: 20px" > Situação pessoal - Atividade:  ${situacaoPessoalAtividade}  </h6>
+	<h6> Pontuação pessoal: <fmt:formatNumber value="${pontuacaoPessoalUsuarioPesquisado}" />  </h6>
 	<h6> Pontuação da rede: <fmt:formatNumber value="${pontuacaoRede}" />  </h6>
 	<h6> Ativos diretos: <fmt:formatNumber value="${ativosDiretos}" />  </h6>
 	<h6> Ativos na rede: <fmt:formatNumber value="${todosAtivos}" />  </h6>
@@ -73,6 +72,8 @@ b{
 <h6 style="color: rgb(100, 100, 100);" >Ativo? ${ativo} </h6>
 
 <h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementos} <span class="dica" > (<b>Dica:</b> Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho <b>CTRL + F</b>) </span> </h6> 
+
+<br>
 
 <c:choose>
 	<c:when test="${!empty relatorioPontuacao}">

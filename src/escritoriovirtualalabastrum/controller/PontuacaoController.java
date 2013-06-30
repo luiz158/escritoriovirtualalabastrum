@@ -56,6 +56,17 @@ public class PontuacaoController {
 	}
 
 	@Funcionalidade
+	public void gerarRelatorioVindoDaTelaInicial() {
+
+		DateTime hoje = new DateTime();
+		DateTime primeiroDiaDoMesAtual = hoje.withDayOfMonth(1);
+
+		gerarRelatorioPontuacao("Todas", null, primeiroDiaDoMesAtual.toGregorianCalendar(), hoje.toGregorianCalendar(), "Todos", "Todos");
+
+		result.forwardTo("/WEB-INF/jsp/pontuacao/gerarRelatorioPontuacao.jsp");
+	}
+
+	@Funcionalidade
 	public void gerarRelatorioPontuacao(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo) {
 
 		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario().getId_Codigo();
@@ -113,6 +124,17 @@ public class PontuacaoController {
 		PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(restricoes, new MalaDireta(usuarioPesquisado, 0));
 
 		result.include("pontuacaoPessoalUsuarioPesquisado", pontuacaoAuxiliar.getTotal());
+
+		if (pontuacaoAuxiliar.isAtivo()) {
+
+			result.include("situacaoPessoalAtividade", "Sim");
+		}
+
+		else {
+
+			result.include("situacaoPessoalAtividade", "Não");
+		}
+
 	}
 
 	private List<Criterion> definirRestricoesDatas(GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
@@ -130,6 +152,15 @@ public class PontuacaoController {
 			dataFinal = hoje.toGregorianCalendar();
 		}
 
+		int mesDataInicial = dataInicial.get(GregorianCalendar.MONTH);
+		int mesDataFinal = dataFinal.get(GregorianCalendar.MONTH);
+
+		if (mesDataInicial != mesDataFinal) {
+
+			validator.add(new ValidationMessage("Só é possível consultar o período de 1 mês por vez", "Erro"));
+			validator.onErrorRedirectTo(this).acessarTelaPontuacao();
+		}
+
 		List<Criterion> restricoes = new ArrayList<Criterion>();
 
 		restricoes.add(Restrictions.between("Dt_Pontos", dataInicial, dataFinal));
@@ -143,16 +174,6 @@ public class PontuacaoController {
 		List<PontuacaoAuxiliar> pontuacoesConformeAtividade = new ArrayList<PontuacaoAuxiliar>();
 
 		List<Criterion> restricoes = definirRestricoesDatas(dataInicial, dataFinal);
-
-		int mesDataInicial = dataInicial.get(GregorianCalendar.MONTH);
-		int mesDataFinal = dataFinal.get(GregorianCalendar.MONTH);
-
-		if (mesDataInicial != mesDataFinal) {
-
-			validator.add(new ValidationMessage("Só é possível consultar o período de 1 mês por vez", "Erro"));
-			validator.onErrorRedirectTo(this).acessarTelaPontuacao();
-			return;
-		}
 
 		for (Entry<Integer, MalaDireta> usuario : malaDireta.entrySet()) {
 
