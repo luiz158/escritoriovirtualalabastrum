@@ -1,14 +1,21 @@
 package escritoriovirtualalabastrum.modelo;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 
+import escritoriovirtualalabastrum.auxiliar.MalaDireta;
+import escritoriovirtualalabastrum.auxiliar.PontuacaoAuxiliar;
+import escritoriovirtualalabastrum.controller.PontuacaoController;
 import escritoriovirtualalabastrum.hibernate.Entidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.util.Util;
@@ -55,6 +62,9 @@ public class Usuario implements Entidade {
 	private String cadAgencia;
 	private String cadTipoConta;
 	private String DesquaLider;
+
+	@Transient
+	private PontuacaoAuxiliar pontuacaoAuxiliar;
 
 	@Index(name = "index_id_Codigo")
 	private Integer id_Codigo;
@@ -155,6 +165,22 @@ public class Usuario implements Entidade {
 		hibernateUtil.fecharSessao();
 
 		return informacoesFixasUsuario;
+	}
+
+	public void calcularPontuacao() {
+
+		HibernateUtil hibernateUtil = new HibernateUtil();
+
+		PontuacaoController pontuacaoController = new PontuacaoController(null, hibernateUtil, null, null);
+
+		List<Criterion> restricoes = pontuacaoController.definirRestricoesDatas(null, null);
+
+		PontuacaoAuxiliar pontuacaoAuxiliar = pontuacaoController.calcularPontuacoes(restricoes, new MalaDireta(this, 0));
+		pontuacaoAuxiliar.calcularTotal();
+		pontuacaoAuxiliar.verificarAtividade();
+		this.setPontuacaoAuxiliar(pontuacaoAuxiliar);
+
+		hibernateUtil.fecharSessao();
 	}
 
 	public Integer getId() {
@@ -619,5 +645,13 @@ public class Usuario implements Entidade {
 
 	public void setDesquaLider(String desquaLider) {
 		DesquaLider = desquaLider;
+	}
+
+	public PontuacaoAuxiliar getPontuacaoAuxiliar() {
+		return pontuacaoAuxiliar;
+	}
+
+	public void setPontuacaoAuxiliar(PontuacaoAuxiliar pontuacaoAuxiliar) {
+		this.pontuacaoAuxiliar = pontuacaoAuxiliar;
 	}
 }

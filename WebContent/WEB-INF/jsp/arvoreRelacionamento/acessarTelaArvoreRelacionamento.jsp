@@ -73,6 +73,9 @@
 	<label class="labelInformacoes" > Telefones: </label>  <span id="informacaoTelefones" >  </span>  <br>
 	<label class="labelInformacoes" > Celular: </label>  <span id="informacaoCelular" >  </span>  <br>
 	<label class="labelInformacoes" > Email: </label>  <span id="informacaoEmail" >  </span>  <br>
+	<br>
+	<label class="labelInformacoes" > Pontuação total este mês: </label>  <span id="informacaoPontuacaoTotal" >  </span>  <br>
+	<label class="labelInformacoes" > Ativo: </label>  <span id="informacaoAtivo" >  </span>  <br>
 
 </div>
 
@@ -120,6 +123,8 @@
 		        	jQuery("#informacaoTelefones").text(data.usuario.Tel);
 		        	jQuery("#informacaoCelular").text(data.usuario.cadCelular);
 		        	jQuery("#informacaoEmail").text(data.usuario.eMail);
+		        	jQuery("#informacaoPontuacaoTotal").text(data.usuario.pontuacaoAuxiliar.total);
+		        	jQuery("#informacaoAtivo").text(data.usuario.pontuacaoAuxiliar.ativo);
 		        }
 			});
 

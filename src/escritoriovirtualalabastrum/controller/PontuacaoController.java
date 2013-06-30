@@ -141,7 +141,7 @@ public class PontuacaoController {
 		}
 	}
 
-	private List<Criterion> definirRestricoesDatas(GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
+	public List<Criterion> definirRestricoesDatas(GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
 
 		DateTime hoje = new DateTime();
 		DateTime primeiroDiaDoMesAtual = hoje.withDayOfMonth(1);
@@ -280,7 +280,7 @@ public class PontuacaoController {
 		}
 	}
 
-	private PontuacaoAuxiliar calcularPontuacoes(List<Criterion> restricoes, MalaDireta informacoesUsuario) {
+	public PontuacaoAuxiliar calcularPontuacoes(List<Criterion> restricoes, MalaDireta informacoesUsuario) {
 
 		PontuacaoAuxiliar pontuacaoAuxiliar = new PontuacaoAuxiliar();
 		pontuacaoAuxiliar.setMalaDireta(informacoesUsuario);

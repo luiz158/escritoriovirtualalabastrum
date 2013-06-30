@@ -53,6 +53,8 @@ public class ArvoreRelacionamentoController {
 
 		usuario = this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
 
-		result.use(Results.json()).from(usuario).serialize();
+		usuario.calcularPontuacao();
+
+		result.use(Results.json()).from(usuario).include("pontuacaoAuxiliar").serialize();
 	}
 }

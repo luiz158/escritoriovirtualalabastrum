@@ -11,6 +11,8 @@ public class PontuacaoAuxiliar {
 	private BigDecimal pontuacaoProdutos;
 	private BigDecimal pontuacaoAtividade;
 	private BigDecimal ParametroAtividade;
+	private BigDecimal total;
+	private String ativo;
 
 	public PontuacaoAuxiliar() {
 
@@ -33,6 +35,24 @@ public class PontuacaoAuxiliar {
 	public BigDecimal getTotal() {
 
 		return pontuacaoAtividade.add(pontuacaoProdutos).add(pontuacaoIngresso);
+	}
+
+	public void calcularTotal() {
+
+		this.total = getTotal();
+	}
+
+	public void verificarAtividade() {
+
+		if (isAtivo()) {
+
+			this.ativo = "Sim";
+		}
+
+		else {
+
+			this.ativo = "Não";
+		}
 	}
 
 	public MalaDireta getMalaDireta() {
@@ -73,6 +93,18 @@ public class PontuacaoAuxiliar {
 
 	public void setParametroAtividade(BigDecimal parametroAtividade) {
 		ParametroAtividade = parametroAtividade;
+	}
+
+	public String getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(String ativo) {
+		this.ativo = ativo;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 }
