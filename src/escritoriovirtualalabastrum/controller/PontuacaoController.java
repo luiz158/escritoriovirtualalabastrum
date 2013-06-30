@@ -72,7 +72,7 @@ public class PontuacaoController {
 
 		if (Util.preenchido(usuarioLogado.getDesquaLider()) && usuarioLogado.getDesquaLider().equals("1")) {
 
-			validator.add(new ValidationMessage("Em virtude de sua inatividade há 2 meses ou mais, sua rede foi transferida para o 1º gerente ATIVO da sua linha ascendente <br><br> .FIQUE ATIVO NESTE MÊS E RECUPERE SUA REDE. <b> ÚLTIMA CHANCE!!! </b>", "Erro"));
+			validator.add(new ValidationMessage("Em virtude de sua inatividade há 2 meses ou mais, sua rede foi transferida para o 1º gerente ATIVO da sua linha ascendente. <br><br>FIQUE ATIVO NESTE MÊS E RECUPERE SUA REDE. <b> ÚLTIMA CHANCE!!! </b>", "Atenção"));
 			validator.onErrorRedirectTo(this).acessarTelaPontuacao();
 		}
 	}
