@@ -1,6 +1,7 @@
 package escritoriovirtualalabastrum.util;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -106,5 +107,19 @@ public class Util {
 
 		numString = numString.replaceAll(",", ".");
 		return new BigDecimal(numString);
+	}
+
+	public static String formatarBigDecimal(BigDecimal valor) {
+
+		if (Util.vazio(valor)) {
+
+			return "0";
+		}
+
+		else {
+
+			DecimalFormat df = new DecimalFormat("#,##0.00");
+			return df.format(valor);
+		}
 	}
 }

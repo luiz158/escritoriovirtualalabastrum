@@ -44,6 +44,7 @@
 		position: fixed;
 		bottom: 20px;
 		padding: 20px;
+		background-color: white;
 	}
 	
 	div.informacoes span{
@@ -55,6 +56,11 @@
 		display: inline-block;
 		font-weight: bold;
 		font-size: 12px;
+	}
+	
+	.nomeUsuario.ativo {
+	
+		font-weight: bold;
 	}
 	
 </style>
@@ -123,7 +129,7 @@
 		        	jQuery("#informacaoTelefones").text(data.usuario.Tel);
 		        	jQuery("#informacaoCelular").text(data.usuario.cadCelular);
 		        	jQuery("#informacaoEmail").text(data.usuario.eMail);
-		        	jQuery("#informacaoPontuacaoTotal").text(data.usuario.pontuacaoAuxiliar.total);
+		        	jQuery("#informacaoPontuacaoTotal").text(data.usuario.pontuacaoAuxiliar.totalFormatado);
 		        	jQuery("#informacaoAtivo").text(data.usuario.pontuacaoAuxiliar.ativo);
 		        }
 			});
@@ -161,6 +167,13 @@
 				        	
 				        	if(data.list.length == 0){
 				        		
+				        		var isAtivo = false;
+				        		
+				        		if(jQuery("#" + id).find("span:first").hasClass("ativo")){
+				        			
+				        			isAtivo = true;
+				        		}
+				        		
 				        		jQuery("#" + id).text(jQuery("#" + id).find("span:first").text());
 				        		jQuery("#" + id).removeClass("expandable");
 				        		var texto = jQuery("#" + id).text();
@@ -171,6 +184,11 @@
 				        		if(jQuery(elementoClicado).is("span")){
 				        			
 				        			jQuery("#" + id).find("span:first").addClass("usuarioSelecionado");
+				        		}
+				        		
+				        		if(isAtivo){
+				        			
+				        			jQuery("#" + id).find("span:first").addClass("ativo");
 				        		}
 				        		
 				        		jQuery("#" + id).find("span:first").text(texto);
@@ -185,6 +203,11 @@
 				            	jQuery("#" + id).find("ul:first").find("li:last").append("<span class='nomeUsuario' >");
 				            	jQuery("#" + id).find("ul:first").find("li:last").find("span").text(item.vNome);
 				            	jQuery("#" + id).find("ul:first").find("li:last").append("<ul>");
+				            	
+				            	if(item.pontuacaoAuxiliar.ativo == "Sim"){
+				            		
+				            		jQuery("#" + id).find("ul:first").find("li:last").find("span").addClass("ativo");
+				            	}
 				 	    	});
 				        }
 				    });	 

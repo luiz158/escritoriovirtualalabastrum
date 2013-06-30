@@ -43,7 +43,12 @@ public class ArvoreRelacionamentoController {
 
 		List<Usuario> usuariosPatrocinados = this.hibernateUtil.buscar(usuarioPatrocinadoFiltro, restricoes, Order.asc("vNome"));
 
-		result.use(Results.json()).from(usuariosPatrocinados).serialize();
+		for (Usuario usuario : usuariosPatrocinados) {
+
+			usuario.calcularPontuacao();
+		}
+
+		result.use(Results.json()).from(usuariosPatrocinados).include("pontuacaoAuxiliar").serialize();
 	}
 
 	@Funcionalidade

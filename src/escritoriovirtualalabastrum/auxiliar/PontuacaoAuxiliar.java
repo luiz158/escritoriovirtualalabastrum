@@ -12,6 +12,7 @@ public class PontuacaoAuxiliar {
 	private BigDecimal pontuacaoAtividade;
 	private BigDecimal ParametroAtividade;
 	private BigDecimal total;
+	private String totalFormatado;
 	private String ativo;
 
 	public PontuacaoAuxiliar() {
@@ -40,6 +41,8 @@ public class PontuacaoAuxiliar {
 	public void calcularTotal() {
 
 		this.total = getTotal();
+
+		this.totalFormatado = Util.formatarBigDecimal(this.total);
 	}
 
 	public void verificarAtividade() {
