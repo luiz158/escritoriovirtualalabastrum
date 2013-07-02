@@ -81,7 +81,7 @@ public class LoginController {
 
 				if (Util.vazio(usuarioBanco.getEV()) || usuarioBanco.getEV().equals("0")) {
 
-					String mensagem = "O usuário com código " + usuarioBanco.getId_Codigo() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
+					String mensagem = "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
 					JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
 
 					validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
@@ -204,7 +204,7 @@ public class LoginController {
 
 			if (!usuarioBanco.getCPF().equals(cpf)) {
 
-				String mensagem = "O usuário com código " + codigoUsuario + " tentou acessar o EV pela primeira vez utilizando o CPF " + cpf + " e não obteve sucesso.";
+				String mensagem = "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " tentou acessar o EV pela primeira vez utilizando o CPF " + cpf + " e não obteve sucesso.";
 				JavaMailApp.enviarEmail("CPF incorreto no primeiro acesso", "suporte@alabastrum.com.br", mensagem);
 
 				validator.add(new ValidationMessage("O CPF informado não é igual ao CPF existente no banco de dados da Alabastrum. Informe o CPF corretamente ou entre em contato com a Alabastrum através do email suporte@alabastrum.com.br informando sobre o problema e peça para editar o seu CPF na base de dados.", "Erro"));
@@ -229,7 +229,7 @@ public class LoginController {
 
 		this.hibernateUtil.salvarOuAtualizar(informacoesFixasUsuario);
 
-		JavaMailApp.enviarEmail("Troca de senha de usuário", "trocadesenha@alabastrum.com.br", "O usuário com código " + usuarioBanco.getId_Codigo() + " efetuou a troca de senha no escritório virtual. <br><br>Email informado: " + email + " <br>CPF informado: " + cpf);
+		JavaMailApp.enviarEmail("Troca de senha de usuário", "trocadesenha@alabastrum.com.br", "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " efetuou a troca de senha no escritório virtual. <br><br>Email informado: " + email + " <br>CPF informado: " + cpf);
 
 		colocarUsuarioNaSessao(usuarioBanco);
 
