@@ -109,7 +109,7 @@ public class PontuacaoController {
 		result.include("ativo", ativo);
 	}
 
-	private PontuacaoAuxiliar calcularPontuacaoPessoalUsuarioPesquisado(GregorianCalendar dataInicial, GregorianCalendar dataFinal, Usuario usuarioPesquisado) {
+	private void calcularPontuacaoPessoalUsuarioPesquisado(GregorianCalendar dataInicial, GregorianCalendar dataFinal, Usuario usuarioPesquisado) {
 
 		List<Criterion> restricoes = definirRestricoesDatas(dataInicial, dataFinal);
 
@@ -126,8 +126,6 @@ public class PontuacaoController {
 
 			result.include("situacaoPessoalAtividade", "Não");
 		}
-
-		return pontuacaoAuxiliar;
 	}
 
 	private List<Criterion> definirRestricoesDatas(GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
@@ -168,22 +166,22 @@ public class PontuacaoController {
 
 		List<Criterion> restricoes = definirRestricoesDatas(dataInicial, dataFinal);
 
+		Usuario usuarioPesquisado = new Usuario();
+		usuarioPesquisado.setId_Codigo(codigoUsuario);
+
+		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado, MatchMode.EXACT);
+		result.include("usuarioPesquisado", usuarioPesquisado);
+
+		calcularPontuacaoPessoalUsuarioPesquisado(dataInicial, dataFinal, usuarioPesquisado);
+
+		malaDireta.put(0, new MalaDireta(usuarioPesquisado, 0));
+
 		for (Entry<Integer, MalaDireta> usuario : malaDireta.entrySet()) {
 
 			PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(restricoes, usuario.getValue());
 
 			adicionarConformeMovimentacoes(possuiMovimentacao, pontuacoesConformeMovimentacoes, pontuacaoAuxiliar);
 		}
-
-		Usuario usuarioPesquisado = new Usuario();
-		usuarioPesquisado.setId_Codigo(codigoUsuario);
-
-		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado, MatchMode.EXACT);
-
-		PontuacaoAuxiliar pontuacaoPessoalUsuarioPesquisado = calcularPontuacaoPessoalUsuarioPesquisado(dataInicial, dataFinal, usuarioPesquisado);
-		pontuacoesConformeAtividade.add(pontuacaoPessoalUsuarioPesquisado);
-
-		result.include("usuarioPesquisado", usuarioPesquisado);
 
 		adicionarConformeAtividade(ativo, pontuacoesConformeMovimentacoes, pontuacoesConformeAtividade);
 
