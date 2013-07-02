@@ -54,6 +54,7 @@ public class Usuario implements Entidade {
 	private String cadBanco;
 	private String cadAgencia;
 	private String cadTipoConta;
+	private String DesquaLider;
 
 	@Index(name = "index_id_Codigo")
 	private Integer id_Codigo;
@@ -610,5 +611,13 @@ public class Usuario implements Entidade {
 
 	public void setCelTitular2(String celTitular2) {
 		CelTitular2 = celTitular2;
+	}
+
+	public String getDesquaLider() {
+		return DesquaLider;
+	}
+
+	public void setDesquaLider(String desquaLider) {
+		DesquaLider = desquaLider;
 	}
 }

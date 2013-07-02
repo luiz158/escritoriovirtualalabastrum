@@ -41,8 +41,21 @@ public class MalaDiretaController {
 		result.include("posicoes", obterPosicoes());
 	}
 
+	private void validarQualificacao() {
+
+		Usuario usuarioLogado = this.hibernateUtil.selecionar(new Usuario(this.sessaoUsuario.getUsuario().getId_Codigo()));
+
+		if (Util.preenchido(usuarioLogado.getDesquaLider()) && usuarioLogado.getDesquaLider().equals("1")) {
+
+			validator.add(new ValidationMessage("Em virtude de sua inatividade há 2 meses ou mais, sua rede foi transferida para o 1º gerente ATIVO da sua linha ascendente <br><br> .FIQUE ATIVO NESTE MÊS E RECUPERE SUA REDE. <b> ÚLTIMA CHANCE!!! </b>", "Erro"));
+			validator.onErrorRedirectTo(this).acessarTelaMalaDireta();
+		}
+	}
+
 	@Funcionalidade
 	public void gerarMalaDireta(String posicao, Integer codigoUsuario) {
+
+		validarQualificacao();
 
 		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario().getId_Codigo();
 
