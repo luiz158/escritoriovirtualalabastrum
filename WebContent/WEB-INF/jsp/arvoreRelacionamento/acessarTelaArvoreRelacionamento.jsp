@@ -5,6 +5,21 @@
 <script type="text/javascript" src="<c:url value="/js/jquery.cookie.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery.treeview.js"/>"></script>
 
+<style>
+	
+	.nomeUsuario:hover { 
+		color: red; 
+		cursor: pointer; 
+	}
+	
+	.usuarioSelecionado{
+		background-color: rgb(210, 210, 210);
+		padding: 5px;
+		border-radius: 4px;
+	}
+
+</style>
+
 <h3 style="font-size: 20px;" > Árvore de relacionamentos </h3>
 
 <br>
@@ -26,6 +41,13 @@
 		});
 
 		jQuery(document).on('click', '.nomeUsuario', function(){  
+			
+			jQuery(".usuarioSelecionado").each(function(i, item){
+				
+				jQuery(item).removeClass("usuarioSelecionado");
+			});
+			
+			jQuery(this).addClass("usuarioSelecionado");
 
 			buscarUsuariosPatrocinados(jQuery(this).parent().attr("id"));
 		});
