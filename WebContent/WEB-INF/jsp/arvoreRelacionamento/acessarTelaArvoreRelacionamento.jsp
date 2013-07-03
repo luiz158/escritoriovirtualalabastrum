@@ -6,6 +6,16 @@
 <script type="text/javascript" src="<c:url value="/js/jquery.treeview.js"/>"></script>
 
 <style>
+
+	.menu {
+		display: none;
+	    width: 0px;
+		min-width: 0px;
+	}
+	
+	.conteudo {
+	    width: 94%;
+	}
 	
 	.nomeUsuario:hover { 
 		color: red; 
@@ -20,17 +30,57 @@
 	
 	.dica{
 		color: rgb(170, 170, 170);
-		margin-left: 30px;
+		font-size: 12px;
+		margin-bottom: 20px;
+	}
+	
+	div.informacoes{
+		display: none;
+		box-shadow: 5px 5px 5px #888;
+		border-radius: 5px;
+		border: 1px solid #ddd;
+		width: 400px;
+		right: 20px;
+		position: fixed;
+		bottom: 20px;
+		padding: 20px;
+	}
+	
+	div.informacoes span{
+		font-size: 40px;
 		font-size: 12px;
 	}
-
+	
+	label.labelInformacoes{
+		display: inline-block;
+		font-weight: bold;
+		font-size: 12px;
+	}
+	
 </style>
 
-<h3 style="font-size: 20px; display: inline-block;" > Árvore de relacionamentos </h3>  <span class="dica" > (Clique no nome para ver informações) </span> 
+<a class="btn" href="<c:url value="/home/home"/>" > Voltar </a>
+
+<div class="informacoes" >
+
+	<h4 style="text-align: center;font-size: 14px;" > Informações </h4>
+	
+	<label class="labelInformacoes" > Nome: </label>  <span id="informacaoNome" >  </span>  <br>
+	<label class="labelInformacoes" > Codigo: </label>  <span id="informacaoCodigo" >  </span>  <br>
+	<label class="labelInformacoes" > Endereço: </label>  <span id="informacaoEndereco" >  </span>  <br>
+	<label class="labelInformacoes" > Bairro: </label>  <span id="informacaoBairro" >  </span>  <br>
+	<label class="labelInformacoes" > Cidade: </label>  <span id="informacaoCidade" >  </span>  <br>
+	<label class="labelInformacoes" > Telefones: </label>  <span id="informacaoTelefones" >  </span>  <br>
+	<label class="labelInformacoes" > Celular: </label>  <span id="informacaoCelular" >  </span>  <br>
+	<label class="labelInformacoes" > Email: </label>  <span id="informacaoEmail" >  </span>  <br>
+
+</div>
+
+<h3 style="font-size: 20px; margin-bottom: 0px;" > Árvore de relacionamentos </h3>  <span class="dica" > (Clique no nome para ver informações) </span> 
 
 <br>
 
-<ul id="gray" class="treeview-gray">
+<ul id="gray" class="treeview-gray" style="margin-top: 20px;" >
 	<li class="closed" id="${sessaoUsuario.usuario.id_Codigo}" >
 		<span class="nomeUsuario" >${sessaoUsuario.usuario.vNome}</span>
 		<ul> </ul>
@@ -48,22 +98,48 @@
 
 		jQuery(document).on('click', '.nomeUsuario', function(){  
 			
-			jQuery(".usuarioSelecionado").each(function(i, item){
-				
-				jQuery(item).removeClass("usuarioSelecionado");
-			});
+			removerClassesUsuariosSelecionados();
 			
 			jQuery(this).addClass("usuarioSelecionado");
+			
+			var idUsuario = jQuery(this).parent().attr("id");
 
-			buscarUsuariosPatrocinados(jQuery(this).parent().attr("id"));
+			jQuery(".informacoes").show();			
+			
+			jQuery.ajax({ 
+		        type: 'GET',
+		        url: "/arvoreRelacionamento/buscarInformacoesUsuarioSelecionado?codigoUsuario=" + idUsuario,
+		        dataType: 'json', 
+		        success: function(data) { 
+		        	
+		        	jQuery("#informacaoNome").text(data.usuario.vNome);
+		        	jQuery("#informacaoCodigo").text(data.usuario.id_Codigo);
+		        	jQuery("#informacaoEndereco").text(data.usuario.cadEndereco);
+		        	jQuery("#informacaoBairro").text(data.usuario.cadBairro);
+		        	jQuery("#informacaoCidade").text(data.usuario.cadCidade);
+		        	jQuery("#informacaoTelefones").text(data.usuario.Tel);
+		        	jQuery("#informacaoCelular").text(data.usuario.cadCelular);
+		        	jQuery("#informacaoEmail").text(data.usuario.eMail);
+		        }
+			});
+
+			buscarUsuariosPatrocinados(idUsuario, this);
 		});
 		
 		jQuery(document).on('click', '.hitarea', function(){  
 
-			buscarUsuariosPatrocinados(jQuery(this).parent().attr("id"));
+			buscarUsuariosPatrocinados(jQuery(this).parent().attr("id"), this);
 		});
 		
-		function buscarUsuariosPatrocinados(id){
+		function removerClassesUsuariosSelecionados(){
+			
+			jQuery(".usuarioSelecionado").each(function(i, item){
+				
+				jQuery(item).removeClass("usuarioSelecionado");
+			});
+		}
+		
+		function buscarUsuariosPatrocinados(id, elementoClicado){
 			
 			if(jQuery("#" + id).find(".hitarea:first").hasClass("expandable-hitarea") || jQuery("#gray").find("li:first").attr("id") == id  ){
 				
@@ -85,7 +161,13 @@
 				        		var texto = jQuery("#" + id).text();
 				        		jQuery("#" + id).text('');
 				        		jQuery("#" + id).append("<span>");
-				        		jQuery("#" + id).find("span:first").addClass("usuarioSelecionado nomeUsuario");
+				        		jQuery("#" + id).find("span:first").addClass("nomeUsuario");
+				        		
+				        		if(jQuery(elementoClicado).is("span")){
+				        			
+				        			jQuery("#" + id).find("span:first").addClass("usuarioSelecionado");
+				        		}
+				        		
 				        		jQuery("#" + id).find("span:first").text(texto);
 				        	}
 	

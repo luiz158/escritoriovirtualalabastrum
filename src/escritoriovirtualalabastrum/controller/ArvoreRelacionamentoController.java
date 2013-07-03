@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -43,5 +44,15 @@ public class ArvoreRelacionamentoController {
 		List<Usuario> usuariosPatrocinados = this.hibernateUtil.buscar(usuarioPatrocinadoFiltro, restricoes, Order.asc("vNome"));
 
 		result.use(Results.json()).from(usuariosPatrocinados).serialize();
+	}
+
+	@Funcionalidade
+	public void buscarInformacoesUsuarioSelecionado(Integer codigoUsuario) {
+
+		Usuario usuario = new Usuario(codigoUsuario);
+
+		usuario = this.hibernateUtil.selecionar(usuario, MatchMode.EXACT);
+
+		result.use(Results.json()).from(usuario).serialize();
 	}
 }
