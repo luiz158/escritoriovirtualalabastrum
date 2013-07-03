@@ -17,10 +17,16 @@
 		padding: 5px;
 		border-radius: 4px;
 	}
+	
+	.dica{
+		color: rgb(170, 170, 170);
+		margin-left: 30px;
+		font-size: 12px;
+	}
 
 </style>
 
-<h3 style="font-size: 20px;" > Árvore de relacionamentos </h3>
+<h3 style="font-size: 20px; display: inline-block;" > Árvore de relacionamentos </h3>  <span class="dica" > (Clique no nome para ver informações) </span> 
 
 <br>
 
@@ -76,6 +82,11 @@
 				        		
 				        		jQuery("#" + id).text(jQuery("#" + id).find("span:first").text());
 				        		jQuery("#" + id).removeClass("expandable");
+				        		var texto = jQuery("#" + id).text();
+				        		jQuery("#" + id).text('');
+				        		jQuery("#" + id).append("<span>");
+				        		jQuery("#" + id).find("span:first").addClass("usuarioSelecionado nomeUsuario");
+				        		jQuery("#" + id).find("span:first").text(texto);
 				        	}
 	
 				            jQuery.each(data.list, function(i, item){
