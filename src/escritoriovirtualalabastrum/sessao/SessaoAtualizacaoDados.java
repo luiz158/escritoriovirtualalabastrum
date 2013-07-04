@@ -38,6 +38,8 @@ public class SessaoAtualizacaoDados {
 	private String cadBanco;
 	private String cadAgencia;
 	private String cadTipoConta;
+	private String cadRG;
+	private String cadOrgaoExpedidor;
 
 	public String getCPF() {
 		return CPF;
@@ -285,6 +287,22 @@ public class SessaoAtualizacaoDados {
 
 	public void setCelTitular2(String celTitular2) {
 		CelTitular2 = celTitular2;
+	}
+
+	public String getCadRG() {
+		return cadRG;
+	}
+
+	public void setCadRG(String cadRG) {
+		this.cadRG = cadRG;
+	}
+
+	public String getCadOrgaoExpedidor() {
+		return cadOrgaoExpedidor;
+	}
+
+	public void setCadOrgaoExpedidor(String cadOrgaoExpedidor) {
+		this.cadOrgaoExpedidor = cadOrgaoExpedidor;
 	}
 
 }

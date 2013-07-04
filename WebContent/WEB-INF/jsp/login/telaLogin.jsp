@@ -52,7 +52,7 @@
 		position: fixed;
       	
         max-width: 700px;
-        padding: 21px 0px 13px 17px;
+        padding: 21px 0px 5px 17px;
         margin: 0 auto 20px;
         background-color: #fff;
         border: 1px solid #e5e5e5;

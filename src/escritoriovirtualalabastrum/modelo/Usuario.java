@@ -62,6 +62,8 @@ public class Usuario implements Entidade {
 	private String cadAgencia;
 	private String cadTipoConta;
 	private String DesquaLider;
+	private String cadRG;
+	private String cadOrgaoExpedidor;
 
 	@Transient
 	private PontuacaoAuxiliar pontuacaoAuxiliar;
@@ -653,5 +655,21 @@ public class Usuario implements Entidade {
 
 	public void setPontuacaoAuxiliar(PontuacaoAuxiliar pontuacaoAuxiliar) {
 		this.pontuacaoAuxiliar = pontuacaoAuxiliar;
+	}
+
+	public String getCadRG() {
+		return cadRG;
+	}
+
+	public void setCadRG(String cadRG) {
+		this.cadRG = cadRG;
+	}
+
+	public String getCadOrgaoExpedidor() {
+		return cadOrgaoExpedidor;
+	}
+
+	public void setCadOrgaoExpedidor(String cadOrgaoExpedidor) {
+		this.cadOrgaoExpedidor = cadOrgaoExpedidor;
 	}
 }

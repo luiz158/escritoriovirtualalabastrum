@@ -79,6 +79,9 @@ public class AtualizacaoDadosController {
 
 		textoEmail += "<br> <b>Nome: </b> " + this.sessaoAtualizacaoDados.getvNome();
 		textoEmail += "<br> <b>Data de nascimento: </b> " + this.sessaoAtualizacaoDados.getDt_Nasc();
+		textoEmail += "<br> <b>CPF: </b> " + this.sessaoUsuario.getUsuario().getCPF();
+		textoEmail += "<br> <b>RG: </b> " + this.sessaoAtualizacaoDados.getCadRG();
+		textoEmail += "<br> <b>Emissor: </b> " + this.sessaoAtualizacaoDados.getCadOrgaoExpedidor();
 		textoEmail += "<br> <b> Sexo: </b> " + this.sessaoAtualizacaoDados.getCadSexo();
 		textoEmail += "<br> <b> Estado civil: </b> " + this.sessaoAtualizacaoDados.getCadEstCivil();
 		textoEmail += "<br> <b> CEP: </b> " + this.sessaoAtualizacaoDados.getCadCEP();

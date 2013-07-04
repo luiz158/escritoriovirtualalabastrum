@@ -101,22 +101,29 @@
 		</div>
 		
 		<div class="corMedia divFormulario" >
+			<label class="labelFormulario" > RG: </label> 
+			<input type="text" style="width: 250px;"  name="sessaoAtualizacaoDados.cadRG" value="${sessaoAtualizacaoDados.cadRG}" >
+			<label class="labelFormulario" > Emissor: </label> 
+			<input type="text" style="width: 260px;"  name="sessaoAtualizacaoDados.cadOrgaoExpedidor" value="${sessaoAtualizacaoDados.cadOrgaoExpedidor}" >
+		</div>
+		
+		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >CEP: </label> 
 			<input type="text" style="width: 90px;" name="sessaoAtualizacaoDados.cadCEP" value="${sessaoAtualizacaoDados.cadCEP}" >	
 			<a style="margin-left: 30px;" href="http://www.buscacep.correios.com.br" target="_blank" > Pesquisar CEP </a>			
 		</div>
 		
-		<div class="corClara divFormulario" >
+		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >End. Resid.: </label> 
 			<input type="text" style="width: 550px;" name="sessaoAtualizacaoDados.cadEndereco" value="${sessaoAtualizacaoDados.cadEndereco}" >
 		</div>
 		
-		<div class="corMedia divFormulario" >
+		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Bairro: </label> 
 			<input type="text" style="width: 585px;" name="sessaoAtualizacaoDados.cadBairro" value="${sessaoAtualizacaoDados.cadBairro}" >
 		</div>
 		
-		<div class="corClara divFormulario" >
+		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Cidade: </label> 
 			<input type="text" style="width: 340px;" name="sessaoAtualizacaoDados.cadCidade" value="${sessaoAtualizacaoDados.cadCidade}" >
 			<label class="labelFormulario" >Estado: </label> 
@@ -151,7 +158,7 @@
 			</select> 	
 		</div>
 		
-		<div class="corMedia divFormulario" >
+		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Tel. resid.: </label> 
 			<input type="text" style="width: 225px;" name="sessaoAtualizacaoDados.tel" value="${sessaoAtualizacaoDados.tel}" >
 			
@@ -160,7 +167,7 @@
 
 		</div>
 		
-		<div class="corClara divFormulario" >
+		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Email: </label> 
 			<input type="text" style="width: 585px;" name="sessaoAtualizacaoDados.email" value="${sessaoAtualizacaoDados.eMail}" >
 		</div>
