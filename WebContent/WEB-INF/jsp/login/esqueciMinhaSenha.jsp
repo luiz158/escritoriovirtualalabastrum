@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Esqueci minha senha</legend>
     
-    <div class="control-group warning" style="margin-left: -90px;" > 
+    <div class="control-group warning"> 
     
 	     <label class="control-label">Informe seu código</label>
 	     <div class="controls">
