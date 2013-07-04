@@ -163,6 +163,31 @@ public class LoginController {
 	}
 
 	@Public
+	public void esqueciMinhaSenha() {
+
+	}
+
+	@Public
+	public void verificarExistenciaCodigoEsqueciMinhaSenha(Integer codigoUsuario) {
+
+		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(codigoUsuario), MatchMode.EXACT);
+
+		if (Util.vazio(usuario)) {
+
+			validator.add(new ValidationMessage("Código inexistente", "Erro"));
+			validator.onErrorRedirectTo(this).esqueciMinhaSenha();
+			return;
+		}
+
+		else {
+
+			this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", codigoUsuario);
+			result.forwardTo(this).trocarSenhaPrimeiroAcesso();
+			return;
+		}
+	}
+
+	@Public
 	public void salvarTrocarSenhaPrimeiroAcesso(String senhaNova, String confirmacaoSenhaNova, String cpf, String email) {
 
 		if (!senhaNova.equals(confirmacaoSenhaNova)) {
