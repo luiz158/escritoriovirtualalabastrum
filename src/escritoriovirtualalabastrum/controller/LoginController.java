@@ -181,6 +181,15 @@ public class LoginController {
 
 		else {
 
+			if (Util.vazio(usuario.getEV()) || usuario.getEV().equals("0")) {
+
+				String mensagem = "O usuário " + usuario.getId_Codigo() + " - " + usuario.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
+				JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
+
+				validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
+				validator.onErrorRedirectTo(this).telaLogin();
+			}
+
 			this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", codigoUsuario);
 			result.forwardTo(this).trocarSenhaPrimeiroAcesso();
 			return;
