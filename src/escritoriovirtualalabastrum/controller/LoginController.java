@@ -47,7 +47,6 @@ public class LoginController {
 		if (Util.vazio(usuario.getId_Codigo()) || usuario.getId_Codigo().equals(0) || Util.vazio(usuario.getInformacoesFixasUsuario().getSenha())) {
 
 			codigoOuSenhaIncorretos();
-			return;
 		}
 
 		String senhaInformada = usuario.getInformacoesFixasUsuario().getSenha();
@@ -74,7 +73,6 @@ public class LoginController {
 
 				validator.add(new ValidationMessage("Código inexistente", "Erro"));
 				validator.onErrorRedirectTo(this).telaLogin();
-				return;
 			}
 
 			else {
@@ -86,7 +84,6 @@ public class LoginController {
 
 					validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
 					validator.onErrorRedirectTo(this).telaLogin();
-					return;
 				}
 
 				InformacoesFixasUsuario informacoesFixasUsuario = usuarioBanco.obterInformacoesFixasUsuario();
@@ -96,14 +93,12 @@ public class LoginController {
 					if (!senhaInformada.equals("alabastrum")) {
 
 						codigoOuSenhaIncorretos();
-						return;
 					}
 
 					else {
 
 						this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", usuarioBanco.getId_Codigo());
 						result.forwardTo(this).trocarSenhaPrimeiroAcesso();
-						return;
 					}
 				}
 
@@ -112,7 +107,6 @@ public class LoginController {
 					if (!informacoesFixasUsuario.getSenha().equals(GeradorDeMd5.converter(senhaInformada))) {
 
 						codigoOuSenhaIncorretos();
-						return;
 					}
 
 				}
@@ -176,7 +170,6 @@ public class LoginController {
 
 			validator.add(new ValidationMessage("Código inexistente", "Erro"));
 			validator.onErrorRedirectTo(this).esqueciMinhaSenha();
-			return;
 		}
 
 		else {
@@ -192,7 +185,6 @@ public class LoginController {
 
 			this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", codigoUsuario);
 			result.forwardTo(this).trocarSenhaPrimeiroAcesso();
-			return;
 		}
 	}
 
@@ -203,21 +195,18 @@ public class LoginController {
 
 			validator.add(new ValidationMessage("Senha nova incorreta", "Erro"));
 			validator.onErrorRedirectTo(this).trocarSenhaPrimeiroAcesso();
-			return;
 		}
 
 		if (Util.vazio(cpf)) {
 
 			validator.add(new ValidationMessage("CPF requerido", "Erro"));
 			validator.onErrorRedirectTo(this).trocarSenhaPrimeiroAcesso();
-			return;
 		}
 
 		if (Util.vazio(email)) {
 
 			validator.add(new ValidationMessage("Email requerido", "Erro"));
 			validator.onErrorRedirectTo(this).trocarSenhaPrimeiroAcesso();
-			return;
 		}
 
 		Integer codigoUsuario = (Integer) this.sessaoGeral.getValor("codigoUsuarioPrimeiroAcesso");
@@ -231,7 +220,6 @@ public class LoginController {
 
 			validator.add(new ValidationMessage("O usuário com código " + usuarioBanco.getId_Codigo() + " não possui um CPF cadastrado no escritório virtual. Entre em contato com a Alabastrum pedindo para cadastrar o seu CPF no escritório virtual.", "Erro"));
 			validator.onErrorRedirectTo(this).trocarSenhaPrimeiroAcesso();
-			return;
 		}
 
 		else {
@@ -243,7 +231,6 @@ public class LoginController {
 
 				validator.add(new ValidationMessage("O CPF informado não é igual ao CPF existente no banco de dados da Alabastrum. Informe o CPF corretamente ou entre em contato com a Alabastrum através do email suporte@alabastrum.com.br informando sobre o problema e peça para editar o seu CPF na base de dados.", "Erro"));
 				validator.onErrorRedirectTo(this).trocarSenhaPrimeiroAcesso();
-				return;
 			}
 		}
 
@@ -285,7 +272,6 @@ public class LoginController {
 			validator.add(new ValidationMessage("Campos requeridos", "Erro"));
 
 			validator.onErrorRedirectTo(this).trocarPropriaSenha();
-			return;
 		}
 
 		Usuario usuario = hibernateUtil.selecionar(new Usuario(sessaoUsuario.getUsuario().getId_Codigo()), MatchMode.EXACT);
@@ -295,7 +281,6 @@ public class LoginController {
 			validator.add(new ValidationMessage("Senha antiga incorreta", "Erro"));
 
 			validator.onErrorRedirectTo(this).trocarPropriaSenha();
-			return;
 		}
 
 		InformacoesFixasUsuario informacoesFixasUsuario = usuario.obterInformacoesFixasUsuario();
