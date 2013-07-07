@@ -76,8 +76,6 @@ public class ImportacaoArquivoController {
 			validarFormato();
 
 			arquivo.getFile().close();
-
-			return;
 		}
 
 		arquivo.getFile().close();
@@ -134,7 +132,6 @@ public class ImportacaoArquivoController {
 			if (colunas.length <= 2) {
 
 				validarFormato();
-				return;
 			}
 
 			else {
@@ -224,7 +221,6 @@ public class ImportacaoArquivoController {
 			if (colunas.length <= 2) {
 
 				validarFormato();
-				return;
 			}
 
 			else {

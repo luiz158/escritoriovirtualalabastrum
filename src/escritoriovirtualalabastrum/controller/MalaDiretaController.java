@@ -79,7 +79,6 @@ public class MalaDiretaController {
 
 				validator.add(new ValidationMessage("O código informado não está na sua mala direta", "Erro"));
 				validator.onErrorRedirectTo(this).acessarTelaMalaDireta();
-				return;
 			}
 
 			else {

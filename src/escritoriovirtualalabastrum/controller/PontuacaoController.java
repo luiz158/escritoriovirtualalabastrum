@@ -106,7 +106,6 @@ public class PontuacaoController {
 
 				validator.add(new ValidationMessage("O código informado não está na sua rede", "Erro"));
 				validator.onErrorRedirectTo(this).acessarTelaPontuacao();
-				return;
 			}
 
 			else {
