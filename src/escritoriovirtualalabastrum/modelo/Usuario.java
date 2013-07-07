@@ -32,6 +32,7 @@ public class Usuario implements Entidade {
 
 	private String CPF;
 	private String PosAtual;
+	private String PosAbrev;
 	private String vNome;
 	private String PosIngresso;
 	private String Dt_Ingresso;
@@ -671,5 +672,13 @@ public class Usuario implements Entidade {
 
 	public void setCadOrgaoExpedidor(String cadOrgaoExpedidor) {
 		this.cadOrgaoExpedidor = cadOrgaoExpedidor;
+	}
+
+	public String getPosAbrev() {
+		return PosAbrev;
+	}
+
+	public void setPosAbrev(String posAbrev) {
+		PosAbrev = posAbrev;
 	}
 }

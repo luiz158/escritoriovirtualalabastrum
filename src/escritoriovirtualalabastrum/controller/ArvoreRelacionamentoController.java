@@ -14,22 +14,39 @@ import br.com.caelum.vraptor.view.Results;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.sessao.SessaoUsuario;
+import escritoriovirtualalabastrum.util.Util;
 
 @Resource
 public class ArvoreRelacionamentoController {
 
 	private Result result;
 	private HibernateUtil hibernateUtil;
+	private SessaoUsuario sessaoUsuario;
 
-	public ArvoreRelacionamentoController(Result result, HibernateUtil hibernateUtil) {
+	public ArvoreRelacionamentoController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario) {
 
 		this.result = result;
 		this.hibernateUtil = hibernateUtil;
+		this.sessaoUsuario = sessaoUsuario;
 	}
 
 	@Funcionalidade
 	public void acessarTelaArvoreRelacionamento() {
 
+	}
+
+	@Funcionalidade
+	public void gerarArvoreRelacionamento(Integer codigo) {
+
+		if (Util.vazio(codigo)) {
+
+			codigo = this.sessaoUsuario.getUsuario().getId_Codigo();
+		}
+
+		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(codigo));
+
+		result.include("usuarioSelecionado", usuario);
 	}
 
 	@Funcionalidade
@@ -41,7 +58,7 @@ public class ArvoreRelacionamentoController {
 		List<Criterion> restricoes = new ArrayList<Criterion>();
 		restricoes.add(Restrictions.ne("id_Codigo", codigoUsuario));
 
-		List<Usuario> usuariosPatrocinados = this.hibernateUtil.buscar(usuarioPatrocinadoFiltro, restricoes, Order.asc("vNome"));
+		List<Usuario> usuariosPatrocinados = this.hibernateUtil.buscar(usuarioPatrocinadoFiltro, restricoes, Order.asc("id_Codigo"));
 
 		for (Usuario usuario : usuariosPatrocinados) {
 
