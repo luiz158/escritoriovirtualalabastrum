@@ -61,6 +61,8 @@ public class PontuacaoController {
 		DateTime hoje = new DateTime();
 		DateTime primeiroDiaDoMesAtual = hoje.withDayOfMonth(1);
 
+		primeiroDiaDoMesAtual = primeiroDiaDoMesAtual.withMillisOfDay(0);
+
 		gerarRelatorioPontuacao("Todas", null, primeiroDiaDoMesAtual.toGregorianCalendar(), hoje.toGregorianCalendar(), "Todos", "Todos");
 
 		result.forwardTo("/WEB-INF/jsp/pontuacao/gerarRelatorioPontuacao.jsp");
@@ -144,6 +146,8 @@ public class PontuacaoController {
 
 		DateTime hoje = new DateTime();
 		DateTime primeiroDiaDoMesAtual = hoje.withDayOfMonth(1);
+
+		primeiroDiaDoMesAtual = primeiroDiaDoMesAtual.withMillisOfDay(0);
 
 		if (Util.vazio(dataInicial)) {
 

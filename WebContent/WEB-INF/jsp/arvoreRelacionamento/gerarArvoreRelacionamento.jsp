@@ -80,7 +80,7 @@
 	<label class="labelInformacoes" > Celular: </label>  <span id="informacaoCelular" >  </span>  <br>
 	<label class="labelInformacoes" > Email: </label>  <span id="informacaoEmail" >  </span>  <br>
 	<br>
-	<label class="labelInformacoes" > Pontuação total este mês: </label>  <span id="informacaoPontuacaoTotal" >  </span>  <br>
+	<label class="labelInformacoes" > Pontuação total deste mês: </label>  <span id="informacaoPontuacaoTotal" >  </span>  <br>
 	<label class="labelInformacoes" > Ativo: </label>  <span id="informacaoAtivo" >  </span>  <br>
 
 </div>
@@ -91,7 +91,11 @@
 
 <ul id="gray" class="treeview-gray" style="margin-top: 20px;" >
 	<li class="closed" id="${usuarioSelecionado.id_Codigo}" >
-		<span class="nomeUsuario" >${usuarioSelecionado.id_Codigo} - ${usuarioSelecionado.posAbrev} - ${usuarioSelecionado.vNome}</span>
+		<c:set var="ativo" value="" /> 
+		<c:if test="${usuarioSelecionado.pontuacaoAuxiliar.ativo}">
+			<c:set var="ativo" value="ativo" /> 
+		</c:if>
+		<span class="nomeUsuario ${ativo}" >${usuarioSelecionado.id_Codigo} - ${usuarioSelecionado.posAbrev} - ${usuarioSelecionado.vNome}</span>
 		<ul> </ul>
 	</li>
 </ul>

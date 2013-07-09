@@ -46,6 +46,8 @@ public class ArvoreRelacionamentoController {
 
 		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(codigo));
 
+		usuario.calcularPontuacao();
+
 		result.include("usuarioSelecionado", usuario);
 	}
 
