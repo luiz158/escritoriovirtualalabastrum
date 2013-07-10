@@ -80,10 +80,12 @@ public class LoginController {
 				if (Util.vazio(usuarioBanco.getEV()) || usuarioBanco.getEV().equals("0")) {
 
 					String mensagem = "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
-					JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
+					// JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual",
+					// "suporte@alabastrum.com.br", mensagem);
 
-					validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
-					validator.onErrorRedirectTo(this).telaLogin();
+					validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Para poder acessar o escritório virtual, você deve antes ficar ativo. Você pode ficar ativo fazendo uma compra de produtos da Alabastrum através desta tela.", "Atenção"));
+					this.sessaoGeral.adicionar("codigoUsuarioRealizandoPedido", usuarioBanco.getId_Codigo());
+					validator.onErrorRedirectTo(PedidoController.class).acessarTelaPedido();
 				}
 
 				InformacoesFixasUsuario informacoesFixasUsuario = usuarioBanco.obterInformacoesFixasUsuario();
@@ -99,7 +101,7 @@ public class LoginController {
 
 						this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", usuarioBanco.getId_Codigo());
 						result.forwardTo(this).trocarSenhaPrimeiroAcesso();
-						return ;
+						return;
 					}
 				}
 
