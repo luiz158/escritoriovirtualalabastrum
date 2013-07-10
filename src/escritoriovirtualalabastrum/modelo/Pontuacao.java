@@ -18,12 +18,12 @@ public class Pontuacao implements Entidade {
 	@GeneratedValue
 	private Integer id;
 
-	GregorianCalendar Dt_Pontos;
-	BigDecimal ParametroProduto;
-	BigDecimal ParametroAtividade;
-	BigDecimal PntIngresso;
-	BigDecimal PntProduto;
-	BigDecimal PntAtividade;
+	private GregorianCalendar Dt_Pontos;
+	private BigDecimal ParametroProduto;
+	private BigDecimal ParametroAtividade;
+	private BigDecimal PntIngresso;
+	private BigDecimal PntProduto;
+	private BigDecimal PntAtividade;
 
 	@Index(name = "index_id_Codigo_pontuacao")
 	private Integer id_Codigo;
@@ -91,5 +91,4 @@ public class Pontuacao implements Entidade {
 	public void setId_Codigo(Integer id_Codigo) {
 		this.id_Codigo = id_Codigo;
 	}
-
 }

@@ -99,6 +99,7 @@ public class LoginController {
 
 						this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", usuarioBanco.getId_Codigo());
 						result.forwardTo(this).trocarSenhaPrimeiroAcesso();
+						return ;
 					}
 				}
 

@@ -29,8 +29,10 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.Categoria;
 import escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao;
 import escritoriovirtualalabastrum.modelo.Pontuacao;
+import escritoriovirtualalabastrum.modelo.Produto;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.util.Util;
 
@@ -67,6 +69,8 @@ public class ImportacaoArquivoController {
 
 			processarCSVRelacionamentos();
 			processarCSVPontuacao();
+			processarCSVProdutos();
+			processarCSVCategorias();
 
 			atualizarInformacoesUltimaAtualizacao();
 		}
@@ -294,6 +298,193 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.executarSQL("delete from pontuacao");
 
 		this.hibernateUtil.salvarOuAtualizar(pontuacoes);
+	}
+
+	private void processarCSVProdutos() throws IOException {
+
+		String caminho = verificaSistemaOperacional();
+
+		String caminhoCompletoArquivo = caminho + File.separator + "tblProdutos" + ".csv";
+
+		File arquivoNoDisco = new File(caminhoCompletoArquivo);
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		@SuppressWarnings("resource")
+		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+
+		List<Produto> produtos = new ArrayList<Produto>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length <= 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("id_Produtos")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					Produto produto = new Produto();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = produto.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
+								field.set(produto, numero);
+							}
+
+							catch (Exception e) {
+
+								try {
+
+									DecimalFormatSymbols dsf = new DecimalFormatSymbols();
+									field.set(produto, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
+								}
+
+								catch (Exception e2) {
+
+									field.set(produto, colunas[i]);
+								}
+							}
+						}
+
+						catch (Exception e) {
+
+							// e.printStackTrace();
+						}
+					}
+
+					produtos.add(produto);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i].replaceAll(" ", ""));
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from produto");
+
+		this.hibernateUtil.salvarOuAtualizar(produtos);
+	}
+
+	private void processarCSVCategorias() throws IOException {
+
+		String caminho = verificaSistemaOperacional();
+
+		String caminhoCompletoArquivo = caminho + File.separator + "tblCategorias" + ".csv";
+
+		File arquivoNoDisco = new File(caminhoCompletoArquivo);
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		@SuppressWarnings("resource")
+		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+
+		List<Categoria> categorias = new ArrayList<Categoria>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length < 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("id_Categoria")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					Categoria categoria = new Categoria();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = categoria.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
+								field.set(categoria, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
+							}
+
+							catch (Exception e) {
+
+								field.set(categoria, colunas[i]);
+							}
+						}
+
+						catch (Exception e) {
+
+							// e.printStackTrace();
+						}
+					}
+
+					categorias.add(categoria);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i].replaceAll(" ", ""));
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from categoria");
+
+		this.hibernateUtil.salvarOuAtualizar(categorias);
 	}
 
 	private String verificaSistemaOperacional() {

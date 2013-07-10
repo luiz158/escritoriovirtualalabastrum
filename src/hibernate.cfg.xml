@@ -27,6 +27,8 @@
 		<mapping class="escritoriovirtualalabastrum.modelo.Configuracao" />
 		<mapping class="escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao" />
 		<mapping class="escritoriovirtualalabastrum.modelo.Pontuacao" />
+		<mapping class="escritoriovirtualalabastrum.modelo.Produto" />
+		<mapping class="escritoriovirtualalabastrum.modelo.Categoria" />
 
 </session-factory>
 </hibernate-configuration>
