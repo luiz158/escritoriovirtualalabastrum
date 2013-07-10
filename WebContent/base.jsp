@@ -49,6 +49,10 @@
 	        	<a href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" class="submenu-accordion" > Pontuação </a>
 	        	<a href="<c:url value="/arvoreRelacionamento/acessarTelaArvoreRelacionamento"/>" class="submenu-accordion" > Árvore de relacionamentos </a>
 	        </div>
+	        <h3 class="menu-accordion" > PEDIDOS </h3>
+	        <div>
+	        	<a href="<c:url value="/pedido/acessarTelaPedido"/>" class="submenu-accordion" > Realizar pedido </a>
+	        </div>
 	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
 	        <div>
 	        	<a href="<c:url value="/home/emails"/>" class="submenu-accordion" > E-mails </a>
