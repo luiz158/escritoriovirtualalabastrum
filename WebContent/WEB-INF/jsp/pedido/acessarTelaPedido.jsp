@@ -8,7 +8,7 @@
 
 </style>
 	
-<form class="form-horizontal" action="<c:url value="/pedido/acessarTelaPedido"/>" method="post" >
+<form class="form-horizontal" action="<c:url value="/pedido/avancarEtapaFormaPagamento"/>" method="post" >
   <fieldset>
     <legend> Realizar pedido </legend>
     
@@ -55,6 +55,8 @@
 		
 		<h3> Total: R$<b id="total" >  </b> </h3>
 		
+		<button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();" >Avançar</button>
+		
     </div>
 
   </fieldset>
@@ -71,7 +73,7 @@
 			total += parseFloat(jQuery(this).find(".precoUnitario").text()) * parseFloat(jQuery(this).find(".quantidade").val());
 		});		
 		
-		jQuery("#total").text(total);
+		jQuery("#total").text(total.toFixed(2));
 	}
 	
 	function listarProdutos(){
@@ -139,6 +141,11 @@
 		});
 		
 		jQuery(document).on('change', '.quantidade', function(){  
+			
+			calcularTotal();
+		});
+		
+		jQuery(document).on('keyup', '.quantidade', function(){  
 			
 			calcularTotal();
 		});
