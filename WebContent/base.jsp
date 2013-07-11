@@ -18,7 +18,7 @@
 		<script type="text/javascript" src="<c:url value="/js/jquery.collapse_storage.js"/>"></script>
 		<script type="text/javascript" src="<c:url value="/js/jquery.collapse_cookie_storage.js"/>"></script>		
 		<script type="text/javascript" src="<c:url value="/js/jquery.validate.js"/>"></script>
-		<script type="text/javascript" charset="utf-8" src="<c:url value="/js/scripts.gerais.js?ver=1"/>"></script>			
+		<script type="text/javascript" charset="utf-8" src="<c:url value="/js/scripts.gerais.js?ver=2"/>"></script>			
 		<script type="text/javascript" src="<c:url value="/js/submenu.js"/>"></script>
 		<script type="text/javascript" src="<c:url value="/js/form.requerido.js"/>"></script>	
 	</head>

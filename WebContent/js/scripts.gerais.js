@@ -58,9 +58,9 @@ jQuery(document).ready(function() {
 			return false;
 		}
 	});
-
-	jQuery(".numero-inteiro").keypress(function(e) {
-
+	
+	jQuery(document).on('keypress', '.numero-inteiro', function(e){  
+		
 		var tecla = (window.event) ? event.keyCode : e.which;
 
 		if ((tecla > 47 && tecla < 58))

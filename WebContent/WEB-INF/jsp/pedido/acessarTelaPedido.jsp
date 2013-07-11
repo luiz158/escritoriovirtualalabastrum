@@ -1,6 +1,14 @@
 <%@ include file="/base.jsp" %> 
+
+<style>
+
+	.quantidade{
+		width: 50px;
+	}
+
+</style>
 	
-<form class="form-horizontal" action="<c:url value="/pedido/metodoaqui"/>" method="post" >
+<form class="form-horizontal" action="<c:url value="/pedido/acessarTelaPedido"/>" method="post" >
   <fieldset>
     <legend> Realizar pedido </legend>
     
@@ -38,30 +46,33 @@
 		            <th> Preço unitário </th>
 		            <th> Pontuação </th>
 		            <th> Quantidade </th>
+		            <th>  </th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${malaDireta}" var="item">
-					<tr>
-		                      <td class="centralizado" > 
-		                      	${item.usuario.id_Codigo}
-		                      </td>
-		                      <td class="centralizado" > ${item.usuario.posAtual} </td>
-		                      <td> ${item.usuario.vNome} </td>
-		                      <td> ${item.usuario.tel} </td>
-		                      <td> ${item.usuario.cadCelular} </td>
-		                      <td> ${item.usuario.eMail} </td>
-					</tr>
-				</c:forEach>
 			</tbody>
 		</table>
+		
+		<h3> Total: R$<b id="total" >  </b> </h3>
+		
     </div>
-    
-    <button class="btn btn-primary" onclick="calcularTotal()" id="calcularTotal" style="display: none" > Calcular total </button>
+
   </fieldset>
 </form>
 
 <script>
+	
+	function calcularTotal(){
+		
+		var total = 0;
+		
+		jQuery("#tabelaProdutosSelecionados tbody tr").each(function(){
+			
+			total += parseFloat(jQuery(this).find(".precoUnitario").text()) * parseFloat(jQuery(this).find(".quantidade").val());
+		});		
+		
+		jQuery("#total").text(total);
+	}
 	
 	function listarProdutos(){
 		
@@ -99,15 +110,38 @@
 		        url: '<c:url value="/pedido/buscarInformacoesProdutoSelecionado?idProduto='+idProduto + ' "/>',
 		        dataType: 'json', 
 		        success: function(data) { 
-		        	
-		           	jQuery("#calcularTotal").show();
-		           	jQuery("#produtosSelecionados").show();
 
-		            jQuery("#tabelaProdutosSelecionados tbody").append("<tr>");
-		            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td>" + data.produto.id_Produtos + "</td>");
+		           	jQuery("#produtosSelecionados").show();
+		           	
+		           	if(jQuery("#tabelaProdutosSelecionados #" + data.produto.id_Produtos).length == 0){
+		           		
+			            jQuery("#tabelaProdutosSelecionados tbody").append("<tr id='" + data.produto.id_Produtos + "' >");
+			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado' >" + data.produto.id_Produtos + "</td>");
+			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado' >" + data.produto.prdNome + "</td>");
+			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado precoUnitario' >" + data.produto.prdPreco_Unit + "</td>");
+			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado' >" + data.produto.prdPontos + "</td>");
+			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado' > <input type='number' min='1' value='1' class='numero-inteiro quantidade' >  </td>");
+			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado removerProduto' > <a title='Remover' > <img src='../css/images/excluir.gif' /> </a>  </td>");
+			            
+			            calcularTotal();
+		           	}
 		        }
 			});
 		}
 	}
+	
+	jQuery(document).ready(function() {
+		
+		jQuery(document).on('click', '.removerProduto', function(){  
+			
+			jQuery(this).parent("tr").remove();
+			calcularTotal();
+		});
+		
+		jQuery(document).on('change', '.quantidade', function(){  
+			
+			calcularTotal();
+		});
+	});
 	
 </script>
