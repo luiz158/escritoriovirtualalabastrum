@@ -70,6 +70,8 @@ public class PedidoController {
 	@Public
 	public void etapaFormasPagamento(String hashProdutosEQuantidades) {
 
+		this.sessaoPedido.setProdutosEQuantidades(new LinkedHashMap<String, Integer>());
+
 		String[] produtosEQuantidades = hashProdutosEQuantidades.split(",");
 
 		for (int i = 0; i < produtosEQuantidades.length; i++) {
