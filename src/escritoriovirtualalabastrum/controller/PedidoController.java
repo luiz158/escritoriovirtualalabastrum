@@ -1,7 +1,9 @@
 package escritoriovirtualalabastrum.controller;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -32,9 +34,58 @@ public class PedidoController {
 	@Public
 	public void acessarTelaPedido() {
 
-		this.sessaoPedido.setProdutosEQuantidades(new HashMap<String, BigDecimal>());
+		this.sessaoPedido.setProdutosEQuantidades(new LinkedHashMap<String, Integer>());
+
+		result.forwardTo(this).etapaSelecaoProdutos();
+	}
+
+	@Public
+	public void etapaSelecaoProdutos() {
 
 		result.include("categorias", this.hibernateUtil.buscar(new Categoria(), Order.asc("catNome")));
+	}
+
+	@Public
+	public void voltarParaSelecaoProdutos() {
+
+		List<Produto> produtos = new ArrayList<Produto>();
+
+		for (Entry<String, Integer> produtoEQuantidade : this.sessaoPedido.getProdutosEQuantidades().entrySet()) {
+
+			Produto produtoFiltro = new Produto();
+			produtoFiltro.setId_Produtos(produtoEQuantidade.getKey());
+
+			Produto produto = this.hibernateUtil.selecionar(produtoFiltro, MatchMode.EXACT);
+
+			produto.setQuantidade(produtoEQuantidade.getValue());
+
+			produtos.add(produto);
+		}
+
+		result.include("produtos", produtos);
+
+		result.forwardTo(this).etapaSelecaoProdutos();
+	}
+
+	@Public
+	public void etapaFormasPagamento(String hashProdutosEQuantidades) {
+
+		String[] produtosEQuantidades = hashProdutosEQuantidades.split(",");
+
+		for (int i = 0; i < produtosEQuantidades.length; i++) {
+
+			try {
+
+				String idProduto = produtosEQuantidades[i].split("=")[0];
+				String quantidade = produtosEQuantidades[i].split("=")[1];
+
+				this.sessaoPedido.getProdutosEQuantidades().put(idProduto, Integer.valueOf(quantidade));
+			}
+
+			catch (Exception e) {
+
+			}
+		}
 	}
 
 	@Public
@@ -53,13 +104,5 @@ public class PedidoController {
 		produto.setId_Produtos(idProduto);
 
 		result.use(Results.json()).from(this.hibernateUtil.selecionar(produto, MatchMode.EXACT)).serialize();
-	}
-
-	@Public
-	public void adicionarProdutoEQuantidade(String idProduto, BigDecimal quantidade) {
-
-		this.sessaoPedido.getProdutosEQuantidades().put(idProduto, quantidade);
-
-		result.use(Results.json()).from("").serialize();
 	}
 }

@@ -1,7 +1,6 @@
 package escritoriovirtualalabastrum.sessao;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.SessionScoped;
@@ -10,13 +9,14 @@ import br.com.caelum.vraptor.ioc.SessionScoped;
 @SessionScoped
 public class SessaoPedido {
 
-	private HashMap<String, BigDecimal> produtosEQuantidades;
+	private LinkedHashMap<String, Integer> produtosEQuantidades;
 
-	public HashMap<String, BigDecimal> getProdutosEQuantidades() {
+	public LinkedHashMap<String, Integer> getProdutosEQuantidades() {
 		return produtosEQuantidades;
 	}
 
-	public void setProdutosEQuantidades(HashMap<String, BigDecimal> produtosEQuantidades) {
+	public void setProdutosEQuantidades(LinkedHashMap<String, Integer> produtosEQuantidades) {
 		this.produtosEQuantidades = produtosEQuantidades;
 	}
+
 }

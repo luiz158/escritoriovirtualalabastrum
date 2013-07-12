@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
@@ -26,6 +27,9 @@ public class Produto implements Entidade {
 	private BigDecimal prdBonus;
 	private BigDecimal prdPeso;
 	private BigDecimal prdPontos;
+
+	@Transient
+	private Integer quantidade;
 
 	@Index(name = "index_id_Produtos")
 	private String id_Produtos;
@@ -127,5 +131,13 @@ public class Produto implements Entidade {
 
 	public void setId_Categoria(Integer id_Categoria) {
 		this.id_Categoria = id_Categoria;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 }

@@ -34,7 +34,12 @@
     
     <br>
     
-    <div id="produtosSelecionados" style="display: none" >
+    <c:set var="displayProdutosSelecionados" value="none" />
+    <c:if test="${!empty produtos}">
+    	<c:set var="displayProdutosSelecionados" value="block" />
+    </c:if>
+    
+    <div id="produtosSelecionados" style="display: ${displayProdutosSelecionados}" >
     
 	    <h6> Produtos selecionados  </h6>
 	    
@@ -50,6 +55,16 @@
 				</tr>
 			</thead>
 			<tbody>
+				<c:forEach items="${produtos}" var="produto" >
+					<tr id="${produto.id_Produtos}" >
+			            <td class='centralizado idProduto' >${produto.id_Produtos}</td>
+			            <td class='centralizado' > ${produto.prdNome} </td>
+			            <td class='centralizado precoUnitario' > ${produto.prdPreco_Unit} </td>
+			            <td class='centralizado' > ${produto.prdPontos} </td>
+			            <td class='centralizado' > <input type='number' min='1' value='${produto.quantidade}' class='numero-inteiro quantidade' >  </td>
+			            <td class='centralizado removerProduto' > <a title='Remover' > <img src='../css/images/excluir.gif' /> </a> </td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		
@@ -68,20 +83,17 @@
 
 	function avancarEtapaFormaPagamento(){
 		
+		var hashProdutosEQuantidades = '';
+		
 		jQuery("#tabelaProdutosSelecionados tbody tr").each(function(i, item){
 			    
 			var idProduto = jQuery(item).find(".idProduto").text();
 			var quantidade = parseFloat(jQuery(item).find(".quantidade").val());
 			
-			jQuery.ajax({ 
-		        type: 'GET',
-		        url: '<c:url value="/pedido/adicionarProdutoEQuantidade?idProduto=' +idProduto + '&quantidade=' + quantidade + ' "/>',
-		        dataType: 'json', 
-		        success: function(data) {}
-			});	
+			hashProdutosEQuantidades += idProduto + "=" + quantidade + ",";
 		});	
 		
-		window.location = "<c:url value='/pedido/etapaFormasPagamento' /> ";
+		window.location = "<c:url value='/pedido/etapaFormasPagamento?hashProdutosEQuantidades=" + hashProdutosEQuantidades + "'/> ";
 	}
 	
 	function calcularTotal(){
@@ -165,6 +177,8 @@
 	}
 	
 	jQuery(document).ready(function() {
+		
+		calcularTotal();
 		
 		jQuery(document).on('click', '.removerProduto', function(){  
 			
