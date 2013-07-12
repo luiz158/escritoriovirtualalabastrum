@@ -53,7 +53,7 @@
 			<div class="control-group warning">
 	      		<label class="control-label">Nome no cartão:</label>
 	      		<div class="controls">
-	        		<input type="text" class="input-xxlarge" name="nomeNoCartao" required="required" >
+	        		<input type="text" class="input-xlarge" name="nomeNoCartao" required="required" >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
@@ -65,7 +65,7 @@
 	      	<div class="control-group warning">
 	      		<label class="control-label">Número: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input-large numero-inteiro" name="numeroCartao" required="required" >
+	        		<input type="text" class="input-medium numero-inteiro" name="numeroCartao" required="required" >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
@@ -77,9 +77,55 @@
 	      	<div class="control-group warning">
 	      		<label class="control-label">Código de segurança: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input numero-inteiro" name="codigoSegurancaCartao" required="required" >
+	        		<input type="text" class="input-medium numero-inteiro" name="codigoSegurancaCartao" required="required" >
 	        	</div>
 	      	</div>
+	    </div>
+	</div>
+	
+	<div id="divDepositoBancario" style="display: none" >
+	
+		<h5> Depósito bancário </h5>
+		
+		<div class="divPagamento" >
+			
+			<p style="font-size: 18px;" >  
+				Instruções para pagamento por depósito bancário:
+			</p>
+			<br><br>
+			<p>  
+				Após finalizada a realização do pedido aqui no escritório virtual. Faça o depósito na seguinte conta:
+			</p>
+			<p>  
+				<b>Número da conta:</b> NÚMERO AQUI
+			</p>
+			<p>  
+				<b>Número da agência:</b> NÚMERO AQUI
+			</p>
+			<p>  
+				<b>Banco:</b> BANCO AQUI
+			</p>
+			<p>  
+				<b>Outros dados:</b>: DADOS AQUI
+			</p>
+			<br><br>
+			<p>  
+				Depois de realizado o depósito. Envie o comprovante do pagamento para o email: <b> EMAIL AQUI </b> 
+			</p>
+			<p>  
+				O assunto do email deve ser: Comprovante de depósito bancário referente ao pedido ${sessaoPedido.codigoPedido}
+			</p>
+			<p>  
+				No conteúdo do email deve conter os dados referentes ao depósito.
+			</p>
+			<p>  
+				Você também deve anexar no email o comprovante do depósito gerado pelo banco.
+			</p>
+			
+			<p>  
+				Clique em <b> Avançar </b>
+			</p>
+			
 	    </div>
 	</div>
 	
@@ -98,12 +144,19 @@
 	function selecionarFormaPagamento(){
 		
 		jQuery("#divCartaoCredito").hide();
+		jQuery("#divDepositoBancario").hide();
 		
 		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoCartaoCredito'){
 			
 			jQuery("#divCartaoCredito").show();
 			jQuery("#botaoAvancar").show();
-		}	
+		}
+		
+		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoDepositoBancario'){
+			
+			jQuery("#divDepositoBancario").show();
+			jQuery("#botaoAvancar").show();
+		}
 	}
 
 </script>

@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
@@ -15,7 +16,10 @@ import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
 import escritoriovirtualalabastrum.modelo.Produto;
+import escritoriovirtualalabastrum.sessao.SessaoGeral;
 import escritoriovirtualalabastrum.sessao.SessaoPedido;
+import escritoriovirtualalabastrum.sessao.SessaoUsuario;
+import escritoriovirtualalabastrum.util.Util;
 
 @Resource
 public class PedidoController {
@@ -23,12 +27,16 @@ public class PedidoController {
 	private Result result;
 	private HibernateUtil hibernateUtil;
 	private SessaoPedido sessaoPedido;
+	private SessaoGeral sessaoGeral;
+	private SessaoUsuario sessaoUsuario;
 
-	public PedidoController(Result result, HibernateUtil hibernateUtil, SessaoPedido sessaoPedido) {
+	public PedidoController(Result result, HibernateUtil hibernateUtil, SessaoPedido sessaoPedido, SessaoGeral sessaoGeral, SessaoUsuario sessaoUsuario) {
 
 		this.result = result;
 		this.hibernateUtil = hibernateUtil;
 		this.sessaoPedido = sessaoPedido;
+		this.sessaoGeral = sessaoGeral;
+		this.sessaoUsuario = sessaoUsuario;
 	}
 
 	@Public
@@ -36,7 +44,37 @@ public class PedidoController {
 
 		this.sessaoPedido.setProdutosEQuantidades(new LinkedHashMap<String, Integer>());
 
-		result.forwardTo(this).etapaSelecaoProdutos();
+		String codigoPedido = "";
+
+		DateTime agora = new DateTime();
+
+		String agoraString = agora.toString("dd-MM-YYYY HH:mm:ss");
+
+		if (Util.preenchido(this.sessaoUsuario.getUsuario())) {
+
+			codigoPedido = this.sessaoUsuario.getUsuario().getId_Codigo() + agoraString.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
+
+			this.sessaoPedido.setCodigoPedido(codigoPedido);
+		}
+
+		else if (Util.preenchido(this.sessaoGeral.getValor("codigoUsuarioRealizandoPedido"))) {
+
+			Integer codigoUsuario = (Integer) this.sessaoGeral.getValor("codigoUsuarioRealizandoPedido");
+
+			codigoPedido = codigoUsuario + agoraString.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
+
+			this.sessaoPedido.setCodigoPedido(codigoPedido);
+		}
+
+		if (Util.preenchido(codigoPedido)) {
+
+			result.forwardTo(this).etapaSelecaoProdutos();
+		}
+
+		else {
+
+			result.forwardTo(LoginController.class).telaLogin();
+		}
 	}
 
 	@Public
