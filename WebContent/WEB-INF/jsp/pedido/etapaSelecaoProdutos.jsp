@@ -186,6 +186,12 @@
 			calcularTotal();
 		});
 		
+		jQuery(".removerProduto").click(function(){  
+			
+			jQuery(this).parent("tr").remove();
+			calcularTotal();
+		});
+		
 		jQuery(document).on('change', '.quantidade', function(){  
 			
 			calcularTotal();
