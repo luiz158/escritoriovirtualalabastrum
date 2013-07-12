@@ -8,7 +8,7 @@
 
 </style>
 	
-<form class="form-horizontal" action="<c:url value="/pedido/avancarEtapaFormaPagamento"/>" method="post" >
+<form class="form-horizontal" action="" method="post" >
   <fieldset>
     <legend> Realizar pedido </legend>
     
@@ -55,7 +55,9 @@
 		
 		<h3> Total: R$<b id="total" >  </b> </h3>
 		
-		<button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();" >Avançar</button>
+		<br>
+		
+		<input type="button" class="btn btn-primary" onclick="avancarEtapaFormaPagamento()" value="Avançar" >
 		
     </div>
 
@@ -63,6 +65,24 @@
 </form>
 
 <script>
+
+	function avancarEtapaFormaPagamento(){
+		
+		jQuery("#tabelaProdutosSelecionados tbody tr").each(function(i, item){
+			    
+			var idProduto = jQuery(item).find(".idProduto").text();
+			var quantidade = parseFloat(jQuery(item).find(".quantidade").val());
+			
+			jQuery.ajax({ 
+		        type: 'GET',
+		        url: '<c:url value="/pedido/adicionarProdutoEQuantidade?idProduto=' +idProduto + '&quantidade=' + quantidade + ' "/>',
+		        dataType: 'json', 
+		        success: function(data) {}
+			});	
+		});	
+		
+		window.location = "<c:url value='/pedido/etapaFormasPagamento' /> ";
+	}
 	
 	function calcularTotal(){
 		
@@ -115,10 +135,12 @@
 
 		           	jQuery("#produtosSelecionados").show();
 		           	
-		           	if(jQuery("#tabelaProdutosSelecionados #" + data.produto.id_Produtos).length == 0){
-		           		
-			            jQuery("#tabelaProdutosSelecionados tbody").append("<tr id='" + data.produto.id_Produtos + "' >");
-			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado' >" + data.produto.id_Produtos + "</td>");
+		           	var idProdutoCaracteresSubstituidos = substituirCaracteresEspeciais(data.produto.id_Produtos);
+		           	
+		           	if(jQuery("#tabelaProdutosSelecionados #" + idProdutoCaracteresSubstituidos).length == 0){
+
+			            jQuery("#tabelaProdutosSelecionados tbody").append("<tr id='" + idProdutoCaracteresSubstituidos + "' >");
+			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado idProduto' >" + data.produto.id_Produtos + "</td>");
 			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado' >" + data.produto.prdNome + "</td>");
 			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado precoUnitario' >" + data.produto.prdPreco_Unit + "</td>");
 			            jQuery("#tabelaProdutosSelecionados tbody tr:last").append("<td class='centralizado' >" + data.produto.prdPontos + "</td>");
@@ -130,6 +152,16 @@
 		        }
 			});
 		}
+	}
+	
+	function substituirCaracteresEspeciais(string){
+		
+		while (string.indexOf("/") != -1) {
+			
+	 		string = string.replace("/", "---barra---");
+		}
+		
+		return string;
 	}
 	
 	jQuery(document).ready(function() {
