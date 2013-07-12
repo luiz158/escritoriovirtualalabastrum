@@ -129,6 +129,47 @@
 	    </div>
 	</div>
 	
+	<div id="divDinheiroECartaoDebito" style="display: none" >
+	
+		<h5> Dinheiro ou cartão de débito </h5>
+		
+		<div class="divPagamento" >
+			
+			<p>  
+				Os pagamentos feitos em dinheiro ou em débito são feitos somente presencialmente.
+			</p>	
+			
+			<p>  
+				É muito útil fazer o seu pedido pelo escritório virtual antes de ir buscar a sua compra porque agiliza o processo e
+				você pode ir pegar mais rapidamente a sua mercadoria no centro de distribuição de sua preferência.
+			</p>
+			
+			<br>
+			
+			<p>  
+				Escolha abaixo o centro de distribuição que você prefere e também informe a data e a hora que irá buscá-lo.
+			</p>
+			
+			<select id="centroDistribuicao" name="centroDistribuicao" onchange="escolherCentroDistribuicao()" >
+          		<option value="" > Selecione </option>
+          		<option value="Madureira" > Madureira </option>
+		  	</select>
+		  	
+		  	<br><br>
+		  	
+		  	<p>  
+				Endereço: <b id="enderecoCentroDistribuicao" >  </b>
+			</p>
+			
+			<br>
+			
+			<p>  
+				Data e hora: <input type="text" name="dataHoraEscolhida" class="input-xlarge" >
+			</p>
+					
+	    </div>
+	</div>
+	
 	<br>
 	<br>
 	<br>
@@ -140,12 +181,22 @@
 </form>
 
 <script>
+
+	function escolherCentroDistribuicao(){
+		
+		if(jQuery("#centroDistribuicao").val() == 'Madureira'){
+			
+			jQuery("#enderecoCentroDistribuicao").text("R. Carolina Machado, 380 - Madureira  Rio de Janeiro, 21351-021 - Tel: (21) 3390-4463");
+		}
+	}
 	
 	function selecionarFormaPagamento(){
 		
 		jQuery("#divCartaoCredito").hide();
 		jQuery("#divDepositoBancario").hide();
-		
+		jQuery("#divDinheiroECartaoDebito").hide();
+		jQuery("#botaoAvancar").hide();
+
 		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoCartaoCredito'){
 			
 			jQuery("#divCartaoCredito").show();
@@ -155,6 +206,12 @@
 		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoDepositoBancario'){
 			
 			jQuery("#divDepositoBancario").show();
+			jQuery("#botaoAvancar").show();
+		}
+		
+		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoCartaoDebito' || jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoDinheiro' ){
+			
+			jQuery("#divDinheiroECartaoDebito").show();
 			jQuery("#botaoAvancar").show();
 		}
 	}
