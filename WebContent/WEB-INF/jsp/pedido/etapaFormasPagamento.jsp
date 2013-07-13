@@ -53,31 +53,46 @@
 			<div class="control-group warning">
 	      		<label class="control-label">Nome no cartão:</label>
 	      		<div class="controls">
-	        		<input type="text" class="input-xlarge" name="nomeNoCartao" required="required" >
+	        		<input type="text" class="input-xlarge" name="nomeNoCartao"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Bandeira: <span style="color: #ccc" > (Visa, Mastercard, etc) </span></label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium" name="bandeiraCartao" required="required" >
+	        		<input type="text" class="input-medium" name="bandeiraCartao"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Número: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium numero-inteiro" name="numeroCartao" required="required" >
+	        		<input type="text" class="input-medium numero-inteiro" name="numeroCartao"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Data de validade: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium" name="dataValidadeCartao" required="required" >
+	        		<input type="text" class="input-medium" name="dataValidadeCartao"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Código de segurança: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium numero-inteiro" name="codigoSegurancaCartao" required="required" >
+	        		<input type="text" class="input-medium numero-inteiro" name="codigoSegurancaCartao"  >
+	        	</div>
+	      	</div>
+	      	
+	      	<div class="control-group warning">
+	      		<label class="control-label">Quantidade de parcelas: </label>
+	      		<div class="controls">
+	        		<select name="quantidadeParcelas" style="width: 100px;" >
+	        			<option value="1" >1</option>
+	        			<option value="2" >2</option>
+	        			<option value="3" >3</option>
+	        			<option value="4" >4</option>
+	        			<option value="5" >5</option>
+	        			<option value="6" >6</option>
+	        		</select>
+	        		<span style="color: #ccc" > (Juros da administradora) </span>
 	        	</div>
 	      	</div>
 	    </div>
@@ -150,7 +165,7 @@
 				Escolha abaixo o centro de distribuição que você prefere e também informe a data e a hora que irá buscá-lo.
 			</p>
 			
-			<select id="centroDistribuicao" name="centroDistribuicao" onchange="escolherCentroDistribuicao()" >
+			<select id="centroDistribuicao" name="centroDistribuicao" onchange="escolherCentroDistribuicao()"  >
           		<option value="" > Selecione </option>
           		<option value="Madureira" > Madureira </option>
 		  	</select>
@@ -164,7 +179,7 @@
 			<br>
 			
 			<p>  
-				Data e hora: <input type="text" name="dataHoraEscolhida" class="input-xlarge" >
+				Data e hora: <input type="text" name="dataHoraEscolhida" class="input-xlarge"  >
 			</p>
 					
 	    </div>
