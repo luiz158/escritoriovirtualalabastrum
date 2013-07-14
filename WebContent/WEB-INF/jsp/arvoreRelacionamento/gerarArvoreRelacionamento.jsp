@@ -159,9 +159,11 @@
 			if(jQuery("#" + id).find(".hitarea:first").hasClass("expandable-hitarea") || jQuery("#gray").find("li:first").attr("id") == id  ){
 				
 				jQuery("#" + id).find(".hitarea:first").removeClass("expandable-hitarea");
-				jQuery("#" + id).find(".hitarea:first").addClass("collapsable-hitarea");
+				jQuery("#" + id).find(".hitarea:first").addClass("collapsable-hitarea");				
 				
-				if(jQuery("#" + id).find("li").size() == 0){
+				if(jQuery("#" + id).find("li").size() == 0 && jQuery("#" + id).hasClass("jaClicado") == false){
+					
+					jQuery("#" + id).addClass("jaClicado");
 	
 					jQuery.ajax({ 
 				        type: 'GET',
