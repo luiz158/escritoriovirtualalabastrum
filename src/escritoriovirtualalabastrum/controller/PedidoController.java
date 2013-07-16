@@ -16,6 +16,7 @@ import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
 import escritoriovirtualalabastrum.modelo.Produto;
+import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.sessao.SessaoGeral;
 import escritoriovirtualalabastrum.sessao.SessaoPedido;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
@@ -55,6 +56,7 @@ public class PedidoController {
 			codigoPedido = this.sessaoUsuario.getUsuario().getId_Codigo() + agoraString.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
 
 			this.sessaoPedido.setCodigoPedido(codigoPedido);
+			this.sessaoPedido.setCodigoUsuario(this.sessaoUsuario.getUsuario().getId_Codigo());
 		}
 
 		else if (Util.preenchido(this.sessaoGeral.getValor("codigoUsuarioRealizandoPedido"))) {
@@ -64,6 +66,7 @@ public class PedidoController {
 			codigoPedido = codigoUsuario + agoraString.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
 
 			this.sessaoPedido.setCodigoPedido(codigoPedido);
+			this.sessaoPedido.setCodigoUsuario(codigoUsuario);
 		}
 
 		if (Util.preenchido(codigoPedido)) {
@@ -108,22 +111,25 @@ public class PedidoController {
 	@Public
 	public void etapaFormasPagamento(String hashProdutosEQuantidades) {
 
-		this.sessaoPedido.setProdutosEQuantidades(new LinkedHashMap<String, Integer>());
+		if (Util.preenchido(hashProdutosEQuantidades)) {
 
-		String[] produtosEQuantidades = hashProdutosEQuantidades.split(",");
+			this.sessaoPedido.setProdutosEQuantidades(new LinkedHashMap<String, Integer>());
 
-		for (int i = 0; i < produtosEQuantidades.length; i++) {
+			String[] produtosEQuantidades = hashProdutosEQuantidades.split(",");
 
-			try {
+			for (int i = 0; i < produtosEQuantidades.length; i++) {
 
-				String idProduto = produtosEQuantidades[i].split("=")[0];
-				String quantidade = produtosEQuantidades[i].split("=")[1];
+				try {
 
-				this.sessaoPedido.getProdutosEQuantidades().put(idProduto, Integer.valueOf(quantidade));
-			}
+					String idProduto = produtosEQuantidades[i].split("=")[0];
+					String quantidade = produtosEQuantidades[i].split("=")[1];
 
-			catch (Exception e) {
+					this.sessaoPedido.getProdutosEQuantidades().put(idProduto, Integer.valueOf(quantidade));
+				}
 
+				catch (Exception e) {
+
+				}
 			}
 		}
 	}
@@ -131,10 +137,28 @@ public class PedidoController {
 	@Public
 	public void etapaComoDesejaReceberOsProdutos(SessaoPedido sessaoPedido) {
 
-		preencherSessao(sessaoPedido);
+		preencherInformacoesFormasPagamento(sessaoPedido);
+
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDinheiro") || this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoDebito")) {
+
+			result.redirectTo(this).etapaConfirmacaoEmail(null);
+		}
 	}
 
-	private void preencherSessao(SessaoPedido sessaoPedido) {
+	@Public
+	public void etapaConfirmacaoEmail(SessaoPedido sessaoPedido) {
+
+		if (Util.preenchido(sessaoPedido)) {
+
+			preencherInformacoesComoDesejaReceberOsProdutos(sessaoPedido);
+		}
+
+		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(this.sessaoPedido.getCodigoUsuario()), MatchMode.EXACT);
+
+		result.include("email", usuario.geteMail());
+	}
+
+	private void preencherInformacoesFormasPagamento(SessaoPedido sessaoPedido) {
 
 		this.sessaoPedido.setFormaPagamento(sessaoPedido.getFormaPagamento());
 		this.sessaoPedido.setNomeNoCartao(sessaoPedido.getNomeNoCartao());
@@ -145,6 +169,13 @@ public class PedidoController {
 		this.sessaoPedido.setQuantidadeParcelas(sessaoPedido.getQuantidadeParcelas());
 		this.sessaoPedido.setCentroDistribuicao(sessaoPedido.getCentroDistribuicao());
 		this.sessaoPedido.setDataHoraEscolhida(sessaoPedido.getDataHoraEscolhida());
+	}
+
+	private void preencherInformacoesComoDesejaReceberOsProdutos(SessaoPedido sessaoPedido) {
+
+		this.sessaoPedido.setComoDesejaReceberOsProdutos(sessaoPedido.getComoDesejaReceberOsProdutos());
+		this.sessaoPedido.setCep(sessaoPedido.getCep());
+		this.sessaoPedido.setEnderecoEntrega(sessaoPedido.getEnderecoEntrega());
 	}
 
 	@Public

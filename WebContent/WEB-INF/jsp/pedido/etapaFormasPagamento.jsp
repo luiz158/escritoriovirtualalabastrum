@@ -10,7 +10,6 @@
 	}
 
 </style> 
-
 	
 <form class="form-horizontal" action="<c:url value="/pedido/etapaComoDesejaReceberOsProdutos"/>" method="post" id="formFormasPagamento" >
   <fieldset>

@@ -11,6 +11,8 @@ public class SessaoPedido {
 
 	private LinkedHashMap<String, Integer> produtosEQuantidades;
 
+	private Integer codigoUsuario;
+
 	private String codigoPedido;
 
 	private String formaPagamento;
@@ -22,6 +24,10 @@ public class SessaoPedido {
 	private String quantidadeParcelas;
 	private String centroDistribuicao;
 	private String dataHoraEscolhida;
+
+	private String comoDesejaReceberOsProdutos;
+	private String cep;
+	private String enderecoEntrega;
 
 	public LinkedHashMap<String, Integer> getProdutosEQuantidades() {
 		return produtosEQuantidades;
@@ -109,6 +115,38 @@ public class SessaoPedido {
 
 	public void setDataHoraEscolhida(String dataHoraEscolhida) {
 		this.dataHoraEscolhida = dataHoraEscolhida;
+	}
+
+	public Integer getCodigoUsuario() {
+		return codigoUsuario;
+	}
+
+	public void setCodigoUsuario(Integer codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
+	}
+
+	public String getComoDesejaReceberOsProdutos() {
+		return comoDesejaReceberOsProdutos;
+	}
+
+	public void setComoDesejaReceberOsProdutos(String comoDesejaReceberOsProdutos) {
+		this.comoDesejaReceberOsProdutos = comoDesejaReceberOsProdutos;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getEnderecoEntrega() {
+		return enderecoEntrega;
+	}
+
+	public void setEnderecoEntrega(String enderecoEntrega) {
+		this.enderecoEntrega = enderecoEntrega;
 	}
 
 }
