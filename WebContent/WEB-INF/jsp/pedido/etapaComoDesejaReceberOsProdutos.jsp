@@ -36,36 +36,10 @@
 	<br>
 	<br>
 	
-	<div id="divSedex" style="display: none" >
+	<div id="divSedexOuPAC" style="display: none" >
 	
-		<h5> Sedex </h5>
-		
-		<div class="divComoDesejaReceberOsProdutos" >
-			
-			<p>  
-				Você receberá por e-mail o valor do frete para o seu pedido juntamente com o valor total (Produtos + frete)
-			</p>
-			<p>  
-				Esses valores serão calculados levando em consideração o peso dos produtos escolhidos e também a distância do local de entrega informado.
-			</p>
-			<p>  
-				Você deverá responder o e-mail confirmando se concorda ou não com os valores
-			</p>
-			<br>
-			<p>  
-				Informe o CEP para entrega: <input type="text" name="sessaoPedido.cep" value="${sessaoPedido.cep}" class="input-medium"  >
-				<a style="margin-left: 30px;" href="http://www.buscacep.correios.com.br" target="_blank" > Pesquisar CEP </a>
-			</p>
-			<p>  
-				Informe o endereço completo para entrega: <input type="text" name="sessaoPedido.enderecoEntrega" value="${sessaoPedido.enderecoEntrega}" class="input-xxlarge"  >
-			</p>
-
-	    </div>
-	</div>
-	
-	<div id="divPAC" style="display: none" >
-	
-		<h5> PAC </h5>
+		<h5 id="tituloSedex" style="display: none;" > Sedex </h5>
+		<h5 id="tituloPAC" style="display: none;" > PAC </h5>
 		
 		<div class="divComoDesejaReceberOsProdutos" >
 			
@@ -147,20 +121,23 @@
 	
 	function selecionarComoDesejaReceberOsProdutos(){
 		
-		jQuery("#divSedex").hide();
-		jQuery("#divPAC").hide();
+		jQuery("#divSedexOuPAC").hide();
+		jQuery("#tituloSedex").hide();
+		jQuery("#tituloPAC").hide();		
 		jQuery("#divMeiosProprios").hide();
 		jQuery("#botaoAvancar").hide();
 
 		if(jQuery("#divComoDesejaReceberOsProdutos input[type='radio']:checked").attr("id") == 'Sedex'){
 			
-			jQuery("#divSedex").show();
+			jQuery("#divSedexOuPAC").show();
+			jQuery("#tituloSedex").show();
 			jQuery("#botaoAvancar").show();
 		}
 		
 		if(jQuery("#divComoDesejaReceberOsProdutos input[type='radio']:checked").attr("id") == 'PAC'){
 			
-			jQuery("#divPAC").show();
+			jQuery("#divSedexOuPAC").show();
+			jQuery("#tituloPAC").show();
 			jQuery("#botaoAvancar").show();
 		}
 		
