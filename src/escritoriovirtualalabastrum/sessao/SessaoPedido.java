@@ -29,6 +29,8 @@ public class SessaoPedido {
 	private String cep;
 	private String enderecoEntrega;
 
+	private String email;
+
 	public LinkedHashMap<String, Integer> getProdutosEQuantidades() {
 		return produtosEQuantidades;
 	}
@@ -147,6 +149,14 @@ public class SessaoPedido {
 
 	public void setEnderecoEntrega(String enderecoEntrega) {
 		this.enderecoEntrega = enderecoEntrega;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }
