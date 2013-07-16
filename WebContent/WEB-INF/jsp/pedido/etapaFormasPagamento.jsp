@@ -12,28 +12,28 @@
 </style> 
 
 	
-<form class="form-horizontal" action="<c:url value="/pedido/ETAPAAINDASEMNOME"/>" method="post" id="formFormasPagamento" >
+<form class="form-horizontal" action="<c:url value="/pedido/etapaComoDesejaReceberOsProdutos"/>" method="post" id="formFormasPagamento" >
   <fieldset>
     <legend> Forma de pagamento </legend>
     
     <label class="radio">
-		<input type="radio" id="formaPagamentoCartaoCredito" name="formaPagamento" value="formaPagamentoCartaoCredito" >
+		<input type="radio" id="formaPagamentoCartaoCredito" name="sessaoPedido.formaPagamento" value="formaPagamentoCartaoCredito" <c:if test="${sessaoPedido.formaPagamento == 'formaPagamentoCartaoCredito'}"> checked="checked" </c:if>  >
 		Cartão de crédito
 	</label>
 	<label class="radio">
-		<input type="radio" id="formaPagamentoDepositoBancario" name="formaPagamento" value="formaPagamentoDepositoBancario" >
+		<input type="radio" id="formaPagamentoDepositoBancario" name="sessaoPedido.formaPagamento" value="formaPagamentoDepositoBancario" <c:if test="${sessaoPedido.formaPagamento == 'formaPagamentoDepositoBancario'}"> checked="checked" </c:if>  >
 		Depósito bancário
 	</label>
 	<label class="radio">
-		<input type="radio" id="formaPagamentoDinheiro" name="formaPagamento" value="formaPagamentoDinheiro" >
+		<input type="radio" id="formaPagamentoDinheiro" name="sessaoPedido.formaPagamento" value="formaPagamentoDinheiro" <c:if test="${sessaoPedido.formaPagamento == 'formaPagamentoDinheiro'}"> checked="checked" </c:if>  >
 		Dinheiro (Necessário comparecimento presencial)
 	</label>
 	<label class="radio">
-		<input type="radio" id="formaPagamentoCartaoDebito" name="formaPagamento" value="formaPagamentoCartaoDebito" >
+		<input type="radio" id="formaPagamentoCartaoDebito" name="sessaoPedido.formaPagamento" value="formaPagamentoCartaoDebito" <c:if test="${sessaoPedido.formaPagamento == 'formaPagamentoCartaoDebito'}"> checked="checked" </c:if>  >
 		Cartão de débito (Necessário comparecimento presencial)
 	</label>
 	<label class="radio" style="color: #aaa;" >
-		<input type="radio" id="formaPagamentoCartaoDebito" name="formaPagamento" disabled="disabled" >
+		<input type="radio" id="formaPagamentoBoleto" name="sessaoPedido.formaPagamento" disabled="disabled" >
 		Boleto(Ainda não disponível)
 	</label>
 	
@@ -53,44 +53,44 @@
 			<div class="control-group warning">
 	      		<label class="control-label">Nome no cartão:</label>
 	      		<div class="controls">
-	        		<input type="text" class="input-xlarge" name="nomeNoCartao"  >
+	        		<input type="text" class="input-xlarge" name="sessaoPedido.nomeNoCartao" value="${sessaoPedido.nomeNoCartao}"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Bandeira: <span style="color: #ccc" > (Visa, Mastercard, etc) </span></label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium" name="bandeiraCartao"  >
+	        		<input type="text" class="input-medium" name="sessaoPedido.bandeiraCartao" value="${sessaoPedido.bandeiraCartao}"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Número: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium numero-inteiro" name="numeroCartao"  >
+	        		<input type="text" class="input-medium numero-inteiro" name="sessaoPedido.numeroCartao" value="${sessaoPedido.numeroCartao}"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Data de validade: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium" name="dataValidadeCartao"  >
+	        		<input type="text" class="input-medium" name="sessaoPedido.dataValidadeCartao" value="${sessaoPedido.dataValidadeCartao}"  >
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
 	      		<label class="control-label">Código de segurança: </label>
 	      		<div class="controls">
-	        		<input type="text" class="input-medium numero-inteiro" name="codigoSegurancaCartao"  >
+	        		<input type="text" class="input-medium numero-inteiro" name="sessaoPedido.codigoSegurancaCartao" value="${sessaoPedido.codigoSegurancaCartao}"  >
 	        	</div>
 	      	</div>
 	      	
 	      	<div class="control-group warning">
 	      		<label class="control-label">Quantidade de parcelas: </label>
 	      		<div class="controls">
-	        		<select name="quantidadeParcelas" style="width: 100px;" >
-	        			<option value="1" >1</option>
-	        			<option value="2" >2</option>
-	        			<option value="3" >3</option>
-	        			<option value="4" >4</option>
-	        			<option value="5" >5</option>
-	        			<option value="6" >6</option>
+	        		<select name="sessaoPedido.quantidadeParcelas" style="width: 100px;" >
+	        			<option value="1" <c:if test="${sessaoPedido.quantidadeParcelas == '1'}"> selected='selected' </c:if> >1</option>
+	        			<option value="2" <c:if test="${sessaoPedido.quantidadeParcelas == '2'}"> selected='selected' </c:if> >2</option>
+	        			<option value="3" <c:if test="${sessaoPedido.quantidadeParcelas == '3'}"> selected='selected' </c:if> >3</option>
+	        			<option value="4" <c:if test="${sessaoPedido.quantidadeParcelas == '4'}"> selected='selected' </c:if> >4</option>
+	        			<option value="5" <c:if test="${sessaoPedido.quantidadeParcelas == '5'}"> selected='selected' </c:if> >5</option>
+	        			<option value="6" <c:if test="${sessaoPedido.quantidadeParcelas == '6'}"> selected='selected' </c:if> >6</option>
 	        		</select>
 	        		<span style="color: #ccc" > (Juros da administradora) </span>
 	        	</div>
@@ -165,9 +165,9 @@
 				Escolha abaixo o centro de distribuição que você prefere e também informe a data e a hora que irá buscá-lo.
 			</p>
 			
-			<select id="centroDistribuicao" name="centroDistribuicao" onchange="escolherCentroDistribuicao()"  >
+			<select id="centroDistribuicao" name="sessaoPedido.centroDistribuicao" onchange="escolherCentroDistribuicao()"  >
           		<option value="" > Selecione </option>
-          		<option value="Madureira" > Madureira </option>
+          		<option value="Madureira" <c:if test="${sessaoPedido.centroDistribuicao == 'Madureira'}"> selected='selected' </c:if> > Madureira </option>
 		  	</select>
 		  	
 		  	<br><br>
@@ -179,7 +179,7 @@
 			<br>
 			
 			<p>  
-				Data e hora: <input type="text" name="dataHoraEscolhida" class="input-xlarge"  >
+				Data e hora: <input type="text" name="sessaoPedido.dataHoraEscolhida" value="${sessaoPedido.dataHoraEscolhida}" class="input-xlarge"  >
 			</p>
 					
 	    </div>
@@ -196,6 +196,11 @@
 </form>
 
 <script>
+
+	jQuery(document).ready(function(){
+		
+		selecionarFormaPagamento();
+	});
 
 	function escolherCentroDistribuicao(){
 		

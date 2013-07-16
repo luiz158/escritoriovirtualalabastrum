@@ -68,7 +68,7 @@
 			</tbody>
 		</table>
 		
-		<h3> Total: R$<b id="total" >  </b> </h3>
+		<h3 style="display: inline-block;" > Total: R$<b id="total" >  </b> </h3>  <span> (Frete ainda não incluído) </span>
 		
 		<br>
 		

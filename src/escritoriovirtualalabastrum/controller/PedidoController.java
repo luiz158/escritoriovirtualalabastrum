@@ -129,6 +129,25 @@ public class PedidoController {
 	}
 
 	@Public
+	public void etapaComoDesejaReceberOsProdutos(SessaoPedido sessaoPedido) {
+
+		preencherSessao(sessaoPedido);
+	}
+
+	private void preencherSessao(SessaoPedido sessaoPedido) {
+
+		this.sessaoPedido.setFormaPagamento(sessaoPedido.getFormaPagamento());
+		this.sessaoPedido.setNomeNoCartao(sessaoPedido.getNomeNoCartao());
+		this.sessaoPedido.setBandeiraCartao(sessaoPedido.getBandeiraCartao());
+		this.sessaoPedido.setNumeroCartao(sessaoPedido.getNumeroCartao());
+		this.sessaoPedido.setDataValidadeCartao(sessaoPedido.getDataValidadeCartao());
+		this.sessaoPedido.setCodigoSegurancaCartao(sessaoPedido.getCodigoSegurancaCartao());
+		this.sessaoPedido.setQuantidadeParcelas(sessaoPedido.getQuantidadeParcelas());
+		this.sessaoPedido.setCentroDistribuicao(sessaoPedido.getCentroDistribuicao());
+		this.sessaoPedido.setDataHoraEscolhida(sessaoPedido.getDataHoraEscolhida());
+	}
+
+	@Public
 	public void listarProdutos(Integer idCategoria) {
 
 		Produto produto = new Produto();
