@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -155,7 +156,33 @@ public class PedidoController {
 
 		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(this.sessaoPedido.getCodigoUsuario()), MatchMode.EXACT);
 
-		result.include("email", usuario.geteMail());
+		this.sessaoPedido.setEmail(usuario.geteMail());
+	}
+
+	@Public
+	public void etapaConfirmacaoInformacoes(SessaoPedido sessaoPedido) {
+
+		this.sessaoPedido.setEmail(sessaoPedido.getEmail());
+
+		List<Produto> produtos = new ArrayList<Produto>();
+		BigDecimal total = BigDecimal.ZERO;
+		BigDecimal pontuacaoTotal = BigDecimal.ZERO;
+
+		for (Entry<String, Integer> produtoEQuantidade : this.sessaoPedido.getProdutosEQuantidades().entrySet()) {
+
+			Produto produto = new Produto();
+			produto.setId_Produtos(produtoEQuantidade.getKey());
+			produto = this.hibernateUtil.selecionar(produto, MatchMode.EXACT);
+			produto.setQuantidade(produtoEQuantidade.getValue());
+
+			produtos.add(produto);
+			total = total.add(produto.getTotal());
+			pontuacaoTotal = pontuacaoTotal.add(produto.getPontuacaoTotal());
+		}
+
+		result.include("produtos", produtos);
+		result.include("total", total);
+		result.include("pontuacaoTotal", pontuacaoTotal);
 	}
 
 	private void preencherInformacoesFormasPagamento(SessaoPedido sessaoPedido) {

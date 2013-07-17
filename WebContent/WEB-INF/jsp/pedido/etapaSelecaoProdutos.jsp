@@ -49,7 +49,7 @@
 		            <th> Código </th>
 		            <th> Produto </th>
 		            <th> Preço unitário </th>
-		            <th> Pontuação </th>
+		            <th> Pontuação unitária </th>
 		            <th> Quantidade </th>
 		            <th>  </th>
 				</tr>

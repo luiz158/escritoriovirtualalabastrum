@@ -7,7 +7,7 @@
     <div class="control-group warning">
     	<label class="control-label">E-mail</label>
     	<div class="controls">
-    		<input type="text" name="sessaoPedido.email" value="${email}" />
+    		<input type="text" name="sessaoPedido.email" value="${sessaoPedido.email}" />
 		</div>
     </div>
 

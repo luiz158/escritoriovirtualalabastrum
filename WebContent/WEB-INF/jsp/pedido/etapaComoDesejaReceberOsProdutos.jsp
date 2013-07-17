@@ -69,6 +69,10 @@
 		<h5> Meios próprios </h5>
 		
 		<div class="divComoDesejaReceberOsProdutos" >
+
+			<p>  
+				Obs: Para pegar os produtos presencialmente, é necessária a apresentação da identidade(RG) e do comprovante de pagamento.
+			</p>
 			
 			<p>  
 				Escolha abaixo o centro de distribuição que você prefere e também informe a data e a hora que irá buscá-lo.

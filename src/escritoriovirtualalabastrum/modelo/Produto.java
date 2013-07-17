@@ -37,6 +37,16 @@ public class Produto implements Entidade {
 	@Index(name = "index_id_Categoria_tabela_produto")
 	private Integer id_Categoria;
 
+	public BigDecimal getTotal() {
+
+		return this.prdPreco_Unit.multiply(BigDecimal.valueOf((this.quantidade)));
+	}
+	
+	public BigDecimal getPontuacaoTotal() {
+
+		return this.prdPontos.multiply(BigDecimal.valueOf((this.quantidade)));
+	}
+
 	public Integer getId() {
 		return id;
 	}
