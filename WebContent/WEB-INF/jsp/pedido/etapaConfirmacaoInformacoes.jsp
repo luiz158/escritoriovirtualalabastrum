@@ -94,8 +94,9 @@
 		<b> Data e hora: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
 
 	</c:if>
-	
 
+	<c:if test="${(sessaoPedido.formaPagamento == 'formaPagamentoCartaoCredito')  || (sessaoPedido.formaPagamento == 'formaPagamentoDepositoBancario')}">
+   		
 		<br> <br> <br> 
 			
 		<h5 class="subTitulos" > Entrega </h5>
@@ -124,13 +125,13 @@
 	
 		</c:if>
 		
+	</c:if>
 
-	
 	<br> <br> <br> 
 	
 	<b> E-mail para contato: </b> <span> ${sessaoPedido.email} </span> <br>
 	
-	<br> <br> <br> <br> 
+	<br> <br> <br>
 
 	<a class="btn" href="<c:url value="/pedido/etapaConfirmacaoEmail"/>" > Voltar </a>
 	<button type="submit" class="btn btn-primary"  style="margin-left: 30px"  > Concluir </button>

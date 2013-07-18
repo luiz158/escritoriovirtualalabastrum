@@ -123,3 +123,20 @@ table:hover{
 	
 	margin-right: 50px;
 }
+
+@media print {
+
+	.topo, .menu, .bem-vindo, #sair, .btn {
+
+		display: none;
+	}
+	
+	.menu {
+	    width: 0px;
+		min-width: 0px;
+	}
+
+	.conteudo {
+	    width: 94%;
+	}
+}
