@@ -21,6 +21,7 @@ import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.sessao.SessaoGeral;
 import escritoriovirtualalabastrum.sessao.SessaoPedido;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
+import escritoriovirtualalabastrum.util.JavaMailApp;
 import escritoriovirtualalabastrum.util.Util;
 
 @Resource
@@ -183,6 +184,142 @@ public class PedidoController {
 		result.include("produtos", produtos);
 		result.include("total", total);
 		result.include("pontuacaoTotal", pontuacaoTotal);
+	}
+
+	@Public
+	public void finalizarPedido() {
+
+		List<Produto> produtos = new ArrayList<Produto>();
+		BigDecimal total = BigDecimal.ZERO;
+		BigDecimal pontuacaoTotal = BigDecimal.ZERO;
+
+		for (Entry<String, Integer> produtoEQuantidade : this.sessaoPedido.getProdutosEQuantidades().entrySet()) {
+
+			Produto produto = new Produto();
+			produto.setId_Produtos(produtoEQuantidade.getKey());
+			produto = this.hibernateUtil.selecionar(produto, MatchMode.EXACT);
+			produto.setQuantidade(produtoEQuantidade.getValue());
+
+			produtos.add(produto);
+			total = total.add(produto.getTotal());
+			pontuacaoTotal = pontuacaoTotal.add(produto.getPontuacaoTotal());
+		}
+
+		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(this.sessaoPedido.getCodigoUsuario()));
+
+		String textoEmail = "";
+
+		textoEmail += "<style>";
+		textoEmail += "th{";
+		textoEmail += "padding: 5px;";
+		textoEmail += "}";
+		textoEmail += "</style>";
+
+		textoEmail += "<h2> Informações do usuário: </h2> ";
+		textoEmail += "<b>Nome: </b> " + usuario.getvNome();
+		textoEmail += "<br> <b>Código: </b> " + usuario.getId_Codigo();
+		textoEmail += "<br> <b>Email: </b> " + this.sessaoPedido.getEmail();
+
+		textoEmail += "<br> <br><br> <h2> Produtos </h2> ";
+		textoEmail += "<table>";
+		textoEmail += "<thead>";
+		textoEmail += "<tr>";
+		textoEmail += "<th style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px;' > Código </th>";
+		textoEmail += "<th style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px;' > Produto </th>";
+		textoEmail += "<th style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px;' > Preço unitário </th>";
+		textoEmail += "<th style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px;' > Pontuação unitária </th>";
+		textoEmail += "<th style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px;' > Quantidade </th>";
+		textoEmail += "<th style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px;' > Preço total </th>";
+		textoEmail += "<th style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px;' > Pontuação total </th>";
+		textoEmail += "</tr>";
+		textoEmail += "</thead>";
+		textoEmail += "<tbody>";
+
+		for (Produto produto : produtos) {
+
+			textoEmail += "<tr>";
+			textoEmail += "<td style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px; text-align: center;' >" + produto.getId_Produtos() + "</td>";
+			textoEmail += "<td style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px; text-align: center;' >" + produto.getPrdNome() + "</td>";
+			textoEmail += "<td style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px; text-align: center;' >" + produto.getPrdPreco_Unit() + "</td>";
+			textoEmail += "<td style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px; text-align: center;' >" + produto.getPrdPontos() + "</td>";
+			textoEmail += "<td style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px; text-align: center;' >" + produto.getQuantidade() + "</td>";
+			textoEmail += "<td style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px; text-align: center;' >" + produto.getTotal() + "</td>";
+			textoEmail += "<td style='border: 1px solid #ddd; border-bottom: 0px; border-right: 0px; text-align: center;' >" + produto.getPontuacaoTotal() + "</td>";
+			textoEmail += "</tr>";
+		}
+
+		textoEmail += "</tbody>";
+		textoEmail += "</table>";
+
+		textoEmail += "<br> <b> Preço total: </b>";
+		textoEmail += total;
+		textoEmail += "(Frete não incluído) <br>";
+		textoEmail += "<b> Pontuação total: </b>";
+		textoEmail += pontuacaoTotal;
+
+		textoEmail += "<br> <br><br> <h2> Forma de pagamento </h2> ";
+
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito")) {
+
+			textoEmail += "<h4> Cartão de crédito </h4>";
+			textoEmail += "<br><b> Nome no cartão: </b> " + this.sessaoPedido.getNomeNoCartao();
+			textoEmail += "<br><b> Bandeira: </b> " + this.sessaoPedido.getBandeiraCartao();
+			textoEmail += "<br><b> Número: </b> " + this.sessaoPedido.getNumeroCartao();
+			textoEmail += "<br><b> Data de validade: </b> " + this.sessaoPedido.getDataValidadeCartao();
+			textoEmail += "<br><b> Código de segurança: </b> " + this.sessaoPedido.getCodigoSegurancaCartao();
+			textoEmail += "<br><b> Quantidade de parcelas: </b> " + this.sessaoPedido.getQuantidadeParcelas();
+		}
+
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDinheiro")) {
+
+			textoEmail += "<h4> Dinheiro </h4>";
+			textoEmail += "<br><b> Local: </b> " + this.sessaoPedido.getCentroDistribuicao();
+			textoEmail += "<br><b> Data e hora: </b> " + this.sessaoPedido.getDataHoraEscolhida();
+		}
+
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoDebito")) {
+
+			textoEmail += "<h4> Cartão de débito </h4>";
+			textoEmail += "<br><b> Local: </b> " + this.sessaoPedido.getCentroDistribuicao();
+			textoEmail += "<br><b> Data e hora: </b> " + this.sessaoPedido.getDataHoraEscolhida();
+		}
+
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDepositoBancario")) {
+
+			textoEmail += "<h4> Depósito bancário </h4>";
+		}
+
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito") || this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDepositoBancario")) {
+
+			textoEmail += "<br> <br><br> <h2> Entrega </h2> ";
+
+			if (this.sessaoPedido.getComoDesejaReceberOsProdutos().equals("Sedex")) {
+
+				textoEmail += "<h5> Sedex </h5>";
+				textoEmail += "<br><b> CEP: </b> " + this.sessaoPedido.getCep();
+				textoEmail += "<br><b> Endereço para entrega: </b> " + this.sessaoPedido.getEnderecoEntrega();
+			}
+
+			if (this.sessaoPedido.getComoDesejaReceberOsProdutos().equals("PAC")) {
+
+				textoEmail += "<h5> PAC </h5>";
+				textoEmail += "<br><b> CEP: </b> " + this.sessaoPedido.getCep();
+				textoEmail += "<br><b> Endereço para entrega: </b> " + this.sessaoPedido.getEnderecoEntrega();
+			}
+
+			if (this.sessaoPedido.getComoDesejaReceberOsProdutos().equals("MeiosProprios")) {
+
+				textoEmail += "<h5> Meios próprios </h5>";
+				textoEmail += "<br><b> Local: </b> " + this.sessaoPedido.getCentroDistribuicao();
+				textoEmail += "<br><b> Data e hora: </b> " + this.sessaoPedido.getDataHoraEscolhida();
+			}
+		}
+
+		JavaMailApp.enviarEmail("Pedido " + this.sessaoPedido.getCodigoPedido(), "", textoEmail);
+
+		result.include("sucesso", "Pedido realizado com sucesso.");
+
+		result.redirectTo(this).acessarTelaPedido();
 	}
 
 	private void preencherInformacoesFormasPagamento(SessaoPedido sessaoPedido) {

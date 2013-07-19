@@ -134,7 +134,7 @@
 	<br> <br> <br>
 
 	<a class="btn" href="<c:url value="/pedido/etapaConfirmacaoEmail"/>" > Voltar </a>
-	<button type="submit" class="btn btn-primary"  style="margin-left: 30px"  > Concluir </button>
+	<button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();" style="margin-left: 30px"  > Concluir </button>
 
   </fieldset>
 </form>
