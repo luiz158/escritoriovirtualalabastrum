@@ -83,7 +83,7 @@
 
 	function avancarEtapaFormaPagamento(){
 		
-		if(jQuery("#total").text() < 50){
+		if(jQuery("#total").text().replace(",", ".") < 50){
 			
 			alert("Atenção. O valor mínimo para compra é de R$50,00 reais. Para continuar, efetue uma compra onde o valor total ultrapasse R$50,00 reais.");			
 		}

@@ -340,6 +340,8 @@ public class PedidoController {
 		this.sessaoPedido.setComoDesejaReceberOsProdutos(sessaoPedido.getComoDesejaReceberOsProdutos());
 		this.sessaoPedido.setCep(sessaoPedido.getCep());
 		this.sessaoPedido.setEnderecoEntrega(sessaoPedido.getEnderecoEntrega());
+		this.sessaoPedido.setCentroDistribuicao(sessaoPedido.getCentroDistribuicao());
+		this.sessaoPedido.setDataHoraEscolhida(sessaoPedido.getDataHoraEscolhida());
 	}
 
 	@Public

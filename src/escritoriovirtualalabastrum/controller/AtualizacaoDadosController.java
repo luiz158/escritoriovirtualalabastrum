@@ -119,9 +119,7 @@ public class AtualizacaoDadosController {
 		textoEmail += "<br> <b> Nome: </b> " + this.sessaoAtualizacaoDados.getNomeQuemIndicou();
 		textoEmail += "<br> <b> Observações: </b> " + this.sessaoAtualizacaoDados.getObservacoes();
 
-		// JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site",
-		// "atendimento@alabastrum.com.br", textoEmail);
-		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "", textoEmail);
+		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "atendimento@alabastrum.com.br", textoEmail);
 
 		result.forwardTo(this).acessarTelaAtualizacaoDadosPeloSite(true);
 	}
