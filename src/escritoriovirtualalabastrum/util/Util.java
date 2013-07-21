@@ -2,9 +2,11 @@ package escritoriovirtualalabastrum.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Map;
 
 public class Util {
@@ -118,7 +120,10 @@ public class Util {
 
 		else {
 
-			DecimalFormat df = new DecimalFormat("#,##0.00");
+			Locale LOCAL = new Locale("pt", "BR");
+
+			DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(LOCAL));
+
 			return df.format(valor);
 		}
 	}
