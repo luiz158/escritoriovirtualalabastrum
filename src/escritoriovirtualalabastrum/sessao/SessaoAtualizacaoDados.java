@@ -40,6 +40,9 @@ public class SessaoAtualizacaoDados {
 	private String cadTipoConta;
 	private String cadRG;
 	private String cadOrgaoExpedidor;
+	private String codigoQuemIndicou;
+	private String nomeQuemIndicou;
+	private String observacoes;
 
 	public String getCPF() {
 		return CPF;
@@ -303,6 +306,30 @@ public class SessaoAtualizacaoDados {
 
 	public void setCadOrgaoExpedidor(String cadOrgaoExpedidor) {
 		this.cadOrgaoExpedidor = cadOrgaoExpedidor;
+	}
+
+	public String getCodigoQuemIndicou() {
+		return codigoQuemIndicou;
+	}
+
+	public void setCodigoQuemIndicou(String codigoQuemIndicou) {
+		this.codigoQuemIndicou = codigoQuemIndicou;
+	}
+
+	public String getNomeQuemIndicou() {
+		return nomeQuemIndicou;
+	}
+
+	public void setNomeQuemIndicou(String nomeQuemIndicou) {
+		this.nomeQuemIndicou = nomeQuemIndicou;
+	}
+
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
 	}
 
 }

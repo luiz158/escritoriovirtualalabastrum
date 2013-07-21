@@ -315,11 +315,7 @@ public class PedidoController {
 			}
 		}
 
-		// JavaMailApp.enviarEmail("Pedido " +
-		// this.sessaoPedido.getCodigoPedido() + " (Via Escritório Virtual)",
-		// "presidenteeeeeeeee@alabastrum.com.br," +
-		// this.sessaoPedido.getEmail(), textoEmail);
-		JavaMailApp.enviarEmail("Pedido " + this.sessaoPedido.getCodigoPedido() + " (Via Escritório Virtual)", "", textoEmail);
+		JavaMailApp.enviarEmail("Pedido " + this.sessaoPedido.getCodigoPedido() + " (Via Escritório Virtual)", "pedidos@alabastrum.com.br," + this.sessaoPedido.getEmail(), textoEmail);
 
 		result.include("sucesso", "Pedido realizado com sucesso.");
 

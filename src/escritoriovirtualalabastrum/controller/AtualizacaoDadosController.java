@@ -7,6 +7,7 @@ import org.hibernate.criterion.MatchMode;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.sessao.SessaoAtualizacaoDados;
@@ -63,7 +64,66 @@ public class AtualizacaoDadosController {
 
 			this.sessaoAtualizacaoDados.setDt_NascTitular2(this.sessaoAtualizacaoDados.getDt_NascTitular2().substring(0, 10));
 		}
+	}
 
+	@Public
+	public void acessarTelaAtualizacaoDadosPeloSite(boolean exibirMensagemAgradecimento) {
+
+		this.sessaoAtualizacaoDados = new SessaoAtualizacaoDados();
+
+		result.include("exibirMensagemAgradecimento", exibirMensagemAgradecimento);
+	}
+
+	@Public
+	public void salvarPreCadastroDistribuidorPeloSite(SessaoAtualizacaoDados sessaoAtualizacaoDados) {
+
+		this.sessaoAtualizacaoDados = sessaoAtualizacaoDados;
+
+		String textoEmail = "";
+
+		textoEmail += "Informações:<br>";
+
+		textoEmail += "<br> <b>Nome: </b> " + this.sessaoAtualizacaoDados.getvNome();
+		textoEmail += "<br> <b>Data de nascimento: </b> " + this.sessaoAtualizacaoDados.getDt_Nasc();
+		textoEmail += "<br> <b>CPF: </b> " + this.sessaoAtualizacaoDados.getCPF();
+		textoEmail += "<br> <b>RG: </b> " + this.sessaoAtualizacaoDados.getCadRG();
+		textoEmail += "<br> <b>Emissor: </b> " + this.sessaoAtualizacaoDados.getCadOrgaoExpedidor();
+		textoEmail += "<br> <b> Sexo: </b> " + this.sessaoAtualizacaoDados.getCadSexo();
+		textoEmail += "<br> <b> Estado civil: </b> " + this.sessaoAtualizacaoDados.getCadEstCivil();
+		textoEmail += "<br> <b> CEP: </b> " + this.sessaoAtualizacaoDados.getCadCEP();
+		textoEmail += "<br> <b> Endereço: </b> " + this.sessaoAtualizacaoDados.getCadEndereco();
+		textoEmail += "<br> <b> Bairro: </b> " + this.sessaoAtualizacaoDados.getCadBairro();
+		textoEmail += "<br> <b> Cidade: </b> " + this.sessaoAtualizacaoDados.getCadCidade();
+		textoEmail += "<br> <b> Estado: </b> " + this.sessaoAtualizacaoDados.getCadUF();
+		textoEmail += "<br> <b> Telefone residencial: </b> " + this.sessaoAtualizacaoDados.getTel();
+		textoEmail += "<br> <b> Telefone celular: </b> " + this.sessaoAtualizacaoDados.getCadCelular();
+		textoEmail += "<br> <b> Email: </b> " + this.sessaoAtualizacaoDados.geteMail();
+		textoEmail += "<br><br><br> <b> Dados do segundo titular: </b> <br>";
+		textoEmail += "<br> <b> Nome: </b> " + this.sessaoAtualizacaoDados.getvNomeTitular2();
+		textoEmail += "<br> <b> Data de nascimento: </b> " + this.sessaoAtualizacaoDados.getDt_NascTitular2();
+		textoEmail += "<br> <b> Sexo: </b> " + this.sessaoAtualizacaoDados.getSexoTitular2();
+		textoEmail += "<br> <b> Estado civil: </b> " + this.sessaoAtualizacaoDados.getEstCivilTitular2();
+		textoEmail += "<br> <b> CPF: </b> " + this.sessaoAtualizacaoDados.getCPFTitular2();
+		textoEmail += "<br> <b> RG: </b> " + this.sessaoAtualizacaoDados.getRGTitular2();
+		textoEmail += "<br> <b> Emissor: </b> " + this.sessaoAtualizacaoDados.getEmissorTitular2();
+		textoEmail += "<br> <b> Email: </b> " + this.sessaoAtualizacaoDados.geteMailTitular2();
+		textoEmail += "<br> <b> Telefone residencial: </b> " + this.sessaoAtualizacaoDados.getTelTitular2();
+		textoEmail += "<br> <b> Telefone celular: </b> " + this.sessaoAtualizacaoDados.getCelTitular2();
+		textoEmail += "<br><br><br> <b> Dados bancários: </b> <br>";
+		textoEmail += "<br> <b> Banco: </b> " + this.sessaoAtualizacaoDados.getCadBanco();
+		textoEmail += "<br> <b> Tipo da conta: </b> " + this.sessaoAtualizacaoDados.getCadTipoConta();
+		textoEmail += "<br> <b> Número da agência: </b> " + this.sessaoAtualizacaoDados.getCadAgencia();
+		textoEmail += "<br> <b> Número da conta: </b> " + this.sessaoAtualizacaoDados.getCadCCorrente();
+		textoEmail += "<br><br><br> <b> Quem te indicou? </b> <br>";
+		textoEmail += "<br> <b> Código: </b> " + this.sessaoAtualizacaoDados.getCodigoQuemIndicou();
+		textoEmail += "<br> <b> Nome: </b> " + this.sessaoAtualizacaoDados.getNomeQuemIndicou();
+		textoEmail += "<br> <b> Observações: </b> " + this.sessaoAtualizacaoDados.getObservacoes();
+
+		// JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site",
+		// "atendimento@alabastrum.com.br", textoEmail);
+		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "", textoEmail);
+
+		result.forwardTo(this).acessarTelaAtualizacaoDadosPeloSite(true);
 	}
 
 	@Funcionalidade

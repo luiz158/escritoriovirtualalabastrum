@@ -21,7 +21,7 @@ public class AnaliseController {
 	@Path("/analise")
 	public void analisar() {
 
-		result.include("ultimaAtualizacaoSistema", "08/07/2013 21:00");
+		result.include("ultimaAtualizacaoSistema", "21/07/2013 17:00");
 
 		result.include("sessoesTomcat", CounterListener.getCount());
 

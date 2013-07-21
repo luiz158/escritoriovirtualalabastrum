@@ -122,7 +122,7 @@
 			
 			<br><br>
 			<p>  
-				Depois de realizado o depósito. Envie o comprovante do pagamento para o email: <b> presidente@alabastrum.com.br </b> 
+				Depois de realizado o depósito. Envie o comprovante do pagamento para o email: <b> pedidos@alabastrum.com.br </b> 
 			</p>
 			<p>  
 				O assunto do email deve ser: Comprovante de depósito bancário referente ao pedido ${sessaoPedido.codigoPedido}
