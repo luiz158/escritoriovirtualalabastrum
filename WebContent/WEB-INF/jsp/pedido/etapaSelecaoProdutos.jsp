@@ -83,17 +83,25 @@
 
 	function avancarEtapaFormaPagamento(){
 		
-		var hashProdutosEQuantidades = '';
-		
-		jQuery("#tabelaProdutosSelecionados tbody tr").each(function(i, item){
-			    
-			var idProduto = jQuery(item).find(".idProduto").text();
-			var quantidade = parseFloat(jQuery(item).find(".quantidade").val());
+		if(jQuery("#total").text() < 50){
 			
-			hashProdutosEQuantidades += idProduto + "=" + quantidade + ",";
-		});	
+			alert("Atenção. O valor mínimo para compra é de R$50,00 reais. Para continuar, efetue uma compra onde o valor total ultrapasse R$50,00 reais.");			
+		}
 		
-		window.location = "<c:url value='/pedido/etapaFormasPagamento?hashProdutosEQuantidades=" + hashProdutosEQuantidades + "'/> ";
+		else{
+
+			var hashProdutosEQuantidades = '';
+			
+			jQuery("#tabelaProdutosSelecionados tbody tr").each(function(i, item){
+				    
+				var idProduto = jQuery(item).find(".idProduto").text();
+				var quantidade = parseFloat(jQuery(item).find(".quantidade").val());
+				
+				hashProdutosEQuantidades += idProduto + "=" + quantidade + ",";
+			});	
+			
+			window.location = "<c:url value='/pedido/etapaFormasPagamento?hashProdutosEQuantidades=" + hashProdutosEQuantidades + "'/> ";
+		}
 	}
 	
 	function calcularTotal(){

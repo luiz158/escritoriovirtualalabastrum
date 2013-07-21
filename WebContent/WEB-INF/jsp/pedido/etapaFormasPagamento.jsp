@@ -56,7 +56,7 @@
 	        	</div>
 	      	</div>
 	      	<div class="control-group warning">
-	      		<label class="control-label">Bandeira: <span style="color: #ccc" > (Visa, Mastercard, etc) </span></label>
+	      		<label class="control-label">Bandeira: <span style="color: #ccc" > (Visa, Mastercard etc) </span></label>
 	      		<div class="controls">
 	        		<input type="text" class="input-medium" name="sessaoPedido.bandeiraCartao" value="${sessaoPedido.bandeiraCartao}"  >
 	        	</div>
@@ -111,20 +111,18 @@
 				Após finalizada a realização do pedido aqui no escritório virtual. Faça o depósito na seguinte conta:
 			</p>
 			<p>  
-				<b>Número da conta:</b> NÚMERO AQUI
+				<b>Banco:</b> HSBC
 			</p>
 			<p>  
-				<b>Número da agência:</b> NÚMERO AQUI
+				<b>Número da agência:</b> 0491
 			</p>
 			<p>  
-				<b>Banco:</b> BANCO AQUI
+				<b>Número da conta:</b> 13907-18
 			</p>
-			<p>  
-				<b>Outros dados:</b>: DADOS AQUI
-			</p>
+			
 			<br><br>
 			<p>  
-				Depois de realizado o depósito. Envie o comprovante do pagamento para o email: <b> EMAIL AQUI </b> 
+				Depois de realizado o depósito. Envie o comprovante do pagamento para o email: <b> presidente@alabastrum.com.br </b> 
 			</p>
 			<p>  
 				O assunto do email deve ser: Comprovante de depósito bancário referente ao pedido ${sessaoPedido.codigoPedido}
@@ -154,8 +152,7 @@
 			</p>	
 			
 			<p>  
-				É muito útil fazer o seu pedido pelo escritório virtual antes de ir buscar a sua compra porque agiliza o processo e
-				você pode ir pegar mais rapidamente a sua mercadoria no centro de distribuição de sua preferência.
+				É muito útil fazer o seu pedido via escritório virtual antes de buscá-lo, pois agiliza o processo e você será atendido mais rapidamente.
 			</p>
 			
 			<br>

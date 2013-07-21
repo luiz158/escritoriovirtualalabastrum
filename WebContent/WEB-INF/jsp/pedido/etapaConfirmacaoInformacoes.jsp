@@ -23,7 +23,7 @@
     
     <br>
     
-    <b> Código do pedido: </b> <span> ${sessaoPedido.codigoPedido} </span>
+    <b> Código do pedido via Escritório Virtual: </b> <span> ${sessaoPedido.codigoPedido} </span>
     
     <br> <br> <br> 
     

@@ -251,9 +251,9 @@ public class PedidoController {
 		textoEmail += "</tbody>";
 		textoEmail += "</table>";
 
-		textoEmail += "<br> <b> Preço total: </b>";
+		textoEmail += "<br> <b> Preço total: R$ </b>";
 		textoEmail += total;
-		textoEmail += "(Frete não incluído) <br>";
+		textoEmail += " (Frete não incluído) <br>";
 		textoEmail += "<b> Pontuação total: </b>";
 		textoEmail += pontuacaoTotal;
 
@@ -315,7 +315,11 @@ public class PedidoController {
 			}
 		}
 
-		JavaMailApp.enviarEmail("Pedido " + this.sessaoPedido.getCodigoPedido(), "", textoEmail);
+		// JavaMailApp.enviarEmail("Pedido " +
+		// this.sessaoPedido.getCodigoPedido() + " (Via Escritório Virtual)",
+		// "presidenteeeeeeeee@alabastrum.com.br," +
+		// this.sessaoPedido.getEmail(), textoEmail);
+		JavaMailApp.enviarEmail("Pedido " + this.sessaoPedido.getCodigoPedido() + " (Via Escritório Virtual)", "", textoEmail);
 
 		result.include("sucesso", "Pedido realizado com sucesso.");
 
