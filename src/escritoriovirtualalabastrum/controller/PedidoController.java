@@ -252,10 +252,10 @@ public class PedidoController {
 		textoEmail += "</table>";
 
 		textoEmail += "<br> <b> Preço total: R$ </b>";
-		textoEmail += total;
+		textoEmail += Util.formatarBigDecimal(total);
 		textoEmail += " (Frete não incluído) <br>";
 		textoEmail += "<b> Pontuação total: </b>";
-		textoEmail += pontuacaoTotal;
+		textoEmail += Util.formatarBigDecimal(pontuacaoTotal);
 
 		textoEmail += "<br> <br><br> <h2> Forma de pagamento </h2> ";
 

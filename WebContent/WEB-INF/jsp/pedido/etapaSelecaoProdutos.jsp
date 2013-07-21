@@ -113,7 +113,7 @@
 			total += parseFloat(jQuery(this).find(".precoUnitario").text()) * parseFloat(jQuery(this).find(".quantidade").val());
 		});		
 		
-		jQuery("#total").text(total.toFixed(2));
+		jQuery("#total").text(formatarNumero(total.toFixed(2)));
 	}
 	
 	function listarProdutos(){

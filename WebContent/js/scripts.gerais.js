@@ -113,3 +113,8 @@ function deletar(link) {
 		gerarLinkCompleto(link);
 	}  
 }  
+
+function formatarNumero(numero){
+	
+	return numero.replace(".", ",");
+}
