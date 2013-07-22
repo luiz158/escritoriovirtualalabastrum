@@ -108,7 +108,7 @@
 			</p>
 			<br><br>
 			<p>  
-				Após finalizada a realização do pedido aqui no escritório virtual. Faça o depósito na seguinte conta:
+				Após finalizada a realização do pedido aqui no escritório virtual. Faça o depósito em uma das seguintes contas:
 			</p>
 			<p>  
 				<b>Banco:</b> HSBC
@@ -119,6 +119,16 @@
 			<p>  
 				<b>Número da conta:</b> 13907-18
 			</p>
+			<hr>
+			<p>  
+				<b>Banco:</b> ITAÚ
+			</p>
+			<p>  
+				<b>Número da agência:</b> 9162
+			</p>
+			<p>  
+				<b>Número da conta:</b> 16602-0
+			</p>
 			
 			<br><br>
 			<p>  
@@ -128,7 +138,7 @@
 				O assunto do email deve ser: Comprovante de depósito bancário referente ao pedido ${sessaoPedido.codigoPedido}
 			</p>
 			<p>  
-				No conteúdo do email deve conter os dados referentes ao depósito.
+				No conteúdo do email deve conter todos os dados referentes ao depósito.
 			</p>
 			<p>  
 				Você também deve anexar no email o comprovante do depósito gerado pelo banco.
