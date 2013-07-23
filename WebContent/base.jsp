@@ -9,7 +9,7 @@
 		<link type="text/css" href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/bootstrap-alterado.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/bootstrap-responsive.css"/>" rel="stylesheet" />
-		<link type="text/css" href="<c:url value="/css/estilo.css"/>" rel="stylesheet" />
+		<link type="text/css" href="<c:url value="/css/estilo.css?ver=2"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/jquery-ui-1.9.2.custom.min.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/menu-accordion.css"/>" rel="stylesheet" />
 		<script type="text/javascript" src="<c:url value="/js/jquery-1.8.3.js"/>"></script>
@@ -52,6 +52,10 @@
 	        <h3 class="menu-accordion" > PEDIDOS </h3>
 	        <div>
 	        	<a href="<c:url value="/pedido/acessarTelaPedido"/>" class="submenu-accordion" > Realizar pedido </a>
+	        </div>
+	        <h3 class="menu-accordion" > CONSULTA </h3>
+	        <div>
+	        	<a href="<c:url value="/home/kitIngresso"/>" class="submenu-accordion" > Kit de ingresso </a>
 	        </div>
 	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
 	        <div>

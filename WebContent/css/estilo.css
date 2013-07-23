@@ -24,6 +24,15 @@ table:hover{
 	height: 423px;
 }
 
+.kitIngresso{
+
+	background-image: url("images/kit-ingresso.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	width: 800px;
+	height: 700px;
+}
+
 .trocarSenha{
 	
 	width: 479px;

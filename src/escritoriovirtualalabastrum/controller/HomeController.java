@@ -39,4 +39,9 @@ public class HomeController {
 
 	}
 
+	@Funcionalidade
+	public void kitIngresso() {
+
+	}
+
 }
