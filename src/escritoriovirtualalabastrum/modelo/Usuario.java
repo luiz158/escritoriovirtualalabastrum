@@ -186,6 +186,14 @@ public class Usuario implements Entidade {
 		hibernateUtil.fecharSessao();
 	}
 
+	public String getAniversario() {
+
+		String dia = this.Dt_Nasc.split("/")[0];
+		String mes = this.Dt_Nasc.split("/")[1];
+
+		return dia + "/" + mes;
+	}
+
 	public Integer getId() {
 		return id;
 	}

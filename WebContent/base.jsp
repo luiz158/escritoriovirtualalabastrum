@@ -48,6 +48,7 @@
 	        	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" class="submenu-accordion" > Mala direta </a>
 	        	<a href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" class="submenu-accordion" > Pontuação </a>
 	        	<a href="<c:url value="/arvoreRelacionamento/acessarTelaArvoreRelacionamento"/>" class="submenu-accordion" > Árvore de relacionamentos </a>
+	        	<a href="<c:url value="/aniversariantes/acessarTelaAniversariantes"/>" class="submenu-accordion" > Aniversariantes </a>
 	        </div>
 	        <h3 class="menu-accordion" > PEDIDOS </h3>
 	        <div>
