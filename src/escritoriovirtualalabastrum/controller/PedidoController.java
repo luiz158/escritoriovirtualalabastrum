@@ -219,6 +219,8 @@ public class PedidoController {
 		textoEmail += "<b>Nome: </b> " + usuario.getvNome();
 		textoEmail += "<br> <b>Código: </b> " + usuario.getId_Codigo();
 		textoEmail += "<br> <b>Email: </b> " + this.sessaoPedido.getEmail();
+		textoEmail += "<br> <b>Telefone: </b> " + usuario.getTel();
+		textoEmail += "<br> <b>Celular: </b> " + usuario.getCadCelular();
 
 		textoEmail += "<br> <br><br> <h2> Produtos </h2> ";
 		textoEmail += "<table>";
