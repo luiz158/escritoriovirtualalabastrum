@@ -1,6 +1,7 @@
 package escritoriovirtualalabastrum.controller;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -59,7 +60,7 @@ public class PontuacaoAnualController {
 	}
 
 	@Funcionalidade
-	public void gerarRelatorioPontuacaoAnual(String posicao, Integer codigoUsuario, Integer ano) {
+	public void gerarRelatorioPontuacaoAnual(String posicao, Integer codigoUsuario, Integer ano, String possuiMovimentacao) {
 
 		validarQualificacao();
 
@@ -95,12 +96,14 @@ public class PontuacaoAnualController {
 			}
 		}
 
-		gerarRelatorioPontuacaoAnual(ano, malaDireta, codigoUsuario);
+		gerarRelatorioPontuacaoAnual(ano, malaDireta, codigoUsuario, possuiMovimentacao);
 
 		result.include("posicaoConsiderada", obterPosicoes().get(posicao));
+		result.include("ano", ano);
+		result.include("possuiMovimentacao", possuiMovimentacao);
 	}
 
-	private void gerarRelatorioPontuacaoAnual(Integer ano, TreeMap<Integer, MalaDireta> malaDireta, Integer codigoUsuario) {
+	private void gerarRelatorioPontuacaoAnual(Integer ano, TreeMap<Integer, MalaDireta> malaDireta, Integer codigoUsuario, String possuiMovimentacao) {
 
 		Usuario usuarioPesquisado = new Usuario();
 		usuarioPesquisado.setId_Codigo(codigoUsuario);
@@ -112,7 +115,46 @@ public class PontuacaoAnualController {
 
 		List<PontuacaoAnualAuxiliar> pontuacoes = calcularPontuacoesMensalmente(ano, malaDireta);
 
-		result.include("pontuacoes", pontuacoes);
+		adicionarConformeMovimentacoes(possuiMovimentacao, pontuacoes);
+	}
+
+	private void adicionarConformeMovimentacoes(String possuiMovimentacao, List<PontuacaoAnualAuxiliar> pontuacoes) {
+
+		if (possuiMovimentacao.equals("Todos")) {
+
+			result.include("pontuacoes", pontuacoes);
+			result.include("quantidadeElementos", pontuacoes.size());
+		}
+
+		else {
+
+			List<PontuacaoAnualAuxiliar> pontuacoesDeAcordoComMovimentacoes = new ArrayList<PontuacaoAnualAuxiliar>();
+
+			if (possuiMovimentacao.equals("Sim")) {
+
+				for (PontuacaoAnualAuxiliar pontuacao : pontuacoes) {
+
+					if (pontuacao.getPontuacaoAtividadeTotal().compareTo(BigDecimal.ZERO) > 0 || pontuacao.getPontuacaoProdutosTotal().compareTo(BigDecimal.ZERO) > 0) {
+
+						pontuacoesDeAcordoComMovimentacoes.add(pontuacao);
+					}
+				}
+			}
+
+			if (possuiMovimentacao.equals("Não")) {
+
+				for (PontuacaoAnualAuxiliar pontuacao : pontuacoes) {
+
+					if (pontuacao.getPontuacaoAtividadeTotal().compareTo(BigDecimal.ZERO) == 0 && pontuacao.getPontuacaoProdutosTotal().compareTo(BigDecimal.ZERO) == 0) {
+
+						pontuacoesDeAcordoComMovimentacoes.add(pontuacao);
+					}
+				}
+			}
+
+			result.include("pontuacoes", pontuacoesDeAcordoComMovimentacoes);
+			result.include("quantidadeElementos", pontuacoesDeAcordoComMovimentacoes.size());
+		}
 	}
 
 	private List<PontuacaoAnualAuxiliar> calcularPontuacoesMensalmente(Integer ano, TreeMap<Integer, MalaDireta> malaDireta) {

@@ -81,6 +81,16 @@ public class PontuacaoAnualAuxiliar {
 		this.pontuacaoAtividadeDezembro = BigDecimal.ZERO;
 	}
 
+	public BigDecimal getPontuacaoProdutosTotal() {
+
+		return pontuacaoProdutosJaneiro.add(pontuacaoProdutosFevereiro.add(pontuacaoProdutosMarco.add(pontuacaoProdutosAbril.add(pontuacaoProdutosMaio.add(pontuacaoProdutosJunho.add(pontuacaoProdutosJulho.add(pontuacaoProdutosAgosto.add(pontuacaoProdutosSetembro.add(pontuacaoProdutosOutubro.add(pontuacaoProdutosNovembro.add(pontuacaoProdutosDezembro)))))))))));
+	}
+
+	public BigDecimal getPontuacaoAtividadeTotal() {
+
+		return pontuacaoAtividadeJaneiro.add(pontuacaoAtividadeFevereiro.add(pontuacaoAtividadeMarco.add(pontuacaoAtividadeAbril.add(pontuacaoAtividadeMaio.add(pontuacaoAtividadeJunho.add(pontuacaoAtividadeJulho.add(pontuacaoAtividadeAgosto.add(pontuacaoAtividadeSetembro.add(pontuacaoAtividadeOutubro.add(pontuacaoAtividadeNovembro.add(pontuacaoAtividadeDezembro)))))))))));
+	}
+
 	public MalaDireta getMalaDireta() {
 		return malaDireta;
 	}

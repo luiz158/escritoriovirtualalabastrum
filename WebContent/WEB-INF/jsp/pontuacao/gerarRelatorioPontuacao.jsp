@@ -98,7 +98,6 @@ b{
                         <td class="centralizado" > 
                         	${item.malaDireta.usuario.id_Codigo}
                         </td>
-						<%-- <td class="centralizado" > ${item.malaDireta.usuario.posAbrev} </td> --%>
 						<td class="centralizado" > ${item.malaDireta.usuario.posAtual} </td>
                         <td class="centralizado" > ${item.malaDireta.nivel} </td>
                         <td> ${item.malaDireta.usuario.vNome} </td>

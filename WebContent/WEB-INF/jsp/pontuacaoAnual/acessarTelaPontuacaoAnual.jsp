@@ -38,6 +38,17 @@
         </div>
     </div>
     
+    <div class="control-group warning" style="margin-left: -50px; " > 
+	     <label class="control-label">Possui movimentação?</label>
+	     <div class="controls">
+          <select name="possuiMovimentacao" >
+	          <option value="Todos" > Todos </option>
+	          <option value="Sim" > Sim </option>
+	          <option value="Não" > Não </option>
+		  </select>
+        </div>
+	</div>
+    
     <div style="margin-top: 50px;" >
 	    <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();" >Gerar relatório</button>
 	    <a class="btn btn-danger" href="<c:url value="/home/home"/>" > Cancelar </a>
