@@ -12,6 +12,8 @@ import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
@@ -32,14 +34,16 @@ public class PedidoController {
 	private SessaoPedido sessaoPedido;
 	private SessaoGeral sessaoGeral;
 	private SessaoUsuario sessaoUsuario;
+	private Validator validator;
 
-	public PedidoController(Result result, HibernateUtil hibernateUtil, SessaoPedido sessaoPedido, SessaoGeral sessaoGeral, SessaoUsuario sessaoUsuario) {
+	public PedidoController(Result result, HibernateUtil hibernateUtil, SessaoPedido sessaoPedido, SessaoGeral sessaoGeral, SessaoUsuario sessaoUsuario, Validator validator) {
 
 		this.result = result;
 		this.hibernateUtil = hibernateUtil;
 		this.sessaoPedido = sessaoPedido;
 		this.sessaoGeral = sessaoGeral;
 		this.sessaoUsuario = sessaoUsuario;
+		this.validator = validator;
 	}
 
 	@Public
@@ -141,7 +145,22 @@ public class PedidoController {
 
 		preencherInformacoesFormasPagamento(sessaoPedido);
 
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito")) {
+
+			if (Util.vazio(sessaoPedido.getNomeNoCartao()) || Util.vazio(sessaoPedido.getBandeiraCartao()) || Util.vazio(sessaoPedido.getNumeroCartao()) || Util.vazio(sessaoPedido.getDataValidadeCartao()) || Util.vazio(sessaoPedido.getCodigoSegurancaCartao())) {
+
+				validator.add(new ValidationMessage("Todos os campos referentes ao cartão de crédito são obrigatórios", "Atenção"));
+				validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
+			}
+		}
+
 		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDinheiro") || this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoDebito")) {
+
+			if (Util.vazio(sessaoPedido.getCentroDistribuicao()) || Util.vazio(sessaoPedido.getDataHoraEscolhida())) {
+
+				validator.add(new ValidationMessage("É obrigatória a escolha do centro de distribuição e o preenchimento da data/hora", "Atenção"));
+				validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
+			}
 
 			result.redirectTo(this).etapaConfirmacaoEmail(null);
 		}
