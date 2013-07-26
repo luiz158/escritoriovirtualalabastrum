@@ -133,12 +133,12 @@ public class PontuacaoController {
 
 		if (pontuacaoAuxiliar.isAtivo()) {
 
-			result.include("situacaoPessoalAtividade", "Sim");
+			result.include("situacaoPessoalAtividade", "Ativo");
 		}
 
 		else {
 
-			result.include("situacaoPessoalAtividade", "Não");
+			result.include("situacaoPessoalAtividade", "Inativo");
 		}
 	}
 

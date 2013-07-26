@@ -49,7 +49,7 @@ b{
 <div class="resumo" >
 	
 	<h5 style="text-align: center" > RESUMO </h5>
-	<h6 style="margin-top: 20px" > Situação pessoal - Atividade:  ${situacaoPessoalAtividade}  </h6>
+	<h6 style="margin-top: 20px" > Situação pessoal:  ${situacaoPessoalAtividade}  </h6>
 	<h6> Pontuação pessoal: <fmt:formatNumber value="${pontuacaoPessoalUsuarioPesquisado}" />  </h6>
 	<h6> Pontuação da rede: <fmt:formatNumber value="${pontuacaoRede}" />  </h6>
 	<h6> Ativos diretos: <fmt:formatNumber value="${ativosDiretos}" />  </h6>
