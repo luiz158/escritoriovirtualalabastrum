@@ -117,6 +117,8 @@
 	}
 	
 	function listarProdutos(){
+
+		jQuery(".alert").hide();
 		
 		var idCategoria = jQuery("#categoria").val();
 		
