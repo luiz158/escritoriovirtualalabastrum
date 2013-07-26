@@ -143,26 +143,29 @@ public class PedidoController {
 	@Public
 	public void etapaComoDesejaReceberOsProdutos(SessaoPedido sessaoPedido) {
 
-		preencherInformacoesFormasPagamento(sessaoPedido);
+		if (Util.preenchido(sessaoPedido)) {
 
-		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito")) {
+			preencherInformacoesFormasPagamento(sessaoPedido);
 
-			if (Util.vazio(sessaoPedido.getNomeNoCartao()) || Util.vazio(sessaoPedido.getBandeiraCartao()) || Util.vazio(sessaoPedido.getNumeroCartao()) || Util.vazio(sessaoPedido.getDataValidadeCartao()) || Util.vazio(sessaoPedido.getCodigoSegurancaCartao())) {
+			if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito")) {
 
-				validator.add(new ValidationMessage("Todos os campos referentes ao cartão de crédito são obrigatórios", "Atenção"));
-				validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
-			}
-		}
+				if (Util.vazio(sessaoPedido.getNomeNoCartao()) || Util.vazio(sessaoPedido.getBandeiraCartao()) || Util.vazio(sessaoPedido.getNumeroCartao()) || Util.vazio(sessaoPedido.getDataValidadeCartao()) || Util.vazio(sessaoPedido.getCodigoSegurancaCartao())) {
 
-		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDinheiro") || this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoDebito")) {
-
-			if (Util.vazio(sessaoPedido.getCentroDistribuicao()) || Util.vazio(sessaoPedido.getDataHoraEscolhida())) {
-
-				validator.add(new ValidationMessage("É obrigatória a escolha do centro de distribuição e o preenchimento da data/hora", "Atenção"));
-				validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
+					validator.add(new ValidationMessage("Todos os campos referentes ao cartão de crédito são obrigatórios", "Atenção"));
+					validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
+				}
 			}
 
-			result.redirectTo(this).etapaConfirmacaoEmail(null);
+			if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDinheiro") || this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoDebito")) {
+
+				if (Util.vazio(sessaoPedido.getCentroDistribuicao()) || Util.vazio(sessaoPedido.getDataHoraEscolhida())) {
+
+					validator.add(new ValidationMessage("É obrigatória a escolha do centro de distribuição e o preenchimento da data/hora", "Atenção"));
+					validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
+				}
+
+				result.redirectTo(this).etapaConfirmacaoEmail(null);
+			}
 		}
 	}
 
@@ -172,6 +175,24 @@ public class PedidoController {
 		if (Util.preenchido(sessaoPedido)) {
 
 			preencherInformacoesComoDesejaReceberOsProdutos(sessaoPedido);
+
+			if (sessaoPedido.getComoDesejaReceberOsProdutos().equals("Sedex") || sessaoPedido.getComoDesejaReceberOsProdutos().equals("PAC")) {
+
+				if (Util.vazio(sessaoPedido.getCep()) || Util.vazio(sessaoPedido.getEnderecoEntrega())) {
+
+					validator.add(new ValidationMessage("É obrigatório o preenchimento do CEP e do endereço para entrega", "Atenção"));
+					validator.onErrorRedirectTo(this).etapaComoDesejaReceberOsProdutos(null);
+				}
+			}
+
+			if (sessaoPedido.getComoDesejaReceberOsProdutos().equals("MeiosProprios")) {
+
+				if (Util.vazio(sessaoPedido.getCentroDistribuicao()) || Util.vazio(sessaoPedido.getDataHoraEscolhida())) {
+
+					validator.add(new ValidationMessage("É obrigatória a escolha do centro de distribuição e o preenchimento da data/hora", "Atenção"));
+					validator.onErrorRedirectTo(this).etapaComoDesejaReceberOsProdutos(null);
+				}
+			}
 		}
 
 		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(this.sessaoPedido.getCodigoUsuario()), MatchMode.EXACT);
@@ -338,7 +359,7 @@ public class PedidoController {
 
 		JavaMailApp.enviarEmail("Pedido " + this.sessaoPedido.getCodigoPedido() + " (Via Escritório Virtual)", "pedidos@alabastrum.com.br," + this.sessaoPedido.getEmail(), textoEmail);
 
-		result.include("sucesso", "Pedido realizado com sucesso.");
+		result.include("sucesso", "Pedido realizado com sucesso!");
 
 		result.redirectTo(this).acessarTelaPedido();
 	}
