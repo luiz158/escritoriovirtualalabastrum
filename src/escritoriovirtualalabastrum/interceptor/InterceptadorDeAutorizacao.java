@@ -46,6 +46,8 @@ public class InterceptadorDeAutorizacao implements Interceptor {
 		else {
 
 			if (possuiPermissao(stack, method, resourceInstance, sessaoUsuario.getUsuario())) {
+				
+				validarQualificacao();
 
 				stack.next(method, resourceInstance);
 			}
@@ -55,6 +57,16 @@ public class InterceptadorDeAutorizacao implements Interceptor {
 				permissaoNegada();
 				return;
 			}
+		}
+	}
+	
+	private void validarQualificacao() {
+
+		Usuario usuarioLogado = this.sessaoUsuario.getUsuario();
+
+		if (Util.preenchido(usuarioLogado.getDesquaLider()) && usuarioLogado.getDesquaLider().equals("1")) {
+
+			result.include("alerta", "Atenção - Em virtude de sua inatividade há 2 meses ou mais, sua rede foi transferida para o 1º gerente ATIVO da sua linha ascendente. <br>Procure seu líder e saiba o que precisa ser feito para recuperar sua rede.");
 		}
 	}
 

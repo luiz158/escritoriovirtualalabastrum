@@ -83,6 +83,12 @@
 			</div>
 		</c:if>
 		
+		<c:if test="${not empty alerta}">
+			<div class="alert alert-alerta">
+				${alerta}
+			</div>
+		</c:if>
+		
 		<c:if test="${not empty errors}">
 			<div class="alert alert-error">
 				<c:forEach items="${errors }" var="error">
