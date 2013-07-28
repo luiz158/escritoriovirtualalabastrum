@@ -65,6 +65,7 @@ public class Usuario implements Entidade {
 	private String DesquaLider;
 	private String cadRG;
 	private String cadOrgaoExpedidor;
+	private String cadAtividade;
 
 	@Transient
 	private PontuacaoAuxiliar pontuacaoAuxiliar;
@@ -688,5 +689,13 @@ public class Usuario implements Entidade {
 
 	public void setPosAbrev(String posAbrev) {
 		PosAbrev = posAbrev;
+	}
+
+	public String getCadAtividade() {
+		return cadAtividade;
+	}
+
+	public void setCadAtividade(String cadAtividade) {
+		this.cadAtividade = cadAtividade;
 	}
 }

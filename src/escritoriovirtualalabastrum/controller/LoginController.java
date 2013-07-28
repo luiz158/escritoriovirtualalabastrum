@@ -1,5 +1,9 @@
 package escritoriovirtualalabastrum.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.hibernate.criterion.MatchMode;
 
 import br.com.caelum.vraptor.Path;
@@ -101,14 +105,25 @@ public class LoginController {
 						codigoOuSenhaIncorretos();
 					}
 
-					if (Util.vazio(usuarioBanco.getEV()) || usuarioBanco.getEV().equals("0")) {
+					List<Integer> usuariosNaoBloqueados = new ArrayList<Integer>(Arrays.asList(1, 43050));
 
-						String mensagem = "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
-						JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
+					if (!usuariosNaoBloqueados.contains(usuarioBanco.getId_Codigo())) {
 
-						validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Para poder acessar o escritório virtual, você deve antes ficar ativo. Você pode ficar ativo fazendo uma compra de produtos da Alabastrum através desta tela.", "Atenção"));
-						this.sessaoGeral.adicionar("codigoUsuarioRealizandoPedido", usuarioBanco.getId_Codigo());
-						validator.onErrorRedirectTo(PedidoController.class).acessarTelaPedido();
+						if (Util.vazio(usuarioBanco.getEV()) || usuarioBanco.getEV().equals("0")) {
+
+							String mensagem = "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
+							JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
+
+							validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
+							validator.onErrorRedirectTo(this).telaLogin();
+						}
+
+						if (Util.vazio(usuarioBanco.getCadAtividade()) || usuarioBanco.getCadAtividade().equals("0")) {
+
+							validator.add(new ValidationMessage("Você atualmente está inativo e não pode acessar o escritório virtual. Para poder acessar o escritório virtual, você deve antes ficar ativo. Você pode ficar ativo fazendo uma compra de produtos da Alabastrum através desta tela.", "Atenção"));
+							this.sessaoGeral.adicionar("codigoUsuarioRealizandoPedido", usuarioBanco.getId_Codigo());
+							validator.onErrorRedirectTo(PedidoController.class).acessarTelaPedido();
+						}
 					}
 				}
 			}
