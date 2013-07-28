@@ -106,12 +106,9 @@ public class LoginController {
 						codigoOuSenhaIncorretos();
 					}
 
-					if (!usuariosNaoBloqueados.contains(usuarioBanco.getId_Codigo())) {
+					validarAcessoBloqueado(usuarioBanco);
 
-						validarAcessoBloqueado(usuarioBanco);
-
-						validarAtividade(usuarioBanco);
-					}
+					validarAtividade(usuarioBanco);
 				}
 			}
 
@@ -267,11 +264,14 @@ public class LoginController {
 
 	private void validarAtividade(Usuario usuarioBanco) {
 
-		if (Util.vazio(usuarioBanco.getCadAtividade()) || usuarioBanco.getCadAtividade().equals("0")) {
+		if (!usuariosNaoBloqueados.contains(usuarioBanco.getId_Codigo())) {
 
-			validator.add(new ValidationMessage("Você atualmente está inativo e não pode acessar o escritório virtual. Para poder acessar o escritório virtual, você deve antes ficar ativo. Você pode ficar ativo fazendo uma compra de produtos da Alabastrum através desta tela.", "Atenção"));
-			this.sessaoGeral.adicionar("codigoUsuarioRealizandoPedido", usuarioBanco.getId_Codigo());
-			validator.onErrorRedirectTo(PedidoController.class).acessarTelaPedido();
+			if (Util.vazio(usuarioBanco.getCadAtividade()) || usuarioBanco.getCadAtividade().equals("0")) {
+
+				validator.add(new ValidationMessage("Você atualmente está inativo e não pode acessar o escritório virtual. Para poder acessar o escritório virtual, você deve antes ficar ativo. Você pode ficar ativo fazendo uma compra de produtos da Alabastrum através desta tela.", "Atenção"));
+				this.sessaoGeral.adicionar("codigoUsuarioRealizandoPedido", usuarioBanco.getId_Codigo());
+				validator.onErrorRedirectTo(PedidoController.class).acessarTelaPedido();
+			}
 		}
 	}
 
