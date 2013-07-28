@@ -30,6 +30,7 @@ public class LoginController {
 	private SessaoGeral sessaoGeral;
 	private Validator validator;
 	private HibernateUtil hibernateUtil;
+	private static final List<Integer> usuariosNaoBloqueados = new ArrayList<Integer>(Arrays.asList(1, 43050));
 
 	public LoginController(Result result, SessaoUsuario sessaoUsuario, SessaoGeral sessaoGeral, Validator validator, HibernateUtil hibernateUtil) {
 		this.result = result;
@@ -105,25 +106,11 @@ public class LoginController {
 						codigoOuSenhaIncorretos();
 					}
 
-					List<Integer> usuariosNaoBloqueados = new ArrayList<Integer>(Arrays.asList(1, 43050));
-
 					if (!usuariosNaoBloqueados.contains(usuarioBanco.getId_Codigo())) {
 
-						if (Util.vazio(usuarioBanco.getEV()) || usuarioBanco.getEV().equals("0")) {
+						validarAcessoBloqueado(usuarioBanco);
 
-							String mensagem = "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
-							JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
-
-							validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
-							validator.onErrorRedirectTo(this).telaLogin();
-						}
-
-						if (Util.vazio(usuarioBanco.getCadAtividade()) || usuarioBanco.getCadAtividade().equals("0")) {
-
-							validator.add(new ValidationMessage("Você atualmente está inativo e não pode acessar o escritório virtual. Para poder acessar o escritório virtual, você deve antes ficar ativo. Você pode ficar ativo fazendo uma compra de produtos da Alabastrum através desta tela.", "Atenção"));
-							this.sessaoGeral.adicionar("codigoUsuarioRealizandoPedido", usuarioBanco.getId_Codigo());
-							validator.onErrorRedirectTo(PedidoController.class).acessarTelaPedido();
-						}
+						validarAtividade(usuarioBanco);
 					}
 				}
 			}
@@ -192,14 +179,7 @@ public class LoginController {
 
 			else {
 
-				if (Util.vazio(usuario.getEV()) || usuario.getEV().equals("0")) {
-
-					String mensagem = "O usuário " + usuario.getId_Codigo() + " - " + usuario.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
-					JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
-
-					validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
-					validator.onErrorRedirectTo(this).telaLogin();
-				}
+				validarAcessoBloqueado(usuario);
 
 				this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", codigoUsuario);
 				result.forwardTo(this).trocarSenhaPrimeiroAcesso();
@@ -276,11 +256,35 @@ public class LoginController {
 
 		JavaMailApp.enviarEmail("Troca de senha de usuário", "trocadesenha@alabastrum.com.br", "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " efetuou a troca de senha no escritório virtual. <br><br>Email informado: " + email + " <br>CPF informado: " + cpf);
 
+		validarAtividade(usuarioBanco);
+
 		colocarUsuarioNaSessao(usuarioBanco);
 
 		result.include("sucesso", "Senha trocada com sucesso! Agora, atualize seus dados para poder continuar.");
 
 		result.redirectTo(AtualizacaoDadosController.class).acessarTelaAtualizacaoDados();
+	}
+
+	private void validarAtividade(Usuario usuarioBanco) {
+
+		if (Util.vazio(usuarioBanco.getCadAtividade()) || usuarioBanco.getCadAtividade().equals("0")) {
+
+			validator.add(new ValidationMessage("Você atualmente está inativo e não pode acessar o escritório virtual. Para poder acessar o escritório virtual, você deve antes ficar ativo. Você pode ficar ativo fazendo uma compra de produtos da Alabastrum através desta tela.", "Atenção"));
+			this.sessaoGeral.adicionar("codigoUsuarioRealizandoPedido", usuarioBanco.getId_Codigo());
+			validator.onErrorRedirectTo(PedidoController.class).acessarTelaPedido();
+		}
+	}
+
+	private void validarAcessoBloqueado(Usuario usuarioBanco) {
+
+		if (Util.vazio(usuarioBanco.getEV()) || usuarioBanco.getEV().equals("0")) {
+
+			String mensagem = "O usuário " + usuarioBanco.getId_Codigo() + " - " + usuarioBanco.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
+			JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
+
+			validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
+			validator.onErrorRedirectTo(this).telaLogin();
+		}
 	}
 
 	@Funcionalidade
