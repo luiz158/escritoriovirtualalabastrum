@@ -165,27 +165,35 @@ public class LoginController {
 	@Public
 	public void verificarExistenciaCodigoEsqueciMinhaSenha(Integer codigoUsuario) {
 
-		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(codigoUsuario), MatchMode.EXACT);
+		if (Util.preenchido(codigoUsuario)) {
 
-		if (Util.vazio(usuario)) {
+			Usuario usuario = this.hibernateUtil.selecionar(new Usuario(codigoUsuario), MatchMode.EXACT);
 
-			validator.add(new ValidationMessage("Código inexistente", "Erro"));
-			validator.onErrorRedirectTo(this).esqueciMinhaSenha();
+			if (Util.vazio(usuario)) {
+
+				validator.add(new ValidationMessage("Código inexistente", "Erro"));
+				validator.onErrorRedirectTo(this).esqueciMinhaSenha();
+			}
+
+			else {
+
+				if (Util.vazio(usuario.getEV()) || usuario.getEV().equals("0")) {
+
+					String mensagem = "O usuário " + usuario.getId_Codigo() + " - " + usuario.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
+					JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
+
+					validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
+					validator.onErrorRedirectTo(this).telaLogin();
+				}
+
+				this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", codigoUsuario);
+				result.forwardTo(this).trocarSenhaPrimeiroAcesso();
+			}
 		}
 
 		else {
 
-			if (Util.vazio(usuario.getEV()) || usuario.getEV().equals("0")) {
-
-				String mensagem = "O usuário " + usuario.getId_Codigo() + " - " + usuario.getvNome() + " tentou acessar o EV mas o acesso está bloqueado para ele.";
-				JavaMailApp.enviarEmail("Código não habilitado para acessar o escritório virtual", "suporte@alabastrum.com.br", mensagem);
-
-				validator.add(new ValidationMessage("Código não habilitado para acessar o escritório virtual. Entre em contato com a Alabastrum através do email suporte@alabastrum.com.br", "Erro"));
-				validator.onErrorRedirectTo(this).telaLogin();
-			}
-
-			this.sessaoGeral.adicionar("codigoUsuarioPrimeiroAcesso", codigoUsuario);
-			result.forwardTo(this).trocarSenhaPrimeiroAcesso();
+			result.forwardTo(this).telaLogin();
 		}
 	}
 
