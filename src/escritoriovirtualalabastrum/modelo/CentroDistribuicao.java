@@ -31,6 +31,11 @@ public class CentroDistribuicao implements Entidade {
 	@Index(name = "index_id_Estoque_tabela_centro_distribuicao")
 	private Integer id_Estoque;
 
+	public String getNomeCentroSemEspacos() {
+
+		return this.estqNome.replaceAll(" ", "");
+	}
+
 	public Integer getId() {
 		return id;
 	}

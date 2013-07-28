@@ -18,6 +18,7 @@ import br.com.caelum.vraptor.view.Results;
 import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
+import escritoriovirtualalabastrum.modelo.CentroDistribuicao;
 import escritoriovirtualalabastrum.modelo.Produto;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.sessao.SessaoGeral;
@@ -117,6 +118,8 @@ public class PedidoController {
 	@Public
 	public void etapaFormasPagamento(String hashProdutosEQuantidades) {
 
+		result.include("centrosDistribuicao", this.hibernateUtil.buscar(new CentroDistribuicao()));
+
 		if (Util.preenchido(hashProdutosEQuantidades)) {
 
 			this.sessaoPedido.setProdutosEQuantidades(new LinkedHashMap<String, Integer>());
@@ -142,6 +145,8 @@ public class PedidoController {
 
 	@Public
 	public void etapaComoDesejaReceberOsProdutos(SessaoPedido sessaoPedido) {
+
+		result.include("centrosDistribuicao", this.hibernateUtil.buscar(new CentroDistribuicao()));
 
 		if (Util.preenchido(sessaoPedido)) {
 

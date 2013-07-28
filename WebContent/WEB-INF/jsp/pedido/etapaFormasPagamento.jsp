@@ -173,13 +173,19 @@
 			
 			<select id="centroDistribuicao" name="sessaoPedido.centroDistribuicao" onchange="escolherCentroDistribuicao()"  >
           		<option value="" > Selecione </option>
-          		<option value="Madureira" <c:if test="${sessaoPedido.centroDistribuicao == 'Madureira'}"> selected='selected' </c:if> > Madureira </option>
+          		<c:forEach items="${centrosDistribuicao}" var="centroDistribuicao" >
+          			<option value="${centroDistribuicao.estqNome}" <c:if test="${sessaoPedido.centroDistribuicao == centroDistribuicao.estqNome}"> selected='selected' </c:if> > ${centroDistribuicao.estqNome} </option>
+          		</c:forEach>
 		  	</select>
+		  	
+		  	<c:forEach items="${centrosDistribuicao}" var="centroDistribuicao" >
+		  		<input type="hidden" id="${centroDistribuicao.nomeCentroSemEspacos}" value="${centroDistribuicao.estqEndereco} - ${centroDistribuicao.estqBairro} - ${centroDistribuicao.estqCidade} - ${centroDistribuicao.estqUF} - ${centroDistribuicao.estqCEP} - ${centroDistribuicao.estqTelefone} - ${centroDistribuicao.estqEmail}" />
+          	</c:forEach>
 		  	
 		  	<br><br>
 		  	
 		  	<p>  
-				Endereço: <b id="enderecoCentroDistribuicao" >  </b>
+				Informações: <b id="enderecoCentroDistribuicao" >  </b>
 			</p>
 			
 			<br>
@@ -206,14 +212,12 @@
 	jQuery(document).ready(function(){
 		
 		selecionarFormaPagamento();
+		escolherCentroDistribuicao();
 	});
 
 	function escolherCentroDistribuicao(){
-		
-		if(jQuery("#centroDistribuicao").val() == 'Madureira'){
 			
-			jQuery("#enderecoCentroDistribuicao").text("R. Carolina Machado, 380 - Madureira  Rio de Janeiro, 21351-021 - Tel: (21) 3390-4463");
-		}
+		jQuery("#enderecoCentroDistribuicao").text(jQuery("#" + replaceAll(jQuery("#centroDistribuicao").val(), " ", "")).val());
 	}
 	
 	function selecionarFormaPagamento(){
