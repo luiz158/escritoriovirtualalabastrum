@@ -30,6 +30,7 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
+import escritoriovirtualalabastrum.modelo.CentroDistribuicao;
 import escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao;
 import escritoriovirtualalabastrum.modelo.Pontuacao;
 import escritoriovirtualalabastrum.modelo.Produto;
@@ -71,6 +72,7 @@ public class ImportacaoArquivoController {
 			processarCSVPontuacao();
 			processarCSVProdutos();
 			processarCSVCategorias();
+			processarCSVCentroDistribuicao();
 
 			atualizarInformacoesUltimaAtualizacao();
 		}
@@ -485,6 +487,95 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.executarSQL("delete from categoria");
 
 		this.hibernateUtil.salvarOuAtualizar(categorias);
+	}
+
+	private void processarCSVCentroDistribuicao() throws IOException {
+
+		String caminho = verificaSistemaOperacional();
+
+		String caminhoCompletoArquivo = caminho + File.separator + "tblCDA" + ".csv";
+
+		File arquivoNoDisco = new File(caminhoCompletoArquivo);
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		@SuppressWarnings("resource")
+		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+
+		List<CentroDistribuicao> centrosDistribuicao = new ArrayList<CentroDistribuicao>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length < 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("id_Estoque")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					CentroDistribuicao centroDistribuicao = new CentroDistribuicao();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = centroDistribuicao.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
+								field.set(centroDistribuicao, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
+							}
+
+							catch (Exception e) {
+
+								field.set(centroDistribuicao, colunas[i]);
+							}
+						}
+
+						catch (Exception e) {
+
+							// e.printStackTrace();
+						}
+					}
+
+					centrosDistribuicao.add(centroDistribuicao);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i].replaceAll(" ", ""));
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from centrodistribuicao");
+
+		this.hibernateUtil.salvarOuAtualizar(centrosDistribuicao);
 	}
 
 	private String verificaSistemaOperacional() {
