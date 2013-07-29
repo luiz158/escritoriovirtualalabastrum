@@ -31,6 +31,11 @@ public class SessaoPedido {
 
 	private String email;
 
+	private String centroDistribuicaoDoResponsavel;
+	private String tipoPedido;
+
+	private Integer codigoOutroDistribuidor;
+
 	public LinkedHashMap<String, Integer> getProdutosEQuantidades() {
 		return produtosEQuantidades;
 	}
@@ -159,4 +164,27 @@ public class SessaoPedido {
 		this.email = email;
 	}
 
+	public String getCentroDistribuicaoDoResponsavel() {
+		return centroDistribuicaoDoResponsavel;
+	}
+
+	public void setCentroDistribuicaoDoResponsavel(String centroDistribuicaoDoResponsavel) {
+		this.centroDistribuicaoDoResponsavel = centroDistribuicaoDoResponsavel;
+	}
+
+	public String getTipoPedido() {
+		return tipoPedido;
+	}
+
+	public void setTipoPedido(String tipoPedido) {
+		this.tipoPedido = tipoPedido;
+	}
+
+	public Integer getCodigoOutroDistribuidor() {
+		return codigoOutroDistribuidor;
+	}
+
+	public void setCodigoOutroDistribuidor(Integer codigoOutroDistribuidor) {
+		this.codigoOutroDistribuidor = codigoOutroDistribuidor;
+	}
 }

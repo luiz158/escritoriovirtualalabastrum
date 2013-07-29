@@ -15,6 +15,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
+import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
@@ -77,6 +78,23 @@ public class PedidoController {
 		}
 
 		if (Util.preenchido(codigoPedido)) {
+
+			this.sessaoPedido.setTipoPedido(null);
+			this.sessaoPedido.setCentroDistribuicaoDoResponsavel(null);
+
+			CentroDistribuicao centroDistribuicaoFiltro = new CentroDistribuicao();
+			centroDistribuicaoFiltro.setId_Codigo(this.sessaoPedido.getCodigoUsuario());
+
+			List<CentroDistribuicao> centrosDistribuicaoDoResponsavel = this.hibernateUtil.buscar(centroDistribuicaoFiltro);
+
+			if (Util.preenchido(centrosDistribuicaoDoResponsavel)) {
+
+				this.sessaoPedido.setCentroDistribuicaoDoResponsavel(centrosDistribuicaoDoResponsavel.get(0).getEstqNome());
+
+				centroDistribuicaoFiltro.setId_Codigo(null);
+				List<CentroDistribuicao> todosCentrosDistribuicao = this.hibernateUtil.buscar(centroDistribuicaoFiltro);
+				result.include("todosCentrosDistribuicao", todosCentrosDistribuicao);
+			}
 
 			result.forwardTo(this).etapaSelecaoProdutos();
 		}
@@ -408,4 +426,31 @@ public class PedidoController {
 
 		result.use(Results.json()).from(this.hibernateUtil.selecionar(produto, MatchMode.EXACT)).serialize();
 	}
+
+	@Funcionalidade
+	public void buscarNomeDistribuidor(Integer codigoDistribuidor) {
+
+		if (Util.preenchido(codigoDistribuidor)) {
+
+			Usuario usuarioFiltro = new Usuario(codigoDistribuidor);
+
+			List<Usuario> usuarios = this.hibernateUtil.buscar(usuarioFiltro, MatchMode.EXACT);
+
+			if (Util.preenchido(usuarios)) {
+
+				result.use(Results.json()).from(usuarios.get(0).getvNome()).serialize();
+			}
+
+			else {
+
+				result.use(Results.json()).from("").serialize();
+			}
+		}
+
+		else {
+
+			result.use(Results.json()).from("").serialize();
+		}
+	}
+
 }

@@ -5,12 +5,93 @@
 	.quantidade{
 		width: 50px;
 	}
+	
+	.pedidoFeitoPorResponsavel {
+		border: 2px solid rgb(109, 103, 103);
+		border-radius: 5px;
+		padding: 20px;
+	}
+	
+	.pedidoFeitoPorResponsavel p {
+		font-size: 16px;
+	}
 
 </style>
 	
-<form class="form-horizontal" action="" method="post" >
+<form id="formSelecaoProdutos" class="form-horizontal" action="" method="post" >
   <fieldset>
     <legend> Realizar pedido </legend>
+
+    <c:if test="${!empty sessaoPedido.centroDistribuicaoDoResponsavel}" >
+
+	    <br>
+	    
+    	<div class="pedidoFeitoPorResponsavel" >
+
+    		<p> Percebemos que você é responsável pelo centro de distribuição: <b>${sessaoPedido.centroDistribuicaoDoResponsavel}.</b> </p>
+    		<p> Como responsável, você tem a possibilidade de realizar pedidos por outros distribuidores e também tem a possibilidade de realizar pedidos para um centro de distribuição específico. </p>
+    		<p> O que você deseja fazer? </p>
+    		<label class="radio">
+				<input type="radio" id="realizarPedidoPorOutroDistribuidor" name="sessaoPedido.tipoPedido" value="realizarPedidoPorOutroDistribuidor" <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoPorOutroDistribuidor'}"> checked="checked" </c:if>  >
+				Realizar pedido por outro distribuidor
+			</label>
+			<label class="radio">
+				<input type="radio" id="realizarPedidoParaUmCentroDeDistribuicao" name="sessaoPedido.tipoPedido" value="realizarPedidoParaUmCentroDeDistribuicao" <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoParaUmCentroDeDistribuicao'}"> checked="checked" </c:if>  >
+				Realizar pedido para um centro de distribuição
+			</label>
+			<label class="radio">
+				<input type="radio" id="realizarPedidoParaVoceMesmo" name="sessaoPedido.tipoPedido" value="realizarPedidoParaVoceMesmo" <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoParaVoceMesmo'}"> checked="checked" </c:if>  >
+				Realizar pedido para você mesmo
+			</label>
+			
+			<br>
+	
+			<input type="button" class="btn" onclick="selecionarTipoPedido()" value="Selecionar" >
+			
+			<div id="divRealizarPedidoPorOutroDistribuidor" style="display: none; margin-left: -100px;" >
+			
+				<br><br>
+				
+				<div class="control-group warning">
+		      		<label class="control-label">Código:</label>
+		      		<div class="controls">
+		        		<input type="text" class="numero-inteiro" id="codigoOutroDistribuidor" name="sessaoPedido.codigoOutroDistribuidor" value="${sessaoPedido.codigoOutroDistribuidor}" onkeyup="buscarNomeDistribuidor()"  >
+		        	</div>
+		      	</div>
+		      	
+		      	<div class="control-group warning">
+		      		<label class="control-label">Nome:</label>
+		      		<div class="controls">
+		        		<input type="text" class="input-xxlarge" id="nomeOutroDistribuidor" disabled="disabled" >
+		        	</div>
+		      	</div>
+				
+			</div>
+			
+			<div id="divRealizarPedidoParaUmCentroDeDistribuicao" style="display: none" >
+			
+				<br><br>
+				
+				<div class="control-group warning">
+		      		<label class="control-label">Centro de distribuição:</label>
+		      		<div class="controls">
+		        		<select name="sessaoPedido.centroDistribuicaoDoResponsavel"  >
+			          		<option value="" > Selecione </option>
+			          		<c:forEach items="${todosCentrosDistribuicao}" var="centroDistribuicao" >
+			          			<option value="${centroDistribuicao.estqNome}" <c:if test="${sessaoPedido.centroDistribuicaoDoResponsavel == centroDistribuicao.estqNome}"> selected='selected' </c:if> > ${centroDistribuicao.estqNome} </option>
+			          		</c:forEach>
+					  	</select>
+		        	</div>
+		      	</div>
+				
+			</div>
+
+    	</div>
+    	
+	    <br><br>
+
+    </c:if>
+    
     
     <div class="control-group warning" > 
         <label class="control-label">Categoria do produto</label>
@@ -80,6 +161,42 @@
 </form>
 
 <script>
+
+	function buscarNomeDistribuidor(){
+		
+		var codigoDistribuidor = jQuery("#codigoOutroDistribuidor").val();
+		
+		jQuery.ajax({ 
+	        type: 'GET',
+	        url: '<c:url value="/pedido/buscarNomeDistribuidor?codigoDistribuidor='+codigoDistribuidor + ' "/>',
+	        dataType: 'json', 
+	        success: function(data) { 
+	        	
+	        	jQuery("#nomeOutroDistribuidor").val(data.string);
+	        }
+		});
+	}
+
+	function selecionarTipoPedido(){
+		
+		jQuery("#divRealizarPedidoPorOutroDistribuidor").hide();
+		jQuery("#divRealizarPedidoParaUmCentroDeDistribuicao").hide();
+
+		if(jQuery("#formSelecaoProdutos input[type='radio']:checked").attr("id") == 'realizarPedidoPorOutroDistribuidor'){
+
+			jQuery("#divRealizarPedidoPorOutroDistribuidor").fadeIn("slow");
+		}	
+		
+		if(jQuery("#formSelecaoProdutos input[type='radio']:checked").attr("id") == 'realizarPedidoParaUmCentroDeDistribuicao'){
+
+			jQuery("#divRealizarPedidoParaUmCentroDeDistribuicao").fadeIn("slow");
+		}
+		
+		if(jQuery("#formSelecaoProdutos input[type='radio']:checked").attr("id") == 'realizarPedidoParaVoceMesmo'){
+
+			jQuery(".pedidoFeitoPorResponsavel").fadeOut("slow");
+		}
+	}
 
 	function avancarEtapaFormaPagamento(){
 		
@@ -189,6 +306,8 @@
 	jQuery(document).ready(function() {
 		
 		calcularTotal();
+		selecionarTipoPedido();
+		buscarNomeDistribuidor();
 		
 		jQuery(document).on('click', '.removerProduto', function(){  
 			
