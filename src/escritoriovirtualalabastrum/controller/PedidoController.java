@@ -90,10 +90,6 @@ public class PedidoController {
 			if (Util.preenchido(centrosDistribuicaoDoResponsavel)) {
 
 				this.sessaoPedido.setCentroDistribuicaoDoResponsavel(centrosDistribuicaoDoResponsavel.get(0).getEstqNome());
-
-				centroDistribuicaoFiltro.setId_Codigo(null);
-				List<CentroDistribuicao> todosCentrosDistribuicao = this.hibernateUtil.buscar(centroDistribuicaoFiltro);
-				result.include("todosCentrosDistribuicao", todosCentrosDistribuicao);
 			}
 
 			result.forwardTo(this).etapaSelecaoProdutos();
@@ -109,6 +105,8 @@ public class PedidoController {
 	public void etapaSelecaoProdutos() {
 
 		result.include("categorias", this.hibernateUtil.buscar(new Categoria(), Order.asc("catNome")));
+
+		result.include("todosCentrosDistribuicao", this.hibernateUtil.buscar(new CentroDistribuicao()));
 	}
 
 	@Public
@@ -134,7 +132,9 @@ public class PedidoController {
 	}
 
 	@Public
-	public void etapaFormasPagamento(String hashProdutosEQuantidades) {
+	public void etapaFormasPagamento(String hashProdutosEQuantidades, String tipoPedido, Integer codigoOutroDistribuidor, String centroDistribuicaoDoResponsavel) {
+
+		preencherInformarcoesTipoPedido(tipoPedido, codigoOutroDistribuidor, centroDistribuicaoDoResponsavel);
 
 		result.include("centrosDistribuicao", this.hibernateUtil.buscar(new CentroDistribuicao()));
 
@@ -161,6 +161,16 @@ public class PedidoController {
 		}
 	}
 
+	private void preencherInformarcoesTipoPedido(String tipoPedido, Integer codigoOutroDistribuidor, String centroDistribuicaoDoResponsavel) {
+
+		if (Util.preenchido(tipoPedido)) {
+
+			this.sessaoPedido.setTipoPedido(tipoPedido);
+			this.sessaoPedido.setCentroDistribuicaoDoResponsavel(centroDistribuicaoDoResponsavel);
+			this.sessaoPedido.setCodigoOutroDistribuidor(codigoOutroDistribuidor);
+		}
+	}
+
 	@Public
 	public void etapaComoDesejaReceberOsProdutos(SessaoPedido sessaoPedido) {
 
@@ -175,7 +185,7 @@ public class PedidoController {
 				if (Util.vazio(sessaoPedido.getNomeNoCartao()) || Util.vazio(sessaoPedido.getBandeiraCartao()) || Util.vazio(sessaoPedido.getNumeroCartao()) || Util.vazio(sessaoPedido.getDataValidadeCartao()) || Util.vazio(sessaoPedido.getCodigoSegurancaCartao())) {
 
 					validator.add(new ValidationMessage("Todos os campos referentes ao cartão de crédito são obrigatórios", "Atenção"));
-					validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
+					validator.onErrorRedirectTo(this).etapaFormasPagamento(null, null, null, null);
 				}
 			}
 
@@ -184,7 +194,7 @@ public class PedidoController {
 				if (Util.vazio(sessaoPedido.getCentroDistribuicao()) || Util.vazio(sessaoPedido.getDataHoraEscolhida())) {
 
 					validator.add(new ValidationMessage("É obrigatória a escolha do centro de distribuição e o preenchimento da data/hora", "Atenção"));
-					validator.onErrorRedirectTo(this).etapaFormasPagamento(null);
+					validator.onErrorRedirectTo(this).etapaFormasPagamento(null, null, null, null);
 				}
 
 				result.redirectTo(this).etapaConfirmacaoEmail(null);
@@ -247,6 +257,28 @@ public class PedidoController {
 		result.include("produtos", produtos);
 		result.include("total", total);
 		result.include("pontuacaoTotal", pontuacaoTotal);
+
+		obterNomeDistribuidor();
+	}
+
+	private String obterNomeDistribuidor() {
+
+		String nome = "";
+
+		if (Util.preenchido(this.sessaoPedido.getCodigoOutroDistribuidor())) {
+
+			Usuario usuarioFiltro = new Usuario(this.sessaoPedido.getCodigoOutroDistribuidor());
+
+			List<Usuario> usuarios = this.hibernateUtil.buscar(usuarioFiltro, MatchMode.EXACT);
+
+			if (Util.preenchido(usuarios)) {
+
+				nome = usuarios.get(0).getvNome();
+				result.include("nomeOutroDistribuidor", nome);
+			}
+		}
+
+		return nome;
 	}
 
 	@Public
@@ -284,6 +316,21 @@ public class PedidoController {
 		textoEmail += "<br> <b>Email: </b> " + this.sessaoPedido.getEmail();
 		textoEmail += "<br> <b>Telefone: </b> " + usuario.getTel();
 		textoEmail += "<br> <b>Celular: </b> " + usuario.getCadCelular();
+
+		if (this.sessaoPedido.getTipoPedido().equals("realizarPedidoPorOutroDistribuidor")) {
+
+			textoEmail += "<br> <br><br> ";
+			textoEmail += "<b> Tipo do pedido: </b> <span> Realizar pedido por outro distribuidor </span> <br> ";
+			textoEmail += "<b> Código do distribuidor: </b> <span>" + this.sessaoPedido.getCodigoOutroDistribuidor() + " </span> <br>";
+			textoEmail += "<b> Nome do distribuidor: </b> <span>" + obterNomeDistribuidor() + " </span> <br>";
+		}
+
+		if (this.sessaoPedido.getTipoPedido().equals("realizarPedidoParaUmCentroDeDistribuicao")) {
+
+			textoEmail += "<br> <br><br> ";
+			textoEmail += "<b> Tipo do pedido: </b> <span> Realizar pedido para um centro de distribuição </span> <br> ";
+			textoEmail += "<b> Centro de distribuição: </b> <span>" + this.sessaoPedido.getCentroDistribuicaoDoResponsavel() + " </span> <br>";
+		}
 
 		textoEmail += "<br> <br><br> <h2> Produtos </h2> ";
 		textoEmail += "<table>";

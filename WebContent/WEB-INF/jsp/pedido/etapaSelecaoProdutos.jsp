@@ -41,7 +41,7 @@
 			</label>
 			<label class="radio">
 				<input type="radio" id="realizarPedidoParaVoceMesmo" name="sessaoPedido.tipoPedido" value="realizarPedidoParaVoceMesmo" <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoParaVoceMesmo'}"> checked="checked" </c:if>  >
-				Realizar pedido para você mesmo
+				Realizar pedido para mim mesmo
 			</label>
 			
 			<br>
@@ -75,7 +75,7 @@
 				<div class="control-group warning">
 		      		<label class="control-label">Centro de distribuição:</label>
 		      		<div class="controls">
-		        		<select name="sessaoPedido.centroDistribuicaoDoResponsavel"  >
+		        		<select id="centroDistribuicaoDoResponsavel" name="sessaoPedido.centroDistribuicaoDoResponsavel"  >
 			          		<option value="" > Selecione </option>
 			          		<c:forEach items="${todosCentrosDistribuicao}" var="centroDistribuicao" >
 			          			<option value="${centroDistribuicao.estqNome}" <c:if test="${sessaoPedido.centroDistribuicaoDoResponsavel == centroDistribuicao.estqNome}"> selected='selected' </c:if> > ${centroDistribuicao.estqNome} </option>
@@ -217,7 +217,11 @@
 				hashProdutosEQuantidades += idProduto + "=" + quantidade + ",";
 			});	
 			
-			window.location = "<c:url value='/pedido/etapaFormasPagamento?hashProdutosEQuantidades=" + hashProdutosEQuantidades + "'/> ";
+			var tipoPedido = jQuery("#formSelecaoProdutos input[type='radio']:checked").attr("id");
+			var codigoOutroDistribuidor = jQuery("#codigoOutroDistribuidor").val();
+			var centroDistribuicaoDoResponsavel = jQuery("#centroDistribuicaoDoResponsavel").val();
+			
+			window.location = "<c:url value='/pedido/etapaFormasPagamento?hashProdutosEQuantidades=" + hashProdutosEQuantidades + "&tipoPedido=" + tipoPedido + "&codigoOutroDistribuidor=" + codigoOutroDistribuidor + "&centroDistribuicaoDoResponsavel=" + centroDistribuicaoDoResponsavel + "'/> ";  
 		}
 	}
 	

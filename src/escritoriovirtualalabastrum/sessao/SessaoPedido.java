@@ -10,11 +10,8 @@ import br.com.caelum.vraptor.ioc.SessionScoped;
 public class SessaoPedido {
 
 	private LinkedHashMap<String, Integer> produtosEQuantidades;
-
 	private Integer codigoUsuario;
-
 	private String codigoPedido;
-
 	private String formaPagamento;
 	private String nomeNoCartao;
 	private String bandeiraCartao;
@@ -24,16 +21,12 @@ public class SessaoPedido {
 	private String quantidadeParcelas;
 	private String centroDistribuicao;
 	private String dataHoraEscolhida;
-
 	private String comoDesejaReceberOsProdutos;
 	private String cep;
 	private String enderecoEntrega;
-
 	private String email;
-
 	private String centroDistribuicaoDoResponsavel;
 	private String tipoPedido;
-
 	private Integer codigoOutroDistribuidor;
 
 	public LinkedHashMap<String, Integer> getProdutosEQuantidades() {

@@ -24,8 +24,27 @@
     <br>
     
     <b> Código do pedido via Escritório Virtual: </b> <span> ${sessaoPedido.codigoPedido} </span>
+
+    <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoPorOutroDistribuidor'}">
     
-    <br> <br> <br> 
+    	<br> <br> <br> 
+    
+    	<b> Tipo do pedido: </b> <span> Realizar pedido por outro distribuidor </span> <br>
+    	<b> Código do distribuidor: </b> <span> ${sessaoPedido.codigoOutroDistribuidor} </span> <br>
+    	<b> Nome do distribuidor: </b> <span> ${nomeOutroDistribuidor} </span>
+    	
+    </c:if>  
+    
+    <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoParaUmCentroDeDistribuicao'}">
+    
+    	<br> <br> <br> 
+    
+    	<b> Tipo do pedido: </b> <span> Realizar pedido para um centro de distribuição </span> <br>
+    	<b> Centro de distribuição: </b> <span> ${sessaoPedido.centroDistribuicaoDoResponsavel} </span>
+    	
+    </c:if>   
+    
+    <br> <br> <br>     
     
     <h5 class="subTitulos" > Produtos </h5>
     <table class="table" >
