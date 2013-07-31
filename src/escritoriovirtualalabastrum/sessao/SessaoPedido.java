@@ -27,7 +27,7 @@ public class SessaoPedido {
 	private String email;
 	private String centroDistribuicaoDoResponsavel;
 	private String tipoPedido;
-	private Integer codigoOutroDistribuidor;
+	private String codigoOutroDistribuidor;
 
 	public LinkedHashMap<String, Integer> getProdutosEQuantidades() {
 		return produtosEQuantidades;
@@ -35,6 +35,14 @@ public class SessaoPedido {
 
 	public void setProdutosEQuantidades(LinkedHashMap<String, Integer> produtosEQuantidades) {
 		this.produtosEQuantidades = produtosEQuantidades;
+	}
+
+	public Integer getCodigoUsuario() {
+		return codigoUsuario;
+	}
+
+	public void setCodigoUsuario(Integer codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
 	}
 
 	public String getCodigoPedido() {
@@ -117,14 +125,6 @@ public class SessaoPedido {
 		this.dataHoraEscolhida = dataHoraEscolhida;
 	}
 
-	public Integer getCodigoUsuario() {
-		return codigoUsuario;
-	}
-
-	public void setCodigoUsuario(Integer codigoUsuario) {
-		this.codigoUsuario = codigoUsuario;
-	}
-
 	public String getComoDesejaReceberOsProdutos() {
 		return comoDesejaReceberOsProdutos;
 	}
@@ -173,11 +173,12 @@ public class SessaoPedido {
 		this.tipoPedido = tipoPedido;
 	}
 
-	public Integer getCodigoOutroDistribuidor() {
+	public String getCodigoOutroDistribuidor() {
 		return codigoOutroDistribuidor;
 	}
 
-	public void setCodigoOutroDistribuidor(Integer codigoOutroDistribuidor) {
+	public void setCodigoOutroDistribuidor(String codigoOutroDistribuidor) {
 		this.codigoOutroDistribuidor = codigoOutroDistribuidor;
 	}
+
 }

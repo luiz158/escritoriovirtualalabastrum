@@ -15,7 +15,6 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
-import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
@@ -79,8 +78,9 @@ public class PedidoController {
 
 		if (Util.preenchido(codigoPedido)) {
 
-			this.sessaoPedido.setTipoPedido(null);
-			this.sessaoPedido.setCentroDistribuicaoDoResponsavel(null);
+			this.sessaoPedido.setTipoPedido("");
+			this.sessaoPedido.setCentroDistribuicaoDoResponsavel("");
+			this.sessaoPedido.setCodigoOutroDistribuidor("");
 
 			CentroDistribuicao centroDistribuicaoFiltro = new CentroDistribuicao();
 			centroDistribuicaoFiltro.setId_Codigo(this.sessaoPedido.getCodigoUsuario());
@@ -132,7 +132,7 @@ public class PedidoController {
 	}
 
 	@Public
-	public void etapaFormasPagamento(String hashProdutosEQuantidades, String tipoPedido, Integer codigoOutroDistribuidor, String centroDistribuicaoDoResponsavel) {
+	public void etapaFormasPagamento(String hashProdutosEQuantidades, String tipoPedido, String codigoOutroDistribuidor, String centroDistribuicaoDoResponsavel) {
 
 		preencherInformarcoesTipoPedido(tipoPedido, codigoOutroDistribuidor, centroDistribuicaoDoResponsavel);
 
@@ -161,7 +161,7 @@ public class PedidoController {
 		}
 	}
 
-	private void preencherInformarcoesTipoPedido(String tipoPedido, Integer codigoOutroDistribuidor, String centroDistribuicaoDoResponsavel) {
+	private void preencherInformarcoesTipoPedido(String tipoPedido, String codigoOutroDistribuidor, String centroDistribuicaoDoResponsavel) {
 
 		if (Util.preenchido(tipoPedido)) {
 
@@ -258,7 +258,10 @@ public class PedidoController {
 		result.include("total", total);
 		result.include("pontuacaoTotal", pontuacaoTotal);
 
-		obterNomeDistribuidor();
+		if (this.sessaoPedido.getTipoPedido().equals("realizarPedidoPorOutroDistribuidor")) {
+
+			obterNomeDistribuidor();
+		}
 	}
 
 	private String obterNomeDistribuidor() {
@@ -267,7 +270,7 @@ public class PedidoController {
 
 		if (Util.preenchido(this.sessaoPedido.getCodigoOutroDistribuidor())) {
 
-			Usuario usuarioFiltro = new Usuario(this.sessaoPedido.getCodigoOutroDistribuidor());
+			Usuario usuarioFiltro = new Usuario(Integer.valueOf(this.sessaoPedido.getCodigoOutroDistribuidor()));
 
 			List<Usuario> usuarios = this.hibernateUtil.buscar(usuarioFiltro, MatchMode.EXACT);
 
@@ -474,7 +477,7 @@ public class PedidoController {
 		result.use(Results.json()).from(this.hibernateUtil.selecionar(produto, MatchMode.EXACT)).serialize();
 	}
 
-	@Funcionalidade
+	@Public
 	public void buscarNomeDistribuidor(Integer codigoDistribuidor) {
 
 		if (Util.preenchido(codigoDistribuidor)) {

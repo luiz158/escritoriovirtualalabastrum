@@ -166,15 +166,18 @@
 		
 		var codigoDistribuidor = jQuery("#codigoOutroDistribuidor").val();
 		
-		jQuery.ajax({ 
-	        type: 'GET',
-	        url: '<c:url value="/pedido/buscarNomeDistribuidor?codigoDistribuidor='+codigoDistribuidor + ' "/>',
-	        dataType: 'json', 
-	        success: function(data) { 
-	        	
-	        	jQuery("#nomeOutroDistribuidor").val(data.string);
-	        }
-		});
+		if(codigoDistribuidor != undefined){
+
+			jQuery.ajax({ 
+		        type: 'GET',
+		        url: '<c:url value="/pedido/buscarNomeDistribuidor?codigoDistribuidor='+codigoDistribuidor + ' "/>',
+		        dataType: 'json', 
+		        success: function(data) { 
+		        	
+		        	jQuery("#nomeOutroDistribuidor").val(data.string);
+		        }
+			});
+		}
 	}
 
 	function selecionarTipoPedido(){
