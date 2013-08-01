@@ -31,6 +31,10 @@
 		<input type="radio" id="formaPagamentoCartaoDebito" name="sessaoPedido.formaPagamento" value="formaPagamentoCartaoDebito" <c:if test="${sessaoPedido.formaPagamento == 'formaPagamentoCartaoDebito'}"> checked="checked" </c:if>  >
 		Cartão de débito (Necessário comparecimento presencial)
 	</label>
+	<label class="radio">
+		<input type="radio" id="formaPagamentoCreditoBonificacao" name="sessaoPedido.formaPagamento" value="formaPagamentoCreditoBonificacao" <c:if test="${sessaoPedido.formaPagamento == 'formaPagamentoCreditoBonificacao'}"> checked="checked" </c:if>  >
+		Crédito (bonificação a receber)
+	</label>
 	<label class="radio" style="color: #aaa;" >
 		<input type="radio" id="formaPagamentoBoleto" name="sessaoPedido.formaPagamento" disabled="disabled" >
 		Boleto(Ainda não disponível)
@@ -197,6 +201,23 @@
 	    </div>
 	</div>
 	
+	<div id="divCreditoBonificacao" style="display: none" >
+	
+		<h5> Crédito (bonificação a receber) </h5>
+		
+		<div class="divPagamento" >
+			
+			<p>  
+				Você atualmente tem <b>${sessaoPedido.credito}</b> em crédito na Alabastrum.
+			</p>	
+			
+			<p>  
+				O valor total de sua compra não pode ultrapassar a quantidade de créditos que você tem atualmente.
+			</p>
+					
+	    </div>
+	</div>
+
 	<br>
 	<br>
 	<br>
@@ -225,6 +246,7 @@
 		jQuery("#divCartaoCredito").hide();
 		jQuery("#divDepositoBancario").hide();
 		jQuery("#divDinheiroECartaoDebito").hide();
+		jQuery("#divCreditoBonificacao").hide();
 		jQuery("#botaoAvancar").hide();
 
 		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoCartaoCredito'){
@@ -236,6 +258,12 @@
 		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoDepositoBancario'){
 			
 			jQuery("#divDepositoBancario").show();
+			jQuery("#botaoAvancar").show();
+		}
+		
+		if(jQuery("#formFormasPagamento input[type='radio']:checked").attr("id") == 'formaPagamentoCreditoBonificacao'){
+			
+			jQuery("#divCreditoBonificacao").show();
 			jQuery("#botaoAvancar").show();
 		}
 		

@@ -78,6 +78,9 @@ public class PedidoController {
 
 		if (Util.preenchido(codigoPedido)) {
 
+			Usuario usuario = this.hibernateUtil.selecionar(new Usuario(this.sessaoPedido.getCodigoUsuario()));
+			this.sessaoPedido.setCredito(usuario.getCadCredito());
+
 			this.sessaoPedido.setTipoPedido("");
 			this.sessaoPedido.setCentroDistribuicaoDoResponsavel("");
 			this.sessaoPedido.setCodigoOutroDistribuidor("");
@@ -180,6 +183,18 @@ public class PedidoController {
 
 			preencherInformacoesFormasPagamento(sessaoPedido);
 
+			if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCreditoBonificacao")) {
+
+				BigDecimal totalPedido = calcularTotalPedido();
+				BigDecimal creditoUsuario = new BigDecimal(this.sessaoPedido.getCredito());
+
+				if (totalPedido.compareTo(creditoUsuario) > 0) {
+
+					validator.add(new ValidationMessage("O valor do seu pedido é " + totalPedido.toString() + " mas você só tem " + creditoUsuario.toString() + " em créditos.", "Atenção"));
+					validator.onErrorRedirectTo(this).etapaFormasPagamento(null, null, null, null);
+				}
+			}
+
 			if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito")) {
 
 				if (Util.vazio(sessaoPedido.getNomeNoCartao()) || Util.vazio(sessaoPedido.getBandeiraCartao()) || Util.vazio(sessaoPedido.getNumeroCartao()) || Util.vazio(sessaoPedido.getDataValidadeCartao()) || Util.vazio(sessaoPedido.getCodigoSegurancaCartao())) {
@@ -262,6 +277,23 @@ public class PedidoController {
 
 			obterNomeDistribuidor();
 		}
+	}
+
+	private BigDecimal calcularTotalPedido() {
+
+		BigDecimal total = BigDecimal.ZERO;
+
+		for (Entry<String, Integer> produtoEQuantidade : this.sessaoPedido.getProdutosEQuantidades().entrySet()) {
+
+			Produto produto = new Produto();
+			produto.setId_Produtos(produtoEQuantidade.getKey());
+			produto = this.hibernateUtil.selecionar(produto, MatchMode.EXACT);
+			produto.setQuantidade(produtoEQuantidade.getValue());
+
+			total = total.add(produto.getTotal());
+		}
+
+		return total;
 	}
 
 	private String obterNomeDistribuidor() {
@@ -402,6 +434,11 @@ public class PedidoController {
 		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDepositoBancario")) {
 
 			textoEmail += "<h4> Depósito bancário </h4>";
+		}
+
+		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCreditoBonificacao")) {
+
+			textoEmail += "<h4> Crédito (bonificação a receber) </h4>";
 		}
 
 		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito") || this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDepositoBancario")) {

@@ -113,6 +113,12 @@
 		<b> Data e hora: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
 
 	</c:if>
+	
+	<c:if test="${sessaoPedido.formaPagamento == 'formaPagamentoCreditoBonificacao'}">
+		
+		<p style="font-size: 16px;" > Crédito (bonificação a receber) </p>
+
+	</c:if>
 
 	<c:if test="${(sessaoPedido.formaPagamento == 'formaPagamentoCartaoCredito')  || (sessaoPedido.formaPagamento == 'formaPagamentoDepositoBancario')}">
    		

@@ -28,6 +28,7 @@ public class SessaoPedido {
 	private String centroDistribuicaoDoResponsavel;
 	private String tipoPedido;
 	private String codigoOutroDistribuidor;
+	private String credito;
 
 	public LinkedHashMap<String, Integer> getProdutosEQuantidades() {
 		return produtosEQuantidades;
@@ -179,6 +180,14 @@ public class SessaoPedido {
 
 	public void setCodigoOutroDistribuidor(String codigoOutroDistribuidor) {
 		this.codigoOutroDistribuidor = codigoOutroDistribuidor;
+	}
+
+	public String getCredito() {
+		return credito;
+	}
+
+	public void setCredito(String credito) {
+		this.credito = credito;
 	}
 
 }
