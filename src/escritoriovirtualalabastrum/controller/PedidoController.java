@@ -439,6 +439,7 @@ public class PedidoController {
 		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCreditoBonificacao")) {
 
 			textoEmail += "<h4> Crédito (bonificação a receber) </h4>";
+			textoEmail += "<h4> Crédito atual: " + this.sessaoPedido.getCredito() + " </h4>";
 		}
 
 		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoCredito") || this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDepositoBancario")) {
