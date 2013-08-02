@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE HTML>
 <html lang="pt-br">
@@ -50,6 +51,7 @@
 	        	<a href="<c:url value="/pontuacaoAnual/acessarTelaPontuacaoAnual"/>" class="submenu-accordion" > Pontuação anual</a>
 	        	<a href="<c:url value="/arvoreRelacionamento/acessarTelaArvoreRelacionamento"/>" class="submenu-accordion" > Árvore de relacionamentos </a>
 	        	<a href="<c:url value="/aniversariantes/acessarTelaAniversariantes"/>" class="submenu-accordion" > Aniversariantes </a>
+	        	<a href="<c:url value="/listaIngresso/acessarTelaListaIngresso"/>" class="submenu-accordion" > Lista de ingresso </a>
 	        </div>
 	        <h3 class="menu-accordion" > PEDIDOS </h3>
 	        <div>
