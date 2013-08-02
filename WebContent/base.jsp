@@ -60,6 +60,7 @@
 	        <div>
 	        	<a href="<c:url value="/home/kitIngresso"/>" class="submenu-accordion" > Kit de ingresso </a>
 	        	<a href="<c:url value="/centroDistribuicao/listarCentrosDistribuicao"/>" class="submenu-accordion" > Centros de distribuição </a>
+	        	<a href="<c:url value="/linhaAscendente/exibirLinhaAscendente"/>" class="submenu-accordion" > Linha Ascendente </a>
 	        </div>
 	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
 	        <div>

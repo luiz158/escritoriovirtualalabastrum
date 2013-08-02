@@ -1,14 +1,16 @@
-import org.joda.time.DateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import escritoriovirtualalabastrum.modelo.Usuario;
 
 public class MainTest {
 
 	public static void main(String[] args) {
 
-		DateTime primeiroDiaJaneiro = new DateTime(2013, 1, 1, 0, 0, 0);
-		DateTime ultimoDiaJaneiro = new DateTime(2013, 1, primeiroDiaJaneiro.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+		List<Usuario> linhaAscendente = new ArrayList<Usuario>();
 
-		System.out.println(primeiroDiaJaneiro);
-		System.out.println(ultimoDiaJaneiro);
+		linhaAscendente.add(null);
 
+		System.out.println(linhaAscendente.size());
 	}
 }
