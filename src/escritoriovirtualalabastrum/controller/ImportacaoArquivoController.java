@@ -169,13 +169,23 @@ public class ImportacaoArquivoController {
 							try {
 
 								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
-
 								field.set(usuario, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
 							}
 
 							catch (Exception e) {
 
-								field.set(usuario, colunas[i]);
+								try {
+
+									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+									DateTime data = formatter.parseDateTime(colunas[i]);
+
+									field.set(usuario, data.toGregorianCalendar());
+								}
+
+								catch (Exception e2) {
+
+									field.set(usuario, colunas[i]);
+								}
 							}
 
 						} catch (Exception e) {

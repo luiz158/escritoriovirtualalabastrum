@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.modelo;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class Usuario implements Entidade {
 	private String PosAbrev;
 	private String vNome;
 	private String PosIngresso;
-	private String Dt_Ingresso;
+	private GregorianCalendar Dt_Ingresso;
 	private String Tel;
 	private String eMail;
 	private String Dt_Nasc;
@@ -228,6 +229,14 @@ public class Usuario implements Entidade {
 		PosAtual = posAtual;
 	}
 
+	public String getPosAbrev() {
+		return PosAbrev;
+	}
+
+	public void setPosAbrev(String posAbrev) {
+		PosAbrev = posAbrev;
+	}
+
 	public String getvNome() {
 		return vNome;
 	}
@@ -244,11 +253,11 @@ public class Usuario implements Entidade {
 		PosIngresso = posIngresso;
 	}
 
-	public String getDt_Ingresso() {
+	public GregorianCalendar getDt_Ingresso() {
 		return Dt_Ingresso;
 	}
 
-	public void setDt_Ingresso(String dt_Ingresso) {
+	public void setDt_Ingresso(GregorianCalendar dt_Ingresso) {
 		Dt_Ingresso = dt_Ingresso;
 	}
 
@@ -404,6 +413,22 @@ public class Usuario implements Entidade {
 		EmissorTitular2 = emissorTitular2;
 	}
 
+	public String getTelTitular2() {
+		return TelTitular2;
+	}
+
+	public void setTelTitular2(String telTitular2) {
+		TelTitular2 = telTitular2;
+	}
+
+	public String getCelTitular2() {
+		return CelTitular2;
+	}
+
+	public void setCelTitular2(String celTitular2) {
+		CelTitular2 = celTitular2;
+	}
+
 	public String geteMailTitular2() {
 		return eMailTitular2;
 	}
@@ -442,6 +467,54 @@ public class Usuario implements Entidade {
 
 	public void setCadTipoConta(String cadTipoConta) {
 		this.cadTipoConta = cadTipoConta;
+	}
+
+	public String getDesquaLider() {
+		return DesquaLider;
+	}
+
+	public void setDesquaLider(String desquaLider) {
+		DesquaLider = desquaLider;
+	}
+
+	public String getCadRG() {
+		return cadRG;
+	}
+
+	public void setCadRG(String cadRG) {
+		this.cadRG = cadRG;
+	}
+
+	public String getCadOrgaoExpedidor() {
+		return cadOrgaoExpedidor;
+	}
+
+	public void setCadOrgaoExpedidor(String cadOrgaoExpedidor) {
+		this.cadOrgaoExpedidor = cadOrgaoExpedidor;
+	}
+
+	public String getCadAtividade() {
+		return cadAtividade;
+	}
+
+	public void setCadAtividade(String cadAtividade) {
+		this.cadAtividade = cadAtividade;
+	}
+
+	public String getCadCredito() {
+		return cadCredito;
+	}
+
+	public void setCadCredito(String cadCredito) {
+		this.cadCredito = cadCredito;
+	}
+
+	public PontuacaoAuxiliar getPontuacaoAuxiliar() {
+		return pontuacaoAuxiliar;
+	}
+
+	public void setPontuacaoAuxiliar(PontuacaoAuxiliar pontuacaoAuxiliar) {
+		this.pontuacaoAuxiliar = pontuacaoAuxiliar;
 	}
 
 	public Integer getId_Codigo() {
@@ -634,77 +707,5 @@ public class Usuario implements Entidade {
 
 	public void setId_Pres(Integer id_Pres) {
 		this.id_Pres = id_Pres;
-	}
-
-	public String getTelTitular2() {
-		return TelTitular2;
-	}
-
-	public void setTelTitular2(String telTitular2) {
-		TelTitular2 = telTitular2;
-	}
-
-	public String getCelTitular2() {
-		return CelTitular2;
-	}
-
-	public void setCelTitular2(String celTitular2) {
-		CelTitular2 = celTitular2;
-	}
-
-	public String getDesquaLider() {
-		return DesquaLider;
-	}
-
-	public void setDesquaLider(String desquaLider) {
-		DesquaLider = desquaLider;
-	}
-
-	public PontuacaoAuxiliar getPontuacaoAuxiliar() {
-		return pontuacaoAuxiliar;
-	}
-
-	public void setPontuacaoAuxiliar(PontuacaoAuxiliar pontuacaoAuxiliar) {
-		this.pontuacaoAuxiliar = pontuacaoAuxiliar;
-	}
-
-	public String getCadRG() {
-		return cadRG;
-	}
-
-	public void setCadRG(String cadRG) {
-		this.cadRG = cadRG;
-	}
-
-	public String getCadOrgaoExpedidor() {
-		return cadOrgaoExpedidor;
-	}
-
-	public void setCadOrgaoExpedidor(String cadOrgaoExpedidor) {
-		this.cadOrgaoExpedidor = cadOrgaoExpedidor;
-	}
-
-	public String getPosAbrev() {
-		return PosAbrev;
-	}
-
-	public void setPosAbrev(String posAbrev) {
-		PosAbrev = posAbrev;
-	}
-
-	public String getCadAtividade() {
-		return cadAtividade;
-	}
-
-	public void setCadAtividade(String cadAtividade) {
-		this.cadAtividade = cadAtividade;
-	}
-
-	public String getCadCredito() {
-		return cadCredito;
-	}
-
-	public void setCadCredito(String cadCredito) {
-		this.cadCredito = cadCredito;
 	}
 }
