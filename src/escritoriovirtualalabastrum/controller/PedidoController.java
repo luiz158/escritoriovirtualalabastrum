@@ -186,7 +186,7 @@ public class PedidoController {
 			if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCreditoBonificacao")) {
 
 				BigDecimal totalPedido = calcularTotalPedido();
-				BigDecimal creditoUsuario = new BigDecimal(this.sessaoPedido.getCredito());
+				BigDecimal creditoUsuario = Util.converterStringParaBigDecimal(this.sessaoPedido.getCredito());
 
 				if (totalPedido.compareTo(creditoUsuario) > 0) {
 
