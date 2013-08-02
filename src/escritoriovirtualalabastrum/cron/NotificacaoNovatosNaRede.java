@@ -3,8 +3,9 @@ package escritoriovirtualalabastrum.cron;
 import it.sauronsoftware.cron4j.Scheduler;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
@@ -16,7 +17,7 @@ public class NotificacaoNovatosNaRede implements Runnable {
 	public void run() {
 
 		Usuario usuarioFiltro = new Usuario();
-		usuarioFiltro.setDt_Ingresso(new GregorianCalendar());
+		usuarioFiltro.setDt_Ingresso(new DateTime().withMillisOfDay(0).toGregorianCalendar());
 
 		HibernateUtil hibernateUtil = new HibernateUtil();
 
