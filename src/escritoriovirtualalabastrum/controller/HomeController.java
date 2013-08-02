@@ -43,5 +43,10 @@ public class HomeController {
 	public void kitIngresso() {
 
 	}
+	
+	@Funcionalidade
+	public void qualificacao() {
+
+	}
 
 }
