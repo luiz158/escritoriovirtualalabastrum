@@ -14,7 +14,7 @@
         
         background-image: url("css/images/login.jpg"); 
  		background-repeat: no-repeat;
-		background-size: 85%;
+		background-size: 100%;
 		background-position-x: 50%;
 
       }
