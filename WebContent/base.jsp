@@ -64,6 +64,7 @@
 	        	<a href="<c:url value="/home/qualificacao"/>" class="submenu-accordion" > Qualificação </a>
 	        	<a href="<c:url value="/centroDistribuicao/listarCentrosDistribuicao"/>" class="submenu-accordion" > Centros de distribuição </a>
 	        	<a href="<c:url value="/linhaAscendente/exibirLinhaAscendente"/>" class="submenu-accordion" > Linha Ascendente </a>
+	        	<a href="<c:url value="/dataQualificacoes/acessarTelaDataQualificacoes"/>" class="submenu-accordion" > Datas de qualificações </a>
 	        </div>
 	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
 	        <div>

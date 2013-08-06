@@ -68,6 +68,19 @@ public class Usuario implements Entidade {
 	private String cadOrgaoExpedidor;
 	private String cadAtividade;
 	private String cadCredito;
+	private String Dt_Dem;
+	private String Dt_S;
+	private String Dt_M;
+	private String Dt_GB;
+	private String Dt_GP;
+	private String Dt_GO;
+	private String Dt_GE;
+	private String Dt_LA;
+	private String Dt_CR;
+	private String Dt_DR;
+	private String Dt_DD;
+	private String Dt_DS;
+	private String Dt_Pres;
 
 	@Transient
 	private PontuacaoAuxiliar pontuacaoAuxiliar;
@@ -707,5 +720,109 @@ public class Usuario implements Entidade {
 
 	public void setId_Pres(Integer id_Pres) {
 		this.id_Pres = id_Pres;
+	}
+
+	public String getDt_Dem() {
+		return Dt_Dem;
+	}
+
+	public void setDt_Dem(String dt_Dem) {
+		Dt_Dem = dt_Dem;
+	}
+
+	public String getDt_S() {
+		return Dt_S;
+	}
+
+	public void setDt_S(String dt_S) {
+		Dt_S = dt_S;
+	}
+
+	public String getDt_M() {
+		return Dt_M;
+	}
+
+	public void setDt_M(String dt_M) {
+		Dt_M = dt_M;
+	}
+
+	public String getDt_GB() {
+		return Dt_GB;
+	}
+
+	public void setDt_GB(String dt_GB) {
+		Dt_GB = dt_GB;
+	}
+
+	public String getDt_GP() {
+		return Dt_GP;
+	}
+
+	public void setDt_GP(String dt_GP) {
+		Dt_GP = dt_GP;
+	}
+
+	public String getDt_GO() {
+		return Dt_GO;
+	}
+
+	public void setDt_GO(String dt_GO) {
+		Dt_GO = dt_GO;
+	}
+
+	public String getDt_GE() {
+		return Dt_GE;
+	}
+
+	public void setDt_GE(String dt_GE) {
+		Dt_GE = dt_GE;
+	}
+
+	public String getDt_LA() {
+		return Dt_LA;
+	}
+
+	public void setDt_LA(String dt_LA) {
+		Dt_LA = dt_LA;
+	}
+
+	public String getDt_CR() {
+		return Dt_CR;
+	}
+
+	public void setDt_CR(String dt_CR) {
+		Dt_CR = dt_CR;
+	}
+
+	public String getDt_DR() {
+		return Dt_DR;
+	}
+
+	public void setDt_DR(String dt_DR) {
+		Dt_DR = dt_DR;
+	}
+
+	public String getDt_DD() {
+		return Dt_DD;
+	}
+
+	public void setDt_DD(String dt_DD) {
+		Dt_DD = dt_DD;
+	}
+
+	public String getDt_DS() {
+		return Dt_DS;
+	}
+
+	public void setDt_DS(String dt_DS) {
+		Dt_DS = dt_DS;
+	}
+
+	public String getDt_Pres() {
+		return Dt_Pres;
+	}
+
+	public void setDt_Pres(String dt_Pres) {
+		Dt_Pres = dt_Pres;
 	}
 }
