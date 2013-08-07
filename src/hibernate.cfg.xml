@@ -30,6 +30,7 @@
 		<mapping class="escritoriovirtualalabastrum.modelo.Produto" />
 		<mapping class="escritoriovirtualalabastrum.modelo.Categoria" />
 		<mapping class="escritoriovirtualalabastrum.modelo.CentroDistribuicao" />
+		<mapping class="escritoriovirtualalabastrum.modelo.ControlePedido" />
 
 </session-factory>
 </hibernate-configuration>

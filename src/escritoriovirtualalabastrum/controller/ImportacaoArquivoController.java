@@ -31,6 +31,7 @@ import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
 import escritoriovirtualalabastrum.modelo.CentroDistribuicao;
+import escritoriovirtualalabastrum.modelo.ControlePedido;
 import escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao;
 import escritoriovirtualalabastrum.modelo.Pontuacao;
 import escritoriovirtualalabastrum.modelo.Produto;
@@ -73,6 +74,7 @@ public class ImportacaoArquivoController {
 			processarCSVProdutos();
 			processarCSVCategorias();
 			processarCSVCentroDistribuicao();
+			processarCSVControlePedido();
 
 			atualizarInformacoesUltimaAtualizacao();
 		}
@@ -310,6 +312,114 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.executarSQL("delete from pontuacao");
 
 		this.hibernateUtil.salvarOuAtualizar(pontuacoes);
+	}
+
+	private void processarCSVControlePedido() throws IOException {
+
+		String caminho = verificaSistemaOperacional();
+
+		String caminhoCompletoArquivo = caminho + File.separator + "tblControlePedidos" + ".csv";
+
+		File arquivoNoDisco = new File(caminhoCompletoArquivo);
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		@SuppressWarnings("resource")
+		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+
+		List<ControlePedido> controlesPedidos = new ArrayList<ControlePedido>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length <= 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("id_Codigo")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					ControlePedido controlePedido = new ControlePedido();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = controlePedido.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
+								field.set(controlePedido, numero);
+							}
+
+							catch (Exception e) {
+
+								try {
+
+									DecimalFormatSymbols dsf = new DecimalFormatSymbols();
+									field.set(controlePedido, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
+								}
+
+								catch (Exception e2) {
+
+									try {
+
+										DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+										DateTime data = formatter.parseDateTime(colunas[i].split(" ")[0]);
+
+										field.set(controlePedido, data.toGregorianCalendar());
+									}
+
+									catch (Exception e3) {
+
+										field.set(controlePedido, colunas[i]);
+									}
+								}
+							}
+
+						} catch (Exception e) {
+
+							// e.printStackTrace();
+						}
+					}
+
+					controlesPedidos.add(controlePedido);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i]);
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from controlepedido");
+
+		this.hibernateUtil.salvarOuAtualizar(controlesPedidos);
 	}
 
 	private void processarCSVProdutos() throws IOException {
