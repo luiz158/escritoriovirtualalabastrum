@@ -56,6 +56,7 @@
 	        <h3 class="menu-accordion" > PEDIDOS </h3>
 	        <div>
 	        	<a href="<c:url value="/pedido/acessarTelaPedido"/>" class="submenu-accordion" > Realizar pedido </a>
+	        	<a href="<c:url value="/controlePedido/acessarTelaControlePedido"/>" class="submenu-accordion" > Controle de pedidos </a>
 	        	<a href="<c:url value="/transferenciaCredito/acessarTelaTransferenciaCredito"/>" class="submenu-accordion" > Transferência de crédito </a>
 	        </div>
 	        <h3 class="menu-accordion" > CONSULTA </h3>
