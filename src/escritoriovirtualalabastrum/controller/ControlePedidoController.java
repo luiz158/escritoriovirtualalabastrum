@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.auxiliar.SomatorioControlePedido;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.ControlePedido;
 import escritoriovirtualalabastrum.modelo.Usuario;
@@ -60,8 +61,28 @@ public class ControlePedidoController {
 		List<ControlePedido> controlesPedidos = this.hibernateUtil.buscar(controlePedidoFiltro, restricoes);
 		result.include("controlesPedidos", controlesPedidos);
 
+		SomatorioControlePedido somatorioControlePedido = calcularSomatorio(controlesPedidos);
+		result.include("somatorioControlePedido", somatorioControlePedido);
+
 		result.include("usuarioPesquisado", this.hibernateUtil.selecionar(new Usuario(codigoUsuario)));
 		result.include("dataInicialPesquisada", dataInicial);
 		result.include("dataFinalPesquisada", dataFinal);
+	}
+
+	private SomatorioControlePedido calcularSomatorio(List<ControlePedido> controlesPedidos) {
+
+		SomatorioControlePedido somatorioControlePedido = new SomatorioControlePedido();
+
+		for (ControlePedido controlePedido : controlesPedidos) {
+
+			somatorioControlePedido.setSomatorioBaseCalculo(somatorioControlePedido.getSomatorioBaseCalculo().add(controlePedido.getBaseCalculo()));
+			somatorioControlePedido.setSomatorioPedOutrosValores(somatorioControlePedido.getSomatorioPedOutrosValores().add(controlePedido.getPedOutrosValores()));
+			somatorioControlePedido.setSomatorioPedValorPago(somatorioControlePedido.getSomatorioPedValorPago().add(controlePedido.getPedValorPago()));
+			somatorioControlePedido.setSomatorioQuantProdutos(somatorioControlePedido.getSomatorioQuantProdutos().add(controlePedido.getQuantProdutos()));
+			somatorioControlePedido.setSomatorioPontoProduto(somatorioControlePedido.getSomatorioPontoProduto().add(controlePedido.getPontoProduto()));
+			somatorioControlePedido.setSomatorioPontoAtividade(somatorioControlePedido.getSomatorioPontoAtividade().add(controlePedido.getPontoAtividade()));
+			somatorioControlePedido.setSomatorioPontoIngresso(somatorioControlePedido.getSomatorioPontoIngresso().add(controlePedido.getPontoIngresso()));
+		}
+		return somatorioControlePedido;
 	}
 }

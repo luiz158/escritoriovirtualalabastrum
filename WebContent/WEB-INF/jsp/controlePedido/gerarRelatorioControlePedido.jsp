@@ -41,13 +41,13 @@
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);" >
                     <td class="centralizado" colspan="2" > <b> Total </b> </td>
-					<td class="centralizado" > <fmt:formatNumber value="${1}" /> </td>
-					<td class="centralizado" > <fmt:formatNumber value="${2}" /> </td>
-					<td class="centralizado" > <fmt:formatNumber value="${2}" /> </td>
-					<td class="centralizado" > <fmt:formatNumber value="${2}" /> </td>
-					<td class="centralizado" > <fmt:formatNumber value="${2}" /> </td>
-					<td class="centralizado" > <fmt:formatNumber value="${2}" /> </td>
-					<td class="centralizado" > <fmt:formatNumber value="${2}" /> </td>
+					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioBaseCalculo}" /> </td>
+					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioPedOutrosValores}" /> </td>
+					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioPedValorPago}" /> </td>
+					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioQuantProdutos}" /> </td>
+					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioPontoProduto}" /> </td>
+					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioPontoAtividade}" /> </td>
+					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioPontoIngresso}" /> </td>
 				</tr>
 			</tfoot>
 		</table>
