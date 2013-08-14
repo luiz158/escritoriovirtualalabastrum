@@ -120,7 +120,7 @@
 
 	</c:if>
 
-	<c:if test="${(sessaoPedido.formaPagamento == 'formaPagamentoCartaoCredito')  || (sessaoPedido.formaPagamento == 'formaPagamentoDepositoBancario')}">
+	<c:if test="${(sessaoPedido.formaPagamento == 'formaPagamentoCartaoCredito')  || (sessaoPedido.formaPagamento == 'formaPagamentoDepositoBancario') || (sessaoPedido.formaPagamento == 'formaPagamentoCreditoBonificacao')}">
    		
 		<br> <br> <br> 
 			
