@@ -6,10 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import br.com.caelum.vraptor.Resource;
 import escritoriovirtualalabastrum.hibernate.Entidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.util.Util;
-import br.com.caelum.vraptor.Resource;
 
 @Resource
 @Entity
@@ -31,7 +31,9 @@ public class Configuracao implements Entidade {
 		return configuracoesPadroes;
 	}
 
-	public String retornarConfiguracao(String chave, HibernateUtil hibernateUtil) {
+	public String retornarConfiguracao(String chave) {
+
+		HibernateUtil hibernateUtil = new HibernateUtil();
 
 		Configuracao configuracao = new Configuracao();
 		configuracao.setChave(chave);
@@ -42,6 +44,8 @@ public class Configuracao implements Entidade {
 
 			return configuracoesPadroes().get(chave);
 		}
+
+		hibernateUtil.fecharSessao();
 
 		return configuracao.getValor();
 	}

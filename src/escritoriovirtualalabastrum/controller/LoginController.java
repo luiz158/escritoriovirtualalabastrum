@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.hibernate.criterion.MatchMode;
@@ -14,6 +15,7 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.HistoricoAcesso;
 import escritoriovirtualalabastrum.modelo.InformacoesFixasUsuario;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.sessao.SessaoGeral;
@@ -113,6 +115,7 @@ public class LoginController {
 			}
 
 			colocarUsuarioNaSessao(usuario);
+			salvarHistoricoAcesso(usuario);
 
 			result.redirectTo(HomeController.class).home();
 		}
@@ -135,7 +138,15 @@ public class LoginController {
 		usuario.setInformacoesFixasUsuario(usuario.obterInformacoesFixasUsuario());
 
 		this.sessaoUsuario.login(usuario);
+	}
 
+	private void salvarHistoricoAcesso(Usuario usuario) {
+
+		HistoricoAcesso historicoAcesso = new HistoricoAcesso();
+		historicoAcesso.setDataHora(new GregorianCalendar());
+		historicoAcesso.setCodigoUsuario(usuario.getId_Codigo());
+
+		this.hibernateUtil.salvarOuAtualizar(historicoAcesso);
 	}
 
 	@Public

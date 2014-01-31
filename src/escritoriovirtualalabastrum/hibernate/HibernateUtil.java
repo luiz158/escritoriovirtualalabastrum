@@ -356,7 +356,7 @@ public class HibernateUtil {
 		Long quantidadeRegistros = (Long) criteria.uniqueResult();
 
 		criteria = gerarFiltros(filtro, matchMode);
-		Integer quantidadeDeRegistrosPorPagina = Integer.valueOf(new Configuracao().retornarConfiguracao("quantidadeRegistrosPorPagina", this));
+		Integer quantidadeDeRegistrosPorPagina = Integer.valueOf(new Configuracao().retornarConfiguracao("quantidadeRegistrosPorPagina"));
 		if (pagina == null) {
 			pagina = 1;
 		}

@@ -11,6 +11,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import escritoriovirtualalabastrum.modelo.Configuracao;
+
 public class JavaMailApp {
 
 	public static void enviarEmail(String titulo, String remetentes, String mensagem) {
@@ -25,7 +27,7 @@ public class JavaMailApp {
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 
-				return new PasswordAuthentication("alabastrumnotificacoes@gmail.com", "senhadificil");
+				return new PasswordAuthentication("alabastrumnotificacoes@gmail.com", new Configuracao().retornarConfiguracao("senhaEmail"));
 			}
 		});
 
