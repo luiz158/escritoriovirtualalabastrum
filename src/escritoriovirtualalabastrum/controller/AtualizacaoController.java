@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.controller;
 
+import java.io.IOException;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
@@ -9,7 +10,7 @@ public class AtualizacaoController {
 
   @Path("/atualizar")
 	@Funcionalidade(administrativa = "true")
-	public void atualizar() {
+	public void atualizar() throws IOException {
 	
 	  Runtime.getRuntime().exec("/atualizar.sh");
 	}
