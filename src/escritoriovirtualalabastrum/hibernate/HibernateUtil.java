@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Transient;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -160,6 +161,18 @@ public class HibernateUtil {
 			fecharSessao();
 			throw e;
 		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	public List buscaPorHQL(String hql) {
+
+		iniciarSessionFactory();
+
+		abrirSessao();
+
+		Query query = session.createQuery(hql);
+
+		return query.list();
 	}
 
 	public void deletar(Entidade entidade) {
