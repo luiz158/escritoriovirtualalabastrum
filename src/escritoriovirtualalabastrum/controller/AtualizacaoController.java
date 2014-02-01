@@ -12,6 +12,6 @@ public class AtualizacaoController {
 	@Funcionalidade(administrativa = "true")
 	public void atualizar() throws IOException {
 	
-	  Runtime.getRuntime().exec("/atualizar.sh");
+	  Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", "/atualizar.sh > /dev/null 2>&1 &" });
 	}
 }
