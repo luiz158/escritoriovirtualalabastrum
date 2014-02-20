@@ -12,7 +12,7 @@ public class AtualizacaoArquivosAutomaticamente implements Runnable {
 
 	public void run() {
 
-		if (new File(ImportacaoArquivoController.PASTA_ATUALIZACAO_CSV).list().length > 0) {
+		if (new File(ImportacaoArquivoController.PASTA_ATUALIZACAO_CSV).list().length >= 6) {
 
 			try {
 
@@ -45,7 +45,7 @@ public class AtualizacaoArquivosAutomaticamente implements Runnable {
 
 		Scheduler scheduler = new Scheduler();
 
-		scheduler.schedule("*/5 * * * *", task);
+		scheduler.schedule("*/10 * * * *", task);
 
 		scheduler.start();
 	}
