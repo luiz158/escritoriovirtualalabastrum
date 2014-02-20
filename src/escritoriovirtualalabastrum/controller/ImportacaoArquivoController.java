@@ -41,8 +41,8 @@ import escritoriovirtualalabastrum.util.Util;
 @Resource
 public class ImportacaoArquivoController {
 
-	private static final String PASTA_PADRAO_WINDOWS = "C:\\csvExtraido";
-	private static final String PASTA_PADRAO_LINUX = "/csvExtraido";
+	public static final String PASTA_RAIZ = "/home/renan/";
+	public static final String PASTA_ATUALIZACAO_CSV = ImportacaoArquivoController.PASTA_RAIZ + "Dropbox/do-desktop-para-o-escritorio";
 
 	private Result result;
 	private Validator validator;
@@ -69,14 +69,7 @@ public class ImportacaoArquivoController {
 
 			descompactarZip(arquivo, file);
 
-			processarCSVRelacionamentos();
-			processarCSVPontuacao();
-			processarCSVProdutos();
-			processarCSVCategorias();
-			processarCSVCentroDistribuicao();
-			processarCSVControlePedido();
-
-			atualizarInformacoesUltimaAtualizacao();
+			processarArquivos();
 		}
 
 		else {
@@ -92,6 +85,18 @@ public class ImportacaoArquivoController {
 
 		result.forwardTo(this).acessarTelaImportacaoArquivo();
 
+	}
+
+	public void processarArquivos() throws IOException {
+
+		processarCSVRelacionamentos();
+		processarCSVPontuacao();
+		processarCSVProdutos();
+		processarCSVCategorias();
+		processarCSVCentroDistribuicao();
+		processarCSVControlePedido();
+
+		atualizarInformacoesUltimaAtualizacao();
 	}
 
 	private void atualizarInformacoesUltimaAtualizacao() {
@@ -117,7 +122,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVRelacionamentos() throws IOException {
 
-		String caminho = verificaSistemaOperacional();
+		String caminho = PASTA_ATUALIZACAO_CSV;
 
 		String caminhoCompletoArquivo = caminho + File.separator + "tblRelacionamentos" + ".csv";
 
@@ -216,7 +221,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVPontuacao() throws IOException {
 
-		String caminho = verificaSistemaOperacional();
+		String caminho = PASTA_ATUALIZACAO_CSV;
 
 		String caminhoCompletoArquivo = caminho + File.separator + "tblPontuacao" + ".csv";
 
@@ -316,7 +321,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVControlePedido() throws IOException {
 
-		String caminho = verificaSistemaOperacional();
+		String caminho = PASTA_ATUALIZACAO_CSV;
 
 		String caminhoCompletoArquivo = caminho + File.separator + "tblControlePedidos" + ".csv";
 
@@ -424,7 +429,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVProdutos() throws IOException {
 
-		String caminho = verificaSistemaOperacional();
+		String caminho = PASTA_ATUALIZACAO_CSV;
 
 		String caminhoCompletoArquivo = caminho + File.separator + "tblProdutos" + ".csv";
 
@@ -522,7 +527,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVCategorias() throws IOException {
 
-		String caminho = verificaSistemaOperacional();
+		String caminho = PASTA_ATUALIZACAO_CSV;
 
 		String caminhoCompletoArquivo = caminho + File.separator + "tblCategorias" + ".csv";
 
@@ -611,7 +616,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVCentroDistribuicao() throws IOException {
 
-		String caminho = verificaSistemaOperacional();
+		String caminho = PASTA_ATUALIZACAO_CSV;
 
 		String caminhoCompletoArquivo = caminho + File.separator + "tblCDA" + ".csv";
 
@@ -698,22 +703,6 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.salvarOuAtualizar(centrosDistribuicao);
 	}
 
-	private String verificaSistemaOperacional() {
-
-		String caminho;
-
-		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-
-			caminho = PASTA_PADRAO_WINDOWS;
-		}
-
-		else {
-
-			caminho = PASTA_PADRAO_LINUX;
-		}
-		return caminho;
-	}
-
 	private void removerArquivosDaPasta(File f) {
 
 		if (f.isDirectory()) {
@@ -728,7 +717,7 @@ public class ImportacaoArquivoController {
 
 	private void descompactarZip(UploadedFile arquivo, InputStream file) throws IOException, FileNotFoundException {
 
-		String caminho = verificaSistemaOperacional();
+		String caminho = PASTA_ATUALIZACAO_CSV;
 
 		removerArquivosDaPasta(new File(caminho));
 
@@ -759,5 +748,9 @@ public class ImportacaoArquivoController {
 
 		zis.closeEntry();
 		zis.close();
+	}
+
+	public HibernateUtil getHibernateUtil() {
+		return hibernateUtil;
 	}
 }

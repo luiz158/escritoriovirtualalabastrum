@@ -20,7 +20,7 @@ import escritoriovirtualalabastrum.util.Util;
 @Resource
 public class AtualizacaoDadosController {
 
-	public static final String CAMINHO_PASTA_PRE_CADASTRO = "/home/renan/Dropbox/do-escritorio-para-o-desktop/pre-cadastro-de-distribuidor-pelo-site/";
+	public static final String CAMINHO_PASTA_PRE_CADASTRO = ImportacaoArquivoController.PASTA_RAIZ + "Dropbox/do-escritorio-para-o-desktop/pre-cadastro-de-distribuidor-pelo-site/";
 
 	private Result result;
 	private SessaoAtualizacaoDados sessaoAtualizacaoDados;
