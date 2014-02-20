@@ -1,8 +1,10 @@
 package escritoriovirtualalabastrum.controller;
 
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 
 import org.hibernate.criterion.MatchMode;
+import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
@@ -17,6 +19,8 @@ import escritoriovirtualalabastrum.util.Util;
 
 @Resource
 public class AtualizacaoDadosController {
+
+	public static final String CAMINHO_PASTA_PRE_CADASTRO = "/home/renan/Dropbox/do-escritorio-para-o-desktop/pre-cadastro-de-distribuidor-pelo-site/";
 
 	private Result result;
 	private SessaoAtualizacaoDados sessaoAtualizacaoDados;
@@ -79,9 +83,16 @@ public class AtualizacaoDadosController {
 
 		this.sessaoAtualizacaoDados = sessaoAtualizacaoDados;
 
-		String textoEmail = "";
+		criarArquivoNoDisco(montarTextoArquivo());
 
-		textoEmail += "Informações:<br>";
+		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "atendimento@alabastrum.com.br", montarTextoEmail());
+
+		result.forwardTo(this).acessarTelaAtualizacaoDadosPeloSite(true);
+	}
+
+	private String montarTextoEmail() {
+
+		String textoEmail = "";
 
 		textoEmail += "<br> <b>Nome: </b> " + this.sessaoAtualizacaoDados.getvNome();
 		textoEmail += "<br> <b>Data de nascimento: </b> " + this.sessaoAtualizacaoDados.getDt_Nasc();
@@ -119,9 +130,54 @@ public class AtualizacaoDadosController {
 		textoEmail += "<br> <b> Nome: </b> " + this.sessaoAtualizacaoDados.getNomeQuemIndicou();
 		textoEmail += "<br> <b> Observações: </b> " + this.sessaoAtualizacaoDados.getObservacoes();
 
-		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "atendimento@alabastrum.com.br", textoEmail);
+		return textoEmail;
+	}
 
-		result.forwardTo(this).acessarTelaAtualizacaoDadosPeloSite(true);
+	private String montarTextoArquivo() {
+
+		String textoArquivo = "";
+
+		textoArquivo += "Nome: \"" + this.sessaoAtualizacaoDados.getvNome() + "\"\n";
+		textoArquivo += "Data_de_nascimento: \"" + this.sessaoAtualizacaoDados.getDt_Nasc() + "\"\n";
+		textoArquivo += "CPF: \"" + this.sessaoAtualizacaoDados.getCPF() + "\"\n";
+		textoArquivo += "RG: \"" + this.sessaoAtualizacaoDados.getCadRG() + "\"\n";
+		textoArquivo += "Emissor: \"" + this.sessaoAtualizacaoDados.getCadOrgaoExpedidor() + "\"\n";
+		textoArquivo += "Sexo: \"" + this.sessaoAtualizacaoDados.getCadSexo() + "\"\n";
+		textoArquivo += "Estado_civil: \"" + this.sessaoAtualizacaoDados.getCadEstCivil() + "\"\n";
+		textoArquivo += "CEP: \"" + this.sessaoAtualizacaoDados.getCadCEP() + "\"\n";
+		textoArquivo += "Endereco: \"" + this.sessaoAtualizacaoDados.getCadEndereco() + "\"\n";
+		textoArquivo += "Bairro: \"" + this.sessaoAtualizacaoDados.getCadBairro() + "\"\n";
+		textoArquivo += "Cidade: \"" + this.sessaoAtualizacaoDados.getCadCidade() + "\"\n";
+		textoArquivo += "Estado: \"" + this.sessaoAtualizacaoDados.getCadUF() + "\"\n";
+		textoArquivo += "Telefone_residencial: \"" + this.sessaoAtualizacaoDados.getTel() + "\"\n";
+		textoArquivo += "Telefone_celular: \"" + this.sessaoAtualizacaoDados.getCadCelular() + "\"\n";
+		textoArquivo += "Email: \"" + this.sessaoAtualizacaoDados.geteMail() + "\"\n";
+		textoArquivo += "Banco: \"" + this.sessaoAtualizacaoDados.getCadBanco() + "\"\n";
+		textoArquivo += "Tipo_da_conta: \"" + this.sessaoAtualizacaoDados.getCadTipoConta() + "\"\n";
+		textoArquivo += "Numero_da_agencia: \"" + this.sessaoAtualizacaoDados.getCadAgencia() + "\"\n";
+		textoArquivo += "Numero_da_conta: \"" + this.sessaoAtualizacaoDados.getCadCCorrente() + "\"\n";
+		textoArquivo += "Codigo: \"" + this.sessaoAtualizacaoDados.getCodigoQuemIndicou() + "\"\n";
+		textoArquivo += "Nome: \"" + this.sessaoAtualizacaoDados.getNomeQuemIndicou() + "\"\n";
+		textoArquivo += "Observacoes: \"" + this.sessaoAtualizacaoDados.getObservacoes() + "\"\n";
+
+		return textoArquivo;
+	}
+
+	private void criarArquivoNoDisco(String textoEmail) {
+
+		PrintWriter writer = null;
+
+		try {
+
+			writer = new PrintWriter(CAMINHO_PASTA_PRE_CADASTRO + new DateTime().toString("dd-MM-YYYY_HH-mm-ss") + ".txt", "UTF-8");
+
+			writer.println(textoEmail);
+			writer.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
 	}
 
 	@Funcionalidade
