@@ -11,6 +11,7 @@ import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.anotacoes.Public;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.PreCadastro;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.sessao.SessaoAtualizacaoDados;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
@@ -87,7 +88,17 @@ public class AtualizacaoDadosController {
 
 		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "atendimento@alabastrum.com.br", montarTextoEmail());
 
+		salvarPreCadastroNoBanco();
+
 		result.forwardTo(this).acessarTelaAtualizacaoDadosPeloSite(true);
+	}
+
+	private void salvarPreCadastroNoBanco() {
+
+		PreCadastro preCadastro = new PreCadastro();
+		preCadastro.setCpf(this.sessaoAtualizacaoDados.getCPF());
+
+		this.hibernateUtil.salvarOuAtualizar(preCadastro);
 	}
 
 	private String montarTextoEmail() {

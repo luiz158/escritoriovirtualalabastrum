@@ -32,6 +32,7 @@
 		<mapping class="escritoriovirtualalabastrum.modelo.CentroDistribuicao" />
 		<mapping class="escritoriovirtualalabastrum.modelo.ControlePedido" />
 		<mapping class="escritoriovirtualalabastrum.modelo.HistoricoAcesso" />
+		<mapping class="escritoriovirtualalabastrum.modelo.PreCadastro" />
 
 </session-factory>
 </hibernate-configuration>

@@ -749,8 +749,4 @@ public class ImportacaoArquivoController {
 		zis.closeEntry();
 		zis.close();
 	}
-
-	public HibernateUtil getHibernateUtil() {
-		return hibernateUtil;
-	}
 }
