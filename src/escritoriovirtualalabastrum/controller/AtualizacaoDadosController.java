@@ -148,28 +148,28 @@ public class AtualizacaoDadosController {
 
 		String textoArquivo = "";
 
-		textoArquivo += "Nome: \"" + this.sessaoAtualizacaoDados.getvNome() + "\"\n";
-		textoArquivo += "Data_de_nascimento: \"" + this.sessaoAtualizacaoDados.getDt_Nasc() + "\"\n";
-		textoArquivo += "CPF: \"" + this.sessaoAtualizacaoDados.getCPF() + "\"\n";
-		textoArquivo += "RG: \"" + this.sessaoAtualizacaoDados.getCadRG() + "\"\n";
-		textoArquivo += "Emissor: \"" + this.sessaoAtualizacaoDados.getCadOrgaoExpedidor() + "\"\n";
-		textoArquivo += "Sexo: \"" + this.sessaoAtualizacaoDados.getCadSexo() + "\"\n";
-		textoArquivo += "Estado_civil: \"" + this.sessaoAtualizacaoDados.getCadEstCivil() + "\"\n";
-		textoArquivo += "CEP: \"" + this.sessaoAtualizacaoDados.getCadCEP() + "\"\n";
-		textoArquivo += "Endereco: \"" + this.sessaoAtualizacaoDados.getCadEndereco() + "\"\n";
-		textoArquivo += "Bairro: \"" + this.sessaoAtualizacaoDados.getCadBairro() + "\"\n";
-		textoArquivo += "Cidade: \"" + this.sessaoAtualizacaoDados.getCadCidade() + "\"\n";
-		textoArquivo += "Estado: \"" + this.sessaoAtualizacaoDados.getCadUF() + "\"\n";
-		textoArquivo += "Telefone_residencial: \"" + this.sessaoAtualizacaoDados.getTel() + "\"\n";
-		textoArquivo += "Telefone_celular: \"" + this.sessaoAtualizacaoDados.getCadCelular() + "\"\n";
-		textoArquivo += "Email: \"" + this.sessaoAtualizacaoDados.geteMail() + "\"\n";
-		textoArquivo += "Banco: \"" + this.sessaoAtualizacaoDados.getCadBanco() + "\"\n";
-		textoArquivo += "Tipo_da_conta: \"" + this.sessaoAtualizacaoDados.getCadTipoConta() + "\"\n";
-		textoArquivo += "Numero_da_agencia: \"" + this.sessaoAtualizacaoDados.getCadAgencia() + "\"\n";
-		textoArquivo += "Numero_da_conta: \"" + this.sessaoAtualizacaoDados.getCadCCorrente() + "\"\n";
-		textoArquivo += "Codigo: \"" + this.sessaoAtualizacaoDados.getCodigoQuemIndicou() + "\"\n";
-		textoArquivo += "Nome: \"" + this.sessaoAtualizacaoDados.getNomeQuemIndicou() + "\"\n";
-		textoArquivo += "Observacoes: \"" + this.sessaoAtualizacaoDados.getObservacoes() + "\"\n";
+		textoArquivo += "Nome: \'" + this.sessaoAtualizacaoDados.getvNome() + "\'\r\n";
+		textoArquivo += "Data_de_nascimento: \'" + this.sessaoAtualizacaoDados.getDt_Nasc() + "\'\r\n";
+		textoArquivo += "CPF: \'" + this.sessaoAtualizacaoDados.getCPF() + "\'\r\n";
+		textoArquivo += "RG: \'" + this.sessaoAtualizacaoDados.getCadRG() + "\'\r\n";
+		textoArquivo += "Emissor: \'" + this.sessaoAtualizacaoDados.getCadOrgaoExpedidor() + "\'\r\n";
+		textoArquivo += "Sexo: \'" + this.sessaoAtualizacaoDados.getCadSexo() + "\'\r\n";
+		textoArquivo += "Estado_civil: \'" + this.sessaoAtualizacaoDados.getCadEstCivil() + "\'\r\n";
+		textoArquivo += "CEP: \'" + this.sessaoAtualizacaoDados.getCadCEP() + "\'\r\n";
+		textoArquivo += "Endereco: \'" + this.sessaoAtualizacaoDados.getCadEndereco() + "\'\r\n";
+		textoArquivo += "Bairro: \'" + this.sessaoAtualizacaoDados.getCadBairro() + "\'\r\n";
+		textoArquivo += "Cidade: \'" + this.sessaoAtualizacaoDados.getCadCidade() + "\'\r\n";
+		textoArquivo += "Estado: \'" + this.sessaoAtualizacaoDados.getCadUF() + "\'\r\n";
+		textoArquivo += "Telefone_residencial: \'" + this.sessaoAtualizacaoDados.getTel() + "\'\r\n";
+		textoArquivo += "Telefone_celular: \'" + this.sessaoAtualizacaoDados.getCadCelular() + "\'\r\n";
+		textoArquivo += "Email: \'" + this.sessaoAtualizacaoDados.geteMail() + "\'\r\n";
+		textoArquivo += "Banco: \'" + this.sessaoAtualizacaoDados.getCadBanco() + "\'\r\n";
+		textoArquivo += "Tipo_da_conta: \'" + this.sessaoAtualizacaoDados.getCadTipoConta() + "\'\r\n";
+		textoArquivo += "Numero_da_agencia: \'" + this.sessaoAtualizacaoDados.getCadAgencia() + "\'\r\n";
+		textoArquivo += "Numero_da_conta: \'" + this.sessaoAtualizacaoDados.getCadCCorrente() + "\'\r\n";
+		textoArquivo += "Codigo: \'" + this.sessaoAtualizacaoDados.getCodigoQuemIndicou() + "\'\r\n";
+		textoArquivo += "Nome: \'" + this.sessaoAtualizacaoDados.getNomeQuemIndicou() + "\'\r\n";
+		textoArquivo += "Observacoes: \'" + this.sessaoAtualizacaoDados.getObservacoes() + "\'\r\n";
 
 		return textoArquivo;
 	}
