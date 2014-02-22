@@ -98,7 +98,7 @@
 			<br>
 			
 			<p>  
-				Data/hora/observações: <input type="text" name="sessaoPedido.dataHoraEscolhida" value="${sessaoPedido.dataHoraEscolhida}" class="input-xlarge data-hora-observacoes"  >
+				Data/hora/observações: <textarea name="sessaoPedido.dataHoraEscolhida" class="data-hora-observacoes"  > ${sessaoPedido.dataHoraEscolhida} </textarea>
 			</p>
 					
 	    </div>
