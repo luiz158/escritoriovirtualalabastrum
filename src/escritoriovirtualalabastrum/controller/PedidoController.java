@@ -421,14 +421,14 @@ public class PedidoController {
 
 			textoEmail += "<h4> Dinheiro </h4>";
 			textoEmail += "<br><b> Local: </b> " + this.sessaoPedido.getCentroDistribuicao();
-			textoEmail += "<br><b> Data e hora: </b> " + this.sessaoPedido.getDataHoraEscolhida();
+			textoEmail += "<br><b> Data/hora/observações: </b> " + this.sessaoPedido.getDataHoraEscolhida();
 		}
 
 		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoCartaoDebito")) {
 
 			textoEmail += "<h4> Cartão de débito </h4>";
 			textoEmail += "<br><b> Local: </b> " + this.sessaoPedido.getCentroDistribuicao();
-			textoEmail += "<br><b> Data e hora: </b> " + this.sessaoPedido.getDataHoraEscolhida();
+			textoEmail += "<br><b> Data/hora/observações: </b> " + this.sessaoPedido.getDataHoraEscolhida();
 		}
 
 		if (this.sessaoPedido.getFormaPagamento().equals("formaPagamentoDepositoBancario")) {
@@ -464,7 +464,7 @@ public class PedidoController {
 
 				textoEmail += "<h5> Meios próprios </h5>";
 				textoEmail += "<br><b> Local: </b> " + this.sessaoPedido.getCentroDistribuicao();
-				textoEmail += "<br><b> Data e hora: </b> " + this.sessaoPedido.getDataHoraEscolhida();
+				textoEmail += "<br><b> Data/hora/observações: </b> " + this.sessaoPedido.getDataHoraEscolhida();
 			}
 		}
 

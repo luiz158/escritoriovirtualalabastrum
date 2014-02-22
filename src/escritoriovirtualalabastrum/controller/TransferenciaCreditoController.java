@@ -81,7 +81,7 @@ public class TransferenciaCreditoController {
 
 		textoEmail += "<br><b> De: </b> " + this.sessaoUsuario.getUsuario().getId_Codigo() + " - " + this.sessaoUsuario.getUsuario().getvNome();
 		textoEmail += "<br><b> Para: </b> " + this.sessaoGeral.getValor("codigoQuemVaiReceber") + " - " + this.sessaoGeral.getValor("nomeQuemVaiReceber");
-		textoEmail += "<br><b> Quantidade a ser transferida: </b> " + this.sessaoGeral.getValor("quantidadeASerTransferida");
+		textoEmail += "<br><b> Quantidade a ser transferida: </b> R$ " + this.sessaoGeral.getValor("quantidadeASerTransferida");
 
 		JavaMailApp.enviarEmail("Transferência de crédito", "pedidos@alabastrum.com.br", textoEmail);
 

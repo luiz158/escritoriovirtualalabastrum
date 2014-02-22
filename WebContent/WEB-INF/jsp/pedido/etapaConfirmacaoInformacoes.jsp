@@ -102,7 +102,7 @@
 		
 		<p style="font-size: 16px;" > Dinheiro </p>
 		<b> Local: </b> <span> ${sessaoPedido.centroDistribuicao} </span> <br>
-		<b> Data e hora: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
+		<b> Data/hora/observações: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
 
 	</c:if>
 	
@@ -110,7 +110,7 @@
 		
 		<p style="font-size: 16px;" > Cartão de débito </p>
 		<b> Local: </b> <span> ${sessaoPedido.centroDistribuicao} </span> <br>
-		<b> Data e hora: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
+		<b> Data/hora/observações: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
 
 	</c:if>
 	
@@ -146,7 +146,7 @@
 			
 			<p style="font-size: 16px;" > Meios próprios </p>
 			<b> Local: </b> <span> ${sessaoPedido.centroDistribuicao} </span> <br>
-			<b> Data e hora: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
+			<b> Data/hora/observações: </b> <span> ${sessaoPedido.dataHoraEscolhida} </span> <br>
 	
 		</c:if>
 		

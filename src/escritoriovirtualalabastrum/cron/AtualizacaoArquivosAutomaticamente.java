@@ -3,7 +3,6 @@ package escritoriovirtualalabastrum.cron;
 import it.sauronsoftware.cron4j.Scheduler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import escritoriovirtualalabastrum.controller.ImportacaoArquivoController;
@@ -16,9 +15,9 @@ public class AtualizacaoArquivosAutomaticamente implements Runnable {
 
 	public void run() {
 
-		if (new File(ImportacaoArquivoController.PASTA_ATUALIZACAO_CSV).list().length >= 6) {
+		try {
 
-			try {
+			if (new File(ImportacaoArquivoController.PASTA_ATUALIZACAO_CSV).list().length >= 6) {
 
 				HibernateUtil hibernateUtil = new HibernateUtil();
 
@@ -30,9 +29,9 @@ public class AtualizacaoArquivosAutomaticamente implements Runnable {
 				enviarEmailParaNovosDistribuidores(hibernateUtil);
 
 				hibernateUtil.fecharSessao();
-
-			} catch (IOException e) {
 			}
+
+		} catch (Exception e) {
 		}
 	}
 

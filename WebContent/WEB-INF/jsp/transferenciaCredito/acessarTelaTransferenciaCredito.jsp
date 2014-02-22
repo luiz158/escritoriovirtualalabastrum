@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Transferência de crédito</legend>
     
-    <p> Crédito atual: <b> ${sessaoUsuario.usuario.cadCredito} </b> </p>  
+    <p> Crédito atual: <b> R$ ${sessaoUsuario.usuario.cadCredito} </b> </p>  
     
     <br>
     
