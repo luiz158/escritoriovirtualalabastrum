@@ -32,8 +32,11 @@ import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Categoria;
 import escritoriovirtualalabastrum.modelo.CentroDistribuicao;
 import escritoriovirtualalabastrum.modelo.ControlePedido;
+import escritoriovirtualalabastrum.modelo.FixoIngresso;
+import escritoriovirtualalabastrum.modelo.HistoricoKit;
 import escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao;
 import escritoriovirtualalabastrum.modelo.Pontuacao;
+import escritoriovirtualalabastrum.modelo.PorcentagemIngresso;
 import escritoriovirtualalabastrum.modelo.Produto;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.util.Util;
@@ -84,7 +87,6 @@ public class ImportacaoArquivoController {
 		result.include("sucesso", "Arquivo importado com sucesso");
 
 		result.forwardTo(this).acessarTelaImportacaoArquivo();
-
 	}
 
 	public void processarArquivos() throws IOException {
@@ -95,8 +97,287 @@ public class ImportacaoArquivoController {
 		processarCSVCategorias();
 		processarCSVCentroDistribuicao();
 		processarCSVControlePedido();
+		processarCSVFixoIngresso();
+		processarCSVHistoricoKit();
+		processarCSVPorcentagemIngresso();
 
 		atualizarInformacoesUltimaAtualizacao();
+	}
+
+	private void processarCSVFixoIngresso() throws IOException {
+
+		CSVReader reader = lerArquivo("tblFixoIngresso.csv");
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		List<FixoIngresso> fixosIngresso = new ArrayList<FixoIngresso>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length <= 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("data_referencia")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					FixoIngresso fixoIngresso = new FixoIngresso();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = fixoIngresso.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
+								field.set(fixoIngresso, numero);
+							}
+
+							catch (Exception e) {
+
+								try {
+
+									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
+									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
+
+									field.set(fixoIngresso, data.toGregorianCalendar());
+								}
+
+								catch (Exception e3) {
+
+									field.set(fixoIngresso, colunas[i]);
+								}
+							}
+
+						} catch (Exception e) {
+						}
+					}
+
+					fixosIngresso.add(fixoIngresso);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i]);
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from fixoingresso");
+
+		this.hibernateUtil.salvarOuAtualizar(fixosIngresso);
+	}
+
+	private CSVReader lerArquivo(String nomeCsv) throws IOException, FileNotFoundException {
+
+		String caminho = PASTA_ATUALIZACAO_CSV;
+
+		String caminhoCompletoArquivo = caminho + File.separator + nomeCsv;
+
+		File arquivoNoDisco = new File(caminhoCompletoArquivo);
+		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
+		FileUtils.write(arquivoNoDisco, content, "UTF-8");
+
+		return new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+	}
+
+	private void processarCSVPorcentagemIngresso() throws IOException {
+
+		CSVReader reader = lerArquivo("tblPorcentagemIngresso.csv");
+
+		List<PorcentagemIngresso> porcentagensIngresso = new ArrayList<PorcentagemIngresso>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length <= 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("data_referencia")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					PorcentagemIngresso porcentagemIngresso = new PorcentagemIngresso();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = porcentagemIngresso.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
+								field.set(porcentagemIngresso, numero);
+							}
+
+							catch (Exception e) {
+
+								try {
+
+									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
+									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
+
+									field.set(porcentagemIngresso, data.toGregorianCalendar());
+								}
+
+								catch (Exception e3) {
+
+									field.set(porcentagemIngresso, colunas[i]);
+								}
+							}
+
+						} catch (Exception e) {
+						}
+					}
+
+					porcentagensIngresso.add(porcentagemIngresso);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i]);
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from porcentagemingresso");
+
+		this.hibernateUtil.salvarOuAtualizar(porcentagensIngresso);
+	}
+
+	private void processarCSVHistoricoKit() throws IOException {
+
+		CSVReader reader = lerArquivo("tblHistoricoKit.csv");
+
+		List<HistoricoKit> historicosKit = new ArrayList<HistoricoKit>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length <= 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("id_codigo")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					HistoricoKit historicoKit = new HistoricoKit();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = historicoKit.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								field.set(historicoKit, Integer.valueOf(colunas[i]));
+							}
+
+							catch (Exception e) {
+
+								try {
+
+									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
+									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
+
+									field.set(historicoKit, data.toGregorianCalendar());
+								}
+
+								catch (Exception e3) {
+
+									field.set(historicoKit, colunas[i]);
+								}
+							}
+
+						} catch (Exception e) {
+						}
+					}
+
+					historicosKit.add(historicoKit);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i]);
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from historicokit");
+
+		this.hibernateUtil.salvarOuAtualizar(historicosKit);
 	}
 
 	private void atualizarInformacoesUltimaAtualizacao() {
@@ -122,16 +403,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVRelacionamentos() throws IOException {
 
-		String caminho = PASTA_ATUALIZACAO_CSV;
-
-		String caminhoCompletoArquivo = caminho + File.separator + "tblRelacionamentos" + ".csv";
-
-		File arquivoNoDisco = new File(caminhoCompletoArquivo);
-		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
-		FileUtils.write(arquivoNoDisco, content, "UTF-8");
-
-		@SuppressWarnings("resource")
-		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+		CSVReader reader = lerArquivo("tblRelacionamentos.csv");
 
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
@@ -221,16 +493,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVPontuacao() throws IOException {
 
-		String caminho = PASTA_ATUALIZACAO_CSV;
-
-		String caminhoCompletoArquivo = caminho + File.separator + "tblPontuacao" + ".csv";
-
-		File arquivoNoDisco = new File(caminhoCompletoArquivo);
-		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
-		FileUtils.write(arquivoNoDisco, content, "UTF-8");
-
-		@SuppressWarnings("resource")
-		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+		CSVReader reader = lerArquivo("tblPontuacao.csv");
 
 		List<Pontuacao> pontuacoes = new ArrayList<Pontuacao>();
 
@@ -321,16 +584,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVControlePedido() throws IOException {
 
-		String caminho = PASTA_ATUALIZACAO_CSV;
-
-		String caminhoCompletoArquivo = caminho + File.separator + "tblControlePedidos" + ".csv";
-
-		File arquivoNoDisco = new File(caminhoCompletoArquivo);
-		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
-		FileUtils.write(arquivoNoDisco, content, "UTF-8");
-
-		@SuppressWarnings("resource")
-		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+		CSVReader reader = lerArquivo("tblControlePedidos.csv");
 
 		List<ControlePedido> controlesPedidos = new ArrayList<ControlePedido>();
 
@@ -429,16 +683,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVProdutos() throws IOException {
 
-		String caminho = PASTA_ATUALIZACAO_CSV;
-
-		String caminhoCompletoArquivo = caminho + File.separator + "tblProdutos" + ".csv";
-
-		File arquivoNoDisco = new File(caminhoCompletoArquivo);
-		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
-		FileUtils.write(arquivoNoDisco, content, "UTF-8");
-
-		@SuppressWarnings("resource")
-		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+		CSVReader reader = lerArquivo("tblProdutos.csv");
 
 		List<Produto> produtos = new ArrayList<Produto>();
 
@@ -527,16 +772,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVCategorias() throws IOException {
 
-		String caminho = PASTA_ATUALIZACAO_CSV;
-
-		String caminhoCompletoArquivo = caminho + File.separator + "tblCategorias" + ".csv";
-
-		File arquivoNoDisco = new File(caminhoCompletoArquivo);
-		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
-		FileUtils.write(arquivoNoDisco, content, "UTF-8");
-
-		@SuppressWarnings("resource")
-		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+		CSVReader reader = lerArquivo("tblCategorias.csv");
 
 		List<Categoria> categorias = new ArrayList<Categoria>();
 
@@ -616,16 +852,7 @@ public class ImportacaoArquivoController {
 
 	private void processarCSVCentroDistribuicao() throws IOException {
 
-		String caminho = PASTA_ATUALIZACAO_CSV;
-
-		String caminhoCompletoArquivo = caminho + File.separator + "tblCDA" + ".csv";
-
-		File arquivoNoDisco = new File(caminhoCompletoArquivo);
-		String content = FileUtils.readFileToString(arquivoNoDisco, "ISO8859_1");
-		FileUtils.write(arquivoNoDisco, content, "UTF-8");
-
-		@SuppressWarnings("resource")
-		CSVReader reader = new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
+		CSVReader reader = lerArquivo("tblCDA.csv");
 
 		List<CentroDistribuicao> centrosDistribuicao = new ArrayList<CentroDistribuicao>();
 

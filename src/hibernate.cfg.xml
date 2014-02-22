@@ -33,6 +33,9 @@
 		<mapping class="escritoriovirtualalabastrum.modelo.ControlePedido" />
 		<mapping class="escritoriovirtualalabastrum.modelo.HistoricoAcesso" />
 		<mapping class="escritoriovirtualalabastrum.modelo.PreCadastro" />
+		<mapping class="escritoriovirtualalabastrum.modelo.FixoIngresso" />
+		<mapping class="escritoriovirtualalabastrum.modelo.HistoricoKit" />
+		<mapping class="escritoriovirtualalabastrum.modelo.PorcentagemIngresso" />
 
 </session-factory>
 </hibernate-configuration>
