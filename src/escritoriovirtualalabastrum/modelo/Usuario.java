@@ -201,6 +201,13 @@ public class Usuario implements Entidade {
 
 		hibernateUtil.fecharSessao();
 	}
+	
+	public boolean isAtivo(){
+		
+		this.calcularPontuacao();
+		
+		return this.getPontuacaoAuxiliar().isAtivo();
+	}
 
 	public String getAniversario() {
 

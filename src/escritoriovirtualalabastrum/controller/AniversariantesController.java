@@ -15,6 +15,7 @@ import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 import escritoriovirtualalabastrum.util.Util;
 
@@ -79,7 +80,7 @@ public class AniversariantesController {
 
 	private void gerarMalaDiretaTodasPosicoesFiltrandoPorMes(Integer codigoUsuario, TreeMap<Integer, MalaDireta> malaDireta, String mes) {
 
-		LinkedHashMap<String, String> posicoes = obterPosicoes();
+		LinkedHashMap<String, String> posicoes = new MalaDiretaService().obterPosicoes();
 
 		for (Entry<String, String> posicao : posicoes.entrySet()) {
 
@@ -123,33 +124,5 @@ public class AniversariantesController {
 				}
 			}
 		}
-	}
-
-	private LinkedHashMap<String, String> obterPosicoes() {
-
-		LinkedHashMap<String, String> posicoes = new LinkedHashMap<String, String>();
-
-		posicoes.put("Todas", "Todas");
-		posicoes.put("id_Patroc", "Patrocinador");
-		posicoes.put("id_Dem", "Demonstrador");
-		posicoes.put("id_S", "Sênior");
-		posicoes.put("id_M", "Gerente");
-		posicoes.put("id_M1", "M1");
-		posicoes.put("id_M2", "M2");
-		posicoes.put("id_M3", "M3");
-		posicoes.put("id_M4", "M4");
-		posicoes.put("id_M5", "M5");
-		posicoes.put("id_GB", "Gerente Bronze");
-		posicoes.put("id_GP", "Gerente Prata");
-		posicoes.put("id_GO", "Gerente Ouro");
-		posicoes.put("id_GE", "Esmeralda");
-		posicoes.put("id_LA", "Topázio");
-		posicoes.put("id_CR", "Diamante");
-		posicoes.put("id_DR", "Diamante Duplo");
-		posicoes.put("id_DD", "Diamante Triplo");
-		posicoes.put("id_DS", "Diamante Plenus");
-		posicoes.put("id_Pres", "Presidente");
-
-		return posicoes;
 	}
 }
