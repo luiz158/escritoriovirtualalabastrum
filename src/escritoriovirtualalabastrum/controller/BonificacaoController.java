@@ -56,23 +56,32 @@ public class BonificacaoController {
 		realizarValidacoes(ano, mes);
 
 		List<BonificacaoAuxiliar> bonificacoes = calcularBonificacoes(ano, mes);
+		result.include("bonificacoes", bonificacoes);
 
-		for (BonificacaoAuxiliar x : bonificacoes) {
+		result.include("somatorioBonificacao", calcularSomatorioBonificacoes(bonificacoes));
 
-			System.out.println();
-			System.out.println(x.getUsuario().getvNome());
-			System.out.println(x.getBonificacao());
-			System.out.println(x.getKit());
-			System.out.println(x.getComoFoiCalculado());
-			System.out.println();
+		result.include("mesAno", mes + "/" + ano);
+	}
+
+	private BigDecimal calcularSomatorioBonificacoes(List<BonificacaoAuxiliar> bonificacoes) {
+
+		BigDecimal somatorioBonificacao = new BigDecimal("0");
+
+		for (BonificacaoAuxiliar bonificacao : bonificacoes) {
+
+			somatorioBonificacao = somatorioBonificacao.add(bonificacao.getBonificacao());
 		}
+
+		return somatorioBonificacao;
 	}
 
 	private List<BonificacaoAuxiliar> calcularBonificacoes(Integer ano, Integer mes) {
 
 		List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
 
-		BigDecimal porcentagemUsuarioLogado = encontrarPorcentagemDeAcordoComKit(this.sessaoUsuario.getUsuario(), ano, mes);
+		BonificacaoAuxiliar porcentagemUsuarioLogado = encontrarPorcentagemDeAcordoComKit(this.sessaoUsuario.getUsuario(), ano, mes);
+		this.result.include("kitUsuarioLogado", porcentagemUsuarioLogado.getKit());
+		this.result.include("porcentagemKitUsuarioLogado", porcentagemUsuarioLogado.getPorcentagem());
 
 		TreeMap<Integer, MalaDireta> malaDiretaHash = gerarMalaDiretaDeAcordoComFiltros(ano, mes);
 
@@ -92,8 +101,8 @@ public class BonificacaoController {
 
 				} else {
 
-					bonificacaoAuxiliar.setBonificacao(porcentagemUsuarioLogado.divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
-					bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuarioLogado) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
+					bonificacaoAuxiliar.setBonificacao(porcentagemUsuarioLogado.getPorcentagem().divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
+					bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuarioLogado.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
 				}
 
 				bonificacoes.add(bonificacaoAuxiliar);
@@ -116,13 +125,17 @@ public class BonificacaoController {
 		return malaDireta;
 	}
 
-	private BigDecimal encontrarPorcentagemDeAcordoComKit(Usuario usuario, Integer ano, Integer mes) {
+	private BonificacaoAuxiliar encontrarPorcentagemDeAcordoComKit(Usuario usuario, Integer ano, Integer mes) {
+
+		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
 
 		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+		bonificacaoAuxiliar.setKit(kit);
 
 		if (kit.equals(KIT_INGRESSO_NAO_DEFINIDO_PARA_O_DISTRIBUIDOR)) {
 
-			return BigDecimal.ZERO;
+			bonificacaoAuxiliar.setPorcentagem(BigDecimal.ZERO);
+			return bonificacaoAuxiliar;
 		}
 
 		PorcentagemIngresso porcentagemIngresso = new PorcentagemIngresso();
@@ -136,7 +149,8 @@ public class BonificacaoController {
 
 			field.setAccessible(true);
 
-			return (BigDecimal) field.get(porcentagemIngresso);
+			bonificacaoAuxiliar.setPorcentagem((BigDecimal) field.get(porcentagemIngresso));
+			return bonificacaoAuxiliar;
 
 		} catch (Exception e) {
 			e.printStackTrace();

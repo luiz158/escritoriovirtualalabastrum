@@ -9,6 +9,7 @@ public class BonificacaoAuxiliar {
 	private Usuario usuario;
 	private BigDecimal bonificacao;
 	private BigDecimal pontuacao;
+	private BigDecimal porcentagem;
 	private String kit;
 	private String comoFoiCalculado;
 
@@ -50,5 +51,13 @@ public class BonificacaoAuxiliar {
 
 	public void setPontuacao(BigDecimal pontuacao) {
 		this.pontuacao = pontuacao;
+	}
+
+	public BigDecimal getPorcentagem() {
+		return porcentagem;
+	}
+
+	public void setPorcentagem(BigDecimal porcentagem) {
+		this.porcentagem = porcentagem;
 	}
 }
