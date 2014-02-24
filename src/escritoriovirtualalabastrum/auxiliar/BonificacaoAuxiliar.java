@@ -7,6 +7,7 @@ import escritoriovirtualalabastrum.modelo.Usuario;
 public class BonificacaoAuxiliar {
 
 	private Usuario usuario;
+	private Integer geracao;
 	private BigDecimal bonificacao;
 	private BigDecimal pontuacao;
 	private BigDecimal porcentagem;
@@ -59,5 +60,13 @@ public class BonificacaoAuxiliar {
 
 	public void setPorcentagem(BigDecimal porcentagem) {
 		this.porcentagem = porcentagem;
+	}
+
+	public Integer getGeracao() {
+		return geracao;
+	}
+
+	public void setGeracao(Integer geracao) {
+		this.geracao = geracao;
 	}
 }

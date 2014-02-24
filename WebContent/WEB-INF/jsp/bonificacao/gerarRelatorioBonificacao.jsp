@@ -31,6 +31,7 @@
 			<thead>
 		    	<tr>
                     <th> Distribuidor </th>
+                    <th> Geração </th>
                     <th> Kit </th>
                     <th> Bonificação </th>
                     <th> Como foi calculado </th>
@@ -40,6 +41,7 @@
 				<c:forEach items="${bonificacoes}" var="item">
 					<tr>
                         <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+                        <td class="centralizado" > ${item.geracao} </td>
                         <td class="centralizado" > ${item.kit} </td>
                         <td class="centralizado" > <fmt:formatNumber value="${item.bonificacao}" /> </td>
                         <td class="centralizado" > ${item.comoFoiCalculado} </td>
@@ -48,7 +50,7 @@
 			</tbody>
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);" >
-                    <td class="centralizado" colspan="2" > <b> Total </b> </td>
+                    <td class="centralizado" colspan="3" > <b> Total </b> </td>
 					<td class="centralizado" > <fmt:formatNumber value="${somatorioBonificacao}" /> </td>
 					<td></td>
 				</tr>

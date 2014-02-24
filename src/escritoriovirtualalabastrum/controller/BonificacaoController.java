@@ -21,6 +21,7 @@ import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.FixoIngresso;
 import escritoriovirtualalabastrum.modelo.HistoricoKit;
 import escritoriovirtualalabastrum.modelo.PorcentagemIngresso;
 import escritoriovirtualalabastrum.modelo.Usuario;
@@ -69,7 +70,10 @@ public class BonificacaoController {
 
 		for (BonificacaoAuxiliar bonificacao : bonificacoes) {
 
-			somatorioBonificacao = somatorioBonificacao.add(bonificacao.getBonificacao());
+			if (Util.preenchido(bonificacao.getBonificacao())) {
+
+				somatorioBonificacao = somatorioBonificacao.add(bonificacao.getBonificacao());
+			}
 		}
 
 		return somatorioBonificacao;
@@ -89,11 +93,12 @@ public class BonificacaoController {
 
 			MalaDireta malaDireta = malaDiretaEntry.getValue();
 
+			Usuario usuario = malaDireta.getUsuario();
+
 			if (malaDireta.getNivel() == 1) {
 
-				Usuario usuario = malaDireta.getUsuario();
-
 				BonificacaoAuxiliar bonificacaoAuxiliar = encontrarPontuacaoDeAcordoComKit(usuario, ano, mes);
+				bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
 
 				if (bonificacaoAuxiliar.getPontuacao().equals(BigDecimal.ZERO)) {
 
@@ -103,6 +108,32 @@ public class BonificacaoController {
 
 					bonificacaoAuxiliar.setBonificacao(porcentagemUsuarioLogado.getPorcentagem().divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
 					bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuarioLogado.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
+				}
+
+				bonificacoes.add(bonificacaoAuxiliar);
+
+			} else {
+
+				String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+
+				FixoIngresso fixoIngresso = new FixoIngresso();
+				fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
+				fixoIngresso.setGeracao(String.valueOf(malaDireta.getNivel()));
+
+				fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
+
+				BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+				bonificacaoAuxiliar.setUsuario(usuario);
+				bonificacaoAuxiliar.setKit(kit);
+				bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
+
+				try {
+
+					Field field = fixoIngresso.getClass().getDeclaredField(kit);
+					field.setAccessible(true);
+					bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
+
+				} catch (Exception e) {
 				}
 
 				bonificacoes.add(bonificacaoAuxiliar);
