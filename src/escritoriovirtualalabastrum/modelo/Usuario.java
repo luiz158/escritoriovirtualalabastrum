@@ -127,6 +127,21 @@ public class Usuario implements Entidade {
 	@Index(name = "index_id_M5")
 	private Integer id_M5;
 
+	@Index(name = "index_id_M6")
+	private Integer id_M6;
+
+	@Index(name = "index_id_M7")
+	private Integer id_M7;
+
+	@Index(name = "index_id_M8")
+	private Integer id_M8;
+
+	@Index(name = "index_id_M9")
+	private Integer id_M9;
+
+	@Index(name = "index_id_M10")
+	private Integer id_M10;
+
 	@Index(name = "index_id_LA")
 	private Integer id_LA;
 
@@ -201,11 +216,11 @@ public class Usuario implements Entidade {
 
 		hibernateUtil.fecharSessao();
 	}
-	
-	public boolean isAtivo(){
-		
+
+	public boolean isAtivo() {
+
 		this.calcularPontuacao();
-		
+
 		return this.getPontuacaoAuxiliar().isAtivo();
 	}
 
@@ -831,5 +846,45 @@ public class Usuario implements Entidade {
 
 	public void setDt_Pres(String dt_Pres) {
 		Dt_Pres = dt_Pres;
+	}
+
+	public Integer getId_M6() {
+		return id_M6;
+	}
+
+	public void setId_M6(Integer id_M6) {
+		this.id_M6 = id_M6;
+	}
+
+	public Integer getId_M7() {
+		return id_M7;
+	}
+
+	public void setId_M7(Integer id_M7) {
+		this.id_M7 = id_M7;
+	}
+
+	public Integer getId_M8() {
+		return id_M8;
+	}
+
+	public void setId_M8(Integer id_M8) {
+		this.id_M8 = id_M8;
+	}
+
+	public Integer getId_M9() {
+		return id_M9;
+	}
+
+	public void setId_M9(Integer id_M9) {
+		this.id_M9 = id_M9;
+	}
+
+	public Integer getId_M10() {
+		return id_M10;
+	}
+
+	public void setId_M10(Integer id_M10) {
+		this.id_M10 = id_M10;
 	}
 }

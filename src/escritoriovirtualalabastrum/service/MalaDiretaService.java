@@ -159,23 +159,27 @@ public class MalaDiretaService {
 
 		posicoes.put("Todas", "Todas");
 		posicoes.put("id_Patroc", "Patrocinador");
-		posicoes.put("id_Dem", "Demonstrador");
-		posicoes.put("id_S", "Sênior");
-		posicoes.put("id_M", "Gerente");
-		posicoes.put("id_M1", "M1");
-		posicoes.put("id_M2", "M2");
-		posicoes.put("id_M3", "M3");
-		posicoes.put("id_M4", "M4");
-		posicoes.put("id_M5", "M5");
+		posicoes.put("id_S", "Executivo");
+		posicoes.put("id_M1", "G1");
+		posicoes.put("id_M2", "G2");
+		posicoes.put("id_M3", "G3");
+		posicoes.put("id_M4", "G4");
+		posicoes.put("id_M5", "G5");
+		posicoes.put("id_M6", "G6");
+		posicoes.put("id_M7", "G7");
+		posicoes.put("id_M8", "G8");
+		posicoes.put("id_M9", "G9");
+		posicoes.put("id_M10", "G10");
 		posicoes.put("id_GB", "Gerente Bronze");
 		posicoes.put("id_GP", "Gerente Prata");
 		posicoes.put("id_GO", "Gerente Ouro");
-		posicoes.put("id_GE", "Esmeralda");
+		posicoes.put("id_M", "Esmeralda");
 		posicoes.put("id_LA", "Topázio");
 		posicoes.put("id_CR", "Diamante");
 		posicoes.put("id_DR", "Diamante Duplo");
 		posicoes.put("id_DD", "Diamante Triplo");
 		posicoes.put("id_DS", "Diamante Plenus");
+		posicoes.put("id_GE", "Diamante Real");
 		posicoes.put("id_Pres", "Presidente");
 
 		return posicoes;
