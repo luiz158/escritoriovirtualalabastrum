@@ -97,9 +97,9 @@ public class ImportacaoArquivoController {
 		processarCSVCategorias();
 		processarCSVCentroDistribuicao();
 		processarCSVControlePedido();
-		processarCSVFixoIngresso();
-		processarCSVHistoricoKit();
-		processarCSVPorcentagemIngresso();
+		//processarCSVFixoIngresso();
+		//processarCSVHistoricoKit();
+		//processarCSVPorcentagemIngresso();
 
 		atualizarInformacoesUltimaAtualizacao();
 	}

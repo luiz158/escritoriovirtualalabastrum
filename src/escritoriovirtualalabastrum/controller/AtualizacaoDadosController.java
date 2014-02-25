@@ -168,7 +168,7 @@ public class AtualizacaoDadosController {
 		textoArquivo += "Numero_da_agencia: \'" + this.sessaoAtualizacaoDados.getCadAgencia() + "\'\r\n";
 		textoArquivo += "Numero_da_conta: \'" + this.sessaoAtualizacaoDados.getCadCCorrente() + "\'\r\n";
 		textoArquivo += "Codigo: \'" + this.sessaoAtualizacaoDados.getCodigoQuemIndicou() + "\'\r\n";
-		textoArquivo += "Nome: \'" + this.sessaoAtualizacaoDados.getNomeQuemIndicou() + "\'\r\n";
+		textoArquivo += "nomepatroc: \'" + this.sessaoAtualizacaoDados.getNomeQuemIndicou() + "\'\r\n";
 		textoArquivo += "Observacoes: \'" + this.sessaoAtualizacaoDados.getObservacoes() + "\'\r\n";
 
 		return textoArquivo;
