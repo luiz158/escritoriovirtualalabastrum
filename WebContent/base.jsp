@@ -59,10 +59,10 @@
 	        	<a href="<c:url value="/controlePedido/acessarTelaControlePedido"/>" class="submenu-accordion" > Controle de pedidos </a>
 	        	<a href="<c:url value="/transferenciaCredito/acessarTelaTransferenciaCredito"/>" class="submenu-accordion" > Transferência de crédito </a>
 	        </div>
-	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3>
-	        <div>
-	        	<a href="<c:url value="/bonificacao/acessarTelaBonificacao"/>" class="submenu-accordion" > Bonificação por ingresso </a>
-	        </div>
+<!-- 	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3> -->
+<!-- 	        <div> -->
+<%-- 	        	<a href="<c:url value="/bonificacao/acessarTelaBonificacao"/>" class="submenu-accordion" > Bonificação por ingresso </a> --%>
+<!-- 	        </div> -->
 	        <h3 class="menu-accordion" > CONSULTA </h3>
 	        <div>
 	        	<a href="<c:url value="/home/kitIngresso"/>" class="submenu-accordion" > Kit de ingresso </a>
