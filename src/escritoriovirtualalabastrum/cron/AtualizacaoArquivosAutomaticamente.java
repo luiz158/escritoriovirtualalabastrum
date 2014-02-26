@@ -46,7 +46,7 @@ public class AtualizacaoArquivosAutomaticamente implements Runnable {
 
 			usuario = hibernateUtil.selecionar(usuario);
 
-			JavaMailApp.enviarEmail("Código Alabastrum", "atendimento@alabastrum.com.br, " + usuario.geteMail(), montarTextoEmail(usuario));
+			JavaMailApp.enviarEmail("Pré-cadastro / Código Alabastrum", "atendimento@alabastrum.com.br, " + usuario.geteMail(), montarTextoEmail(usuario));
 		}
 
 		hibernateUtil.executarSQL("delete from precadastro");
@@ -54,12 +54,14 @@ public class AtualizacaoArquivosAutomaticamente implements Runnable {
 
 	private String montarTextoEmail(Usuario usuario) {
 
-		String textoEmail = "Olá, o seu cadastro foi realizado com sucesso nos sistemas da Alabastrum. <br>";
-		textoEmail += "O seu código é: " + usuario.getId_Codigo() + " <br>";
+		String textoEmail = "Olá " + usuario.getvNome();
+		textoEmail += ", o seu cadastro foi realizado com sucesso nos sistemas da Alabastrum. <br><br>";
+		textoEmail += "O seu código é: " + usuario.getId_Codigo() + " <br><br>";
 		textoEmail += "Com este código, você pode acessar o escritório virtual da alabastrum através do endereço: <a href='http://escritoriovirtual.alabastrum.com.br'> http://escritoriovirtual.alabastrum.com.br </a> <br>";
-		textoEmail += "No seu primeiro acesso, você deve fazer login utilizando o seu código recebido e a senha padrão \"alabastrum\" (sem as aspas) <br>";
-		textoEmail += "Você deverá, obrigatoriamente, trocar sua senha e atualizar seus dados cadastrais no sistema <br>";
-		textoEmail += "Qualquer problema ou dificuldade, entre em contato conosco através do e-mail: suporte@alabastrum.com.br <br>";
+		textoEmail += "No seu primeiro acesso, você deve fazer login utilizando o seu código recebido e a senha padrão \"alabastrum\" (sem as aspas). <br><br>";
+		textoEmail += "Você deverá, obrigatoriamente, trocar sua senha e atualizar seus dados cadastrais no sistema. <br><br>";
+		textoEmail += "Qualquer problema ou dificuldade, entre em contato conosco através do e-mail: suporte@alabastrum.com.br <br><br>";
+		textoEmail += "Sucesso!!!";
 
 		return textoEmail;
 	}
