@@ -140,7 +140,61 @@ public class BonificacaoController {
 			}
 		}
 
+		calcularBonificacaoDeDiamante(ano, mes, bonificacoes);
+
 		return bonificacoes;
+	}
+
+	private void calcularBonificacaoDeDiamante(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes) {
+
+		List<Usuario> distribuidoresDoDiamante = buscarDistribuidoresDoDiamante(ano, mes);
+
+		for (Usuario usuario : distribuidoresDoDiamante) {
+
+			String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+
+			FixoIngresso fixoIngresso = new FixoIngresso();
+			fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
+			fixoIngresso.setGeracao("Diamante");
+
+			fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
+
+			BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+			bonificacaoAuxiliar.setUsuario(usuario);
+			bonificacaoAuxiliar.setKit(kit);
+			bonificacaoAuxiliar.setComoFoiCalculado("Bonificação de diamante");
+
+			try {
+
+				Field field = fixoIngresso.getClass().getDeclaredField(kit);
+				field.setAccessible(true);
+				bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
+
+			} catch (Exception e) {
+			}
+
+			bonificacoes.add(bonificacaoAuxiliar);
+		}
+	}
+
+	private List<Usuario> buscarDistribuidoresDoDiamante(Integer ano, Integer mes) {
+
+		ListaIngressoService listaIngressoService = new ListaIngressoService();
+		listaIngressoService.setHibernateUtil(hibernateUtil);
+
+		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
+		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+
+		Usuario usuario = new Usuario();
+
+		List<Criterion> restricoes = new ArrayList<Criterion>();
+		restricoes.add(Restrictions.between("Dt_Ingresso", dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()));
+
+		usuario.setId_CR(this.sessaoUsuario.getUsuario().getId_Codigo());
+
+		List<Usuario> distribuidoresDoDiamante = hibernateUtil.buscar(usuario, restricoes);
+
+		return distribuidoresDoDiamante;
 	}
 
 	private TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComFiltros(Integer ano, Integer mes) {
