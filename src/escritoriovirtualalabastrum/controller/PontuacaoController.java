@@ -30,6 +30,10 @@ import escritoriovirtualalabastrum.util.Util;
 public class PontuacaoController {
 
 	public static final String TODOS = "Todos";
+	public static final Integer META_GRADUACAO = 2000;
+	public static final Integer META_DIAMANTE_PONTUACAO = 60000;
+	public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
+
 	private Result result;
 	private HibernateUtil hibernateUtil;
 	private SessaoUsuario sessaoUsuario;
@@ -87,8 +91,6 @@ public class PontuacaoController {
 		malaDiretaService.setValidator(validator);
 
 		TreeMap<Integer, MalaDireta> malaDireta = malaDiretaService.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
-
-		System.out.println(malaDireta.size());
 
 		return gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
 	}

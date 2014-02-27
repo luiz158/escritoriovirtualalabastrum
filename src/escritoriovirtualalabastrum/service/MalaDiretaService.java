@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.service;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -167,11 +168,107 @@ public class MalaDiretaService {
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
-		BigDecimal pontuacao = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator).gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
+		BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
-		System.out.println(pontuacao);
+		TreeMap<Integer, MalaDireta> malaDiretaPrimeiroNivel = new TreeMap<Integer, MalaDireta>();
+
+		LinkedHashMap<String, String> posicoes = obterPosicoes();
+
+		for (Entry<String, String> posicao : posicoes.entrySet()) {
+
+			if (!posicao.getKey().equals(TODAS)) {
+
+				encontrarMalaDiretaPrimeiroNivel(sessaoUsuario, hibernateUtil, malaDiretaPrimeiroNivel, posicao.getKey());
+			}
+		}
+
+		int quantidadeGraduados = 0;
+
+		for (Entry<Integer, MalaDireta> primeiroNivel : malaDiretaPrimeiroNivel.entrySet()) {
+
+			for (Entry<String, String> posicao : posicoes.entrySet()) {
+
+				if (!posicao.getKey().equals(TODAS)) {
+
+					encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, quantidadeGraduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
+				}
+			}
+		}
 
 		return false;
+	}
+
+	private void encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, int quantidadeGraduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
+
+		Usuario usuarioFiltro = new Usuario();
+
+		try {
+
+			Field field = usuarioFiltro.getClass().getDeclaredField(posicao);
+
+			field.setAccessible(true);
+
+			field.set(usuarioFiltro, usuario.getId_Codigo());
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuarioFiltro);
+
+		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
+
+			if (!usuario.getId_Codigo().equals(usuarioPatrocinado.getId_Codigo())) {
+				
+				if(usuarioPatrocinado.isAtivo(dataInicial, dataFinal)){
+					
+					
+					
+					
+					
+					
+					PontuacaoController pontuacaoController = new PontuacaoController(new resul, hibernateUtil, sessaoUsuario, validator);
+					BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+					
+					IF PONTUACAO > PontuacaoController.META_GRADUACAO
+				}
+			}
+		}
+	}
+
+	private void encontrarMalaDiretaPrimeiroNivel(SessaoUsuario sessaoUsuario, HibernateUtil hibernateUtil, TreeMap<Integer, MalaDireta> malaDireta, String posicao) {
+
+		Usuario usuario = new Usuario();
+
+		try {
+
+			Field field = usuario.getClass().getDeclaredField(posicao);
+
+			field.setAccessible(true);
+
+			field.set(usuario, sessaoUsuario.getUsuario().getId_Codigo());
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario);
+
+		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
+
+			if (!sessaoUsuario.getUsuario().getId_Codigo().equals(usuarioPatrocinado.getId_Codigo())) {
+
+				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
+
+					malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, 1));
+				}
+			}
+		}
 	}
 
 	public LinkedHashMap<String, String> obterPosicoes() {

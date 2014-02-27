@@ -203,11 +203,16 @@ public class Usuario implements Entidade {
 
 	public void calcularPontuacao() {
 
+		calcularPontuacao(null, null);
+	}
+
+	public void calcularPontuacao(GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
+
 		HibernateUtil hibernateUtil = new HibernateUtil();
 
 		PontuacaoController pontuacaoController = new PontuacaoController(null, hibernateUtil, null, null);
 
-		List<Criterion> restricoes = pontuacaoController.definirRestricoesDatas(null, null);
+		List<Criterion> restricoes = pontuacaoController.definirRestricoesDatas(dataInicial, dataFinal);
 
 		PontuacaoAuxiliar pontuacaoAuxiliar = pontuacaoController.calcularPontuacoes(restricoes, new MalaDireta(this, 0));
 		pontuacaoAuxiliar.calcularTotal();
@@ -220,6 +225,13 @@ public class Usuario implements Entidade {
 	public boolean isAtivo() {
 
 		this.calcularPontuacao();
+
+		return this.getPontuacaoAuxiliar().isAtivo();
+	}
+
+	public boolean isAtivo(GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
+
+		this.calcularPontuacao(dataInicial, dataFinal);
 
 		return this.getPontuacaoAuxiliar().isAtivo();
 	}
