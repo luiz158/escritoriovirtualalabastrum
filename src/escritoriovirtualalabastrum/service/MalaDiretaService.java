@@ -1,20 +1,29 @@
 package escritoriovirtualalabastrum.service;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.joda.time.DateTime;
+
+import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.controller.MalaDiretaController;
+import escritoriovirtualalabastrum.controller.PontuacaoController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 import escritoriovirtualalabastrum.util.Util;
 
 public class MalaDiretaService {
+
+	public static final String TODAS = "Todas";
+	public static final String DIAMANTE = "Diamante";
 
 	private HibernateUtil hibernateUtil;
 	private Validator validator;
@@ -56,7 +65,7 @@ public class MalaDiretaService {
 
 		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
 
-		if (posicao.equals("Todas")) {
+		if (posicao.equals(TODAS)) {
 
 			malaDireta = gerarMalaDiretaTodasPosicoes(codigoUsuario);
 		}
@@ -77,7 +86,7 @@ public class MalaDiretaService {
 
 		for (Entry<String, String> posicao : posicoes.entrySet()) {
 
-			if (!posicao.getKey().equals("Todas")) {
+			if (!posicao.getKey().equals(TODAS)) {
 
 				this.pesquisarMalaDiretaComRecursividade(codigoUsuario, malaDireta, 1, posicao.getKey());
 			}
@@ -153,11 +162,23 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
+	public boolean verificaSeMetaDeDiamanteFoiAtingida(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
+
+		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
+		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+
+		BigDecimal pontuacao = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator).gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+
+		System.out.println(pontuacao);
+
+		return false;
+	}
+
 	public LinkedHashMap<String, String> obterPosicoes() {
 
 		LinkedHashMap<String, String> posicoes = new LinkedHashMap<String, String>();
 
-		posicoes.put("Todas", "Todas");
+		posicoes.put(TODAS, TODAS);
 		posicoes.put("id_Patroc", "Patrocinador");
 		posicoes.put("id_S", "Executivo");
 		posicoes.put("id_M1", "G1");
@@ -175,7 +196,7 @@ public class MalaDiretaService {
 		posicoes.put("id_GO", "Gerente Ouro");
 		posicoes.put("id_M", "Esmeralda");
 		posicoes.put("id_LA", "Topázio");
-		posicoes.put("id_CR", "Diamante");
+		posicoes.put("id_CR", DIAMANTE);
 		posicoes.put("id_DR", "Diamante Duplo");
 		posicoes.put("id_DD", "Diamante Triplo");
 		posicoes.put("id_DS", "Diamante Plenus");

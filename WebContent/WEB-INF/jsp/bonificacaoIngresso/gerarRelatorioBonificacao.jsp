@@ -14,7 +14,7 @@
 
 </style>
 
-<a class="btn" href="<c:url value="/bonificacao/acessarTelaBonificacao"/>" > Voltar </a>
+<a class="btn" href="<c:url value="/bonificacaoIngresso/acessarTelaBonificacao"/>" > Voltar </a>
 
 <br><br>
 

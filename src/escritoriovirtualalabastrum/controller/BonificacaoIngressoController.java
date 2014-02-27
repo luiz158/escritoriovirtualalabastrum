@@ -16,7 +16,6 @@ import org.joda.time.DateTime;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
-import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
@@ -26,11 +25,12 @@ import escritoriovirtualalabastrum.modelo.HistoricoKit;
 import escritoriovirtualalabastrum.modelo.PorcentagemIngresso;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.service.ListaIngressoService;
+import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 import escritoriovirtualalabastrum.util.Util;
 
 @Resource
-public class BonificacaoController {
+public class BonificacaoIngressoController {
 
 	private static final String KIT_INGRESSO_NAO_DEFINIDO_PARA_O_DISTRIBUIDOR = "Kit de ingresso não definido para o distribuidor";
 	private Result result;
@@ -38,7 +38,7 @@ public class BonificacaoController {
 	private SessaoUsuario sessaoUsuario;
 	private Validator validator;
 
-	public BonificacaoController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario, Validator validator) {
+	public BonificacaoIngressoController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario, Validator validator) {
 
 		this.result = result;
 		this.hibernateUtil = hibernateUtil;
@@ -97,55 +97,80 @@ public class BonificacaoController {
 
 			if (malaDireta.getNivel() == 1) {
 
-				BonificacaoAuxiliar bonificacaoAuxiliar = encontrarPontuacaoDeAcordoComKit(usuario, ano, mes);
-				bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
-
-				if (bonificacaoAuxiliar.getPontuacao().equals(BigDecimal.ZERO)) {
-
-					bonificacaoAuxiliar.setBonificacao(BigDecimal.ZERO);
-
-				} else {
-
-					bonificacaoAuxiliar.setBonificacao(porcentagemUsuarioLogado.getPorcentagem().divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
-					bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuarioLogado.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
-				}
-
-				bonificacoes.add(bonificacaoAuxiliar);
+				calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuarioLogado, malaDireta, usuario);
 
 			} else {
 
-				String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
-
-				FixoIngresso fixoIngresso = new FixoIngresso();
-				fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
-				fixoIngresso.setGeracao(String.valueOf(malaDireta.getNivel()));
-
-				fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
-
-				BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
-				bonificacaoAuxiliar.setUsuario(usuario);
-				bonificacaoAuxiliar.setKit(kit);
-				bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
-
-				try {
-
-					Field field = fixoIngresso.getClass().getDeclaredField(kit);
-					field.setAccessible(true);
-					bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
-
-				} catch (Exception e) {
-				}
-
-				bonificacoes.add(bonificacaoAuxiliar);
+				calcularBonificacoesFixas(ano, mes, bonificacoes, malaDireta, usuario);
 			}
 		}
 
-		calcularBonificacaoDeDiamante(ano, mes, bonificacoes);
+		calcularBonificacaoFixaDeDiamante(ano, mes, bonificacoes);
+
+		if (this.sessaoUsuario.getUsuario().getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
+
+			calcularBonificacoesVariaveisDeDiamante(ano, mes);
+		}
 
 		return bonificacoes;
 	}
 
-	private void calcularBonificacaoDeDiamante(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes) {
+	private void calcularBonificacoesVariaveisDeDiamante(Integer ano, Integer mes) {
+
+		boolean metaAtingida = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(this.sessaoUsuario, result, hibernateUtil, validator, ano, mes);
+
+		if (metaAtingida) {
+
+			// TODO
+		}
+	}
+
+	private void calcularBonificacoesFixas(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, MalaDireta malaDireta, Usuario usuario) {
+
+		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+
+		FixoIngresso fixoIngresso = new FixoIngresso();
+		fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
+		fixoIngresso.setGeracao(String.valueOf(malaDireta.getNivel()));
+
+		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
+
+		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+		bonificacaoAuxiliar.setUsuario(usuario);
+		bonificacaoAuxiliar.setKit(kit);
+		bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
+
+		try {
+
+			Field field = fixoIngresso.getClass().getDeclaredField(kit);
+			field.setAccessible(true);
+			bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
+
+		} catch (Exception e) {
+		}
+
+		bonificacoes.add(bonificacaoAuxiliar);
+	}
+
+	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, BonificacaoAuxiliar porcentagemUsuarioLogado, MalaDireta malaDireta, Usuario usuario) {
+
+		BonificacaoAuxiliar bonificacaoAuxiliar = encontrarPontuacaoDeAcordoComKit(usuario, ano, mes);
+		bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
+
+		if (bonificacaoAuxiliar.getPontuacao().equals(BigDecimal.ZERO)) {
+
+			bonificacaoAuxiliar.setBonificacao(BigDecimal.ZERO);
+
+		} else {
+
+			bonificacaoAuxiliar.setBonificacao(porcentagemUsuarioLogado.getPorcentagem().divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
+			bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuarioLogado.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
+		}
+
+		bonificacoes.add(bonificacaoAuxiliar);
+	}
+
+	private void calcularBonificacaoFixaDeDiamante(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes) {
 
 		List<Usuario> distribuidoresDoDiamante = buscarDistribuidoresDoDiamante(ano, mes);
 
@@ -162,7 +187,7 @@ public class BonificacaoController {
 			BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
 			bonificacaoAuxiliar.setUsuario(usuario);
 			bonificacaoAuxiliar.setKit(kit);
-			bonificacaoAuxiliar.setComoFoiCalculado("Bonificação de diamante");
+			bonificacaoAuxiliar.setComoFoiCalculado("Bonificação fixa de diamante");
 
 			try {
 
@@ -292,8 +317,10 @@ public class BonificacaoController {
 
 		if (new GregorianCalendar(ano, mes - 1, 1).before(new GregorianCalendar(2014, 2, 1))) {
 
-			validator.add(new ValidationMessage("Este relatório só passou a existir no escritório virtual a partir de março de 2014", "Erro"));
-			validator.onErrorRedirectTo(this).acessarTelaBonificacao();
+			// validator.add(new
+			// ValidationMessage("Este relatório só passou a existir no escritório virtual a partir de março de 2014",
+			// "Erro"));
+			// validator.onErrorRedirectTo(this).acessarTelaBonificacao();
 		}
 	}
 

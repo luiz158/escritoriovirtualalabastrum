@@ -29,6 +29,7 @@ import escritoriovirtualalabastrum.util.Util;
 @Resource
 public class PontuacaoController {
 
+	public static final String TODOS = "Todos";
 	private Result result;
 	private HibernateUtil hibernateUtil;
 	private SessaoUsuario sessaoUsuario;
@@ -62,7 +63,7 @@ public class PontuacaoController {
 
 		primeiroDiaDoMesAtual = primeiroDiaDoMesAtual.withMillisOfDay(0);
 
-		gerarRelatorioPontuacao("Todas", null, primeiroDiaDoMesAtual.toGregorianCalendar(), hoje.toGregorianCalendar(), "Todos", "Todos");
+		gerarRelatorioPontuacao(MalaDiretaService.TODAS, null, primeiroDiaDoMesAtual.toGregorianCalendar(), hoje.toGregorianCalendar(), TODOS, TODOS);
 
 		result.forwardTo("/WEB-INF/jsp/pontuacao/gerarRelatorioPontuacao.jsp");
 	}
@@ -72,17 +73,22 @@ public class PontuacaoController {
 
 		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario().getId_Codigo();
 
+		gerarMalaDiretaECalcularPontuacaoDaRede(posicao, codigoUsuario, dataInicial, dataFinal, possuiMovimentacao, ativo, codigoUsuarioLogado);
+
+		result.include("posicaoConsiderada", new MalaDiretaService().obterPosicoes().get(posicao));
+		result.include("possuiMovimentacao", possuiMovimentacao);
+		result.include("ativo", ativo);
+	}
+
+	public BigDecimal gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
+
 		MalaDiretaService malaDiretaService = new MalaDiretaService();
 		malaDiretaService.setHibernateUtil(hibernateUtil);
 		malaDiretaService.setValidator(validator);
 
 		TreeMap<Integer, MalaDireta> malaDireta = malaDiretaService.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
 
-		gerarRelatorioPontuacao(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
-
-		result.include("posicaoConsiderada", new MalaDiretaService().obterPosicoes().get(posicao));
-		result.include("possuiMovimentacao", possuiMovimentacao);
-		result.include("ativo", ativo);
+		return gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
 	}
 
 	private void calcularPontuacaoPessoalUsuarioPesquisado(GregorianCalendar dataInicial, GregorianCalendar dataFinal, Usuario usuarioPesquisado) {
@@ -137,7 +143,7 @@ public class PontuacaoController {
 		return restricoes;
 	}
 
-	private void gerarRelatorioPontuacao(GregorianCalendar dataInicial, GregorianCalendar dataFinal, TreeMap<Integer, MalaDireta> malaDireta, String possuiMovimentacao, String ativo, Integer codigoUsuario) {
+	public BigDecimal gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(GregorianCalendar dataInicial, GregorianCalendar dataFinal, TreeMap<Integer, MalaDireta> malaDireta, String possuiMovimentacao, String ativo, Integer codigoUsuario) {
 
 		List<PontuacaoAuxiliar> pontuacoesConformeMovimentacoes = new ArrayList<PontuacaoAuxiliar>();
 		List<PontuacaoAuxiliar> pontuacoesConformeAtividade = new ArrayList<PontuacaoAuxiliar>();
@@ -173,6 +179,8 @@ public class PontuacaoController {
 		result.include("quantidadeElementos", pontuacoesConformeAtividade.size());
 		result.include("dataInicialPesquisada", dataInicial);
 		result.include("dataFinalPesquisada", dataFinal);
+
+		return pontuacaoRede;
 	}
 
 	private void contarAtivosDiretos(List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
@@ -220,7 +228,7 @@ public class PontuacaoController {
 
 		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoes) {
 
-			if (ativo.equals("Todos")) {
+			if (ativo.equals(TODOS)) {
 
 				pontuacoesConformeAtividade.add(pontuacaoAuxiliar);
 			}
@@ -269,7 +277,7 @@ public class PontuacaoController {
 
 	private void adicionarConformeMovimentacoes(String possuiMovimentacao, List<PontuacaoAuxiliar> pontuacoes, PontuacaoAuxiliar pontuacaoAuxiliar) {
 
-		if (possuiMovimentacao.equals("Todos")) {
+		if (possuiMovimentacao.equals(TODOS)) {
 
 			pontuacoes.add(pontuacaoAuxiliar);
 		}

@@ -1,6 +1,6 @@
 <%@ include file="/base.jsp" %> 
 
-<form class="form-horizontal" action="<c:url value="/bonificacao/gerarRelatorioBonificacao"/>" method="post" >
+<form class="form-horizontal" action="<c:url value="/bonificacaoIngresso/gerarRelatorioBonificacao"/>" method="post" >
   <fieldset>
     <legend>Bonificação por ingresso</legend>
     
