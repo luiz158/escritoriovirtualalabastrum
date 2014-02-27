@@ -171,6 +171,13 @@ public class MalaDiretaService {
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
 		BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
+		boolean diamanteContemGraduados = verificaSeDiamanteContemGraduados(sessaoUsuario, result, hibernateUtil, validator, dataInicial, dataFinal);
+
+		return (pontuacao.compareTo(PontuacaoController.META_DIAMANTE_PONTUACAO) >= 0 && diamanteContemGraduados);
+	}
+
+	private boolean verificaSeDiamanteContemGraduados(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal) {
+
 		TreeMap<Integer, MalaDireta> malaDiretaPrimeiroNivel = new TreeMap<Integer, MalaDireta>();
 
 		LinkedHashMap<String, String> posicoes = obterPosicoes();
@@ -191,15 +198,25 @@ public class MalaDiretaService {
 
 				if (!posicao.getKey().equals(TODAS)) {
 
-					encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, quantidadeGraduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
+					encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, quantidadeGraduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
+
+					if (quantidadeGraduados >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS) {
+
+						break;
+					}
 				}
+			}
+
+			if (quantidadeGraduados >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS) {
+
+				break;
 			}
 		}
 
-		return false;
+		return (quantidadeGraduados >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS);
 	}
 
-	private void encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, int quantidadeGraduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
+	private void encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, int quantidadeGraduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
 
 		Usuario usuarioFiltro = new Usuario();
 
@@ -222,18 +239,24 @@ public class MalaDiretaService {
 		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
 
 			if (!usuario.getId_Codigo().equals(usuarioPatrocinado.getId_Codigo())) {
-				
-				if(usuarioPatrocinado.isAtivo(dataInicial, dataFinal)){
-					
-					
-					
-					
-					
-					
-					PontuacaoController pontuacaoController = new PontuacaoController(new resul, hibernateUtil, sessaoUsuario, validator);
-					BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
-					
-					IF PONTUACAO > PontuacaoController.META_GRADUACAO
+
+				if (usuarioPatrocinado.isAtivo(dataInicial, dataFinal)) {
+
+					SessaoUsuario sessaoUsuario = new SessaoUsuario();
+					sessaoUsuario.login(usuarioPatrocinado);
+
+					PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
+					BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+
+					if (pontuacao.compareTo(PontuacaoController.META_GRADUACAO) >= 0) {
+
+						quantidadeGraduados++;
+						break;
+					}
+
+				} else {
+
+					encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, quantidadeGraduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
 				}
 			}
 		}

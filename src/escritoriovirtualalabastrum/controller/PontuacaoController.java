@@ -30,8 +30,8 @@ import escritoriovirtualalabastrum.util.Util;
 public class PontuacaoController {
 
 	public static final String TODOS = "Todos";
-	public static final Integer META_GRADUACAO = 2000;
-	public static final Integer META_DIAMANTE_PONTUACAO = 60000;
+	public static final BigDecimal META_GRADUACAO = new BigDecimal("2000");
+	public static final BigDecimal META_DIAMANTE_PONTUACAO = new BigDecimal("60000");
 	public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
 
 	private Result result;
