@@ -164,24 +164,24 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
-	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
+	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
+		SessaoUsuario sessaoUsuario = new SessaoUsuario();
+		sessaoUsuario.login(usuario);
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-		BigDecimal pontuacaoDiamante = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+		BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
-		Integer quantidadeGraduados = calcularQuantidadeGraduados(sessaoUsuario, result, hibernateUtil, validator, dataInicial, dataFinal);
+		Integer quantidadeGraduados = calcularQuantidadeGraduados(usuario, result, hibernateUtil, validator, dataInicial, dataFinal);
 
-		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
 		bonificacaoAuxiliar.setQuantidadeGraduados(quantidadeGraduados);
-		bonificacaoAuxiliar.setPontuacaoDiamante(pontuacaoDiamante);
 
 		return bonificacaoAuxiliar;
 	}
 
-	private Integer calcularQuantidadeGraduados(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal) {
+	private Integer calcularQuantidadeGraduados(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal) {
 
 		TreeMap<Integer, MalaDireta> malaDiretaPrimeiroNivel = new TreeMap<Integer, MalaDireta>();
 
@@ -191,7 +191,7 @@ public class MalaDiretaService {
 
 			if (!posicao.getKey().equals(TODAS)) {
 
-				encontrarMalaDiretaPrimeiroNivel(sessaoUsuario, hibernateUtil, malaDiretaPrimeiroNivel, posicao.getKey());
+				encontrarMalaDiretaPrimeiroNivel(usuario, hibernateUtil, malaDiretaPrimeiroNivel, posicao.getKey());
 			}
 		}
 
@@ -251,7 +251,7 @@ public class MalaDiretaService {
 					sessaoUsuario.login(usuarioPatrocinado);
 
 					PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-					BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+					BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo()).getPontuacaoDiamante();
 
 					if (pontuacao.compareTo(PontuacaoController.META_GRADUACAO) >= 0) {
 
@@ -269,17 +269,17 @@ public class MalaDiretaService {
 		return quantidadeGraduados;
 	}
 
-	private void encontrarMalaDiretaPrimeiroNivel(SessaoUsuario sessaoUsuario, HibernateUtil hibernateUtil, TreeMap<Integer, MalaDireta> malaDireta, String posicao) {
+	private void encontrarMalaDiretaPrimeiroNivel(Usuario usuario, HibernateUtil hibernateUtil, TreeMap<Integer, MalaDireta> malaDireta, String posicao) {
 
-		Usuario usuario = new Usuario();
+		Usuario usuarioFiltro = new Usuario();
 
 		try {
 
-			Field field = usuario.getClass().getDeclaredField(posicao);
+			Field field = usuarioFiltro.getClass().getDeclaredField(posicao);
 
 			field.setAccessible(true);
 
-			field.set(usuario, sessaoUsuario.getUsuario().getId_Codigo());
+			field.set(usuarioFiltro, usuario.getId_Codigo());
 		}
 
 		catch (Exception e) {
@@ -287,11 +287,11 @@ public class MalaDiretaService {
 			e.printStackTrace();
 		}
 
-		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario);
+		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuarioFiltro);
 
 		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
 
-			if (!sessaoUsuario.getUsuario().getId_Codigo().equals(usuarioPatrocinado.getId_Codigo())) {
+			if (!usuario.getId_Codigo().equals(usuarioPatrocinado.getId_Codigo())) {
 
 				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
 

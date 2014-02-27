@@ -82,6 +82,55 @@ public class ListaIngressoService {
 		}
 	}
 
+	public TreeMap<Integer, MalaDireta> pesquisarMalaDiretaSemRecursividadeFiltrandoPorDataDeIngresso(Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
+
+		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
+
+		LinkedHashMap<String, String> posicoes = new MalaDiretaService().obterPosicoes();
+
+		for (Entry<String, String> posicaoEntry : posicoes.entrySet()) {
+
+			String posicao = posicaoEntry.getKey();
+
+			if (!posicao.equals("Todas")) {
+
+				Usuario usuario = new Usuario();
+
+				List<Criterion> restricoes = new ArrayList<Criterion>();
+				restricoes.add(Restrictions.between("Dt_Ingresso", dataInicial, dataFinal));
+
+				try {
+
+					Field field = usuario.getClass().getDeclaredField(posicao);
+
+					field.setAccessible(true);
+
+					field.set(usuario, codigoUsuario);
+				}
+
+				catch (Exception e) {
+
+					e.printStackTrace();
+				}
+
+				List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario, restricoes);
+
+				for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
+
+					if (!codigoUsuario.equals(usuarioPatrocinado.getId_Codigo())) {
+
+						if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
+
+							malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, 1));
+						}
+					}
+				}
+			}
+		}
+
+		return malaDireta;
+	}
+
 	public HibernateUtil getHibernateUtil() {
 		return hibernateUtil;
 	}

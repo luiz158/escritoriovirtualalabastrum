@@ -17,6 +17,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.auxiliar.PontuacaoAuxiliar;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
@@ -30,8 +31,11 @@ import escritoriovirtualalabastrum.util.Util;
 public class PontuacaoController {
 
 	public static final String TODOS = "Todos";
-	public static final BigDecimal META_GRADUACAO = new BigDecimal("2000");
-	public static final BigDecimal META_DIAMANTE_PONTUACAO = new BigDecimal("60000");
+	public static final BigDecimal META_GRADUACAO = new BigDecimal("50");
+	// public static final BigDecimal META_GRADUACAO = new BigDecimal("2000");
+	public static final BigDecimal META_DIAMANTE_PONTUACAO = new BigDecimal("100");
+	// public static final BigDecimal META_DIAMANTE_PONTUACAO = new
+	// BigDecimal("60000");
 	public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
 
 	private Result result;
@@ -84,7 +88,7 @@ public class PontuacaoController {
 		result.include("ativo", ativo);
 	}
 
-	public BigDecimal gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
+	public BonificacaoAuxiliar gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
 
 		MalaDiretaService malaDiretaService = new MalaDiretaService();
 		malaDiretaService.setHibernateUtil(hibernateUtil);
@@ -92,7 +96,13 @@ public class PontuacaoController {
 
 		TreeMap<Integer, MalaDireta> malaDireta = malaDiretaService.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
 
-		return gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
+		BigDecimal pontuacaoDiamante = gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
+
+		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+		bonificacaoAuxiliar.setMalaDireta(malaDireta);
+		bonificacaoAuxiliar.setPontuacaoDiamante(pontuacaoDiamante);
+
+		return bonificacaoAuxiliar;
 	}
 
 	private void calcularPontuacaoPessoalUsuarioPesquisado(GregorianCalendar dataInicial, GregorianCalendar dataFinal, Usuario usuarioPesquisado) {

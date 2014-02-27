@@ -1,6 +1,7 @@
 package escritoriovirtualalabastrum.auxiliar;
 
 import java.math.BigDecimal;
+import java.util.TreeMap;
 
 import escritoriovirtualalabastrum.modelo.Usuario;
 
@@ -15,6 +16,7 @@ public class BonificacaoAuxiliar {
 	private String comoFoiCalculado;
 	private BigDecimal pontuacaoDiamante;
 	private Integer quantidadeGraduados;
+	private TreeMap<Integer, MalaDireta> malaDireta;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -86,5 +88,13 @@ public class BonificacaoAuxiliar {
 
 	public void setQuantidadeGraduados(Integer quantidadeGraduados) {
 		this.quantidadeGraduados = quantidadeGraduados;
+	}
+
+	public TreeMap<Integer, MalaDireta> getMalaDireta() {
+		return malaDireta;
+	}
+
+	public void setMalaDireta(TreeMap<Integer, MalaDireta> malaDireta) {
+		this.malaDireta = malaDireta;
 	}
 }

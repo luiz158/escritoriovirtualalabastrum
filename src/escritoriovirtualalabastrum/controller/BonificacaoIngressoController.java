@@ -56,7 +56,7 @@ public class BonificacaoIngressoController {
 
 		realizarValidacoes(ano, mes);
 
-		List<BonificacaoAuxiliar> bonificacoes = calcularBonificacoes(ano, mes);
+		List<BonificacaoAuxiliar> bonificacoes = calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 		result.include("bonificacoes", bonificacoes);
 
 		result.include("somatorioBonificacao", calcularSomatorioBonificacoes(bonificacoes));
@@ -79,51 +79,73 @@ public class BonificacaoIngressoController {
 		return somatorioBonificacao;
 	}
 
-	private List<BonificacaoAuxiliar> calcularBonificacoes(Integer ano, Integer mes) {
+	private List<BonificacaoAuxiliar> calcularBonificacoes(Usuario usuario, Integer ano, Integer mes) {
 
 		List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
 
-		BonificacaoAuxiliar porcentagemUsuarioLogado = encontrarPorcentagemDeAcordoComKit(this.sessaoUsuario.getUsuario(), ano, mes);
-		this.result.include("kitUsuarioLogado", porcentagemUsuarioLogado.getKit());
-		this.result.include("porcentagemKitUsuarioLogado", porcentagemUsuarioLogado.getPorcentagem());
+		BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(usuario, ano, mes);
+		this.result.include("kitUsuarioLogado", porcentagemUsuario.getKit());
+		this.result.include("porcentagemKitUsuarioLogado", porcentagemUsuario.getPorcentagem());
 
-		TreeMap<Integer, MalaDireta> malaDiretaHash = gerarMalaDiretaDeAcordoComFiltros(ano, mes);
+		TreeMap<Integer, MalaDireta> malaDiretaHash = gerarMalaDiretaDeAcordoComFiltros(usuario, ano, mes);
 
 		for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDiretaHash.entrySet()) {
 
 			MalaDireta malaDireta = malaDiretaEntry.getValue();
 
-			Usuario usuario = malaDireta.getUsuario();
+			Usuario usuarioMalaDireta = malaDireta.getUsuario();
 
 			if (malaDireta.getNivel() == 1) {
 
-				calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuarioLogado, malaDireta, usuario);
+				calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, malaDireta.getNivel(), usuarioMalaDireta);
 
 			} else {
 
-				calcularBonificacoesFixas(ano, mes, bonificacoes, malaDireta, usuario);
+				calcularBonificacoesFixas(ano, mes, bonificacoes, malaDireta, usuarioMalaDireta);
 			}
 		}
 
-		calcularBonificacaoFixaDeDiamante(ano, mes, bonificacoes);
-
-		if (this.sessaoUsuario.getUsuario().getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
+		if (usuario.getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
 
 			this.result.include("isDiamante", true);
 
-			calcularBonificacoesVariaveisDeDiamante(ano, mes);
+			calcularBonificacaoFixaDeDiamante(usuario, ano, mes, bonificacoes);
+			calcularBonificacoesVariaveisDeDiamante(usuario, ano, mes);
 		}
 
 		return bonificacoes;
 	}
 
-	private void calcularBonificacoesVariaveisDeDiamante(Integer ano, Integer mes) {
+	private void calcularBonificacoesVariaveisDeDiamante(Usuario usuario, Integer ano, Integer mes) {
 
-		BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(this.sessaoUsuario, result, hibernateUtil, validator, ano, mes);
+		BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuario, result, hibernateUtil, validator, ano, mes);
 
 		if (calculosDiamante.getQuantidadeGraduados() >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(PontuacaoController.META_DIAMANTE_PONTUACAO) >= 0) {
 
-			System.out.println("META ATINGIDA");
+			BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(usuario, ano, mes);
+
+			ListaIngressoService listaIngressoService = new ListaIngressoService();
+			listaIngressoService.setHibernateUtil(hibernateUtil);
+
+			DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
+			DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+
+			System.out.println(calculosDiamante.getMalaDireta().size());
+			System.out.println();
+
+			for (Entry<Integer, MalaDireta> malaDiretaDoDiamante : calculosDiamante.getMalaDireta().entrySet()) {
+
+				TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.pesquisarMalaDiretaSemRecursividadeFiltrandoPorDataDeIngresso(malaDiretaDoDiamante.getValue().getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
+
+				for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
+
+					List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
+
+					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
+
+					System.out.println(bonificacoes.size());
+				}
+			}
 		}
 
 		this.result.include("metaDiamantePontuacao", PontuacaoController.META_DIAMANTE_PONTUACAO);
@@ -159,10 +181,10 @@ public class BonificacaoIngressoController {
 		bonificacoes.add(bonificacaoAuxiliar);
 	}
 
-	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, BonificacaoAuxiliar porcentagemUsuarioLogado, MalaDireta malaDireta, Usuario usuario) {
+	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, BonificacaoAuxiliar porcentagemUsuario, Integer nivel, Usuario usuario) {
 
 		BonificacaoAuxiliar bonificacaoAuxiliar = encontrarPontuacaoDeAcordoComKit(usuario, ano, mes);
-		bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
+		bonificacaoAuxiliar.setGeracao(nivel);
 
 		if (bonificacaoAuxiliar.getPontuacao().equals(BigDecimal.ZERO)) {
 
@@ -170,16 +192,16 @@ public class BonificacaoIngressoController {
 
 		} else {
 
-			bonificacaoAuxiliar.setBonificacao(porcentagemUsuarioLogado.getPorcentagem().divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
-			bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuarioLogado.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
+			bonificacaoAuxiliar.setBonificacao(porcentagemUsuario.getPorcentagem().divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
+			bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuario.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
 		}
 
 		bonificacoes.add(bonificacaoAuxiliar);
 	}
 
-	private void calcularBonificacaoFixaDeDiamante(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes) {
+	private void calcularBonificacaoFixaDeDiamante(Usuario usuarioDiamante, Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes) {
 
-		List<Usuario> distribuidoresDoDiamante = buscarDistribuidoresDoDiamante(ano, mes);
+		List<Usuario> distribuidoresDoDiamante = buscarDistribuidoresDoDiamante(usuarioDiamante, ano, mes);
 
 		for (Usuario usuario : distribuidoresDoDiamante) {
 
@@ -209,7 +231,7 @@ public class BonificacaoIngressoController {
 		}
 	}
 
-	private List<Usuario> buscarDistribuidoresDoDiamante(Integer ano, Integer mes) {
+	private List<Usuario> buscarDistribuidoresDoDiamante(Usuario usuarioDiamante, Integer ano, Integer mes) {
 
 		ListaIngressoService listaIngressoService = new ListaIngressoService();
 		listaIngressoService.setHibernateUtil(hibernateUtil);
@@ -217,19 +239,19 @@ public class BonificacaoIngressoController {
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
-		Usuario usuario = new Usuario();
+		Usuario usuarioFiltro = new Usuario();
 
 		List<Criterion> restricoes = new ArrayList<Criterion>();
 		restricoes.add(Restrictions.between("Dt_Ingresso", dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()));
 
-		usuario.setId_CR(this.sessaoUsuario.getUsuario().getId_Codigo());
+		usuarioFiltro.setId_CR(usuarioDiamante.getId_Codigo());
 
-		List<Usuario> distribuidoresDoDiamante = hibernateUtil.buscar(usuario, restricoes);
+		List<Usuario> distribuidoresDoDiamante = hibernateUtil.buscar(usuarioFiltro, restricoes);
 
 		return distribuidoresDoDiamante;
 	}
 
-	private TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComFiltros(Integer ano, Integer mes) {
+	private TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComFiltros(Usuario usuario, Integer ano, Integer mes) {
 
 		ListaIngressoService listaIngressoService = new ListaIngressoService();
 		listaIngressoService.setHibernateUtil(hibernateUtil);
@@ -237,7 +259,7 @@ public class BonificacaoIngressoController {
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
-		TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.gerarMalaDiretaFiltrandoPorDataDeIngresso(this.sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), "id_Patroc");
+		TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.gerarMalaDiretaFiltrandoPorDataDeIngresso(usuario.getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), "id_Patroc");
 
 		return malaDireta;
 	}
