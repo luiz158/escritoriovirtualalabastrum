@@ -88,6 +88,8 @@ public class PontuacaoController {
 
 		TreeMap<Integer, MalaDireta> malaDireta = malaDiretaService.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
 
+		System.out.println(malaDireta.size());
+
 		return gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
 	}
 
