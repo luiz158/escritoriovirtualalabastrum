@@ -13,6 +13,8 @@ public class BonificacaoAuxiliar {
 	private BigDecimal porcentagem;
 	private String kit;
 	private String comoFoiCalculado;
+	private BigDecimal pontuacaoDiamante;
+	private Integer quantidadeGraduados;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -22,28 +24,20 @@ public class BonificacaoAuxiliar {
 		this.usuario = usuario;
 	}
 
+	public Integer getGeracao() {
+		return geracao;
+	}
+
+	public void setGeracao(Integer geracao) {
+		this.geracao = geracao;
+	}
+
 	public BigDecimal getBonificacao() {
 		return bonificacao;
 	}
 
 	public void setBonificacao(BigDecimal bonificacao) {
 		this.bonificacao = bonificacao;
-	}
-
-	public String getKit() {
-		return kit;
-	}
-
-	public void setKit(String kit) {
-		this.kit = kit;
-	}
-
-	public String getComoFoiCalculado() {
-		return comoFoiCalculado;
-	}
-
-	public void setComoFoiCalculado(String comoFoiCalculado) {
-		this.comoFoiCalculado = comoFoiCalculado;
 	}
 
 	public BigDecimal getPontuacao() {
@@ -62,11 +56,35 @@ public class BonificacaoAuxiliar {
 		this.porcentagem = porcentagem;
 	}
 
-	public Integer getGeracao() {
-		return geracao;
+	public String getKit() {
+		return kit;
 	}
 
-	public void setGeracao(Integer geracao) {
-		this.geracao = geracao;
+	public void setKit(String kit) {
+		this.kit = kit;
+	}
+
+	public String getComoFoiCalculado() {
+		return comoFoiCalculado;
+	}
+
+	public void setComoFoiCalculado(String comoFoiCalculado) {
+		this.comoFoiCalculado = comoFoiCalculado;
+	}
+
+	public BigDecimal getPontuacaoDiamante() {
+		return pontuacaoDiamante;
+	}
+
+	public void setPontuacaoDiamante(BigDecimal pontuacaoDiamante) {
+		this.pontuacaoDiamante = pontuacaoDiamante;
+	}
+
+	public Integer getQuantidadeGraduados() {
+		return quantidadeGraduados;
+	}
+
+	public void setQuantidadeGraduados(Integer quantidadeGraduados) {
+		this.quantidadeGraduados = quantidadeGraduados;
 	}
 }

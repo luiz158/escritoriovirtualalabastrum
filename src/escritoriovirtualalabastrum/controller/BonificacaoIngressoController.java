@@ -109,6 +109,8 @@ public class BonificacaoIngressoController {
 
 		if (this.sessaoUsuario.getUsuario().getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
 
+			this.result.include("isDiamante", true);
+
 			calcularBonificacoesVariaveisDeDiamante(ano, mes);
 		}
 
@@ -117,12 +119,17 @@ public class BonificacaoIngressoController {
 
 	private void calcularBonificacoesVariaveisDeDiamante(Integer ano, Integer mes) {
 
-		boolean metaAtingida = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(this.sessaoUsuario, result, hibernateUtil, validator, ano, mes);
+		BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(this.sessaoUsuario, result, hibernateUtil, validator, ano, mes);
 
-		if (metaAtingida) {
+		if (calculosDiamante.getQuantidadeGraduados() >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(PontuacaoController.META_DIAMANTE_PONTUACAO) >= 0) {
 
 			System.out.println("META ATINGIDA");
 		}
+
+		this.result.include("metaDiamantePontuacao", PontuacaoController.META_DIAMANTE_PONTUACAO);
+		this.result.include("metaDiamanteGraduados", PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS);
+		this.result.include("pontuacaoAlcancadaPeloDiamante", calculosDiamante.getPontuacaoDiamante());
+		this.result.include("graduadosAlcancadosPeloDiamante", calculosDiamante.getQuantidadeGraduados());
 	}
 
 	private void calcularBonificacoesFixas(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, MalaDireta malaDireta, Usuario usuario) {

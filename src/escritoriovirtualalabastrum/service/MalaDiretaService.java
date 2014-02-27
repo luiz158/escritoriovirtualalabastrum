@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.controller.MalaDiretaController;
 import escritoriovirtualalabastrum.controller.PontuacaoController;
@@ -163,22 +164,24 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
-	public boolean verificaSeMetaDeDiamanteFoiAtingida(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
+	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-		BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+		BigDecimal pontuacaoDiamante = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
-		System.out.println("pontuacao: " + pontuacao);
+		Integer quantidadeGraduados = calcularQuantidadeGraduados(sessaoUsuario, result, hibernateUtil, validator, dataInicial, dataFinal);
 
-		boolean diamanteContemGraduados = verificaSeDiamanteContemGraduados(sessaoUsuario, result, hibernateUtil, validator, dataInicial, dataFinal);
+		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+		bonificacaoAuxiliar.setQuantidadeGraduados(quantidadeGraduados);
+		bonificacaoAuxiliar.setPontuacaoDiamante(pontuacaoDiamante);
 
-		return (pontuacao.compareTo(PontuacaoController.META_DIAMANTE_PONTUACAO) >= 0 && diamanteContemGraduados);
+		return bonificacaoAuxiliar;
 	}
 
-	private boolean verificaSeDiamanteContemGraduados(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal) {
+	private Integer calcularQuantidadeGraduados(SessaoUsuario sessaoUsuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal) {
 
 		TreeMap<Integer, MalaDireta> malaDiretaPrimeiroNivel = new TreeMap<Integer, MalaDireta>();
 
@@ -192,7 +195,7 @@ public class MalaDiretaService {
 			}
 		}
 
-		int quantidadeGraduados = 0;
+		Integer quantidadeGraduados = 0;
 
 		for (Entry<Integer, MalaDireta> primeiroNivel : malaDiretaPrimeiroNivel.entrySet()) {
 
@@ -200,7 +203,7 @@ public class MalaDiretaService {
 
 				if (!posicao.getKey().equals(TODAS)) {
 
-					encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, quantidadeGraduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
+					quantidadeGraduados = encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, quantidadeGraduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
 
 					if (quantidadeGraduados >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS) {
 
@@ -215,10 +218,10 @@ public class MalaDiretaService {
 			}
 		}
 
-		return (quantidadeGraduados >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS);
+		return quantidadeGraduados;
 	}
 
-	private void encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, int quantidadeGraduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
+	private int encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, int quantidadeGraduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
 
 		Usuario usuarioFiltro = new Usuario();
 
@@ -250,8 +253,6 @@ public class MalaDiretaService {
 					PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
 					BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
-					System.out.println("Pontuação do possível graduado: " + pontuacao);
-
 					if (pontuacao.compareTo(PontuacaoController.META_GRADUACAO) >= 0) {
 
 						quantidadeGraduados++;
@@ -260,10 +261,12 @@ public class MalaDiretaService {
 
 				} else {
 
-					encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, quantidadeGraduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
+					quantidadeGraduados = encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, quantidadeGraduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
 				}
 			}
 		}
+
+		return quantidadeGraduados;
 	}
 
 	private void encontrarMalaDiretaPrimeiroNivel(SessaoUsuario sessaoUsuario, HibernateUtil hibernateUtil, TreeMap<Integer, MalaDireta> malaDireta, String posicao) {

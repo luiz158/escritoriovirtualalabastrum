@@ -61,3 +61,29 @@
 		<br>  <br>  <h4> Nenhum registro foi encontrado </h4>
 	</c:otherwise>
 </c:choose>
+
+<c:if test="${isDiamante}">
+
+	<br><br>
+	
+	<h3> Bonificação de diamante </h3>
+	
+	<br>
+	
+	<p> Por ser diamante, além das bonificações normais da Alabastrum, você recebe algumas outras bonificações se suas metas como diamante forem atendidas </p>
+	<p> As metas são: </p>
+	<p> Pontuação no mês: ${metaDiamantePontuacao} </p>
+	<p> Quantidade de graduados em linhas diferentes: ${metaDiamanteGraduados} </p>
+	<br>
+	<p> Você alcançou, até o momento, os seguintes resultados: </p>
+	<p> Pontuação no mês: ${pontuacaoAlcancadaPeloDiamante} </p>
+	<c:choose>
+		<c:when test="${graduadosAlcancadosPeloDiamante >= metaDiamanteGraduados}">
+			<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante} ou mais </p>
+		</c:when>
+		<c:otherwise>
+			<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante}</p>
+		</c:otherwise>
+	</c:choose>
+
+</c:if>
