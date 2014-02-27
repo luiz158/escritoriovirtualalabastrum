@@ -121,7 +121,7 @@ public class BonificacaoIngressoController {
 
 		if (metaAtingida) {
 
-			// TODO
+			System.out.println("META ATINGIDA");
 		}
 	}
 

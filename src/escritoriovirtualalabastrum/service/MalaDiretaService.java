@@ -171,6 +171,8 @@ public class MalaDiretaService {
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
 		BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
+		System.out.println("pontuacao: " + pontuacao);
+
 		boolean diamanteContemGraduados = verificaSeDiamanteContemGraduados(sessaoUsuario, result, hibernateUtil, validator, dataInicial, dataFinal);
 
 		return (pontuacao.compareTo(PontuacaoController.META_DIAMANTE_PONTUACAO) >= 0 && diamanteContemGraduados);
@@ -247,6 +249,8 @@ public class MalaDiretaService {
 
 					PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
 					BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+
+					System.out.println("Pontuação do possível graduado: " + pontuacao);
 
 					if (pontuacao.compareTo(PontuacaoController.META_GRADUACAO) >= 0) {
 
