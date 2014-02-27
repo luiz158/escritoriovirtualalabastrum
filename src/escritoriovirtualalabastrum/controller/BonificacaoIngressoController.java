@@ -143,7 +143,9 @@ public class BonificacaoIngressoController {
 
 					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
 
-					System.out.println(bonificacoes.size());
+					System.out.println(bonificacoes.get(0).getUsuario().getvNome());
+					System.out.println(bonificacoes.get(0).getBonificacao());
+					System.out.println();
 				}
 			}
 		}
