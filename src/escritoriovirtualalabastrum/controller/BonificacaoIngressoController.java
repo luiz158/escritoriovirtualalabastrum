@@ -136,6 +136,11 @@ public class BonificacaoIngressoController {
 				BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(malaDiretaDoDiamante.getValue().getUsuario(), ano, mes);
 
 				for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
+					
+					if(malaDiretaEntry.getValue().getUsuario().getId_Codigo().equals(obj)){
+						
+						LEMBRAR DE NÃO COLOCAR AQUI SE FOR ID = 77479
+					}
 
 					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
 
@@ -364,14 +369,13 @@ public class BonificacaoIngressoController {
 	private String encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(Usuario usuario, Integer ano, Integer mes) {
 
 		@SuppressWarnings("unchecked")
-		List<Object> kit = hibernateUtil.buscaPorHQL("select hk.kit from HistoricoKit hk where id_Codigo = " + usuario.getId_Codigo() + " and data_referencia between '2014-01-01' and '" + ano + "-" + mes + "-01'");
+		List<Object> kit = hibernateUtil.buscaPorHQL("select hk.kit from HistoricoKit hk where id_Codigo = " + usuario.getId_Codigo() + " and data_referencia between '2014-01-01' and '" + ano + "-" + mes + "-01' order by id desc limit 1");
 
 		if (Util.preenchido(kit)) {
 
 			return (String) kit.get(0);
-		}
 
-		else {
+		} else {
 
 			return KIT_INGRESSO_NAO_DEFINIDO_PARA_O_DISTRIBUIDOR;
 		}
