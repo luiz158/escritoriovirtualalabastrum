@@ -31,12 +31,13 @@ import escritoriovirtualalabastrum.util.Util;
 public class PontuacaoController {
 
 	public static final String TODOS = "Todos";
-	public static final BigDecimal META_GRADUACAO = new BigDecimal("50");
+	public static final BigDecimal META_GRADUACAO = new BigDecimal("10");
 	// public static final BigDecimal META_GRADUACAO = new BigDecimal("2000");
-	public static final BigDecimal META_DIAMANTE_PONTUACAO = new BigDecimal("100");
+	public static final BigDecimal META_DIAMANTE_PONTUACAO = new BigDecimal("20");
 	// public static final BigDecimal META_DIAMANTE_PONTUACAO = new
 	// BigDecimal("60000");
-	public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
+	public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 1;
+	// public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
 
 	private Result result;
 	private HibernateUtil hibernateUtil;

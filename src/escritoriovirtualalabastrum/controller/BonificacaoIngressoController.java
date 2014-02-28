@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.controller;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -130,9 +131,6 @@ public class BonificacaoIngressoController {
 			DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 			DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
-			System.out.println(calculosDiamante.getMalaDireta().size());
-			System.out.println();
-
 			for (Entry<Integer, MalaDireta> malaDiretaDoDiamante : calculosDiamante.getMalaDireta().entrySet()) {
 
 				TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.pesquisarMalaDiretaSemRecursividadeFiltrandoPorDataDeIngresso(malaDiretaDoDiamante.getValue().getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
@@ -142,10 +140,6 @@ public class BonificacaoIngressoController {
 					List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
 
 					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
-
-					System.out.println(bonificacoes.get(0).getUsuario().getvNome());
-					System.out.println(bonificacoes.get(0).getBonificacao());
-					System.out.println();
 				}
 			}
 		}
@@ -194,7 +188,7 @@ public class BonificacaoIngressoController {
 
 		} else {
 
-			bonificacaoAuxiliar.setBonificacao(porcentagemUsuario.getPorcentagem().divide(bonificacaoAuxiliar.getPontuacao()).multiply(new BigDecimal("100")));
+			bonificacaoAuxiliar.setBonificacao(porcentagemUsuario.getPorcentagem().multiply(bonificacaoAuxiliar.getPontuacao()).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP));
 			bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuario.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
 		}
 
