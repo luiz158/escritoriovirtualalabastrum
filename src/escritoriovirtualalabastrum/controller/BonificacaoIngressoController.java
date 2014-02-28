@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 
@@ -22,7 +21,6 @@ import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.FixoIngresso;
-import escritoriovirtualalabastrum.modelo.HistoricoKit;
 import escritoriovirtualalabastrum.modelo.PorcentagemIngresso;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.service.ListaIngressoService;
@@ -135,13 +133,17 @@ public class BonificacaoIngressoController {
 
 				TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.pesquisarMalaDiretaSemRecursividadeFiltrandoPorDataDeIngresso(malaDiretaDoDiamante.getValue().getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
 
+				BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(malaDiretaDoDiamante.getValue().getUsuario(), ano, mes);
+
 				for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
 
-					BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(malaDiretaEntry.getValue().getUsuario(), ano, mes);
-
 					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
+
+					System.out.println(malaDiretaEntry.getValue().getUsuario().getvNome());
 				}
 			}
+
+			System.out.println("+++++++++++++++++++++++++++++++++++");
 
 			for (BonificacaoAuxiliar x : bonificacoes) {
 
@@ -190,6 +192,7 @@ public class BonificacaoIngressoController {
 
 		BonificacaoAuxiliar bonificacaoAuxiliar = encontrarPontuacaoDeAcordoComKit(usuario, ano, mes);
 		bonificacaoAuxiliar.setGeracao(nivel);
+		bonificacaoAuxiliar.setPorcentagem(porcentagemUsuario.getPorcentagem());
 
 		if (bonificacaoAuxiliar.getPontuacao().equals(BigDecimal.ZERO)) {
 
@@ -360,19 +363,15 @@ public class BonificacaoIngressoController {
 
 	private String encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(Usuario usuario, Integer ano, Integer mes) {
 
-		HistoricoKit historicoKitfiltro = new HistoricoKit();
-		historicoKitfiltro.setId_codigo(usuario.getId_Codigo());
+		@SuppressWarnings("unchecked")
+		List<Object> kit = hibernateUtil.buscaPorHQL("select hk.kit from HistoricoKit hk where id_Codigo = " + usuario.getId_Codigo() + " and data_referencia between '2014-01-01' and '" + ano + "-" + mes + "-01'");
 
-		List<Criterion> restricoes = new ArrayList<Criterion>();
-		restricoes.add(Restrictions.between("data_referencia", new GregorianCalendar(1990, 1, 1), new GregorianCalendar(ano, mes - 1, 1)));
+		if (Util.preenchido(kit)) {
 
-		List<HistoricoKit> historicos = this.hibernateUtil.buscar(historicoKitfiltro, 1, restricoes, Order.desc("id"), null);
+			return (String) kit.get(0);
+		}
 
-		if (Util.preenchido(historicos)) {
-
-			return historicos.get(0).getKit();
-
-		} else {
+		else {
 
 			return KIT_INGRESSO_NAO_DEFINIDO_PARA_O_DISTRIBUIDOR;
 		}

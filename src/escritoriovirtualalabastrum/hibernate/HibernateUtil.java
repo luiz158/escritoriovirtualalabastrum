@@ -237,7 +237,6 @@ public class HibernateUtil {
 			quantidadeSessoesAbertasHibernate = sessionFactory.getStatistics().getSessionOpenCount();
 			quantidadeSessoesFechadasHibernate = sessionFactory.getStatistics().getSessionCloseCount();
 		}
-
 	}
 
 	public <E extends Entidade> List<E> buscar(Entidade filtro) {
