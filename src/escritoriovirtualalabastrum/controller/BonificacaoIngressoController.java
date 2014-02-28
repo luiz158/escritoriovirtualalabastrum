@@ -123,13 +123,13 @@ public class BonificacaoIngressoController {
 
 		if (calculosDiamante.getQuantidadeGraduados() >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(PontuacaoController.META_DIAMANTE_PONTUACAO) >= 0) {
 
-			BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(usuario, ano, mes);
-
 			ListaIngressoService listaIngressoService = new ListaIngressoService();
 			listaIngressoService.setHibernateUtil(hibernateUtil);
 
 			DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 			DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+
+			List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
 
 			for (Entry<Integer, MalaDireta> malaDiretaDoDiamante : calculosDiamante.getMalaDireta().entrySet()) {
 
@@ -137,10 +137,19 @@ public class BonificacaoIngressoController {
 
 				for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
 
-					List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
+					BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(malaDiretaEntry.getValue().getUsuario(), ano, mes);
 
 					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
 				}
+			}
+
+			for (BonificacaoAuxiliar x : bonificacoes) {
+
+				System.out.println(x.getUsuario().getvNome());
+				System.out.println(x.getKit());
+				System.out.println(x.getBonificacao());
+				System.out.println(x.getPorcentagem());
+				System.out.println();
 			}
 		}
 
