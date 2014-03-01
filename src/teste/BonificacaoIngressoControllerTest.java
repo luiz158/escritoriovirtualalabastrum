@@ -326,6 +326,25 @@ public class BonificacaoIngressoControllerTest {
 		assertEquals(new BigDecimal("90000"), mockResult.included("pontuacaoAlcancadaPeloDiamante"));
 		assertEquals(new Integer("1"), mockResult.included("graduadosAlcancadosPeloDiamante"));
 
-		assertEquals(new BigDecimal("1000000"), (BigDecimal) mockResult.included("somatorioBonificacoesDiamante"));
+		List<BonificacaoAuxiliar> bonificacoesDiamante = mockResult.included("bonificacoesDiamante");
+		assertEquals(4, bonificacoesDiamante.size());
+
+		assertEquals(new Integer("77495"), bonificacoesDiamante.get(0).getUsuario().getId_Codigo());
+		assertEquals("18,48", Util.formatarBigDecimal(bonificacoesDiamante.get(0).getBonificacao()));
+		assertEquals("33,00% de 56,00", bonificacoesDiamante.get(0).getComoFoiCalculado());
+
+		assertEquals(new Integer("77501"), bonificacoesDiamante.get(1).getUsuario().getId_Codigo());
+		assertEquals("18,48", Util.formatarBigDecimal(bonificacoesDiamante.get(1).getBonificacao()));
+		assertEquals("33,00% de 56,00", bonificacoesDiamante.get(1).getComoFoiCalculado());
+
+		assertEquals(new Integer("77514"), bonificacoesDiamante.get(2).getUsuario().getId_Codigo());
+		assertEquals("18,48", Util.formatarBigDecimal(bonificacoesDiamante.get(2).getBonificacao()));
+		assertEquals("33,00% de 56,00", bonificacoesDiamante.get(2).getComoFoiCalculado());
+
+		assertEquals(new Integer("77527"), bonificacoesDiamante.get(3).getUsuario().getId_Codigo());
+		assertEquals("14,52", Util.formatarBigDecimal(bonificacoesDiamante.get(3).getBonificacao()));
+		assertEquals("33,00% de 44,00", bonificacoesDiamante.get(3).getComoFoiCalculado());
+
+		assertEquals("69,96", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacoesDiamante")));
 	}
 }
