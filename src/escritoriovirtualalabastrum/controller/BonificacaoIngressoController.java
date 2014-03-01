@@ -131,33 +131,29 @@ public class BonificacaoIngressoController {
 
 			for (Entry<Integer, MalaDireta> malaDiretaDoDiamante : calculosDiamante.getMalaDireta().entrySet()) {
 
-				TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.pesquisarMalaDiretaSemRecursividadeFiltrandoPorDataDeIngresso(malaDiretaDoDiamante.getValue().getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
+				if (!malaDiretaDoDiamante.getValue().getUsuario().getId_Codigo().equals(usuario.getId_Codigo())) {
 
-				BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(malaDiretaDoDiamante.getValue().getUsuario(), ano, mes);
+					TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.pesquisarMalaDiretaSemRecursividadeFiltrandoPorDataDeIngresso(malaDiretaDoDiamante.getValue().getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
 
-				for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
-					
-					if(malaDiretaEntry.getValue().getUsuario().getId_Codigo().equals(obj)){
-						
-						LEMBRAR DE NÃO COLOCAR AQUI SE FOR ID = 77479
+					BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(malaDiretaDoDiamante.getValue().getUsuario(), ano, mes);
+
+					for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
+
+						calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
 					}
-
-					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
-
-					System.out.println(malaDiretaEntry.getValue().getUsuario().getvNome());
 				}
 			}
 
-			System.out.println("+++++++++++++++++++++++++++++++++++");
+			for (BonificacaoAuxiliar bonificacaoAuxiliar : bonificacoes) {
 
-			for (BonificacaoAuxiliar x : bonificacoes) {
-
-				System.out.println(x.getUsuario().getvNome());
-				System.out.println(x.getKit());
-				System.out.println(x.getBonificacao());
-				System.out.println(x.getPorcentagem());
-				System.out.println();
+				BigDecimal porcentagemQueODiamanteIraReceber = PontuacaoController.PORCENTAGEM_QUE_A_ALABASTRUM_DISTRIBUI.subtract(bonificacaoAuxiliar.getPorcentagem());
+				BigDecimal bonificacao = porcentagemQueODiamanteIraReceber.multiply(bonificacaoAuxiliar.getPontuacao()).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
+				bonificacaoAuxiliar.setBonificacao(bonificacao);
+				bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemQueODiamanteIraReceber) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
 			}
+
+			this.result.include("bonificacoesDiamante", bonificacoes);
+			result.include("somatorioBonificacoesDiamante", calcularSomatorioBonificacoes(bonificacoes));
 		}
 
 		this.result.include("metaDiamantePontuacao", PontuacaoController.META_DIAMANTE_PONTUACAO);

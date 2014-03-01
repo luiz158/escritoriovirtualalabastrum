@@ -85,5 +85,41 @@
 			<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante}</p>
 		</c:otherwise>
 	</c:choose>
+	
+	<c:if test="${!empty bonificacoesDiamante}"> 
+	
+		<br><br>
+		
+		<table class="table table-striped table-bordered">
+			<thead>
+		    	<tr>
+                    <th> Distribuidor </th>
+                    <th> Geração </th>
+                    <th> Kit </th>
+                    <th> Bonificação </th>
+                    <th> Como foi calculado </th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${bonificacoesDiamante}" var="item">
+					<tr>
+                        <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+                        <td class="centralizado" > ${item.geracao} </td>
+                        <td class="centralizado" > ${item.kit} </td>
+                        <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacao}" pattern="#,##0.00" /> </td>
+                        <td class="centralizado" > ${item.comoFoiCalculado} </td>
+					</tr>
+				</c:forEach>
+			</tbody>
+			<tfoot>
+				<tr style="background-color: rgb(245, 250, 138);" >
+                    <td class="centralizado" colspan="3" > <b> Total </b> </td>
+					<td class="centralizado" > R$<fmt:formatNumber value="${somatorioBonificacoesDiamante}" pattern="#,##0.00" /> </td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
+	
+	</c:if>
 
 </c:if>

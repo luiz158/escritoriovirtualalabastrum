@@ -39,6 +39,8 @@ public class PontuacaoController {
 	public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 1;
 	// public static final Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
 
+	public static final BigDecimal PORCENTAGEM_QUE_A_ALABASTRUM_DISTRIBUI = new BigDecimal("40");
+
 	private Result result;
 	private HibernateUtil hibernateUtil;
 	private SessaoUsuario sessaoUsuario;
