@@ -96,7 +96,7 @@ public class BonificacaoIngressoController {
 
 			if (malaDireta.getNivel() == 1) {
 
-				calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, malaDireta.getNivel(), usuarioMalaDireta);
+				calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario.getPorcentagem(), malaDireta.getNivel(), usuarioMalaDireta);
 
 			} else {
 
@@ -135,11 +135,16 @@ public class BonificacaoIngressoController {
 
 					TreeMap<Integer, MalaDireta> malaDireta = listaIngressoService.pesquisarMalaDiretaSemRecursividadeFiltrandoPorDataDeIngresso(malaDiretaDoDiamante.getValue().getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
 
-					BonificacaoAuxiliar porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(malaDiretaDoDiamante.getValue().getUsuario(), ano, mes);
+					BigDecimal porcentagem = BigDecimal.ZERO;
+
+					if (malaDiretaDoDiamante.getValue().getUsuario().isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar())) {
+
+						porcentagem = encontrarPorcentagemDeAcordoComKit(malaDiretaDoDiamante.getValue().getUsuario(), ano, mes).getPorcentagem();
+					}
 
 					for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
 
-						calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, 1, malaDiretaEntry.getValue().getUsuario());
+						calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagem, 1, malaDiretaEntry.getValue().getUsuario());
 					}
 				}
 			}
@@ -189,11 +194,11 @@ public class BonificacaoIngressoController {
 		bonificacoes.add(bonificacaoAuxiliar);
 	}
 
-	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, BonificacaoAuxiliar porcentagemUsuario, Integer nivel, Usuario usuario) {
+	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, BigDecimal porcentagem, Integer nivel, Usuario usuario) {
 
 		BonificacaoAuxiliar bonificacaoAuxiliar = encontrarPontuacaoDeAcordoComKit(usuario, ano, mes);
 		bonificacaoAuxiliar.setGeracao(nivel);
-		bonificacaoAuxiliar.setPorcentagem(porcentagemUsuario.getPorcentagem());
+		bonificacaoAuxiliar.setPorcentagem(porcentagem);
 
 		if (bonificacaoAuxiliar.getPontuacao().equals(BigDecimal.ZERO)) {
 
@@ -201,8 +206,8 @@ public class BonificacaoIngressoController {
 
 		} else {
 
-			bonificacaoAuxiliar.setBonificacao(porcentagemUsuario.getPorcentagem().multiply(bonificacaoAuxiliar.getPontuacao()).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP));
-			bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagemUsuario.getPorcentagem()) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
+			bonificacaoAuxiliar.setBonificacao(porcentagem.multiply(bonificacaoAuxiliar.getPontuacao()).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP));
+			bonificacaoAuxiliar.setComoFoiCalculado(Util.formatarBigDecimal(porcentagem) + "% de " + Util.formatarBigDecimal(bonificacaoAuxiliar.getPontuacao()));
 		}
 
 		bonificacoes.add(bonificacaoAuxiliar);
