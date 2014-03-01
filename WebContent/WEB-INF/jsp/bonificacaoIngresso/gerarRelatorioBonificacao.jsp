@@ -94,7 +94,6 @@
 			<thead>
 		    	<tr>
                     <th> Distribuidor </th>
-                    <th> Geração </th>
                     <th> Kit </th>
                     <th> Bonificação </th>
                     <th> Como foi calculado </th>
@@ -104,7 +103,6 @@
 				<c:forEach items="${bonificacoesDiamante}" var="item">
 					<tr>
                         <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
-                        <td class="centralizado" > ${item.geracao} </td>
                         <td class="centralizado" > ${item.kit} </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacao}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > ${item.comoFoiCalculado} </td>
