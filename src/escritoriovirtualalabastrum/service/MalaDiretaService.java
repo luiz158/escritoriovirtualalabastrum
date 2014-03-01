@@ -164,7 +164,7 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
-	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
+	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDiretaCompletaHash) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
@@ -172,7 +172,7 @@ public class MalaDiretaService {
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.login(usuario);
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-		BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+		BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo(), malaDiretaCompletaHash);
 
 		Integer quantidadeGraduados = calcularQuantidadeGraduados(usuario, result, hibernateUtil, validator, dataInicial, dataFinal);
 
@@ -275,7 +275,7 @@ public class MalaDiretaService {
 			sessaoUsuario.login(usuario);
 
 			PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-			BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo()).getPontuacaoDiamante();
+			BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo(), null).getPontuacaoDiamante();
 
 			if (pontuacao.compareTo(PontuacaoController.META_GRADUACAO) >= 0) {
 

@@ -82,20 +82,23 @@ public class PontuacaoController {
 
 		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario().getId_Codigo();
 
-		gerarMalaDiretaECalcularPontuacaoDaRede(posicao, codigoUsuario, dataInicial, dataFinal, possuiMovimentacao, ativo, codigoUsuarioLogado);
+		gerarMalaDiretaECalcularPontuacaoDaRede(posicao, codigoUsuario, dataInicial, dataFinal, possuiMovimentacao, ativo, codigoUsuarioLogado, null);
 
 		result.include("posicaoConsiderada", new MalaDiretaService().obterPosicoes().get(posicao));
 		result.include("possuiMovimentacao", possuiMovimentacao);
 		result.include("ativo", ativo);
 	}
 
-	public BonificacaoAuxiliar gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
+	public BonificacaoAuxiliar gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado, TreeMap<Integer, MalaDireta> malaDireta) {
 
 		MalaDiretaService malaDiretaService = new MalaDiretaService();
 		malaDiretaService.setHibernateUtil(hibernateUtil);
 		malaDiretaService.setValidator(validator);
 
-		TreeMap<Integer, MalaDireta> malaDireta = malaDiretaService.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
+		if (Util.vazio(malaDireta)) {
+
+			malaDireta = malaDiretaService.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
+		}
 
 		BigDecimal pontuacaoDiamante = gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
 
