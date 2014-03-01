@@ -190,9 +190,14 @@ public class BonificacaoIngressoService {
 
 	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, BigDecimal porcentagem, Integer nivel, Usuario usuario) {
 
-		BonificacaoAuxiliar bonificacaoAuxiliar = encontrarPontuacaoDeAcordoComKit(usuario, ano, mes);
+		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+
+		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+		bonificacaoAuxiliar.setKit(kit);
+		bonificacaoAuxiliar.setUsuario(usuario);
 		bonificacaoAuxiliar.setGeracao(nivel);
 		bonificacaoAuxiliar.setPorcentagem(porcentagem);
+		bonificacaoAuxiliar.setPontuacao(encontrarPontuacaoDeAcordoComKit(kit, ano, mes));
 
 		if (bonificacaoAuxiliar.getPontuacao().equals(BigDecimal.ZERO)) {
 
@@ -234,18 +239,11 @@ public class BonificacaoIngressoService {
 		bonificacoes.add(bonificacaoAuxiliar);
 	}
 
-	private BonificacaoAuxiliar encontrarPontuacaoDeAcordoComKit(Usuario usuario, Integer ano, Integer mes) {
-
-		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
-		bonificacaoAuxiliar.setUsuario(usuario);
-
-		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
-		bonificacaoAuxiliar.setKit(kit);
+	private BigDecimal encontrarPontuacaoDeAcordoComKit(String kit, Integer ano, Integer mes) {
 
 		if (kit.equals(KIT_INGRESSO_NAO_DEFINIDO_PARA_O_DISTRIBUIDOR)) {
 
-			bonificacaoAuxiliar.setPontuacao(BigDecimal.ZERO);
-			return bonificacaoAuxiliar;
+			return BigDecimal.ZERO;
 		}
 
 		PorcentagemIngresso porcentagemIngresso = new PorcentagemIngresso();
@@ -259,9 +257,7 @@ public class BonificacaoIngressoService {
 
 			field.setAccessible(true);
 
-			bonificacaoAuxiliar.setPontuacao((BigDecimal) field.get(porcentagemIngresso));
-
-			return bonificacaoAuxiliar;
+			return (BigDecimal) field.get(porcentagemIngresso);
 
 		} catch (Exception e) {
 			e.printStackTrace();
