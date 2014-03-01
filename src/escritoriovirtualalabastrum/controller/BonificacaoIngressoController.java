@@ -100,7 +100,7 @@ public class BonificacaoIngressoController {
 
 			} else {
 
-				calcularBonificacoesFixas(ano, mes, bonificacoes, malaDireta, usuarioMalaDireta);
+				calcularBonificacoesFixas(ano, mes, bonificacoes, malaDireta, usuario);
 			}
 		}
 
@@ -178,7 +178,7 @@ public class BonificacaoIngressoController {
 		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
 
 		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
-		bonificacaoAuxiliar.setUsuario(usuario);
+		bonificacaoAuxiliar.setUsuario(malaDireta.getUsuario());
 		bonificacaoAuxiliar.setKit(kit);
 		bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
 
@@ -219,29 +219,32 @@ public class BonificacaoIngressoController {
 
 		for (Usuario usuario : distribuidoresDoDiamante) {
 
-			String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+			if (!usuario.getId_Codigo().equals(usuarioDiamante.getId_Codigo())) {
 
-			FixoIngresso fixoIngresso = new FixoIngresso();
-			fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
-			fixoIngresso.setGeracao("Diamante");
+				String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
 
-			fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
+				FixoIngresso fixoIngresso = new FixoIngresso();
+				fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
+				fixoIngresso.setGeracao("Diamante");
 
-			BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
-			bonificacaoAuxiliar.setUsuario(usuario);
-			bonificacaoAuxiliar.setKit(kit);
-			bonificacaoAuxiliar.setComoFoiCalculado("Bonificação fixa de diamante");
+				fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
 
-			try {
+				BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+				bonificacaoAuxiliar.setUsuario(usuario);
+				bonificacaoAuxiliar.setKit(kit);
+				bonificacaoAuxiliar.setComoFoiCalculado("Bonificação fixa de diamante");
 
-				Field field = fixoIngresso.getClass().getDeclaredField(kit);
-				field.setAccessible(true);
-				bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
+				try {
 
-			} catch (Exception e) {
+					Field field = fixoIngresso.getClass().getDeclaredField(kit);
+					field.setAccessible(true);
+					bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
+
+				} catch (Exception e) {
+				}
+
+				bonificacoes.add(bonificacaoAuxiliar);
 			}
-
-			bonificacoes.add(bonificacaoAuxiliar);
 		}
 	}
 

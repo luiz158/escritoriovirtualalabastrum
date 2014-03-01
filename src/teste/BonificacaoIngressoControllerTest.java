@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,7 +12,9 @@ import org.junit.Test;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
 import escritoriovirtualalabastrum.controller.BonificacaoIngressoController;
+import escritoriovirtualalabastrum.controller.PontuacaoController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.FixoIngresso;
 import escritoriovirtualalabastrum.modelo.HistoricoKit;
@@ -20,6 +23,7 @@ import escritoriovirtualalabastrum.modelo.PorcentagemIngresso;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
+import escritoriovirtualalabastrum.util.Util;
 
 public class BonificacaoIngressoControllerTest {
 
@@ -61,7 +65,7 @@ public class BonificacaoIngressoControllerTest {
 
 		GregorianCalendar data = new GregorianCalendar(2014, 01, 01);
 
-		adicionarUsuarios();
+		adicionarUsuarios(data);
 		adicionarHistoricoKit(data);
 		salvarPorcentagemIngresso(data);
 		adicionarFixoIngresso(data);
@@ -75,9 +79,9 @@ public class BonificacaoIngressoControllerTest {
 		pontuacao77466.setId_Codigo(77466);
 		pontuacao77466.setParametroAtividade(new BigDecimal("10"));
 		pontuacao77466.setParametroProduto(new BigDecimal("10"));
-		pontuacao77466.setPntAtividade(new BigDecimal("10000"));
-		pontuacao77466.setPntIngresso(new BigDecimal("10000"));
-		pontuacao77466.setPntProduto(new BigDecimal("10000"));
+		pontuacao77466.setPntAtividade(new BigDecimal("20000"));
+		pontuacao77466.setPntIngresso(new BigDecimal("20000"));
+		pontuacao77466.setPntProduto(new BigDecimal("20000"));
 
 		Pontuacao pontuacao77479 = new Pontuacao();
 		pontuacao77479.setDt_Pontos(data);
@@ -97,10 +101,10 @@ public class BonificacaoIngressoControllerTest {
 		FixoIngresso fixoIngresso2 = new FixoIngresso();
 		fixoIngresso2.setData_referencia(data);
 		fixoIngresso2.setGeracao("2");
-		fixoIngresso2.setBasico(new BigDecimal("10"));
-		fixoIngresso2.setEspecial(new BigDecimal("10"));
-		fixoIngresso2.setVip(new BigDecimal("10"));
-		fixoIngresso2.setTop(new BigDecimal("10"));
+		fixoIngresso2.setBasico(new BigDecimal("1"));
+		fixoIngresso2.setEspecial(new BigDecimal("2"));
+		fixoIngresso2.setVip(new BigDecimal("3"));
+		fixoIngresso2.setTop(new BigDecimal("4"));
 
 		FixoIngresso fixoIngresso3 = new FixoIngresso();
 		fixoIngresso3.setData_referencia(data);
@@ -179,25 +183,38 @@ public class BonificacaoIngressoControllerTest {
 		hibernateUtil.salvarOuAtualizar(historicoKit6);
 	}
 
-	private void adicionarUsuarios() {
+	private void adicionarUsuarios(GregorianCalendar data) {
 
 		Usuario usuario77466 = new Usuario(77466);
 		usuario77466.setPosAtual(MalaDiretaService.DIAMANTE);
+		usuario77466.setId_CR(77466);
+		usuario77466.setDt_Ingresso(data);
 
 		Usuario usuario77479 = new Usuario(77479);
+		usuario77479.setPosAtual("Bucha");
 		usuario77479.setId_Patroc(77466);
+		usuario77479.setId_CR(77466);
+		usuario77479.setDt_Ingresso(data);
 
 		Usuario usuario77495 = new Usuario(77495);
 		usuario77495.setId_Patroc(77479);
+		usuario77495.setId_CR(77466);
+		usuario77495.setDt_Ingresso(data);
 
 		Usuario usuario77501 = new Usuario(77501);
 		usuario77501.setId_Patroc(77479);
+		usuario77501.setId_CR(77466);
+		usuario77501.setDt_Ingresso(data);
 
 		Usuario usuario77514 = new Usuario(77514);
 		usuario77514.setId_Patroc(77479);
+		usuario77514.setId_CR(77466);
+		usuario77514.setDt_Ingresso(data);
 
 		Usuario usuario77527 = new Usuario(77527);
 		usuario77527.setId_Patroc(77479);
+		usuario77527.setId_CR(77466);
+		usuario77527.setDt_Ingresso(data);
 
 		hibernateUtil.salvarOuAtualizar(usuario77466);
 		hibernateUtil.salvarOuAtualizar(usuario77479);
@@ -208,7 +225,43 @@ public class BonificacaoIngressoControllerTest {
 	}
 
 	@Test
-	public void FDAOIFHAOSDFHDPASOFHDOASIHFDASF() {
+	public void gerarRelatorioBonificacao77479() {
+
+		SessaoUsuario sessaoUsuario = new SessaoUsuario();
+		sessaoUsuario.login((Usuario) hibernateUtil.selecionar(new Usuario(77479)));
+
+		MockResult mockResult = new MockResult();
+
+		BonificacaoIngressoController controller = new BonificacaoIngressoController(mockResult, hibernateUtil, sessaoUsuario, validator);
+
+		controller.gerarRelatorioBonificacao(2014, 2);
+
+		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
+
+		assertEquals(4, bonificacoes.size());
+
+		assertEquals(new Integer("77495"), bonificacoes.get(0).getUsuario().getId_Codigo());
+		assertEquals(new Integer("1"), bonificacoes.get(0).getGeracao());
+		assertEquals("3,92", Util.formatarBigDecimal(bonificacoes.get(0).getBonificacao()));
+		assertEquals("7,00% de 56,00", bonificacoes.get(0).getComoFoiCalculado());
+
+		assertEquals(new Integer("77501"), bonificacoes.get(1).getUsuario().getId_Codigo());
+		assertEquals(new Integer("1"), bonificacoes.get(1).getGeracao());
+		assertEquals("3,92", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
+		assertEquals("7,00% de 56,00", bonificacoes.get(1).getComoFoiCalculado());
+
+		assertEquals(new Integer("77527"), bonificacoes.get(3).getUsuario().getId_Codigo());
+		assertEquals(new Integer("1"), bonificacoes.get(3).getGeracao());
+		assertEquals("3,08", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
+		assertEquals("7,00% de 44,00", bonificacoes.get(3).getComoFoiCalculado());
+
+		assertEquals("14,84", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
+	}
+
+	@Test
+	public void gerarRelatorioBonificacao77466() {
+
+		PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS = 1;
 
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.login((Usuario) hibernateUtil.selecionar(new Usuario(77466)));
@@ -219,6 +272,60 @@ public class BonificacaoIngressoControllerTest {
 
 		controller.gerarRelatorioBonificacao(2014, 2);
 
-		assertEquals(new BigDecimal("1000000"), mockResult.included("somatorioBonificacao"));
+		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
+
+		assertEquals(10, bonificacoes.size());
+
+		assertEquals(new Integer("77479"), bonificacoes.get(0).getUsuario().getId_Codigo());
+		assertEquals(new Integer("1"), bonificacoes.get(0).getGeracao());
+		assertEquals("4,50", Util.formatarBigDecimal(bonificacoes.get(0).getBonificacao()));
+		assertEquals("10,00% de 45,00", bonificacoes.get(0).getComoFoiCalculado());
+
+		assertEquals(new Integer("77495"), bonificacoes.get(1).getUsuario().getId_Codigo());
+		assertEquals(new Integer("2"), bonificacoes.get(1).getGeracao());
+		assertEquals("especial", bonificacoes.get(1).getKit());
+		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
+
+		assertEquals(new Integer("77501"), bonificacoes.get(2).getUsuario().getId_Codigo());
+		assertEquals(new Integer("2"), bonificacoes.get(2).getGeracao());
+		assertEquals("especial", bonificacoes.get(2).getKit());
+		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(2).getBonificacao()));
+
+		assertEquals(new Integer("77514"), bonificacoes.get(3).getUsuario().getId_Codigo());
+		assertEquals(new Integer("2"), bonificacoes.get(3).getGeracao());
+		assertEquals("especial", bonificacoes.get(3).getKit());
+		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
+
+		assertEquals(new Integer("77527"), bonificacoes.get(4).getUsuario().getId_Codigo());
+		assertEquals(new Integer("2"), bonificacoes.get(4).getGeracao());
+		assertEquals("especial", bonificacoes.get(4).getKit());
+		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(4).getBonificacao()));
+
+		assertEquals(new Integer("77479"), bonificacoes.get(5).getUsuario().getId_Codigo());
+		assertEquals("basico", bonificacoes.get(5).getKit());
+		assertEquals("10,00", Util.formatarBigDecimal(bonificacoes.get(5).getBonificacao()));
+
+		assertEquals(new Integer("77495"), bonificacoes.get(6).getUsuario().getId_Codigo());
+		assertEquals("top", bonificacoes.get(6).getKit());
+		assertEquals("50,00", Util.formatarBigDecimal(bonificacoes.get(6).getBonificacao()));
+
+		assertEquals(new Integer("77501"), bonificacoes.get(7).getUsuario().getId_Codigo());
+		assertEquals("especial", bonificacoes.get(7).getKit());
+		assertEquals("15,00", Util.formatarBigDecimal(bonificacoes.get(7).getBonificacao()));
+
+		assertEquals(new Integer("77514"), bonificacoes.get(8).getUsuario().getId_Codigo());
+		assertEquals("top", bonificacoes.get(8).getKit());
+		assertEquals("50,00", Util.formatarBigDecimal(bonificacoes.get(8).getBonificacao()));
+
+		assertEquals(new Integer("77527"), bonificacoes.get(9).getUsuario().getId_Codigo());
+		assertEquals("vip", bonificacoes.get(9).getKit());
+		assertEquals("20,00", Util.formatarBigDecimal(bonificacoes.get(9).getBonificacao()));
+
+		assertEquals("157,50", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
+
+		assertEquals(new BigDecimal("90000"), mockResult.included("pontuacaoAlcancadaPeloDiamante"));
+		assertEquals(new Integer("1"), mockResult.included("graduadosAlcancadosPeloDiamante"));
+
+		assertEquals(new BigDecimal("1000000"), (BigDecimal) mockResult.included("somatorioBonificacoesDiamante"));
 	}
 }
