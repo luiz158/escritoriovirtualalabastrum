@@ -86,44 +86,34 @@ public class ListaIngressoService {
 
 		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
 
-		LinkedHashMap<String, String> posicoes = new MalaDiretaService().obterPosicoes();
+		Usuario usuario = new Usuario();
 
-		for (Entry<String, String> posicaoEntry : posicoes.entrySet()) {
+		List<Criterion> restricoes = new ArrayList<Criterion>();
+		restricoes.add(Restrictions.between("Dt_Ingresso", dataInicial, dataFinal));
 
-			String posicao = posicaoEntry.getKey();
+		try {
 
-			if (!posicao.equals("Todas")) {
+			Field field = usuario.getClass().getDeclaredField("id_Patroc");
 
-				Usuario usuario = new Usuario();
+			field.setAccessible(true);
 
-				List<Criterion> restricoes = new ArrayList<Criterion>();
-				restricoes.add(Restrictions.between("Dt_Ingresso", dataInicial, dataFinal));
+			field.set(usuario, codigoUsuario);
+		}
 
-				try {
+		catch (Exception e) {
 
-					Field field = usuario.getClass().getDeclaredField(posicao);
+			e.printStackTrace();
+		}
 
-					field.setAccessible(true);
+		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario, restricoes);
 
-					field.set(usuario, codigoUsuario);
-				}
+		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
 
-				catch (Exception e) {
+			if (!codigoUsuario.equals(usuarioPatrocinado.getId_Codigo())) {
 
-					e.printStackTrace();
-				}
+				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
 
-				List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario, restricoes);
-
-				for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
-
-					if (!codigoUsuario.equals(usuarioPatrocinado.getId_Codigo())) {
-
-						if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
-
-							malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, 1));
-						}
-					}
+					malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, 1));
 				}
 			}
 		}
