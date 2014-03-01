@@ -100,7 +100,7 @@ public class BonificacaoIngressoController {
 
 			} else {
 
-				calcularBonificacoesFixas(ano, mes, bonificacoes, malaDireta, usuario);
+				calcularBonificacoesFixas(ano, mes, bonificacoes, malaDireta);
 			}
 		}
 
@@ -167,9 +167,9 @@ public class BonificacaoIngressoController {
 		this.result.include("graduadosAlcancadosPeloDiamante", calculosDiamante.getQuantidadeGraduados());
 	}
 
-	private void calcularBonificacoesFixas(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, MalaDireta malaDireta, Usuario usuario) {
+	private void calcularBonificacoesFixas(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, MalaDireta malaDireta) {
 
-		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(malaDireta.getUsuario(), ano, mes);
 
 		FixoIngresso fixoIngresso = new FixoIngresso();
 		fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));

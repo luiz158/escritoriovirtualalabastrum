@@ -283,8 +283,8 @@ public class BonificacaoIngressoControllerTest {
 
 		assertEquals(new Integer("77495"), bonificacoes.get(1).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(1).getGeracao());
-		assertEquals("especial", bonificacoes.get(1).getKit());
-		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
+		assertEquals("top", bonificacoes.get(1).getKit());
+		assertEquals("4,00", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
 
 		assertEquals(new Integer("77501"), bonificacoes.get(2).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(2).getGeracao());
@@ -293,13 +293,13 @@ public class BonificacaoIngressoControllerTest {
 
 		assertEquals(new Integer("77514"), bonificacoes.get(3).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(3).getGeracao());
-		assertEquals("especial", bonificacoes.get(3).getKit());
-		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
+		assertEquals("top", bonificacoes.get(3).getKit());
+		assertEquals("4,00", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
 
 		assertEquals(new Integer("77527"), bonificacoes.get(4).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(4).getGeracao());
-		assertEquals("especial", bonificacoes.get(4).getKit());
-		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(4).getBonificacao()));
+		assertEquals("vip", bonificacoes.get(4).getKit());
+		assertEquals("3,00", Util.formatarBigDecimal(bonificacoes.get(4).getBonificacao()));
 
 		assertEquals(new Integer("77479"), bonificacoes.get(5).getUsuario().getId_Codigo());
 		assertEquals("basico", bonificacoes.get(5).getKit());
@@ -321,7 +321,7 @@ public class BonificacaoIngressoControllerTest {
 		assertEquals("vip", bonificacoes.get(9).getKit());
 		assertEquals("20,00", Util.formatarBigDecimal(bonificacoes.get(9).getBonificacao()));
 
-		assertEquals("157,50", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
+		assertEquals("162,50", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
 
 		assertEquals(new BigDecimal("90000"), mockResult.included("pontuacaoAlcancadaPeloDiamante"));
 		assertEquals(new Integer("1"), mockResult.included("graduadosAlcancadosPeloDiamante"));
