@@ -30,9 +30,7 @@ public class BonificacaoIngressoService {
 
 	public static BigDecimal META_GRADUACAO = new BigDecimal("2000");
 	public static BigDecimal META_DIAMANTE_PONTUACAO = new BigDecimal("60000");
-
-	// public static Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
-	public static Integer META_DIAMANTE_LINHAS_GRADUADOS = 1;
+	public static Integer META_DIAMANTE_LINHAS_GRADUADOS = 5;
 
 	public static final BigDecimal PORCENTAGEM_QUE_A_ALABASTRUM_DISTRIBUI = new BigDecimal("40");
 
