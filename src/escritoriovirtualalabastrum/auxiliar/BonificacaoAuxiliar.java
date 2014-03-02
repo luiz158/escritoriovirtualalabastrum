@@ -25,6 +25,7 @@ public class BonificacaoAuxiliar {
 	private Integer metaDiamanteGraduados;
 	private BigDecimal pontuacaoAlcancadaPeloDiamante;
 	private Integer graduadosAlcancadosPeloDiamante;
+	private TreeMap<Integer, MalaDireta> diamantesComMetasAlcancadas;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -160,5 +161,13 @@ public class BonificacaoAuxiliar {
 
 	public void setGraduadosAlcancadosPeloDiamante(Integer graduadosAlcancadosPeloDiamante) {
 		this.graduadosAlcancadosPeloDiamante = graduadosAlcancadosPeloDiamante;
+	}
+
+	public TreeMap<Integer, MalaDireta> getDiamantesComMetasAlcancadas() {
+		return diamantesComMetasAlcancadas;
+	}
+
+	public void setDiamantesComMetasAlcancadas(TreeMap<Integer, MalaDireta> diamantesComMetasAlcancadas) {
+		this.diamantesComMetasAlcancadas = diamantesComMetasAlcancadas;
 	}
 }

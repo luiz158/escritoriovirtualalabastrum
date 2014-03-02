@@ -14,13 +14,13 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
 import escritoriovirtualalabastrum.controller.BonificacaoIngressoController;
-import escritoriovirtualalabastrum.controller.PontuacaoController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.FixoIngresso;
 import escritoriovirtualalabastrum.modelo.HistoricoKit;
 import escritoriovirtualalabastrum.modelo.Pontuacao;
 import escritoriovirtualalabastrum.modelo.PorcentagemIngresso;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 import escritoriovirtualalabastrum.util.Util;
@@ -207,21 +207,25 @@ public class BonificacaoIngressoControllerTest {
 		usuario77479.setDt_Ingresso(data);
 
 		Usuario usuario77495 = new Usuario(77495);
+		usuario77495.setPosAtual("Troxa");
 		usuario77495.setId_Patroc(77479);
 		usuario77495.setId_CR(77466);
 		usuario77495.setDt_Ingresso(data);
 
 		Usuario usuario77501 = new Usuario(77501);
+		usuario77501.setPosAtual("Troxa");
 		usuario77501.setId_Patroc(77479);
 		usuario77501.setId_CR(77466);
 		usuario77501.setDt_Ingresso(data);
 
 		Usuario usuario77514 = new Usuario(77514);
+		usuario77514.setPosAtual("Bucha");
 		usuario77514.setId_Patroc(77479);
 		usuario77514.setId_CR(77466);
 		usuario77514.setDt_Ingresso(data);
 
 		Usuario usuario77527 = new Usuario(77527);
+		usuario77527.setPosAtual("Bucha");
 		usuario77527.setId_Patroc(77479);
 		usuario77527.setId_CR(77466);
 		usuario77527.setDt_Ingresso(data);
@@ -272,7 +276,7 @@ public class BonificacaoIngressoControllerTest {
 	@Test
 	public void gerarRelatorioBonificacao77466() {
 
-		PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS = 1;
+		BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS = 1;
 
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.login((Usuario) hibernateUtil.selecionar(new Usuario(77466)));

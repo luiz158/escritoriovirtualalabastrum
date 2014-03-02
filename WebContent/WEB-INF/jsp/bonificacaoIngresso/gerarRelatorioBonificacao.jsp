@@ -86,6 +86,32 @@
 		</c:otherwise>
 	</c:choose>
 	
+	<c:if test="${!empty diamantesComMetasAlcancadas}">  
+	
+		<br>
+		
+		<p> Talvez você não tenha recebido algumas bonificações porque alguns diamantes abaixo de você conseguiram bater suas metas.  </p>
+		<p> Os diamantes que bateram a meta foram:  </p>
+	
+		<br>
+		
+		<table class="table table-striped table-bordered">
+			<thead>
+		    	<tr>
+                    <th> Distribuidor </th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${diamantesComMetasAlcancadas}" var="item">
+					<tr>
+                        <td> ${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome} </td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	
+	</c:if>
+	
 	<c:if test="${!empty bonificacoesDiamante}"> 
 	
 		<br><br>

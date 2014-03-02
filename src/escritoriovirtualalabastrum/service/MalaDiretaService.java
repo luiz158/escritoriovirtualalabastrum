@@ -211,7 +211,7 @@ public class MalaDiretaService {
 
 						quantidadeGraduados = encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, quantidadeGraduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
 
-						if (quantidadeGraduados >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS) {
+						if (quantidadeGraduados >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
 
 							break;
 						}
@@ -219,7 +219,7 @@ public class MalaDiretaService {
 				}
 			}
 
-			if (quantidadeGraduados >= PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS) {
+			if (quantidadeGraduados >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
 
 				break;
 			}
@@ -277,7 +277,7 @@ public class MalaDiretaService {
 			PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
 			BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo(), null).getPontuacaoDiamante();
 
-			if (pontuacao.compareTo(PontuacaoController.META_GRADUACAO) >= 0) {
+			if (pontuacao.compareTo(BonificacaoIngressoService.META_GRADUACAO) >= 0) {
 
 				return true;
 			}

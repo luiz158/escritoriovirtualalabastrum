@@ -49,10 +49,11 @@ public class BonificacaoIngressoController {
 		this.result.include("bonificacoesDiamante", informacoesBonificacoes.getBonificacoesDiamante());
 		result.include("somatorioBonificacoesDiamante", bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoes.getBonificacoesDiamante()));
 
-		this.result.include("metaDiamantePontuacao", PontuacaoController.META_DIAMANTE_PONTUACAO);
-		this.result.include("metaDiamanteGraduados", PontuacaoController.META_DIAMANTE_LINHAS_GRADUADOS);
+		this.result.include("metaDiamantePontuacao", BonificacaoIngressoService.META_DIAMANTE_PONTUACAO);
+		this.result.include("metaDiamanteGraduados", BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS);
 		this.result.include("pontuacaoAlcancadaPeloDiamante", informacoesBonificacoes.getPontuacaoAlcancadaPeloDiamante());
 		this.result.include("graduadosAlcancadosPeloDiamante", informacoesBonificacoes.getGraduadosAlcancadosPeloDiamante());
+		this.result.include("diamantesComMetasAlcancadas", informacoesBonificacoes.getDiamantesComMetasAlcancadas());
 
 		this.result.include("kitUsuarioLogado", informacoesBonificacoes.getKit());
 		this.result.include("porcentagemKitUsuarioLogado", informacoesBonificacoes.getPorcentagem());
