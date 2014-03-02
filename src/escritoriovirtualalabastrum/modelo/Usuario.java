@@ -44,11 +44,11 @@ public class Usuario implements Entidade {
 	private String cadSexo;
 	private String cadEstCivil;
 	private String cadCEP;
-	private String cadEndereco;
 	private String cadBairro;
 	private String cadCidade;
 	private String cadUF;
 	private String cadCelular;
+	private String cadEndereco;
 	private String vNomeTitular2;
 	private String Dt_NascTitular2;
 	private String SexoTitular2;

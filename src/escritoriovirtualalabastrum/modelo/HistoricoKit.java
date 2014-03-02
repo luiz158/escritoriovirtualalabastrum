@@ -18,7 +18,7 @@ public class HistoricoKit implements Entidade {
 	private Integer id;
 
 	@Index(name = "index_id_Codigo_historico_kit")
-	private Integer id_codigo;
+	private Integer id_Codigo;
 
 	private GregorianCalendar data_referencia;
 	private String kit;
@@ -31,12 +31,12 @@ public class HistoricoKit implements Entidade {
 		this.id = id;
 	}
 
-	public Integer getId_codigo() {
-		return id_codigo;
+	public Integer getId_Codigo() {
+		return id_Codigo;
 	}
 
-	public void setId_codigo(Integer id_codigo) {
-		this.id_codigo = id_codigo;
+	public void setId_Codigo(Integer id_Codigo) {
+		this.id_Codigo = id_Codigo;
 	}
 
 	public GregorianCalendar getData_referencia() {
@@ -54,4 +54,5 @@ public class HistoricoKit implements Entidade {
 	public void setKit(String kit) {
 		this.kit = kit;
 	}
+
 }

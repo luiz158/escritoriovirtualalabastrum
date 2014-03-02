@@ -150,37 +150,37 @@ public class BonificacaoIngressoControllerTest {
 
 		HistoricoKit historicoKit1 = new HistoricoKit();
 		historicoKit1.setData_referencia(data);
-		historicoKit1.setId_codigo(77466);
+		historicoKit1.setId_Codigo(77466);
 		historicoKit1.setKit("especial");
 
 		HistoricoKit historicoKit2 = new HistoricoKit();
 		historicoKit2.setData_referencia(data);
-		historicoKit2.setId_codigo(77479);
+		historicoKit2.setId_Codigo(77479);
 		historicoKit2.setKit("basico");
 
 		HistoricoKit historicoKit3 = new HistoricoKit();
 		historicoKit3.setData_referencia(data);
-		historicoKit3.setId_codigo(77495);
+		historicoKit3.setId_Codigo(77495);
 		historicoKit3.setKit("top");
 
 		HistoricoKit historicoKit4 = new HistoricoKit();
 		historicoKit4.setData_referencia(data);
-		historicoKit4.setId_codigo(77501);
+		historicoKit4.setId_Codigo(77501);
 		historicoKit4.setKit("especial");
 
 		HistoricoKit historicoKit5 = new HistoricoKit();
 		historicoKit5.setData_referencia(data);
-		historicoKit5.setId_codigo(77514);
+		historicoKit5.setId_Codigo(77514);
 		historicoKit5.setKit("top");
 
 		HistoricoKit historicoKit6 = new HistoricoKit();
 		historicoKit6.setData_referencia(data);
-		historicoKit6.setId_codigo(77527);
+		historicoKit6.setId_Codigo(77527);
 		historicoKit6.setKit("vip");
 
 		HistoricoKit historicoKit7 = new HistoricoKit();
 		historicoKit7.setData_referencia(data);
-		historicoKit7.setId_codigo(77453);
+		historicoKit7.setId_Codigo(77453);
 		historicoKit7.setKit("vip");
 
 		hibernateUtil.salvarOuAtualizar(historicoKit1);

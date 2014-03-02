@@ -97,9 +97,9 @@ public class ImportacaoArquivoController {
 		processarCSVCategorias();
 		processarCSVCentroDistribuicao();
 		processarCSVControlePedido();
-		//processarCSVFixoIngresso();
-		//processarCSVHistoricoKit();
-		//processarCSVPorcentagemIngresso();
+		processarCSVFixoIngresso();
+		processarCSVHistoricoKit();
+		processarCSVPorcentagemIngresso();
 
 		atualizarInformacoesUltimaAtualizacao();
 	}
@@ -306,7 +306,7 @@ public class ImportacaoArquivoController {
 
 			String[] colunas = nextLine[0].split(";");
 
-			if (colunas.length <= 2) {
+			if (colunas.length < 2) {
 
 				validarFormato();
 			}
@@ -318,7 +318,7 @@ public class ImportacaoArquivoController {
 					colunas[i] = colunas[i].replaceAll("\"", "");
 				}
 
-				if (!colunas[0].contains("id_codigo")) {
+				if (!colunas[0].contains("id_Codigo")) {
 
 					if (hashColunas.size() == 0) {
 
