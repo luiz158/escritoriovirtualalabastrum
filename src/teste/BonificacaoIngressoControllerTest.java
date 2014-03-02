@@ -3,8 +3,10 @@ package teste;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +15,7 @@ import org.junit.Test;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.controller.BonificacaoIngressoController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.FixoIngresso;
@@ -192,12 +195,12 @@ public class BonificacaoIngressoControllerTest {
 	private void adicionarUsuarios(GregorianCalendar data) {
 
 		Usuario usuario77453 = new Usuario(77453);
-		usuario77453.setPosAtual("Troxa");
+		usuario77453.setPosAtual(MalaDiretaService.DIAMANTE);
 
 		Usuario usuario77466 = new Usuario(77466);
 		usuario77466.setPosAtual(MalaDiretaService.DIAMANTE);
 		usuario77466.setId_Patroc(77453);
-		usuario77466.setId_CR(77466);
+		usuario77466.setId_CR(77453);
 		usuario77466.setDt_Ingresso(data);
 
 		Usuario usuario77479 = new Usuario(77479);
@@ -377,7 +380,7 @@ public class BonificacaoIngressoControllerTest {
 
 		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
 
-		assertEquals(6, bonificacoes.size());
+		assertEquals(7, bonificacoes.size());
 
 		assertEquals(new Integer("77466"), bonificacoes.get(0).getUsuario().getId_Codigo());
 		assertEquals(new Integer("1"), bonificacoes.get(0).getGeracao());
@@ -404,6 +407,22 @@ public class BonificacaoIngressoControllerTest {
 		assertEquals(new Integer("3"), bonificacoes.get(5).getGeracao());
 		assertEquals("10,00", Util.formatarBigDecimal(bonificacoes.get(5).getBonificacao()));
 
-		assertEquals("52,20", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
+		assertEquals(new Integer("77466"), bonificacoes.get(6).getUsuario().getId_Codigo());
+		assertEquals("15,00", Util.formatarBigDecimal(bonificacoes.get(6).getBonificacao()));
+
+		assertEquals("67,20", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
+
+		TreeMap<Integer, MalaDireta> diamantesComMetasAlcancadasHash = mockResult.included("diamantesComMetasAlcancadas");
+
+		List<MalaDireta> diamantesComMetasAlcancadas = new ArrayList<MalaDireta>();
+
+		for (MalaDireta malaDireta : diamantesComMetasAlcancadasHash.values()) {
+
+			diamantesComMetasAlcancadas.add(malaDireta);
+		}
+
+		assertEquals(1, diamantesComMetasAlcancadas.size());
+
+		assertEquals(new Integer("77466"), diamantesComMetasAlcancadas.get(0).getUsuario().getId_Codigo());
 	}
 }
