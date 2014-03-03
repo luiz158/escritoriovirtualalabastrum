@@ -210,9 +210,9 @@ public class MalaDiretaService {
 
 					if (!posicao.getKey().equals(TODAS)) {
 
-						encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
+						boolean encontrouGraduado = encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
 
-						if (graduados.size() >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
+						if (encontrouGraduado) {
 
 							break;
 						}
@@ -229,7 +229,9 @@ public class MalaDiretaService {
 		return graduados.size();
 	}
 
-	private void encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, HashMap<Integer, MalaDireta> graduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
+	private boolean encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, HashMap<Integer, MalaDireta> graduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
+
+		boolean encontrouGraduado = false;
 
 		Usuario usuarioFiltro = new Usuario();
 
@@ -256,14 +258,17 @@ public class MalaDiretaService {
 				if (verificaSeEstaGraduado(usuarioPatrocinado, hibernateUtil, dataInicial, dataFinal, result, validator)) {
 
 					graduados.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, 0));
-					break;
+					encontrouGraduado = true;
+					return encontrouGraduado;
 
 				} else {
 
-					encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, graduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
+					return encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, graduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
 				}
 			}
 		}
+
+		return encontrouGraduado;
 	}
 
 	private boolean verificaSeEstaGraduado(Usuario usuario, HibernateUtil hibernateUtil, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
