@@ -19,6 +19,7 @@ public class BonificacaoIngressoController {
 	private HibernateUtil hibernateUtil;
 	private SessaoUsuario sessaoUsuario;
 	private Validator validator;
+	private boolean realizarValidacoes = true;
 
 	public BonificacaoIngressoController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario, Validator validator) {
 
@@ -65,16 +66,23 @@ public class BonificacaoIngressoController {
 
 	private void realizarValidacoes(Integer ano, Integer mes) {
 
-		if (!this.sessaoUsuario.getUsuario().isAtivo()) {
+		if (realizarValidacoes) {
 
-			validator.add(new ValidationMessage("Você não está ativo. Só quem está ativo pode receber bonificação", "Erro"));
-			validator.onErrorRedirectTo(this).acessarTelaBonificacao();
+			if (!this.sessaoUsuario.getUsuario().isAtivo()) {
+
+				validator.add(new ValidationMessage("Você não está ativo. Só quem está ativo pode receber bonificação", "Erro"));
+				validator.onErrorRedirectTo(this).acessarTelaBonificacao();
+			}
+
+			if (new GregorianCalendar(ano, mes - 1, 1).before(new GregorianCalendar(2014, 2, 1))) {
+
+				validator.add(new ValidationMessage("Este relatório só passou a existir no escritório virtual a partir de março de 2014", "Erro"));
+				validator.onErrorRedirectTo(this).acessarTelaBonificacao();
+			}
 		}
+	}
 
-		if (new GregorianCalendar(ano, mes - 1, 1).before(new GregorianCalendar(2014, 2, 1))) {
-
-			validator.add(new ValidationMessage("Este relatório só passou a existir no escritório virtual a partir de março de 2014", "Erro"));
-			validator.onErrorRedirectTo(this).acessarTelaBonificacao();
-		}
+	public void setRealizarValidacoes(boolean realizarValidacoes) {
+		this.realizarValidacoes = realizarValidacoes;
 	}
 }

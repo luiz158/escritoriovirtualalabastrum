@@ -199,7 +199,7 @@ public class MalaDiretaService {
 
 		for (Entry<Integer, MalaDireta> primeiroNivel : malaDiretaPrimeiroNivel.entrySet()) {
 
-			if (verificaSeEstaGraduado(usuario, hibernateUtil, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator)) {
+			if (verificaSeEstaGraduado(primeiroNivel.getValue().getUsuario(), hibernateUtil, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator)) {
 
 				quantidadeGraduados++;
 

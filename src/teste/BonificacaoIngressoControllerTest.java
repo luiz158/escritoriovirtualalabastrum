@@ -66,7 +66,7 @@ public class BonificacaoIngressoControllerTest {
 
 	private void popularBanco() {
 
-		GregorianCalendar data = new GregorianCalendar(2014, 01, 01);
+		GregorianCalendar data = new GregorianCalendar(2014, 02, 01);
 
 		adicionarUsuarios(data);
 		adicionarHistoricoKit(data);
@@ -242,17 +242,26 @@ public class BonificacaoIngressoControllerTest {
 		hibernateUtil.salvarOuAtualizar(usuario77527);
 	}
 
-	@Test
-	public void gerarRelatorioBonificacao77479() {
+	private MockResult gerarRelatorio(int id_Codigo) {
 
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
-		sessaoUsuario.login((Usuario) hibernateUtil.selecionar(new Usuario(77479)));
+		sessaoUsuario.login((Usuario) hibernateUtil.selecionar(new Usuario(id_Codigo)));
 
 		MockResult mockResult = new MockResult();
 
 		BonificacaoIngressoController controller = new BonificacaoIngressoController(mockResult, hibernateUtil, sessaoUsuario, validator);
+		controller.setRealizarValidacoes(false);
+		controller.gerarRelatorioBonificacao(2014, 3);
 
-		controller.gerarRelatorioBonificacao(2014, 2);
+		return mockResult;
+	}
+
+	@Test
+	public void gerarRelatorioBonificacao77479() {
+
+		int id_Codigo = 77479;
+
+		MockResult mockResult = gerarRelatorio(id_Codigo);
 
 		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
 
@@ -281,14 +290,9 @@ public class BonificacaoIngressoControllerTest {
 
 		BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS = 1;
 
-		SessaoUsuario sessaoUsuario = new SessaoUsuario();
-		sessaoUsuario.login((Usuario) hibernateUtil.selecionar(new Usuario(77466)));
+		int id_Codigo = 77466;
 
-		MockResult mockResult = new MockResult();
-
-		BonificacaoIngressoController controller = new BonificacaoIngressoController(mockResult, hibernateUtil, sessaoUsuario, validator);
-
-		controller.gerarRelatorioBonificacao(2014, 2);
+		MockResult mockResult = gerarRelatorio(id_Codigo);
 
 		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
 
@@ -369,14 +373,9 @@ public class BonificacaoIngressoControllerTest {
 	@Test
 	public void gerarRelatorioBonificacao77453() {
 
-		SessaoUsuario sessaoUsuario = new SessaoUsuario();
-		sessaoUsuario.login((Usuario) hibernateUtil.selecionar(new Usuario(77453)));
+		int id_Codigo = 77453;
 
-		MockResult mockResult = new MockResult();
-
-		BonificacaoIngressoController controller = new BonificacaoIngressoController(mockResult, hibernateUtil, sessaoUsuario, validator);
-
-		controller.gerarRelatorioBonificacao(2014, 2);
+		MockResult mockResult = gerarRelatorio(id_Codigo);
 
 		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
 
