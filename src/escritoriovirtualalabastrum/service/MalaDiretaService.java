@@ -3,6 +3,7 @@ package escritoriovirtualalabastrum.service;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -195,13 +196,13 @@ public class MalaDiretaService {
 			}
 		}
 
-		Integer quantidadeGraduados = 0;
+		HashMap<Integer, MalaDireta> graduados = new HashMap<Integer, MalaDireta>();
 
 		for (Entry<Integer, MalaDireta> primeiroNivel : malaDiretaPrimeiroNivel.entrySet()) {
 
 			if (verificaSeEstaGraduado(primeiroNivel.getValue().getUsuario(), hibernateUtil, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator)) {
 
-				quantidadeGraduados++;
+				graduados.put(primeiroNivel.getValue().getUsuario().getId_Codigo(), new MalaDireta(primeiroNivel.getValue().getUsuario(), 1));
 
 			} else {
 
@@ -209,9 +210,9 @@ public class MalaDiretaService {
 
 					if (!posicao.getKey().equals(TODAS)) {
 
-						quantidadeGraduados = encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, quantidadeGraduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
+						encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
 
-						if (quantidadeGraduados >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
+						if (graduados.size() >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
 
 							break;
 						}
@@ -219,16 +220,16 @@ public class MalaDiretaService {
 				}
 			}
 
-			if (quantidadeGraduados >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
+			if (graduados.size() >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
 
 				break;
 			}
 		}
 
-		return quantidadeGraduados;
+		return graduados.size();
 	}
 
-	private int encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, int quantidadeGraduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
+	private void encontrarGraduadosRecursivamente(Usuario usuario, HibernateUtil hibernateUtil, HashMap<Integer, MalaDireta> graduados, String posicao, int nivel, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
 
 		Usuario usuarioFiltro = new Usuario();
 
@@ -254,17 +255,15 @@ public class MalaDiretaService {
 
 				if (verificaSeEstaGraduado(usuarioPatrocinado, hibernateUtil, dataInicial, dataFinal, result, validator)) {
 
-					quantidadeGraduados++;
+					graduados.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, 0));
 					break;
 
 				} else {
 
-					quantidadeGraduados = encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, quantidadeGraduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
+					encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, graduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
 				}
 			}
 		}
-
-		return quantidadeGraduados;
 	}
 
 	private boolean verificaSeEstaGraduado(Usuario usuario, HibernateUtil hibernateUtil, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Result result, Validator validator) {
