@@ -92,16 +92,14 @@ public class MalaDiretaService {
 
 				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
 
+					malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, nivel));
+
 					if (usuarioPatrocinado.isAtivo(dataInicial, dataFinal)) {
 
-						malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, nivel));
-
-						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel + 1);
-
-					} else {
-
-						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel);
+						nivel = nivel + 1;
 					}
+
+					gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel);
 				}
 			}
 		}
