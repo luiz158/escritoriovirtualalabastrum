@@ -12,6 +12,13 @@
     width: 94%;
 }
 
+.somatorio-total{
+
+	font-size: 20px;
+	float: right;
+	font-weight: bold;
+}
+
 </style>
 
 <a class="btn" href="<c:url value="/bonificacaoIngresso/acessarTelaBonificacao"/>" > Voltar </a>
@@ -159,7 +166,7 @@
 		
 		<br><br>
 		
-		<p>Somatório Total: R$<fmt:formatNumber value="${somatorioBonificacao + somatorioBonificacoesDiamante}" pattern="#,##0.00" />  </p>
+		<p class="somatorio-total" >Somatório Total: R$<fmt:formatNumber value="${somatorioBonificacao + somatorioBonificacoesDiamante}" pattern="#,##0.00" />  </p>
 	
 	</c:if>
 
