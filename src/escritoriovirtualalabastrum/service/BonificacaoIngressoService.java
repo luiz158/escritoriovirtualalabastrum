@@ -54,9 +54,9 @@ public class BonificacaoIngressoService {
 
 		MalaDiretaService malaDiretaService = new MalaDiretaService();
 		malaDiretaService.setHibernateUtil(hibernateUtil);
-		TreeMap<Integer, MalaDireta> malaDiretaCompletaHash = malaDiretaService.gerarMalaDireta(MalaDiretaService.TODAS, usuario.getId_Codigo(), usuario.getId_Codigo());
+		TreeMap<Integer, MalaDireta> malaDiretaDeAcordoComAtividade = malaDiretaService.gerarMalaDiretaDeAcordoComAtividade("id_Patroc", usuario.getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), 1);
 
-		for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDiretaCompletaHash.entrySet()) {
+		for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDiretaDeAcordoComAtividade.entrySet()) {
 
 			MalaDireta malaDireta = malaDiretaEntry.getValue();
 
@@ -81,14 +81,14 @@ public class BonificacaoIngressoService {
 
 			boolean alcancouMetaDiamante = false;
 
-			BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuario, result, hibernateUtil, validator, ano, mes, malaDiretaCompletaHash);
+			BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuario, result, hibernateUtil, validator, ano, mes);
 			if (calculosDiamante.getQuantidadeGraduados() >= META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(META_DIAMANTE_PONTUACAO) >= 0) {
 
 				alcancouMetaDiamante = true;
 			}
 
 			calcularBonificacaoFixaDeDiamante(usuario, ano, mes, bonificacoes, alcancouMetaDiamante);
-			calcularBonificacoesVariaveisDeDiamante(usuario, ano, mes, malaDiretaCompletaHash, informacoesBonificacoes, calculosDiamante, alcancouMetaDiamante);
+			calcularBonificacoesVariaveisDeDiamante(usuario, ano, mes, informacoesBonificacoes, calculosDiamante, alcancouMetaDiamante);
 		}
 
 		informacoesBonificacoes.setBonificacoes(bonificacoes);
@@ -96,7 +96,7 @@ public class BonificacaoIngressoService {
 		return informacoesBonificacoes;
 	}
 
-	private void calcularBonificacoesVariaveisDeDiamante(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDiretaCompletaHash, BonificacaoAuxiliar informacoesBonificacoes, BonificacaoAuxiliar calculosDiamante, boolean alcancouMetaDiamante) {
+	private void calcularBonificacoesVariaveisDeDiamante(Usuario usuario, Integer ano, Integer mes, BonificacaoAuxiliar informacoesBonificacoes, BonificacaoAuxiliar calculosDiamante, boolean alcancouMetaDiamante) {
 
 		if (alcancouMetaDiamante) {
 
@@ -193,7 +193,7 @@ public class BonificacaoIngressoService {
 
 					if (usuarioPatrocinado.getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
 
-						BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuarioPatrocinado, result, hibernateUtil, validator, ano, mes, null);
+						BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuarioPatrocinado, result, hibernateUtil, validator, ano, mes);
 
 						if (usuarioPatrocinado.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && calculosDiamante.getQuantidadeGraduados() >= META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(META_DIAMANTE_PONTUACAO) >= 0) {
 

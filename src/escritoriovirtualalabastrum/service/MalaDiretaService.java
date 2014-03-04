@@ -64,6 +64,51 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
+	public TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComAtividade(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Integer nivel) {
+
+		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
+
+		Usuario usuario = new Usuario();
+
+		try {
+
+			Field field = usuario.getClass().getDeclaredField(posicao);
+
+			field.setAccessible(true);
+
+			field.set(usuario, codigoUsuario);
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario);
+
+		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
+
+			if (!codigoUsuario.equals(usuarioPatrocinado.getId_Codigo())) {
+
+				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
+
+					if (usuarioPatrocinado.isAtivo(dataInicial, dataFinal)) {
+
+						malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, nivel));
+
+						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel + 1);
+
+					} else {
+
+						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel);
+					}
+				}
+			}
+		}
+
+		return malaDireta;
+	}
+
 	private TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComFiltros(String posicao, Integer codigoUsuario) {
 
 		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
@@ -165,7 +210,7 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
-	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDiretaCompletaHash) {
+	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
@@ -173,7 +218,7 @@ public class MalaDiretaService {
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.login(usuario);
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-		BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo(), malaDiretaCompletaHash);
+		BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
 		HashMap<Integer, MalaDireta> graduados = new HashMap<Integer, MalaDireta>();
 		Integer quantidadeGraduados = calcularQuantidadeGraduados(usuario, result, hibernateUtil, validator, dataInicial, dataFinal, graduados);
@@ -265,7 +310,7 @@ public class MalaDiretaService {
 			sessaoUsuario.login(usuario);
 
 			PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-			BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo(), null).getPontuacaoDiamante();
+			BigDecimal pontuacao = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial, dataFinal, PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo()).getPontuacaoDiamante();
 
 			if (pontuacao.compareTo(BonificacaoIngressoService.META_GRADUACAO) >= 0) {
 
