@@ -186,15 +186,7 @@ public class MalaDiretaService {
 
 		TreeMap<Integer, MalaDireta> malaDiretaPrimeiroNivel = new TreeMap<Integer, MalaDireta>();
 
-		LinkedHashMap<String, String> posicoes = obterPosicoes();
-
-		for (Entry<String, String> posicao : posicoes.entrySet()) {
-
-			if (!posicao.getKey().equals(TODAS)) {
-
-				encontrarMalaDiretaPrimeiroNivel(usuario, hibernateUtil, malaDiretaPrimeiroNivel, posicao.getKey());
-			}
-		}
+		encontrarMalaDiretaPrimeiroNivel(usuario, hibernateUtil, malaDiretaPrimeiroNivel, "id_Patroc");
 
 		HashMap<Integer, MalaDireta> graduados = new HashMap<Integer, MalaDireta>();
 
@@ -206,17 +198,11 @@ public class MalaDiretaService {
 
 			} else {
 
-				for (Entry<String, String> posicao : posicoes.entrySet()) {
+				boolean encontrouGraduado = encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, "id_Patroc", 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
 
-					if (!posicao.getKey().equals(TODAS)) {
+				if (encontrouGraduado) {
 
-						boolean encontrouGraduado = encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, posicao.getKey(), 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
-
-						if (encontrouGraduado) {
-
-							break;
-						}
-					}
+					break;
 				}
 			}
 
