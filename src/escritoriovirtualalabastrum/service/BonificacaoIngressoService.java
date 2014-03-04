@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -158,15 +157,7 @@ public class BonificacaoIngressoService {
 
 		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
 
-		LinkedHashMap<String, String> posicoes = new MalaDiretaService().obterPosicoes();
-
-		for (Entry<String, String> posicao : posicoes.entrySet()) {
-
-			if (!posicao.getKey().equals(MalaDiretaService.TODAS)) {
-
-				this.pesquisarMalaDiretaComRecursividadeIgnorandoDiamantesComMetasAlcancadas(codigoUsuario, malaDireta, 1, posicao.getKey(), ano, mes, diamantesComMetasAlcancadas);
-			}
-		}
+		this.pesquisarMalaDiretaComRecursividadeIgnorandoDiamantesComMetasAlcancadas(codigoUsuario, malaDireta, 1, "id_Patroc", ano, mes, diamantesComMetasAlcancadas);
 
 		return malaDireta;
 	}
