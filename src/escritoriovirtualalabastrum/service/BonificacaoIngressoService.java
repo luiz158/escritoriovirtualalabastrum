@@ -80,8 +80,16 @@ public class BonificacaoIngressoService {
 
 			informacoesBonificacoes.setIsDiamante(true);
 
-			calcularBonificacaoFixaDeDiamante(usuario, ano, mes, bonificacoes);
-			calcularBonificacoesVariaveisDeDiamante(usuario, ano, mes, malaDiretaCompletaHash, informacoesBonificacoes);
+			boolean alcancouMetaDiamante = false;
+
+			BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuario, result, hibernateUtil, validator, ano, mes, malaDiretaCompletaHash);
+			if (calculosDiamante.getQuantidadeGraduados() >= META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(META_DIAMANTE_PONTUACAO) >= 0) {
+
+				alcancouMetaDiamante = true;
+			}
+
+			calcularBonificacaoFixaDeDiamante(usuario, ano, mes, bonificacoes, alcancouMetaDiamante);
+			calcularBonificacoesVariaveisDeDiamante(usuario, ano, mes, malaDiretaCompletaHash, informacoesBonificacoes, calculosDiamante, alcancouMetaDiamante);
 		}
 
 		informacoesBonificacoes.setBonificacoes(bonificacoes);
@@ -89,11 +97,9 @@ public class BonificacaoIngressoService {
 		return informacoesBonificacoes;
 	}
 
-	private void calcularBonificacoesVariaveisDeDiamante(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDiretaCompletaHash, BonificacaoAuxiliar informacoesBonificacoes) {
+	private void calcularBonificacoesVariaveisDeDiamante(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDiretaCompletaHash, BonificacaoAuxiliar informacoesBonificacoes, BonificacaoAuxiliar calculosDiamante, boolean alcancouMetaDiamante) {
 
-		BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuario, result, hibernateUtil, validator, ano, mes, malaDiretaCompletaHash);
-
-		if (calculosDiamante.getQuantidadeGraduados() >= META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(META_DIAMANTE_PONTUACAO) >= 0) {
+		if (alcancouMetaDiamante) {
 
 			ListaIngressoService listaIngressoService = new ListaIngressoService();
 			listaIngressoService.setHibernateUtil(hibernateUtil);
@@ -222,37 +228,40 @@ public class BonificacaoIngressoService {
 		pesquisarMalaDiretaComRecursividadeIgnorandoDiamantesComMetasAlcancadas(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1, "id_Patroc", ano, mes, diamantesComMetasAlcancadas);
 	}
 
-	private void calcularBonificacaoFixaDeDiamante(Usuario usuarioDiamante, Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes) {
+	private void calcularBonificacaoFixaDeDiamante(Usuario usuarioDiamante, Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, boolean alcancouMetaDiamante) {
 
-		List<Usuario> distribuidoresDoDiamante = buscarDistribuidoresDoDiamante(usuarioDiamante, ano, mes);
+		if (alcancouMetaDiamante) {
 
-		FixoIngresso fixoIngresso = new FixoIngresso();
-		fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
-		fixoIngresso.setGeracao("Diamante");
+			List<Usuario> distribuidoresDoDiamante = buscarDistribuidoresDoDiamante(usuarioDiamante, ano, mes);
 
-		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
+			FixoIngresso fixoIngresso = new FixoIngresso();
+			fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
+			fixoIngresso.setGeracao("Diamante");
 
-		for (Usuario usuario : distribuidoresDoDiamante) {
+			fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
 
-			if (!usuario.getId_Codigo().equals(usuarioDiamante.getId_Codigo())) {
+			for (Usuario usuario : distribuidoresDoDiamante) {
 
-				String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
+				if (!usuario.getId_Codigo().equals(usuarioDiamante.getId_Codigo())) {
 
-				BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
-				bonificacaoAuxiliar.setUsuario(usuario);
-				bonificacaoAuxiliar.setKit(kit);
-				bonificacaoAuxiliar.setComoFoiCalculado("Bonificação fixa de diamante");
+					String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
 
-				try {
+					BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+					bonificacaoAuxiliar.setUsuario(usuario);
+					bonificacaoAuxiliar.setKit(kit);
+					bonificacaoAuxiliar.setComoFoiCalculado("Bonificação fixa de diamante");
 
-					Field field = fixoIngresso.getClass().getDeclaredField(kit);
-					field.setAccessible(true);
-					bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
+					try {
 
-				} catch (Exception e) {
+						Field field = fixoIngresso.getClass().getDeclaredField(kit);
+						field.setAccessible(true);
+						bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
+
+					} catch (Exception e) {
+					}
+
+					bonificacoes.add(bonificacaoAuxiliar);
 				}
-
-				bonificacoes.add(bonificacaoAuxiliar);
 			}
 		}
 	}
