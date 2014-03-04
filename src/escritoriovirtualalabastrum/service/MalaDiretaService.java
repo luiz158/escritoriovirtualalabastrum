@@ -175,20 +175,20 @@ public class MalaDiretaService {
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
 		BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo(), malaDiretaCompletaHash);
 
-		Integer quantidadeGraduados = calcularQuantidadeGraduados(usuario, result, hibernateUtil, validator, dataInicial, dataFinal);
+		HashMap<Integer, MalaDireta> graduados = new HashMap<Integer, MalaDireta>();
+		Integer quantidadeGraduados = calcularQuantidadeGraduados(usuario, result, hibernateUtil, validator, dataInicial, dataFinal, graduados);
 
+		bonificacaoAuxiliar.setGraduados(graduados);
 		bonificacaoAuxiliar.setQuantidadeGraduados(quantidadeGraduados);
 
 		return bonificacaoAuxiliar;
 	}
 
-	private Integer calcularQuantidadeGraduados(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal) {
+	private Integer calcularQuantidadeGraduados(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal, HashMap<Integer, MalaDireta> graduados) {
 
 		TreeMap<Integer, MalaDireta> malaDiretaPrimeiroNivel = new TreeMap<Integer, MalaDireta>();
 
 		encontrarMalaDiretaPrimeiroNivel(usuario, hibernateUtil, malaDiretaPrimeiroNivel, "id_Patroc");
-
-		HashMap<Integer, MalaDireta> graduados = new HashMap<Integer, MalaDireta>();
 
 		for (Entry<Integer, MalaDireta> primeiroNivel : malaDiretaPrimeiroNivel.entrySet()) {
 
@@ -198,9 +198,9 @@ public class MalaDiretaService {
 
 			} else {
 
-				boolean encontrouGraduado = encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, "id_Patroc", 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
+				encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, "id_Patroc", 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
 
-				if (encontrouGraduado) {
+				if (graduados.size() >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
 
 					break;
 				}

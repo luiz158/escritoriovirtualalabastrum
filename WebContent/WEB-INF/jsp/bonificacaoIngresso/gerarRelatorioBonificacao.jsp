@@ -83,6 +83,23 @@
 		</c:when>
 		<c:otherwise>
 			<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante}</p>
+			
+			<table class="table table-striped table-bordered">
+			<thead>
+		    	<tr>
+                    <th> Graduado </th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${graduadosEncontrados}" var="item">
+					<tr>
+                        <td> ${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome} </td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+			
+			
 		</c:otherwise>
 	</c:choose>
 	

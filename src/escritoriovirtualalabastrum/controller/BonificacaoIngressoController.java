@@ -55,6 +55,7 @@ public class BonificacaoIngressoController {
 		this.result.include("metaDiamanteGraduados", BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS);
 		this.result.include("pontuacaoAlcancadaPeloDiamante", informacoesBonificacoes.getPontuacaoAlcancadaPeloDiamante());
 		this.result.include("graduadosAlcancadosPeloDiamante", informacoesBonificacoes.getGraduadosAlcancadosPeloDiamante());
+		this.result.include("graduadosEncontrados", informacoesBonificacoes.getGraduados());
 		this.result.include("diamantesComMetasAlcancadas", informacoesBonificacoes.getDiamantesComMetasAlcancadas());
 
 		this.result.include("kitUsuarioLogado", informacoesBonificacoes.getKit());

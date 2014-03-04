@@ -1,6 +1,7 @@
 package escritoriovirtualalabastrum.auxiliar;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -26,6 +27,7 @@ public class BonificacaoAuxiliar {
 	private BigDecimal pontuacaoAlcancadaPeloDiamante;
 	private Integer graduadosAlcancadosPeloDiamante;
 	private TreeMap<Integer, MalaDireta> diamantesComMetasAlcancadas;
+	private HashMap<Integer, MalaDireta> graduados;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -169,5 +171,13 @@ public class BonificacaoAuxiliar {
 
 	public void setDiamantesComMetasAlcancadas(TreeMap<Integer, MalaDireta> diamantesComMetasAlcancadas) {
 		this.diamantesComMetasAlcancadas = diamantesComMetasAlcancadas;
+	}
+
+	public HashMap<Integer, MalaDireta> getGraduados() {
+		return graduados;
+	}
+
+	public void setGraduados(HashMap<Integer, MalaDireta> graduados) {
+		this.graduados = graduados;
 	}
 }
