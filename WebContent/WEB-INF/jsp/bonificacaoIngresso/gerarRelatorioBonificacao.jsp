@@ -115,20 +115,13 @@
 	
 		<br>
 		
-		<table class="table table-striped table-bordered">
-			<thead>
-		    	<tr>
-                    <th> Distribuidor </th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${diamantesComMetasAlcancadas}" var="item">
-					<tr>
-                        <td> ${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome} </td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+		<ul>
+			<c:forEach items="${diamantesComMetasAlcancadas}" var="item">
+				<li>
+	            	${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome}
+				</li>
+           	</c:forEach>
+		</ul>
 	
 	</c:if>
 	
