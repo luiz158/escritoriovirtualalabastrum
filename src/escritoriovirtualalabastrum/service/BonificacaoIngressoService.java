@@ -151,6 +151,7 @@ public class BonificacaoIngressoService {
 		informacoesBonificacoes.setMetaDiamanteGraduados(META_DIAMANTE_LINHAS_GRADUADOS);
 		informacoesBonificacoes.setPontuacaoAlcancadaPeloDiamante(calculosDiamante.getPontuacaoDiamante());
 		informacoesBonificacoes.setGraduadosAlcancadosPeloDiamante(calculosDiamante.getQuantidadeGraduados());
+		informacoesBonificacoes.setGraduados(calculosDiamante.getGraduados());
 	}
 
 	private TreeMap<Integer, MalaDireta> gerarMalaDiretaIgnorandoDiamantesComMetasAlcancadas(Integer codigoUsuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> diamantesComMetasAlcancadas) {

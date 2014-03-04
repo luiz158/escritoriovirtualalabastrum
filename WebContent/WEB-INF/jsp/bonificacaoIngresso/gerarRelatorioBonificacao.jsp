@@ -18,7 +18,7 @@
 
 <br><br>
 
-<h3> Bonificação por ingresso </h3>
+<h3> Bonificação por Ingresso </h3>
 
 <h6 style="color: rgb(100, 100, 100);" >Mês/ano: ${mesAno}</h6>
 <h6 style="color: rgb(100, 100, 100);" >Kit do distribuidor: ${kitUsuarioLogado}</h6>
@@ -66,16 +66,16 @@
 
 	<br><br>
 	
-	<h3> Bonificação de diamante </h3>
+	<h3> Bonificação de Diamante </h3>
 	
 	<br>
 	
 	<p> Por ser diamante, além das bonificações normais da Alabastrum, você recebe algumas outras bonificações se suas metas como diamante forem atendidas </p>
-	<p> As metas são: </p>
+	<p> <b> As metas são: </b> </p>
 	<p> Pontuação no mês: ${metaDiamantePontuacao} </p>
 	<p> Quantidade de graduados em linhas diferentes: ${metaDiamanteGraduados} </p>
 	<br>
-	<p> Você alcançou, até o momento, os seguintes resultados: </p>
+	<p> <b> Você alcançou, até o momento, os seguintes resultados: </b> </p>
 	<p> Pontuação no mês: ${pontuacaoAlcancadaPeloDiamante} </p>
 	<c:choose>
 		<c:when test="${graduadosAlcancadosPeloDiamante >= metaDiamanteGraduados}">
@@ -84,22 +84,18 @@
 		<c:otherwise>
 			<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante}</p>
 			
-			<table class="table table-striped table-bordered">
-			<thead>
-		    	<tr>
-                    <th> Graduado </th>
-				</tr>
-			</thead>
-			<tbody>
+			<br>
+			
+			<p> <b> Graduados até o momento: </b> </p>
+			
+			<ul>
 				<c:forEach items="${graduadosEncontrados}" var="item">
-					<tr>
-                        <td> ${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome} </td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-			
-			
+					<li>
+		            	${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome}
+					</li>
+            	</c:forEach>
+			</ul>
+
 		</c:otherwise>
 	</c:choose>
 	
@@ -160,6 +156,10 @@
 				</tr>
 			</tfoot>
 		</table>
+		
+		<br><br>
+		
+		<p>Somatório Total: R$<fmt:formatNumber value="${somatorioBonificacao + somatorioBonificacoesDiamante}" pattern="#,##0.00" />  </p>
 	
 	</c:if>
 
