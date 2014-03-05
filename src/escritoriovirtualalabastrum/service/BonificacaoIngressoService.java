@@ -252,7 +252,7 @@ public class BonificacaoIngressoService {
 
 		for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
 
-			if (malaDiretaEntry.getValue().getUsuario().getPosAtual().contains(MalaDiretaService.DIAMANTE)) {
+			if (malaDiretaEntry.getValue().getUsuario().getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
 
 				diamantesAbaixo.add(malaDiretaEntry.getValue().getUsuario());
 			}
