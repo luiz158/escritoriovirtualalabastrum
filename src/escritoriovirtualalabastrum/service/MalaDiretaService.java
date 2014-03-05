@@ -64,9 +64,7 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
-	public TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComAtividade(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Integer nivel) {
-
-		TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
+	public void gerarMalaDiretaDeAcordoComAtividade(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Integer nivel, TreeMap<Integer, MalaDireta> malaDireta) {
 
 		Usuario usuario = new Usuario();
 
@@ -96,15 +94,15 @@ public class MalaDiretaService {
 
 					if (usuarioPatrocinado.isAtivo(dataInicial, dataFinal)) {
 
-						nivel = nivel + 1;
-					}
+						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel + 1, malaDireta);
 
-					gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel);
+					} else {
+
+						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel, malaDireta);
+					}
 				}
 			}
 		}
-
-		return malaDireta;
 	}
 
 	private TreeMap<Integer, MalaDireta> gerarMalaDiretaDeAcordoComFiltros(String posicao, Integer codigoUsuario) {
