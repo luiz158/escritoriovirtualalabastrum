@@ -240,16 +240,6 @@ public class MalaDiretaService {
 			} else {
 
 				encontrarGraduadosRecursivamente(primeiroNivel.getValue().getUsuario(), hibernateUtil, graduados, "id_Patroc", 0, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), result, validator);
-
-				if (graduados.size() >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
-
-					break;
-				}
-			}
-
-			if (graduados.size() >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS) {
-
-				break;
 			}
 		}
 

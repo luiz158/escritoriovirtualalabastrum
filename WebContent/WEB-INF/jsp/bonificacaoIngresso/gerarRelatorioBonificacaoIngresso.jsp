@@ -74,10 +74,6 @@
 
 <c:if test="${isDiamante}">
 
-	<br><br>
-	
-	<h3> Bonificação de Diamante </h3>
-	
 	<br>
 	
 	<p> Por ser diamante, além das bonificações normais da Alabastrum, você recebe algumas outras bonificações se suas metas como diamante forem atendidas </p>
@@ -86,37 +82,27 @@
 	<p> Quantidade de graduados em linhas diferentes: ${metaDiamanteGraduados} </p>
 	<br>
 	<p> <b> Você alcançou, até o momento, os seguintes resultados: </b> </p>
-	<p> Pontuação no mês: ${pontuacaoAlcancadaPeloDiamante} </p>
-	<c:choose>
-		<c:when test="${graduadosAlcancadosPeloDiamante >= metaDiamanteGraduados}">
-			<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante} ou mais </p>
-		</c:when>
-		<c:otherwise>
-			<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante}</p>
-			
-			<br>
-			
-			<p> <b> Graduados até o momento: </b> </p>
-			
-			<ul>
-				<c:forEach items="${graduadosEncontrados}" var="item">
-					<li>
-		            	${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome}
-					</li>
-            	</c:forEach>
-			</ul>
+	<p> Pontuação no mês: <fmt:formatNumber value="${pontuacaoAlcancadaPeloDiamante}" pattern="#,##0.00" /> </p>
 
-		</c:otherwise>
-	</c:choose>
+	<p> Quantidade de graduados em linhas diferentes: ${graduadosAlcancadosPeloDiamante}</p>
+	
+	<br>
+	
+	<p> <b> Graduados até o momento: </b> </p>
+	
+	<ul>
+		<c:forEach items="${graduadosEncontrados}" var="item">
+			<li>
+	         	${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome}
+			</li>
+	    </c:forEach>
+	</ul>
 	
 	<c:if test="${!empty diamantesComMetasAlcancadas}">  
 	
 		<br>
 		
-		<p> Talvez você não tenha recebido algumas bonificações porque alguns diamantes abaixo de você conseguiram bater suas metas.  </p>
-		<p> Os diamantes que bateram a meta foram:  </p>
-	
-		<br>
+		<p> <b> Diamante(s) qualificado(s) que pertence(m) à sua linha descendente: </b>  </p>
 		
 		<ul>
 			<c:forEach items="${diamantesComMetasAlcancadas}" var="item">
