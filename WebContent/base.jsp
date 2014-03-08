@@ -59,13 +59,13 @@
 	        	<a href="<c:url value="/controlePedido/acessarTelaControlePedido"/>" class="submenu-accordion" > Controle de pedidos </a>
 	        	<a href="<c:url value="/transferenciaCredito/acessarTelaTransferenciaCredito"/>" class="submenu-accordion" > Transferência de crédito </a>
 	        </div>
-<!-- 	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3> -->
-<!-- 	        <div> -->
-<%-- 	        	<a href="<c:url value="/bonificacaoIngresso/acessarTelaBonificacao"/>" class="submenu-accordion" > Bonificação por ingresso </a> --%>
-<!-- 	        </div> -->
+	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3>
+	        <div>
+	        	<a href="<c:url value="/bonificacaoIngresso/acessarTelaBonificacao"/>" class="submenu-accordion" > Bonificação por ingresso </a>
+	        </div>
 	        <h3 class="menu-accordion" > CONSULTA </h3>
 	        <div>
-	        	<a href="<c:url value="/home/kitIngresso"/>" class="submenu-accordion" > Kit de ingresso </a>
+	        	<a href="<c:url value="/home/kitIngresso"/>" class="submenu-accordion" > Kits de ingresso </a>
 	        	<a href="<c:url value="/home/qualificacao"/>" class="submenu-accordion" > Qualificação </a>
 	        	<a href="<c:url value="/centroDistribuicao/listarCentrosDistribuicao"/>" class="submenu-accordion" > Centros de distribuição </a>
 	        	<a href="<c:url value="/linhaAscendente/exibirLinhaAscendente"/>" class="submenu-accordion" > Linha Ascendente </a>
