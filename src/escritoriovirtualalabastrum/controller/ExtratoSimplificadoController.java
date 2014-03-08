@@ -59,14 +59,10 @@ public class ExtratoSimplificadoController {
 
 		if (Util.preenchido(informacoesBonificacoesIngresso.getPontuacaoAlcancadaPeloDiamante()) && Util.preenchido(informacoesBonificacoesIngresso.getGraduadosAlcancadosPeloDiamante())) {
 
-			System.out.println("entrou no if");
-
 			result.include("pontuacao", informacoesBonificacoesIngresso.getPontuacaoAlcancadaPeloDiamante());
 			result.include("quantidadeGraduados", informacoesBonificacoesIngresso.getGraduadosAlcancadosPeloDiamante());
 
 		} else {
-
-			System.out.println("entrou no else");
 
 			DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 			DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
