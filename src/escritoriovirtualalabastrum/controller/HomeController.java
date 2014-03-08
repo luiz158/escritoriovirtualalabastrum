@@ -36,17 +36,17 @@ public class HomeController {
 
 	@Funcionalidade
 	public void emails() {
-
 	}
 
 	@Funcionalidade
 	public void kitIngresso() {
-
 	}
-	
+
 	@Funcionalidade
 	public void qualificacao() {
-
 	}
 
+	@Funcionalidade
+	public void downloads() {
+	}
 }

@@ -65,6 +65,7 @@
 	        </div>
 	        <h3 class="menu-accordion" > CONSULTA </h3>
 	        <div>
+	        	<a href="<c:url value="/home/downloads"/>" class="submenu-accordion" > Downloads </a>
 	        	<a href="<c:url value="/home/kitIngresso"/>" class="submenu-accordion" > Kits de ingresso </a>
 	        	<a href="<c:url value="/home/qualificacao"/>" class="submenu-accordion" > Qualificação </a>
 	        	<a href="<c:url value="/centroDistribuicao/listarCentrosDistribuicao"/>" class="submenu-accordion" > Centros de distribuição </a>
