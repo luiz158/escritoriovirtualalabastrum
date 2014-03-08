@@ -18,7 +18,7 @@
 
 <br><br>
 
-<h3> Bonificação por Ingresso </h3>
+<h3> Bônus de Início Rápido </h3>
 
 <h6 style="color: rgb(100, 100, 100);" >Mês/ano: ${mesAno}</h6>
 <h6 style="color: rgb(100, 100, 100);" >Kit do distribuidor: ${kitUsuarioLogado}</h6>

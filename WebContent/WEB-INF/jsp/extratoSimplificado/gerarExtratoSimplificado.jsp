@@ -31,7 +31,7 @@
 <table class="table">
 	<tr>
 		<td>
-			Bônus de Venda Direta
+			Movimentação Pessoal
 		</td>
 		<td>
 			(AINDA EM CONSTRUÇÃO)
@@ -40,7 +40,7 @@
 	</tr>
 	<tr>
 		<td>
-			Bônus de Ingresso
+			Bônus de Início Rápido
 		</td>
 		<td>
 			 R$<fmt:formatNumber value="${bonificacaoIngresso}" pattern="#,##0.00" />
