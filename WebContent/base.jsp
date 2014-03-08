@@ -61,7 +61,7 @@
 	        </div>
 	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3>
 	        <div>
-	        	<a href="<c:url value="/bonificacaoIngresso/acessarTelaBonificacao"/>" class="submenu-accordion" > Bonificação por ingresso </a>
+	        	<a href="<c:url value="/bonificacaoIngresso/acessarTelaBonificacaoIngresso"/>" class="submenu-accordion" > Bonificação por ingresso </a>
 	        </div>
 	        <h3 class="menu-accordion" > CONSULTA </h3>
 	        <div>

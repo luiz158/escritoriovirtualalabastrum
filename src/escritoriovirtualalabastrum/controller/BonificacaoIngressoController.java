@@ -30,12 +30,12 @@ public class BonificacaoIngressoController {
 	}
 
 	@Funcionalidade
-	public void acessarTelaBonificacao() {
+	public void acessarTelaBonificacaoIngresso() {
 
 	}
 
 	@Funcionalidade
-	public void gerarRelatorioBonificacao(Integer ano, Integer mes) {
+	public void gerarRelatorioBonificacaoIngresso(Integer ano, Integer mes) {
 
 		realizarValidacoes(ano, mes);
 
@@ -72,13 +72,13 @@ public class BonificacaoIngressoController {
 			if (!this.sessaoUsuario.getUsuario().isAtivo()) {
 
 				validator.add(new ValidationMessage("Você não está ativo. Só quem está ativo pode receber bonificação", "Erro"));
-				validator.onErrorRedirectTo(this).acessarTelaBonificacao();
+				validator.onErrorRedirectTo(this).acessarTelaBonificacaoIngresso();
 			}
 
 			if (new GregorianCalendar(ano, mes - 1, 1).before(new GregorianCalendar(2014, 2, 1))) {
 
 				validator.add(new ValidationMessage("Este relatório só passou a existir no escritório virtual a partir de março de 2014", "Erro"));
-				validator.onErrorRedirectTo(this).acessarTelaBonificacao();
+				validator.onErrorRedirectTo(this).acessarTelaBonificacaoIngresso();
 			}
 		}
 	}

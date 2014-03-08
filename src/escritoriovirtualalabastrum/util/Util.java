@@ -124,7 +124,7 @@ public class Util {
 
 			DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(LOCAL));
 
-			return df.format(valor);
+			return df.format(valor).replace(",00", "");
 		}
 	}
 }

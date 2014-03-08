@@ -66,7 +66,7 @@ public class BonificacaoIngressoService {
 
 			if ((usuarioMalaDireta.getDt_Ingresso().equals(dataInicial.toGregorianCalendar()) || usuarioMalaDireta.getDt_Ingresso().after(dataInicial.toGregorianCalendar())) && (usuarioMalaDireta.getDt_Ingresso().equals(dataFinal.toGregorianCalendar()) || usuarioMalaDireta.getDt_Ingresso().before(dataFinal.toGregorianCalendar()))) {
 
-				if (malaDireta.getNivel() == 1 && malaDireta.getUsuario().getId_Patroc().equals(usuario.getId_Codigo())) {
+				if (malaDireta.getNivel() == 1) {
 
 					calcularBonificacoesPorPorcentagem(ano, mes, bonificacoes, porcentagemUsuario, malaDireta.getNivel(), usuarioMalaDireta);
 
@@ -351,6 +351,7 @@ public class BonificacaoIngressoService {
 		bonificacaoAuxiliar.setUsuario(malaDireta.getUsuario());
 		bonificacaoAuxiliar.setKit(kit);
 		bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
+		bonificacaoAuxiliar.setComoFoiCalculado("Ganho de " + malaDireta.getNivel() + "ª Geração");
 
 		try {
 
@@ -359,6 +360,8 @@ public class BonificacaoIngressoService {
 			bonificacaoAuxiliar.setBonificacao((BigDecimal) field.get(fixoIngresso));
 
 		} catch (Exception e) {
+
+			bonificacaoAuxiliar.setBonificacao(BigDecimal.ZERO);
 		}
 
 		bonificacoes.add(bonificacaoAuxiliar);

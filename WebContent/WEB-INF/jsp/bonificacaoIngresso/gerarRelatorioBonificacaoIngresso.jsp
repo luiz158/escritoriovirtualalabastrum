@@ -12,16 +12,9 @@
     width: 94%;
 }
 
-.somatorio-total{
-
-	font-size: 20px;
-	float: right;
-	font-weight: bold;
-}
-
 </style>
 
-<a class="btn" href="<c:url value="/bonificacaoIngresso/acessarTelaBonificacao"/>" > Voltar </a>
+<a class="btn" onclick="window.history.back()" > Voltar </a>
 
 <br><br>
 
@@ -32,7 +25,7 @@
 <h6 style="color: rgb(100, 100, 100);" >Porcentagem do kit: ${porcentagemKitUsuarioLogado}%</h6>
 
 <c:choose>
-	<c:when test="${!empty bonificacoes}">
+	<c:when test="${!empty bonificacoes || !empty bonificacoesDiamante}">
 
 		<table class="table table-striped table-bordered">
 			<thead>
@@ -54,15 +47,25 @@
                         <td class="centralizado" > ${item.comoFoiCalculado} </td>
 					</tr>
 				</c:forEach>
+				<c:forEach items="${bonificacoesDiamante}" var="item">
+					<tr>
+                        <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+                        <td></td>
+                        <td class="centralizado" > ${item.kit} </td>
+                        <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacao}" pattern="#,##0.00" /> </td>
+                        <td class="centralizado" > Repasse de ${item.comoFoiCalculado} pontos </td>
+					</tr>
+				</c:forEach>
 			</tbody>
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);" >
                     <td class="centralizado" colspan="3" > <b> Total </b> </td>
-					<td class="centralizado" > R$<fmt:formatNumber value="${somatorioBonificacao}" pattern="#,##0.00" /> </td>
+					<td class="centralizado" > R$<fmt:formatNumber value="${somatorioBonificacao + somatorioBonificacoesDiamante}" pattern="#,##0.00" /> </td>
 					<td></td>
 				</tr>
 			</tfoot>
 		</table>
+
 	</c:when>
 	<c:otherwise>
 		<br>  <br>  <h4> Nenhum registro foi encontrado </h4>
@@ -121,46 +124,6 @@
 	            	${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome}
 				</li>
            	</c:forEach>
-		</ul>
-	
-	</c:if>
-	
-	<c:if test="${!empty bonificacoesDiamante}"> 
-	
-		<br><br>
-		
-		<table class="table table-striped table-bordered">
-			<thead>
-		    	<tr>
-                    <th> Distribuidor </th>
-                    <th> Kit </th>
-                    <th> Bonificação </th>
-                    <th> Como foi calculado </th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${bonificacoesDiamante}" var="item">
-					<tr>
-                        <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
-                        <td class="centralizado" > ${item.kit} </td>
-                        <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacao}" pattern="#,##0.00" /> </td>
-                        <td class="centralizado" > ${item.comoFoiCalculado} </td>
-					</tr>
-				</c:forEach>
-			</tbody>
-			<tfoot>
-				<tr style="background-color: rgb(245, 250, 138);" >
-                    <td class="centralizado" colspan="2" > <b> Total </b> </td>
-					<td class="centralizado" > R$<fmt:formatNumber value="${somatorioBonificacoesDiamante}" pattern="#,##0.00" /> </td>
-					<td></td>
-				</tr>
-			</tfoot>
-		</table>
-		
-		<br><br>
-		
-		<p class="somatorio-total" >Somatório Total: R$<fmt:formatNumber value="${somatorioBonificacao + somatorioBonificacoesDiamante}" pattern="#,##0.00" />  </p>
-	
-	</c:if>
-
-</c:if>
+        </ul>
+     </c:if>
+  </c:if>
