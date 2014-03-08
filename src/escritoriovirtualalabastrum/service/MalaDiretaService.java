@@ -225,7 +225,7 @@ public class MalaDiretaService {
 		return bonificacaoAuxiliar;
 	}
 
-	private Integer calcularQuantidadeGraduados(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal, HashMap<Integer, MalaDireta> graduados) {
+	public Integer calcularQuantidadeGraduados(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, DateTime dataInicial, DateTime dataFinal, HashMap<Integer, MalaDireta> graduados) {
 
 		TreeMap<Integer, MalaDireta> malaDiretaPrimeiroNivel = new TreeMap<Integer, MalaDireta>();
 
