@@ -1,8 +1,8 @@
 <%@ include file="/base.jsp" %> 
 
-<form class="form-horizontal" action="<c:url value="/bonificacaoIngresso/gerarRelatorioBonificacaoIngresso"/>" id='form-bonificacao' method="post" >
+<form class="form-horizontal" action="<c:url value="/extratoSimplificado/gerarExtratoSimplificado"/>" id='form-extrato' method="post" >
   <fieldset>
-    <legend>Bonificação por ingresso</legend>
+    <legend>Extrato simplificado</legend>
     
     <div class="control-group warning" style="margin-left: -50px;" > 
 
@@ -47,7 +47,7 @@
     </div>
     
     <div style="margin-top: 50px;" >
-	    <button id='gerar-relatorio-bonificacao' type="submit" class="btn btn-primary" onclick="gerarRelatorioBonificacao()" >Gerar relatório</button>
+	    <button id='gerar-extrato' type="submit" class="btn btn-primary" onclick="gerarExtrato()" >Gerar extrato</button>
     </div>
        
   </fieldset>
@@ -58,12 +58,12 @@
 	$('#ano').val(new Date().getFullYear());
 	$('#mes').val(new Date().getMonth()+1);
 	
-	function gerarRelatorioBonificacao(){
+	function gerarExtrato(){
 		
 		alert("Atenção. Este relatório realiza uma quantidade muito grande de cálculos e, dependendo do tamanho da sua rede, o resultado pode demorar alguns minutos. Por favor, aguarde.");
 		
-		$('#gerar-relatorio-bonificacao').attr("disabled", "disabled");
-		$('#form-bonificacao').submit();
+		$('#gerar-extrato').attr("disabled", "disabled");
+		$('#form-extrato').submit();
 	}
 
 </script>

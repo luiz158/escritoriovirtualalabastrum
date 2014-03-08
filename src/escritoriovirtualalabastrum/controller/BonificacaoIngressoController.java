@@ -30,18 +30,11 @@ public class BonificacaoIngressoController {
 	}
 
 	@Funcionalidade
-	public void acessarTelaBonificacaoIngresso() {
-
-	}
-
-	@Funcionalidade
 	public void gerarRelatorioBonificacaoIngresso(Integer ano, Integer mes) {
 
 		realizarValidacoes(ano, mes);
 
-		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService();
-		bonificacaoIngressoService.setHibernateUtil(hibernateUtil);
-		bonificacaoIngressoService.setResult(result);
+		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
 
 		BonificacaoAuxiliar informacoesBonificacoes = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 
@@ -72,13 +65,13 @@ public class BonificacaoIngressoController {
 			if (!this.sessaoUsuario.getUsuario().isAtivo()) {
 
 				validator.add(new ValidationMessage("Você não está ativo. Só quem está ativo pode receber bonificação", "Erro"));
-				validator.onErrorRedirectTo(this).acessarTelaBonificacaoIngresso();
+				validator.onErrorRedirectTo(ExtratoSimplificadoController.class).acessarTelaExtratoSimplificado(ano, mes);
 			}
 
 			if (new GregorianCalendar(ano, mes - 1, 1).before(new GregorianCalendar(2014, 2, 1))) {
 
 				validator.add(new ValidationMessage("Este relatório só passou a existir no escritório virtual a partir de março de 2014", "Erro"));
-				validator.onErrorRedirectTo(this).acessarTelaBonificacaoIngresso();
+				validator.onErrorRedirectTo(ExtratoSimplificadoController.class).acessarTelaExtratoSimplificado(ano, mes);
 			}
 		}
 	}

@@ -306,42 +306,42 @@ public class BonificacaoIngressoControllerTest {
 		assertEquals(new Integer("77495"), bonificacoes.get(1).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(1).getGeracao());
 		assertEquals("top", bonificacoes.get(1).getKit());
-		assertEquals("4,00", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
+		assertEquals("4", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
 
 		assertEquals(new Integer("77501"), bonificacoes.get(2).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(2).getGeracao());
 		assertEquals("especial", bonificacoes.get(2).getKit());
-		assertEquals("2,00", Util.formatarBigDecimal(bonificacoes.get(2).getBonificacao()));
+		assertEquals("2", Util.formatarBigDecimal(bonificacoes.get(2).getBonificacao()));
 
 		assertEquals(new Integer("77514"), bonificacoes.get(3).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(3).getGeracao());
 		assertEquals("top", bonificacoes.get(3).getKit());
-		assertEquals("4,00", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
+		assertEquals("4", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
 
 		assertEquals(new Integer("77527"), bonificacoes.get(4).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(4).getGeracao());
 		assertEquals("vip", bonificacoes.get(4).getKit());
-		assertEquals("3,00", Util.formatarBigDecimal(bonificacoes.get(4).getBonificacao()));
+		assertEquals("3", Util.formatarBigDecimal(bonificacoes.get(4).getBonificacao()));
 
 		assertEquals(new Integer("77479"), bonificacoes.get(5).getUsuario().getId_Codigo());
 		assertEquals("basico", bonificacoes.get(5).getKit());
-		assertEquals("10,00", Util.formatarBigDecimal(bonificacoes.get(5).getBonificacao()));
+		assertEquals("10", Util.formatarBigDecimal(bonificacoes.get(5).getBonificacao()));
 
 		assertEquals(new Integer("77495"), bonificacoes.get(6).getUsuario().getId_Codigo());
 		assertEquals("top", bonificacoes.get(6).getKit());
-		assertEquals("50,00", Util.formatarBigDecimal(bonificacoes.get(6).getBonificacao()));
+		assertEquals("50", Util.formatarBigDecimal(bonificacoes.get(6).getBonificacao()));
 
 		assertEquals(new Integer("77501"), bonificacoes.get(7).getUsuario().getId_Codigo());
 		assertEquals("especial", bonificacoes.get(7).getKit());
-		assertEquals("15,00", Util.formatarBigDecimal(bonificacoes.get(7).getBonificacao()));
+		assertEquals("15", Util.formatarBigDecimal(bonificacoes.get(7).getBonificacao()));
 
 		assertEquals(new Integer("77514"), bonificacoes.get(8).getUsuario().getId_Codigo());
 		assertEquals("top", bonificacoes.get(8).getKit());
-		assertEquals("50,00", Util.formatarBigDecimal(bonificacoes.get(8).getBonificacao()));
+		assertEquals("50", Util.formatarBigDecimal(bonificacoes.get(8).getBonificacao()));
 
 		assertEquals(new Integer("77527"), bonificacoes.get(9).getUsuario().getId_Codigo());
 		assertEquals("vip", bonificacoes.get(9).getKit());
-		assertEquals("20,00", Util.formatarBigDecimal(bonificacoes.get(9).getBonificacao()));
+		assertEquals("20", Util.formatarBigDecimal(bonificacoes.get(9).getBonificacao()));
 
 		assertEquals("162,50", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
 
@@ -388,26 +388,26 @@ public class BonificacaoIngressoControllerTest {
 
 		assertEquals(new Integer("77479"), bonificacoes.get(1).getUsuario().getId_Codigo());
 		assertEquals(new Integer("2"), bonificacoes.get(1).getGeracao());
-		assertEquals("1,00", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
+		assertEquals("1", Util.formatarBigDecimal(bonificacoes.get(1).getBonificacao()));
 
 		assertEquals(new Integer("77495"), bonificacoes.get(2).getUsuario().getId_Codigo());
 		assertEquals(new Integer("3"), bonificacoes.get(2).getGeracao());
-		assertEquals("10,00", Util.formatarBigDecimal(bonificacoes.get(2).getBonificacao()));
+		assertEquals("10", Util.formatarBigDecimal(bonificacoes.get(2).getBonificacao()));
 
 		assertEquals(new Integer("77501"), bonificacoes.get(3).getUsuario().getId_Codigo());
 		assertEquals(new Integer("3"), bonificacoes.get(3).getGeracao());
-		assertEquals("10,00", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
+		assertEquals("10", Util.formatarBigDecimal(bonificacoes.get(3).getBonificacao()));
 
 		assertEquals(new Integer("77514"), bonificacoes.get(4).getUsuario().getId_Codigo());
 		assertEquals(new Integer("3"), bonificacoes.get(4).getGeracao());
-		assertEquals("10,00", Util.formatarBigDecimal(bonificacoes.get(4).getBonificacao()));
+		assertEquals("10", Util.formatarBigDecimal(bonificacoes.get(4).getBonificacao()));
 
 		assertEquals(new Integer("77527"), bonificacoes.get(5).getUsuario().getId_Codigo());
 		assertEquals(new Integer("3"), bonificacoes.get(5).getGeracao());
-		assertEquals("10,00", Util.formatarBigDecimal(bonificacoes.get(5).getBonificacao()));
+		assertEquals("10", Util.formatarBigDecimal(bonificacoes.get(5).getBonificacao()));
 
 		assertEquals(new Integer("77466"), bonificacoes.get(6).getUsuario().getId_Codigo());
-		assertEquals("15,00", Util.formatarBigDecimal(bonificacoes.get(6).getBonificacao()));
+		assertEquals("15", Util.formatarBigDecimal(bonificacoes.get(6).getBonificacao()));
 
 		assertEquals("67,20", Util.formatarBigDecimal((BigDecimal) mockResult.included("somatorioBonificacao")));
 

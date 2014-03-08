@@ -37,6 +37,13 @@ public class BonificacaoIngressoService {
 	private Validator validator;
 	private Result result;
 
+	public BonificacaoIngressoService(HibernateUtil hibernateUtil, Validator validator, Result result) {
+
+		this.hibernateUtil = hibernateUtil;
+		this.validator = validator;
+		this.result = result;
+	}
+
 	public BonificacaoAuxiliar calcularBonificacoes(Usuario usuario, Integer ano, Integer mes) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
@@ -452,18 +459,5 @@ public class BonificacaoIngressoService {
 
 			return KIT_INGRESSO_NAO_DEFINIDO_PARA_O_DISTRIBUIDOR;
 		}
-	}
-
-	public void setHibernateUtil(HibernateUtil hibernateUtil) {
-
-		this.hibernateUtil = hibernateUtil;
-	}
-
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
-
-	public void setResult(Result result) {
-		this.result = result;
 	}
 }
