@@ -31,7 +31,7 @@
 <table class="table">
 	<tr>
 		<td>
-			Movimentação Pessoal
+			Bônus de Compra Pessoal
 		</td>
 		<td>
 			(AINDA EM CONSTRUÇÃO)
