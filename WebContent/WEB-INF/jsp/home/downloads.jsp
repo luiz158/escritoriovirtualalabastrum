@@ -2,8 +2,6 @@
 
 <h3> Downloads </h3>
 
-<p> Clique nos links e aperte o botão Baixar (Download direto) </p>
-
 <br>
 
 <a href="<c:url value="/download/Plano_Alabastrum.mp4"/>" target="_blank" download="Plano_Alabastrum.mp4" >
