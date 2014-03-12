@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.controller;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -10,9 +11,11 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoAtivacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
@@ -48,6 +51,10 @@ public class ExtratoSimplificadoController {
 		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
 		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 		result.include("bonificacaoIngresso", bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante())));
+
+		BonificacaoAtivacaoService bonificacaoAtivacaoService = new BonificacaoAtivacaoService(hibernateUtil, result, validator);
+		List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao = bonificacaoAtivacaoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
+		result.include("bonificacaoAtivacao", bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao));
 
 		calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
 

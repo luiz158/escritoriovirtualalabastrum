@@ -52,9 +52,9 @@
 			Bônus de Ativação
 		</td>
 		<td>
-			 (AINDA EM CONSTRUÇÃO)
+			 R$<fmt:formatNumber value="${bonificacaoAtivacao}" pattern="#,##0.00" />
 		</td>	
-		<td> </td>		
+		<td> <a href="<c:url value="/bonificacaoAtivacao/gerarRelatorioBonificacaoAtivacao?ano=${ano}&mes=${mes}"/>"> Clique para ver detalhes </a> </td>
 	</tr>
 	<tr>
 		<td>
@@ -85,7 +85,7 @@
 	</tr>
 	<tr style="background-color: rgb(245, 250, 138);" >
 		<td class="centralizado"> <b> Total </b> </td>
-		<td > R$<fmt:formatNumber value="${bonificacaoIngresso + 0 + 0}" pattern="#,##0.00" /> </td>
+		<td > R$<fmt:formatNumber value="${bonificacaoIngresso + bonificacaoAtivacao}" pattern="#,##0.00" /> </td>
 		<td></td>
 	</tr>
 </table>
