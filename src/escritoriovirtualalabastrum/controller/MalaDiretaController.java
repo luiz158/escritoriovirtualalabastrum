@@ -85,6 +85,11 @@ public class MalaDiretaController {
 		Usuario m3 = hibernateUtil.selecionar(new Usuario(usuario.getId_M3()));
 		Usuario m4 = hibernateUtil.selecionar(new Usuario(usuario.getId_M4()));
 		Usuario m5 = hibernateUtil.selecionar(new Usuario(usuario.getId_M5()));
+		Usuario m6 = hibernateUtil.selecionar(new Usuario(usuario.getId_M6()));
+		Usuario m7 = hibernateUtil.selecionar(new Usuario(usuario.getId_M7()));
+		Usuario m8 = hibernateUtil.selecionar(new Usuario(usuario.getId_M8()));
+		Usuario m9 = hibernateUtil.selecionar(new Usuario(usuario.getId_M9()));
+		Usuario m10 = hibernateUtil.selecionar(new Usuario(usuario.getId_M10()));
 		Usuario la = hibernateUtil.selecionar(new Usuario(usuario.getId_LA()));
 		Usuario la1 = hibernateUtil.selecionar(new Usuario(usuario.getId_LA1()));
 		Usuario la2 = hibernateUtil.selecionar(new Usuario(usuario.getId_LA2()));
@@ -165,6 +170,36 @@ public class MalaDiretaController {
 
 			relacionamentos.setCodigoM5(m5.getId_Codigo());
 			relacionamentos.setNomeM5(m5.getvNome());
+		}
+		
+		if (Util.preenchido(m6)) {
+
+			relacionamentos.setCodigoM6(m6.getId_Codigo());
+			relacionamentos.setNomeM6(m6.getvNome());
+		}
+		
+		if (Util.preenchido(m7)) {
+
+			relacionamentos.setCodigoM7(m7.getId_Codigo());
+			relacionamentos.setNomeM7(m7.getvNome());
+		}
+		
+		if (Util.preenchido(m8)) {
+
+			relacionamentos.setCodigoM8(m8.getId_Codigo());
+			relacionamentos.setNomeM8(m8.getvNome());
+		}
+		
+		if (Util.preenchido(m9)) {
+
+			relacionamentos.setCodigoM9(m9.getId_Codigo());
+			relacionamentos.setNomeM9(m9.getvNome());
+		}
+		
+		if (Util.preenchido(m10)) {
+
+			relacionamentos.setCodigoM10(m10.getId_Codigo());
+			relacionamentos.setNomeM10(m10.getvNome());
 		}
 
 		if (Util.preenchido(la)) {

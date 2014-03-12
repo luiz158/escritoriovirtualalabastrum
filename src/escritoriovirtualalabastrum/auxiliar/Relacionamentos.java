@@ -29,6 +29,21 @@ public class Relacionamentos {
 	private Integer codigoM5;
 	private String nomeM5;
 
+	private Integer codigoM6;
+	private String nomeM6;
+
+	private Integer codigoM7;
+	private String nomeM7;
+
+	private Integer codigoM8;
+	private String nomeM8;
+
+	private Integer codigoM9;
+	private String nomeM9;
+
+	private Integer codigoM10;
+	private String nomeM10;
+
 	private Integer codigoGb;
 	private String nomeGb;
 
@@ -212,6 +227,86 @@ public class Relacionamentos {
 		this.nomeM5 = nomeM5;
 	}
 
+	public Integer getCodigoM6() {
+		return codigoM6;
+	}
+
+	public void setCodigoM6(Integer codigoM6) {
+		this.codigoM6 = codigoM6;
+	}
+
+	public String getNomeM6() {
+		return nomeM6;
+	}
+
+	public void setNomeM6(String nomeM6) {
+		this.nomeM6 = nomeM6;
+	}
+
+	public Integer getCodigoM7() {
+		return codigoM7;
+	}
+
+	public void setCodigoM7(Integer codigoM7) {
+		this.codigoM7 = codigoM7;
+	}
+
+	public String getNomeM7() {
+		return nomeM7;
+	}
+
+	public void setNomeM7(String nomeM7) {
+		this.nomeM7 = nomeM7;
+	}
+
+	public Integer getCodigoM8() {
+		return codigoM8;
+	}
+
+	public void setCodigoM8(Integer codigoM8) {
+		this.codigoM8 = codigoM8;
+	}
+
+	public String getNomeM8() {
+		return nomeM8;
+	}
+
+	public void setNomeM8(String nomeM8) {
+		this.nomeM8 = nomeM8;
+	}
+
+	public Integer getCodigoM9() {
+		return codigoM9;
+	}
+
+	public void setCodigoM9(Integer codigoM9) {
+		this.codigoM9 = codigoM9;
+	}
+
+	public String getNomeM9() {
+		return nomeM9;
+	}
+
+	public void setNomeM9(String nomeM9) {
+		this.nomeM9 = nomeM9;
+	}
+
+	public Integer getCodigoM10() {
+		return codigoM10;
+	}
+
+	public void setCodigoM10(Integer codigoM10) {
+		this.codigoM10 = codigoM10;
+	}
+
+	public String getNomeM10() {
+		return nomeM10;
+	}
+
+	public void setNomeM10(String nomeM10) {
+		this.nomeM10 = nomeM10;
+	}
+
 	public Integer getCodigoGb() {
 		return codigoGb;
 	}
@@ -372,6 +467,22 @@ public class Relacionamentos {
 		this.nomeCr2 = nomeCr2;
 	}
 
+	public Integer getCodigoDr() {
+		return codigoDr;
+	}
+
+	public void setCodigoDr(Integer codigoDr) {
+		this.codigoDr = codigoDr;
+	}
+
+	public String getNomeDr() {
+		return nomeDr;
+	}
+
+	public void setNomeDr(String nomeDr) {
+		this.nomeDr = nomeDr;
+	}
+
 	public Integer getCodigoDd() {
 		return codigoDd;
 	}
@@ -403,21 +514,4 @@ public class Relacionamentos {
 	public void setNomeDs(String nomeDs) {
 		this.nomeDs = nomeDs;
 	}
-
-	public Integer getCodigoDr() {
-		return codigoDr;
-	}
-
-	public void setCodigoDr(Integer codigoDr) {
-		this.codigoDr = codigoDr;
-	}
-
-	public String getNomeDr() {
-		return nomeDr;
-	}
-
-	public void setNomeDr(String nomeDr) {
-		this.nomeDr = nomeDr;
-	}
-
 }

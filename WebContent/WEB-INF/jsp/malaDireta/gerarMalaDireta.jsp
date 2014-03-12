@@ -131,39 +131,59 @@ label.labelInformacoes{
 			<td id="informacaoCodigoPatroc" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> S: </b> </td>
+			<td> <b> Ex: </b> </td>
 			<td id="informacaoNomeS" >  </td>
 			<td id="informacaoCodigoS" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> M: </b> </td>
-			<td id="informacaoNomeM" >  </td>
-			<td id="informacaoCodigoM" >  </td>
-		</tr>	
-		<tr>
-			<td> <b> M1: </b> </td>
+			<td> <b> G1: </b> </td>
 			<td id="informacaoNomeM1" >  </td>
 			<td id="informacaoCodigoM1" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> M2: </b> </td>
+			<td> <b> G2: </b> </td>
 			<td id="informacaoNomeM2" >  </td>
 			<td id="informacaoCodigoM2" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> M3: </b> </td>
+			<td> <b> G3: </b> </td>
 			<td id="informacaoNomeM3" >  </td>
 			<td id="informacaoCodigoM3" >  </td>
 		</tr>
 		<tr>
-			<td> <b> M4: </b> </td>
+			<td> <b> G4: </b> </td>
 			<td id="informacaoNomeM4" >  </td>
 			<td id="informacaoCodigoM4" >  </td>
 		</tr>
 		<tr>
-			<td> <b> M5: </b> </td>
+			<td> <b> G5: </b> </td>
 			<td id="informacaoNomeM5" >  </td>
 			<td id="informacaoCodigoM5" >  </td>
+		</tr>
+		<tr>
+			<td> <b> G6: </b> </td>
+			<td id="informacaoNomeM6" >  </td>
+			<td id="informacaoCodigoM6" >  </td>
+		</tr>
+		<tr>
+			<td> <b> G7: </b> </td>
+			<td id="informacaoNomeM7" >  </td>
+			<td id="informacaoCodigoM7" >  </td>
+		</tr>
+		<tr>
+			<td> <b> G8: </b> </td>
+			<td id="informacaoNomeM8" >  </td>
+			<td id="informacaoCodigoM8" >  </td>
+		</tr>
+		<tr>
+			<td> <b> G9: </b> </td>
+			<td id="informacaoNomeM9" >  </td>
+			<td id="informacaoCodigoM9" >  </td>
+		</tr>
+		<tr>
+			<td> <b> G10: </b> </td>
+			<td id="informacaoNomeM10" >  </td>
+			<td id="informacaoCodigoM10" >  </td>
 		</tr>
 		<tr>
 			<td> <b> GB: </b> </td>
@@ -179,57 +199,42 @@ label.labelInformacoes{
 			<td> <b> GO: </b> </td>
 			<td id="informacaoNomeGo" >  </td>
 			<td id="informacaoCodigoGo" >  </td>
-		</tr>	
-		<tr>
-			<td> <b> GE: </b> </td>
-			<td id="informacaoNomeGe" >  </td>
-			<td id="informacaoCodigoGe" >  </td>
-		</tr>	
-		<tr>
-			<td> <b> LA: </b> </td>
-			<td id="informacaoNomeLa" >  </td>
-			<td id="informacaoCodigoLa" >  </td>
 		</tr>
 		<tr>
-			<td> <b> LA1: </b> </td>
-			<td id="informacaoNomeLa1" >  </td>
-			<td id="informacaoCodigoLa1" >  </td>
+			<td> <b> Esm: </b> </td>
+			<td id="informacaoNomeM" >  </td>
+			<td id="informacaoCodigoM" >  </td>
+		</tr>
+		<tr>
+			<td> <b> Top: </b> </td>
+			<td id="informacaoNomeLa" >  </td>
+			<td id="informacaoCodigoLa" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> LA2: </b> </td>
-			<td id="informacaoNomeLa2" >  </td>
-			<td id="informacaoCodigoLa2" >  </td>
-		</tr>		
-		<tr>
-			<td> <b> CR: </b> </td>
+			<td> <b> Dmt: </b> </td>
 			<td id="informacaoNomeCr" >  </td>
 			<td id="informacaoCodigoCr" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> CR1: </b> </td>
-			<td id="informacaoNomeCr1" >  </td>
-			<td id="informacaoCodigoCr1" >  </td>
-		</tr>	
-		<tr>
-			<td> <b> CR2: </b> </td>
-			<td id="informacaoNomeCr2" >  </td>
-			<td id="informacaoCodigoCr2" >  </td>
-		</tr>	
-		<tr>
-			<td> <b> DR: </b> </td>
+			<td> <b> DD: </b> </td>
 			<td id="informacaoNomeDr" >  </td>
 			<td id="informacaoCodigoDr" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> DD: </b> </td>
+			<td> <b> DT: </b> </td>
 			<td id="informacaoNomeDd" >  </td>
 			<td id="informacaoCodigoDd" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> DS: </b> </td>
+			<td> <b> DP: </b> </td>
 			<td id="informacaoNomeDs" >  </td>
 			<td id="informacaoCodigoDs" >  </td>
 		</tr>	
+		<tr>
+			<td> <b> DR: </b> </td>
+			<td id="informacaoNomeGe" >  </td>
+			<td id="informacaoCodigoGe" >  </td>
+		</tr>				
 	</table>
 
 </div>
@@ -272,6 +277,21 @@ label.labelInformacoes{
 		        	
 		        	jQuery("#informacaoNomeM5").text(data.relacionamentos.nomeM5);
 		        	jQuery("#informacaoCodigoM5").text(data.relacionamentos.codigoM5);
+		        	
+		        	jQuery("#informacaoNomeM6").text(data.relacionamentos.nomeM6);
+		        	jQuery("#informacaoCodigoM6").text(data.relacionamentos.codigoM6);
+		        	
+		        	jQuery("#informacaoNomeM7").text(data.relacionamentos.nomeM7);
+		        	jQuery("#informacaoCodigoM7").text(data.relacionamentos.codigoM7);
+		        	
+		        	jQuery("#informacaoNomeM8").text(data.relacionamentos.nomeM8);
+		        	jQuery("#informacaoCodigoM8").text(data.relacionamentos.codigoM8);
+		        	
+		        	jQuery("#informacaoNomeM9").text(data.relacionamentos.nomeM9);
+		        	jQuery("#informacaoCodigoM9").text(data.relacionamentos.codigoM9);
+		        	
+		        	jQuery("#informacaoNomeM10").text(data.relacionamentos.nomeM10);
+		        	jQuery("#informacaoCodigoM10").text(data.relacionamentos.codigoM10);
 		        	
 		        	jQuery("#informacaoNomeGb").text(data.relacionamentos.nomeGb);
 		        	jQuery("#informacaoCodigoGb").text(data.relacionamentos.codigoGb);

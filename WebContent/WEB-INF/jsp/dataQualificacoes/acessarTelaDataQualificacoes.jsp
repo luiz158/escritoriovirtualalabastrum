@@ -10,16 +10,8 @@
 		<td> <fmt:formatDate value="${sessaoUsuario.usuario.dt_Ingresso.time}" type="DATE" /> </td>
 	</tr>
 	<tr>
-		<td> <b> Data Demonstrador: </b> </td>
-		<td> ${sessaoUsuario.usuario.dt_Dem} </td>
-	</tr>
-	<tr>
-		<td> <b> Data Sênior: </b> </td>
+		<td> <b> Data Executivo: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_S} </td>
-	</tr>
-	<tr>
-		<td> <b> Data Gerente: </b> </td>
-		<td> ${sessaoUsuario.usuario.dt_M} </td>
 	</tr>
 	<tr>
 		<td> <b> Data Gerente Bronze: </b> </td>
@@ -34,8 +26,8 @@
 		<td> ${sessaoUsuario.usuario.dt_GO} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Gerente Executivo: </b> </td>
-		<td> ${sessaoUsuario.usuario.dt_GE} </td>
+		<td> <b> Data Esmeralda: </b> </td>
+		<td> ${sessaoUsuario.usuario.dt_M} </td>
 	</tr>
 	<tr>
 		<td> <b> Data Topázio: </b> </td>
@@ -46,16 +38,20 @@
 		<td> ${sessaoUsuario.usuario.dt_CR} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Diretor Regional: </b> </td>
+		<td> <b> Data Diamante Duplo: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_DR} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Diretor Divisional: </b> </td>
+		<td> <b> Data Diamante Triplo: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_DD} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Diretor Superintendente: </b> </td>
+		<td> <b> Data Diamante Plenus: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_DS} </td>
+	</tr>
+	<tr>
+		<td> <b> Data Diamante Real: </b> </td>
+		<td> ${sessaoUsuario.usuario.dt_GE} </td>
 	</tr>
 	<tr>
 		<td> <b> Data Presidente: </b> </td>
