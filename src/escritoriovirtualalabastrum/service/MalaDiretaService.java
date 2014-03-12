@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.controller.MalaDiretaController;
 import escritoriovirtualalabastrum.controller.PontuacaoController;
@@ -30,6 +30,14 @@ public class MalaDiretaService {
 
 	private HibernateUtil hibernateUtil;
 	private Validator validator;
+
+	public MalaDiretaService() {
+	}
+
+	public MalaDiretaService(HibernateUtil hibernateUtil) {
+
+		this.hibernateUtil = hibernateUtil;
+	}
 
 	public TreeMap<Integer, MalaDireta> gerarMalaDireta(String posicao, Integer codigoUsuario, Integer codigoUsuarioLogado) {
 
@@ -206,7 +214,7 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
-	public BonificacaoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
+	public BonificacaoIngressoAuxiliar verificaSeMetaDeDiamanteFoiAtingida(Usuario usuario, Result result, HibernateUtil hibernateUtil, Validator validator, Integer ano, Integer mes) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
@@ -214,7 +222,7 @@ public class MalaDiretaService {
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.login(usuario);
 		PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-		BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+		BonificacaoIngressoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
 		HashMap<Integer, MalaDireta> graduados = new HashMap<Integer, MalaDireta>();
 		Integer quantidadeGraduados = calcularQuantidadeGraduados(usuario, result, hibernateUtil, validator, dataInicial, dataFinal, graduados);

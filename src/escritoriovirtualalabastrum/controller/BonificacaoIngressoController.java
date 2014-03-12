@@ -7,7 +7,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
@@ -36,7 +36,7 @@ public class BonificacaoIngressoController {
 
 		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
 
-		BonificacaoAuxiliar informacoesBonificacoes = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
+		BonificacaoIngressoAuxiliar informacoesBonificacoes = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 
 		result.include("bonificacoes", informacoesBonificacoes.getBonificacoes());
 		result.include("somatorioBonificacao", bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoes.getBonificacoes()));

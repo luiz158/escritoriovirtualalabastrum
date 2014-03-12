@@ -15,7 +15,7 @@ import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.FixoIngresso;
@@ -44,7 +44,7 @@ public class BonificacaoIngressoService {
 		this.result = result;
 	}
 
-	public BonificacaoAuxiliar calcularBonificacoes(Usuario usuario, Integer ano, Integer mes) {
+	public BonificacaoIngressoAuxiliar calcularBonificacoes(Usuario usuario, Integer ano, Integer mes) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
@@ -53,15 +53,15 @@ public class BonificacaoIngressoService {
 
 		BigDecimal porcentagemUsuario = encontrarPorcentagemDeAcordoComKit(kit, usuario, ano, mes);
 
-		BonificacaoAuxiliar informacoesBonificacoes = new BonificacaoAuxiliar();
+		BonificacaoIngressoAuxiliar informacoesBonificacoes = new BonificacaoIngressoAuxiliar();
 		informacoesBonificacoes.setKit(kit);
 		informacoesBonificacoes.setPorcentagem(porcentagemUsuario);
 
-		List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
+		List<BonificacaoIngressoAuxiliar> bonificacoes = new ArrayList<BonificacaoIngressoAuxiliar>();
 
 		TreeMap<Integer, MalaDireta> malaDiretaCompleta = new TreeMap<Integer, MalaDireta>();
 
-		MalaDiretaService malaDiretaService = new MalaDiretaService();
+		MalaDiretaService malaDiretaService = new MalaDiretaService(hibernateUtil);
 		malaDiretaService.setHibernateUtil(hibernateUtil);
 		malaDiretaService.gerarMalaDiretaDeAcordoComAtividade("id_Patroc", usuario.getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), 1, malaDiretaCompleta);
 
@@ -90,7 +90,7 @@ public class BonificacaoIngressoService {
 
 			boolean alcancouMetaDiamante = false;
 
-			BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuario, result, hibernateUtil, validator, ano, mes);
+			BonificacaoIngressoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuario, result, hibernateUtil, validator, ano, mes);
 			if (calculosDiamante.getQuantidadeGraduados() >= META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(META_DIAMANTE_PONTUACAO) >= 0) {
 
 				alcancouMetaDiamante = true;
@@ -105,7 +105,7 @@ public class BonificacaoIngressoService {
 		return informacoesBonificacoes;
 	}
 
-	private void calcularBonificacoesVariaveisDeDiamante(Usuario usuario, Integer ano, Integer mes, BonificacaoAuxiliar informacoesBonificacoes, BonificacaoAuxiliar calculosDiamante, boolean alcancouMetaDiamante) {
+	private void calcularBonificacoesVariaveisDeDiamante(Usuario usuario, Integer ano, Integer mes, BonificacaoIngressoAuxiliar informacoesBonificacoes, BonificacaoIngressoAuxiliar calculosDiamante, boolean alcancouMetaDiamante) {
 
 		if (alcancouMetaDiamante) {
 
@@ -115,7 +115,7 @@ public class BonificacaoIngressoService {
 			DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 			DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
-			List<BonificacaoAuxiliar> bonificacoes = new ArrayList<BonificacaoAuxiliar>();
+			List<BonificacaoIngressoAuxiliar> bonificacoes = new ArrayList<BonificacaoIngressoAuxiliar>();
 
 			TreeMap<Integer, MalaDireta> diamantesComMetasAlcancadas = new TreeMap<Integer, MalaDireta>();
 
@@ -143,7 +143,7 @@ public class BonificacaoIngressoService {
 				}
 			}
 
-			for (BonificacaoAuxiliar bonificacaoAuxiliar : bonificacoes) {
+			for (BonificacaoIngressoAuxiliar bonificacaoAuxiliar : bonificacoes) {
 
 				BigDecimal porcentagemQueODiamanteIraReceber = PORCENTAGEM_QUE_A_ALABASTRUM_DISTRIBUI.subtract(bonificacaoAuxiliar.getPorcentagem());
 				BigDecimal bonificacao = porcentagemQueODiamanteIraReceber.multiply(bonificacaoAuxiliar.getPontuacao()).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
@@ -202,7 +202,7 @@ public class BonificacaoIngressoService {
 
 					if (usuarioPatrocinado.getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
 
-						BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuarioPatrocinado, result, hibernateUtil, validator, ano, mes);
+						BonificacaoIngressoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuarioPatrocinado, result, hibernateUtil, validator, ano, mes);
 
 						if (usuarioPatrocinado.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && calculosDiamante.getQuantidadeGraduados() >= META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(META_DIAMANTE_PONTUACAO) >= 0) {
 
@@ -229,7 +229,7 @@ public class BonificacaoIngressoService {
 		pesquisarMalaDiretaComRecursividadeIgnorandoDiamantesComMetasAlcancadas(usuarioPatrocinado.getId_Codigo(), malaDireta, nivel + 1, "id_Patroc", ano, mes, diamantesComMetasAlcancadas);
 	}
 
-	private void calcularBonificacaoFixaDeDiamante(Usuario usuarioDiamante, Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, boolean alcancouMetaDiamante, TreeMap<Integer, MalaDireta> malaDireta) {
+	private void calcularBonificacaoFixaDeDiamante(Usuario usuarioDiamante, Integer ano, Integer mes, List<BonificacaoIngressoAuxiliar> bonificacoes, boolean alcancouMetaDiamante, TreeMap<Integer, MalaDireta> malaDireta) {
 
 		if (alcancouMetaDiamante) {
 
@@ -239,13 +239,13 @@ public class BonificacaoIngressoService {
 		}
 	}
 
-	private void verificarSeOutrosDiamantesBateramSuasMetas(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, TreeMap<Integer, MalaDireta> malaDireta) {
+	private void verificarSeOutrosDiamantesBateramSuasMetas(Integer ano, Integer mes, List<BonificacaoIngressoAuxiliar> bonificacoes, TreeMap<Integer, MalaDireta> malaDireta) {
 
 		List<Usuario> diamantesAbaixo = encontrarDiamantesAbaixo(malaDireta);
 
 		for (Usuario diamanteAbaixo : diamantesAbaixo) {
 
-			BonificacaoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(diamanteAbaixo, result, hibernateUtil, validator, ano, mes);
+			BonificacaoIngressoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(diamanteAbaixo, result, hibernateUtil, validator, ano, mes);
 			if (!(calculosDiamante.getQuantidadeGraduados() >= META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(META_DIAMANTE_PONTUACAO) >= 0)) {
 
 				calcularBonificacoesDoDiamante(diamanteAbaixo, ano, mes, bonificacoes);
@@ -268,7 +268,7 @@ public class BonificacaoIngressoService {
 		return diamantesAbaixo;
 	}
 
-	private void calcularBonificacoesDoDiamante(Usuario usuarioDiamante, Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes) {
+	private void calcularBonificacoesDoDiamante(Usuario usuarioDiamante, Integer ano, Integer mes, List<BonificacaoIngressoAuxiliar> bonificacoes) {
 
 		List<Usuario> distribuidoresDoDiamante = buscarDistribuidoresDoDiamante(usuarioDiamante, ano, mes);
 
@@ -284,7 +284,7 @@ public class BonificacaoIngressoService {
 
 				String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
 
-				BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+				BonificacaoIngressoAuxiliar bonificacaoAuxiliar = new BonificacaoIngressoAuxiliar();
 				bonificacaoAuxiliar.setUsuario(usuario);
 				bonificacaoAuxiliar.setKit(kit);
 				bonificacaoAuxiliar.setComoFoiCalculado("Bonificação fixa de diamante");
@@ -320,11 +320,11 @@ public class BonificacaoIngressoService {
 		return distribuidoresDoDiamante;
 	}
 
-	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, BigDecimal porcentagem, Integer nivel, Usuario usuario) {
+	private void calcularBonificacoesPorPorcentagem(Integer ano, Integer mes, List<BonificacaoIngressoAuxiliar> bonificacoes, BigDecimal porcentagem, Integer nivel, Usuario usuario) {
 
 		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(usuario, ano, mes);
 
-		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+		BonificacaoIngressoAuxiliar bonificacaoAuxiliar = new BonificacaoIngressoAuxiliar();
 		bonificacaoAuxiliar.setKit(kit);
 		bonificacaoAuxiliar.setUsuario(usuario);
 		bonificacaoAuxiliar.setGeracao(nivel);
@@ -344,7 +344,7 @@ public class BonificacaoIngressoService {
 		bonificacoes.add(bonificacaoAuxiliar);
 	}
 
-	private void calcularBonificacoesFixas(Integer ano, Integer mes, List<BonificacaoAuxiliar> bonificacoes, MalaDireta malaDireta) {
+	private void calcularBonificacoesFixas(Integer ano, Integer mes, List<BonificacaoIngressoAuxiliar> bonificacoes, MalaDireta malaDireta) {
 
 		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(malaDireta.getUsuario(), ano, mes);
 
@@ -354,7 +354,7 @@ public class BonificacaoIngressoService {
 
 		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
 
-		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+		BonificacaoIngressoAuxiliar bonificacaoAuxiliar = new BonificacaoIngressoAuxiliar();
 		bonificacaoAuxiliar.setUsuario(malaDireta.getUsuario());
 		bonificacaoAuxiliar.setKit(kit);
 		bonificacaoAuxiliar.setGeracao(malaDireta.getNivel());
@@ -401,13 +401,13 @@ public class BonificacaoIngressoService {
 		return null;
 	}
 
-	public BigDecimal calcularSomatorioBonificacoes(List<BonificacaoAuxiliar> bonificacoes) {
+	public BigDecimal calcularSomatorioBonificacoes(List<BonificacaoIngressoAuxiliar> bonificacoes) {
 
 		BigDecimal somatorioBonificacao = new BigDecimal("0");
 
 		if (Util.preenchido(bonificacoes)) {
 
-			for (BonificacaoAuxiliar bonificacao : bonificacoes) {
+			for (BonificacaoIngressoAuxiliar bonificacao : bonificacoes) {
 
 				if (Util.preenchido(bonificacao.getBonificacao())) {
 

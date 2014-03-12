@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 import escritoriovirtualalabastrum.modelo.Usuario;
 
-public class BonificacaoAuxiliar {
+public class BonificacaoIngressoAuxiliar {
 
 	private Usuario usuario;
 	private Integer geracao;
@@ -19,9 +19,9 @@ public class BonificacaoAuxiliar {
 	private BigDecimal pontuacaoDiamante;
 	private Integer quantidadeGraduados;
 	private TreeMap<Integer, MalaDireta> malaDireta;
-	private List<BonificacaoAuxiliar> bonificacoes;
+	private List<BonificacaoIngressoAuxiliar> bonificacoes;
 	private Boolean isDiamante;
-	private List<BonificacaoAuxiliar> bonificacoesDiamante;
+	private List<BonificacaoIngressoAuxiliar> bonificacoesDiamante;
 	private BigDecimal metaDiamantePontuacao;
 	private Integer metaDiamanteGraduados;
 	private BigDecimal pontuacaoAlcancadaPeloDiamante;
@@ -109,11 +109,11 @@ public class BonificacaoAuxiliar {
 		this.malaDireta = malaDireta;
 	}
 
-	public List<BonificacaoAuxiliar> getBonificacoes() {
+	public List<BonificacaoIngressoAuxiliar> getBonificacoes() {
 		return bonificacoes;
 	}
 
-	public void setBonificacoes(List<BonificacaoAuxiliar> bonificacoes) {
+	public void setBonificacoes(List<BonificacaoIngressoAuxiliar> bonificacoes) {
 		this.bonificacoes = bonificacoes;
 	}
 
@@ -125,11 +125,11 @@ public class BonificacaoAuxiliar {
 		this.isDiamante = isDiamante;
 	}
 
-	public List<BonificacaoAuxiliar> getBonificacoesDiamante() {
+	public List<BonificacaoIngressoAuxiliar> getBonificacoesDiamante() {
 		return bonificacoesDiamante;
 	}
 
-	public void setBonificacoesDiamante(List<BonificacaoAuxiliar> bonificacoesDiamante) {
+	public void setBonificacoesDiamante(List<BonificacaoIngressoAuxiliar> bonificacoesDiamante) {
 		this.bonificacoesDiamante = bonificacoesDiamante;
 	}
 

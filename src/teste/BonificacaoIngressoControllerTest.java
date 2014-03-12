@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.controller.BonificacaoIngressoController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
@@ -263,7 +263,7 @@ public class BonificacaoIngressoControllerTest {
 
 		MockResult mockResult = gerarRelatorio(id_Codigo);
 
-		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
+		List<BonificacaoIngressoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
 
 		assertEquals(4, bonificacoes.size());
 
@@ -294,7 +294,7 @@ public class BonificacaoIngressoControllerTest {
 
 		MockResult mockResult = gerarRelatorio(id_Codigo);
 
-		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
+		List<BonificacaoIngressoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
 
 		assertEquals(10, bonificacoes.size());
 
@@ -348,7 +348,7 @@ public class BonificacaoIngressoControllerTest {
 		assertEquals(new BigDecimal("90000"), mockResult.included("pontuacaoAlcancadaPeloDiamante"));
 		assertEquals(new Integer("1"), mockResult.included("graduadosAlcancadosPeloDiamante"));
 
-		List<BonificacaoAuxiliar> bonificacoesDiamante = mockResult.included("bonificacoesDiamante");
+		List<BonificacaoIngressoAuxiliar> bonificacoesDiamante = mockResult.included("bonificacoesDiamante");
 		assertEquals(4, bonificacoesDiamante.size());
 
 		assertEquals(new Integer("77495"), bonificacoesDiamante.get(0).getUsuario().getId_Codigo());
@@ -377,7 +377,7 @@ public class BonificacaoIngressoControllerTest {
 
 		MockResult mockResult = gerarRelatorio(id_Codigo);
 
-		List<BonificacaoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
+		List<BonificacaoIngressoAuxiliar> bonificacoes = mockResult.included("bonificacoes");
 
 		assertEquals(7, bonificacoes.size());
 

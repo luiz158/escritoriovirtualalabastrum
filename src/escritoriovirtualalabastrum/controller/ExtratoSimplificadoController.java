@@ -10,7 +10,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
@@ -46,7 +46,7 @@ public class ExtratoSimplificadoController {
 		realizarValidacoes(ano, mes);
 
 		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
-		BonificacaoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
+		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 		result.include("bonificacaoIngresso", bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante())));
 
 		calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
@@ -55,7 +55,7 @@ public class ExtratoSimplificadoController {
 		result.include("ano", ano);
 	}
 
-	private void calcularPontuacaoEGraduados(Integer ano, Integer mes, BonificacaoAuxiliar informacoesBonificacoesIngresso) {
+	private void calcularPontuacaoEGraduados(Integer ano, Integer mes, BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso) {
 
 		if (Util.preenchido(informacoesBonificacoesIngresso.getPontuacaoAlcancadaPeloDiamante()) && Util.preenchido(informacoesBonificacoesIngresso.getGraduadosAlcancadosPeloDiamante())) {
 
@@ -70,7 +70,7 @@ public class ExtratoSimplificadoController {
 			SessaoUsuario sessaoUsuario = new SessaoUsuario();
 			sessaoUsuario.login(this.sessaoUsuario.getUsuario());
 			PontuacaoController pontuacaoController = new PontuacaoController(result, hibernateUtil, sessaoUsuario, validator);
-			BonificacaoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(MalaDiretaService.TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
+			BonificacaoIngressoAuxiliar bonificacaoAuxiliar = pontuacaoController.gerarMalaDiretaECalcularPontuacaoDaRede(MalaDiretaService.TODAS, sessaoUsuario.getUsuario().getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), PontuacaoController.TODOS, PontuacaoController.TODOS, sessaoUsuario.getUsuario().getId_Codigo());
 
 			Integer quantidadeGraduados = new MalaDiretaService().calcularQuantidadeGraduados(this.sessaoUsuario.getUsuario(), result, hibernateUtil, validator, dataInicial, dataFinal, new HashMap<Integer, MalaDireta>());
 

@@ -17,7 +17,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.auxiliar.PontuacaoAuxiliar;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
@@ -82,7 +82,7 @@ public class PontuacaoController {
 		result.include("ativo", ativo);
 	}
 
-	public BonificacaoAuxiliar gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
+	public BonificacaoIngressoAuxiliar gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
 
 		MalaDiretaService malaDiretaService = new MalaDiretaService();
 		malaDiretaService.setHibernateUtil(hibernateUtil);
@@ -92,7 +92,7 @@ public class PontuacaoController {
 
 		BigDecimal pontuacaoDiamante = gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(dataInicial, dataFinal, malaDireta, possuiMovimentacao, ativo, codigoUsuario);
 
-		BonificacaoAuxiliar bonificacaoAuxiliar = new BonificacaoAuxiliar();
+		BonificacaoIngressoAuxiliar bonificacaoAuxiliar = new BonificacaoIngressoAuxiliar();
 		bonificacaoAuxiliar.setMalaDireta(malaDireta);
 		bonificacaoAuxiliar.setPontuacaoDiamante(pontuacaoDiamante);
 
