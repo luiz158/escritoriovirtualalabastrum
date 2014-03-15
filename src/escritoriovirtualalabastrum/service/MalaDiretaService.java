@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.service;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -107,6 +108,103 @@ public class MalaDiretaService {
 					} else {
 
 						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel, malaDireta);
+					}
+				}
+			}
+		}
+	}
+
+	public void gerarMalaDiretaDeAcordoComAtividadeEAteGeracaoDefinida(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Integer nivel, TreeMap<Integer, MalaDireta> malaDireta) {
+
+		Usuario usuario = new Usuario();
+
+		try {
+
+			Field field = usuario.getClass().getDeclaredField(posicao);
+
+			field.setAccessible(true);
+
+			field.set(usuario, codigoUsuario);
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario);
+
+		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
+
+			if (!codigoUsuario.equals(usuarioPatrocinado.getId_Codigo())) {
+
+				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
+
+					malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, nivel));
+
+					if (usuarioPatrocinado.isAtivo(dataInicial, dataFinal)) {
+
+						gerarMalaDiretaDeAcordoComAtividadeEAteGeracaoDefinida(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel + 1, malaDireta);
+
+					} else {
+
+						gerarMalaDiretaDeAcordoComAtividadeEAteGeracaoDefinida(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel, malaDireta);
+					}
+				}
+			}
+		}
+	}
+
+	public void gerarMalaDiretaComCompressaoDinamicaDeDiamante(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Integer nivel, TreeMap<Integer, MalaDireta> malaDireta, Result result) {
+
+		Usuario usuario = new Usuario();
+
+		try {
+
+			Field field = usuario.getClass().getDeclaredField(posicao);
+
+			field.setAccessible(true);
+
+			field.set(usuario, codigoUsuario);
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario);
+
+		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
+
+			if (!codigoUsuario.equals(usuarioPatrocinado.getId_Codigo())) {
+
+				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
+
+					malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, nivel));
+
+					if (usuarioPatrocinado.getPosAtual().toLowerCase().contains(MalaDiretaService.DIAMANTE.toLowerCase())) {
+
+						BonificacaoIngressoAuxiliar calculosDiamante = new MalaDiretaService().verificaSeMetaDeDiamanteFoiAtingida(usuarioPatrocinado, result, hibernateUtil, validator, dataInicial.get(Calendar.YEAR), dataInicial.get(Calendar.MONTH) + 1);
+						if (calculosDiamante.getQuantidadeGraduados() >= BonificacaoIngressoService.META_DIAMANTE_LINHAS_GRADUADOS && calculosDiamante.getPontuacaoDiamante().compareTo(BonificacaoIngressoService.META_DIAMANTE_PONTUACAO) >= 0) {
+
+							gerarMalaDiretaComCompressaoDinamicaDeDiamante(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel + 1, malaDireta, result);
+
+						} else {
+
+							gerarMalaDiretaComCompressaoDinamicaDeDiamante(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel, malaDireta, result);
+						}
+
+					} else {
+
+						if (usuarioPatrocinado.isAtivo(dataInicial, dataFinal)) {
+
+							gerarMalaDiretaComCompressaoDinamicaDeDiamante(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel + 1, malaDireta, result);
+
+						} else {
+
+							gerarMalaDiretaComCompressaoDinamicaDeDiamante(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel, malaDireta, result);
+						}
 					}
 				}
 			}
