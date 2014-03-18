@@ -1,6 +1,8 @@
 package escritoriovirtualalabastrum.controller;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +28,15 @@ public class AnaliseController {
 		this.result = result;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Public
 	@Path("/analise")
 	public void analisar() {
 
-		result.include("ultimaAtualizacaoSistema", "21/02/2014 19:50");
+		File file = new File(getClass().getResource(getClass().getSimpleName() + ".class").toString().replaceAll("file:/", ""));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		result.include("ultimaAtualizacaoSistema", sdf.format(file.lastModified()));
 
 		result.include("sessoesTomcat", CounterListener.getCount());
 
@@ -42,6 +47,7 @@ public class AnaliseController {
 
 		HibernateUtil hibernateUtil = new HibernateUtil();
 
+		@SuppressWarnings("rawtypes")
 		List acessosUsuariosOrdenadosPorMaisAtivos = hibernateUtil.buscaPorHQL("SELECT codigoUsuario, count(codigoUsuario) FROM HistoricoAcesso group by codigoUsuario order by count(codigoUsuario) desc");
 		List<AnaliseAuxiliar> acessos = new ArrayList<AnaliseAuxiliar>();
 
