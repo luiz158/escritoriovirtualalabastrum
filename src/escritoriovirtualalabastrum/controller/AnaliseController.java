@@ -1,7 +1,6 @@
 package escritoriovirtualalabastrum.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,12 +30,9 @@ public class AnaliseController {
 
 	@Public
 	@Path("/analise")
-	public void analisar() throws IOException {
+	public void analisar() {
 
-		File file = new File(getClass().getResource(getClass().getSimpleName() + ".class").toString().replaceAll("file:/", ""));
-
-		result.include("absolutePath", file.getAbsolutePath());
-		result.include("canonicalPath", file.getCanonicalPath());
+		File file = new File(new File(getClass().getResource(getClass().getSimpleName() + ".class").toString().replaceAll("file:/", "")).getPath());
 		result.include("path", file.getPath());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
