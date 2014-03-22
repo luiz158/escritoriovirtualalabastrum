@@ -8,6 +8,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
@@ -43,6 +44,17 @@ public class ControlePedidoController {
 	}
 
 	@Funcionalidade
+	@Path("/controlePedido/gerarRecebendoAnoEMes")
+	public void gerarRelatorioControlePedido(Integer ano, Integer mes) {
+
+		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
+		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+
+		gerarRelatorioControlePedido(null, dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar());
+	}
+
+	@Funcionalidade
+	@Path("/controlePedido/gerarRecebendoDataInicialEFinal")
 	public void gerarRelatorioControlePedido(Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal) {
 
 		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario().getId_Codigo();
@@ -83,6 +95,7 @@ public class ControlePedidoController {
 			somatorioControlePedido.setSomatorioPontoAtividade(somatorioControlePedido.getSomatorioPontoAtividade().add(controlePedido.getPontoAtividade()));
 			somatorioControlePedido.setSomatorioPontoIngresso(somatorioControlePedido.getSomatorioPontoIngresso().add(controlePedido.getPontoIngresso()));
 		}
+
 		return somatorioControlePedido;
 	}
 }

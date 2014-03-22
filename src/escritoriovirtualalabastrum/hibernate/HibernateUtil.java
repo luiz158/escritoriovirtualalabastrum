@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.hibernate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Transient;
@@ -327,6 +328,16 @@ public class HibernateUtil {
 		Long quantidadeRegistros = (Long) criteria.uniqueResult();
 
 		return quantidadeRegistros.intValue();
+	}
+
+	public BigDecimal somar(Entidade filtro, List<Criterion> restricoes, MatchMode matchMode, String campo) {
+
+		Criteria criteria = gerarFiltros(filtro, matchMode);
+		adicionarOrdenacaoERestricoes(restricoes, null, criteria, false);
+
+		criteria.setProjection(Projections.sum(campo));
+
+		return (BigDecimal) criteria.list().get(0);
 	}
 
 	public <E extends Entidade> List<E> buscar(Entidade filtro, List<Criterion> restricoes, Order ordenacao, MatchMode matchMode) {

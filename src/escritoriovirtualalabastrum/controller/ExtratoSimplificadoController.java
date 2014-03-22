@@ -13,9 +13,11 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoAtivacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.ExtratoSimplificadoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
+import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
@@ -56,18 +58,24 @@ public class ExtratoSimplificadoController {
 		List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao = bonificacaoAtivacaoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 		result.include("bonificacaoAtivacao", bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao));
 
-		calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
+		ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
+		result.include("pontuacao", extratoSimplificadoAuxiliar.getPontuacao());
+		result.include("quantidadeGraduados", extratoSimplificadoAuxiliar.getQuantidadeGraduados());
+
+		result.include("bonificacaoCompraPessoal", new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados()));
 
 		result.include("mes", mes);
 		result.include("ano", ano);
 	}
 
-	private void calcularPontuacaoEGraduados(Integer ano, Integer mes, BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso) {
+	private ExtratoSimplificadoAuxiliar calcularPontuacaoEGraduados(Integer ano, Integer mes, BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso) {
+
+		ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = new ExtratoSimplificadoAuxiliar();
 
 		if (Util.preenchido(informacoesBonificacoesIngresso.getPontuacaoAlcancadaPeloDiamante()) && Util.preenchido(informacoesBonificacoesIngresso.getGraduadosAlcancadosPeloDiamante())) {
 
-			result.include("pontuacao", informacoesBonificacoesIngresso.getPontuacaoAlcancadaPeloDiamante());
-			result.include("quantidadeGraduados", informacoesBonificacoesIngresso.getGraduadosAlcancadosPeloDiamante());
+			extratoSimplificadoAuxiliar.setPontuacao(informacoesBonificacoesIngresso.getPontuacaoAlcancadaPeloDiamante());
+			extratoSimplificadoAuxiliar.setQuantidadeGraduados(informacoesBonificacoesIngresso.getGraduadosAlcancadosPeloDiamante());
 
 		} else {
 
@@ -81,9 +89,11 @@ public class ExtratoSimplificadoController {
 
 			Integer quantidadeGraduados = new MalaDiretaService().calcularQuantidadeGraduados(this.sessaoUsuario.getUsuario(), result, hibernateUtil, validator, dataInicial, dataFinal, new HashMap<Integer, MalaDireta>());
 
-			result.include("pontuacao", bonificacaoAuxiliar.getPontuacaoDiamante());
-			result.include("quantidadeGraduados", quantidadeGraduados);
+			extratoSimplificadoAuxiliar.setPontuacao(bonificacaoAuxiliar.getPontuacaoDiamante());
+			extratoSimplificadoAuxiliar.setQuantidadeGraduados(quantidadeGraduados);
 		}
+
+		return extratoSimplificadoAuxiliar;
 	}
 
 	private void realizarValidacoes(Integer ano, Integer mes) {

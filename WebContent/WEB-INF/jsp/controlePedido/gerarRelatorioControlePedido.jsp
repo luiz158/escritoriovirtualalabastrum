@@ -1,5 +1,7 @@
 <%@ include file="/base.jsp" %> 
 
+<a class="btn" onclick="window.history.back()" > Voltar </a>
+
 <h3> Controle de pedidos </h3>
 
 <h6 style="color: rgb(100, 100, 100);" >Distribuidor escolhido: ${usuarioPesquisado.id_Codigo} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} </h6>
