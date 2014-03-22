@@ -34,6 +34,7 @@ public class AnaliseController {
 
 		File file = new File(new File(getClass().getResource(getClass().getSimpleName() + ".class").toString().replaceAll("file:/", "")).getPath());
 		result.include("path", file.getPath());
+		result.include("length", file.length());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 

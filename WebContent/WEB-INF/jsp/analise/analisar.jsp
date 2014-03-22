@@ -2,6 +2,8 @@
 
 <br>
 ${path}
+<br>
+${length}
 
 <br>
 <br>
