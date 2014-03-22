@@ -35,10 +35,12 @@ public class AnaliseController {
 		File file = new File(new File(getClass().getResource(getClass().getSimpleName() + ".class").toString().replaceAll("file:/", "")).getPath());
 		result.include("path", file.getPath());
 		result.include("length", file.length());
+		
+		File file2 = new File("/" + file.getPath());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-		result.include("ultimaAtualizacaoSistema", sdf.format(file.lastModified()));
+		result.include("ultimaAtualizacaoSistema", sdf.format(file2.lastModified()));
 
 		result.include("sessoesTomcat", CounterListener.getCount());
 
