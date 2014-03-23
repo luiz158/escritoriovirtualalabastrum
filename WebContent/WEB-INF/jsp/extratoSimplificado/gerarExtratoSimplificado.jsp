@@ -24,7 +24,10 @@
 <h6 style="color: rgb(100, 100, 100);" >Distribuidor: ${sessaoUsuario.usuario.id_Codigo} - ${sessaoUsuario.usuario.posAtual} - ${sessaoUsuario.usuario.vNome}</h6>
 
 <h6 style="color: rgb(100, 100, 100);" > Até o momento, você alcançou <fmt:formatNumber value="${pontuacao}" pattern="#,##0.00" /> pontos e ${quantidadeGraduados} graduados em linhas diferentes na sua rede. </h6>
-<h6 style="color: rgb(100, 100, 100);" > Para conferir em qual qualificação você está neste mês. <a target="_blank" href="<c:url value="/home/qualificacao"/>"> Clique aqui </a> </h6>
+<c:if test="${!empty graduacaoAtual}">
+	<h6 style="color: rgb(100, 100, 100);" > De acordo com sua pontuação e quantidade de graduados neste mês. A sua graduação neste mês é ${graduacaoAtual} </h6>
+</c:if>
+<h6 style="color: rgb(100, 100, 100);" > Para um detalhamento maior das qualificações, clique aqui. <a target="_blank" href="<c:url value="/home/qualificacao"/>"> Clique aqui </a> </h6>
 
 <br> <br>
 
@@ -34,7 +37,7 @@
 			Bônus de Compra Pessoal
 		</td>
 		<td>
-			R$<fmt:formatNumber value="${bonificacaoCompraPessoal}" pattern="#,##0.00" />
+			R$<fmt:formatNumber value="${bonificacaoCompraPessoal}" pattern="#,##0.00" />  (${porcentagemCompraPessoal}%)
 		</td>
 		<td> <a href="<c:url value="/controlePedido/gerarRecebendoAnoEMes?ano=${ano}&mes=${mes}"/>"> Clique para ver detalhes </a> </td>		
 	</tr>

@@ -9,6 +9,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 
+import escritoriovirtualalabastrum.auxiliar.BonificacaoCompraPessoalAuxiliar;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.ControlePedido;
 import escritoriovirtualalabastrum.modelo.Usuario;
@@ -29,54 +30,55 @@ public class BonificacaoCompraPessoalService {
 		this.hibernateUtil = hibernateUtil;
 	}
 
-	public BigDecimal calcularBonificacoes(Usuario usuario, Integer ano, Integer mes, BigDecimal pontuacao, Integer quantidadeGraduados) {
+	public BonificacaoCompraPessoalAuxiliar calcularBonificacoes(Usuario usuario, Integer ano, Integer mes, BigDecimal pontuacao, Integer quantidadeGraduados) {
 
 		BigDecimal totalBaseCalculo = calcularTotalBaseCalculo(usuario, ano, mes);
+		String graduacao = new GraduacaoService().verificaGraduacao(pontuacao, quantidadeGraduados);
+		BigDecimal porcentagem = calcularPorcentagemDeAcordoComGraduacao(graduacao);
+		BigDecimal bonificacao = totalBaseCalculo.multiply(porcentagem).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
 
-		BigDecimal porcentagem = calcularPorcentagemDeAcordoComGraduacao(pontuacao, quantidadeGraduados, totalBaseCalculo);
+		BonificacaoCompraPessoalAuxiliar bonificacaoCompraPessoalAuxiliar = new BonificacaoCompraPessoalAuxiliar();
+		bonificacaoCompraPessoalAuxiliar.setGraduacao(graduacao);
+		bonificacaoCompraPessoalAuxiliar.setPorcentagem(porcentagem);
+		bonificacaoCompraPessoalAuxiliar.setBonificacao(bonificacao);
 
-		return totalBaseCalculo.multiply(porcentagem).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
+		return bonificacaoCompraPessoalAuxiliar;
 	}
 
-	private BigDecimal calcularPorcentagemDeAcordoComGraduacao(BigDecimal pontuacao, Integer quantidadeGraduados, BigDecimal totalBaseCalculo) {
+	private BigDecimal calcularPorcentagemDeAcordoComGraduacao(String graduacao) {
 
 		BigDecimal porcentagem = BigDecimal.ZERO;
 
-		if (totalBaseCalculo.compareTo(BigDecimal.ZERO) > 0) {
+		if (graduacao != null) {
 
-			String graduacao = new GraduacaoService().verificaGraduacao(pontuacao, quantidadeGraduados);
+			if (graduacao.equals(GraduacaoService.BRONZE)) {
 
-			if (graduacao != null) {
+				porcentagem = BRONZE_PORCENTAGEM;
+			}
 
-				if (graduacao.equals(GraduacaoService.BRONZE)) {
+			if (graduacao.equals(GraduacaoService.PRATA)) {
 
-					porcentagem = BRONZE_PORCENTAGEM;
-				}
+				porcentagem = PRATA_PORCENTAGEM;
+			}
 
-				if (graduacao.equals(GraduacaoService.PRATA)) {
+			if (graduacao.equals(GraduacaoService.OURO)) {
 
-					porcentagem = PRATA_PORCENTAGEM;
-				}
+				porcentagem = OURO_PORCENTAGEM;
+			}
 
-				if (graduacao.equals(GraduacaoService.OURO)) {
+			if (graduacao.equals(GraduacaoService.ESMERALDA)) {
 
-					porcentagem = OURO_PORCENTAGEM;
-				}
+				porcentagem = ESMERALDA_PORCENTAGEM;
+			}
 
-				if (graduacao.equals(GraduacaoService.ESMERALDA)) {
+			if (graduacao.equals(GraduacaoService.TOPAZIO)) {
 
-					porcentagem = ESMERALDA_PORCENTAGEM;
-				}
+				porcentagem = TOPAZIO_PORCENTAGEM;
+			}
 
-				if (graduacao.equals(GraduacaoService.TOPAZIO)) {
+			if (graduacao.equals(GraduacaoService.DIAMANTE)) {
 
-					porcentagem = TOPAZIO_PORCENTAGEM;
-				}
-
-				if (graduacao.equals(GraduacaoService.DIAMANTE)) {
-
-					porcentagem = DIAMANTE_PORCENTAGEM;
-				}
+				porcentagem = DIAMANTE_PORCENTAGEM;
 			}
 		}
 

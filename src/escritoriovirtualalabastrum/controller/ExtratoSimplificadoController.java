@@ -12,6 +12,7 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoAtivacaoAuxiliar;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoCompraPessoalAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.ExtratoSimplificadoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
@@ -62,7 +63,10 @@ public class ExtratoSimplificadoController {
 		result.include("pontuacao", extratoSimplificadoAuxiliar.getPontuacao());
 		result.include("quantidadeGraduados", extratoSimplificadoAuxiliar.getQuantidadeGraduados());
 
-		result.include("bonificacaoCompraPessoal", new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados()));
+		BonificacaoCompraPessoalAuxiliar bonificacaoCompraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados());
+		result.include("bonificacaoCompraPessoal", bonificacaoCompraPessoal.getBonificacao());
+		result.include("graduacaoAtual", bonificacaoCompraPessoal.getGraduacao());
+		result.include("porcentagemCompraPessoal", bonificacaoCompraPessoal.getPorcentagem());
 
 		result.include("mes", mes);
 		result.include("ano", ano);
