@@ -27,7 +27,7 @@
 <c:if test="${!empty graduacaoAtual}">
 	<h6 style="color: rgb(100, 100, 100);" > De acordo com sua pontuação e quantidade de graduados neste mês. A sua graduação neste mês é ${graduacaoAtual} </h6>
 </c:if>
-<h6 style="color: rgb(100, 100, 100);" > Para um detalhamento maior das qualificações, clique aqui. <a target="_blank" href="<c:url value="/home/qualificacao"/>"> Clique aqui </a> </h6>
+<h6 style="color: rgb(100, 100, 100);" > Para um detalhamento maior das qualificações. <a target="_blank" href="<c:url value="/home/qualificacao"/>"> Clique aqui </a> </h6>
 
 <br> <br>
 
