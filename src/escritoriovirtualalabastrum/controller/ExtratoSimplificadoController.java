@@ -3,6 +3,7 @@ package escritoriovirtualalabastrum.controller;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.joda.time.DateTime;
 
@@ -19,6 +20,7 @@ import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
+import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
@@ -55,6 +57,8 @@ public class ExtratoSimplificadoController {
 		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 		result.include("bonificacaoIngresso", bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante())));
 
+		TreeMap<Integer, MalaDireta> malaDireta = informacoesBonificacoesIngresso.getMalaDireta();
+
 		BonificacaoAtivacaoService bonificacaoAtivacaoService = new BonificacaoAtivacaoService(hibernateUtil, result, validator);
 		List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao = bonificacaoAtivacaoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 		result.include("bonificacaoAtivacao", bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao));
@@ -67,6 +71,8 @@ public class ExtratoSimplificadoController {
 		result.include("bonificacaoCompraPessoal", bonificacaoCompraPessoal.getBonificacao());
 		result.include("graduacaoAtual", bonificacaoCompraPessoal.getGraduacao());
 		result.include("porcentagemCompraPessoal", bonificacaoCompraPessoal.getPorcentagem());
+
+		new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, malaDireta);
 
 		result.include("mes", mes);
 		result.include("ano", ano);

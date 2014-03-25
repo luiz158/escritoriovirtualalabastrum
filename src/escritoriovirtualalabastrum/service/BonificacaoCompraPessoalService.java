@@ -51,32 +51,32 @@ public class BonificacaoCompraPessoalService {
 
 		if (graduacao != null) {
 
-			if (graduacao.equals(GraduacaoService.BRONZE)) {
+			if (graduacao.equals(MalaDiretaService.GERENTE_BRONZE)) {
 
 				porcentagem = BRONZE_PORCENTAGEM;
 			}
 
-			if (graduacao.equals(GraduacaoService.PRATA)) {
+			if (graduacao.equals(MalaDiretaService.GERENTE_PRATA)) {
 
 				porcentagem = PRATA_PORCENTAGEM;
 			}
 
-			if (graduacao.equals(GraduacaoService.OURO)) {
+			if (graduacao.equals(MalaDiretaService.GERENTE_OURO)) {
 
 				porcentagem = OURO_PORCENTAGEM;
 			}
 
-			if (graduacao.equals(GraduacaoService.ESMERALDA)) {
+			if (graduacao.equals(MalaDiretaService.ESMERALDA)) {
 
 				porcentagem = ESMERALDA_PORCENTAGEM;
 			}
 
-			if (graduacao.equals(GraduacaoService.TOPAZIO)) {
+			if (graduacao.equals(MalaDiretaService.TOPÁZIO)) {
 
 				porcentagem = TOPAZIO_PORCENTAGEM;
 			}
 
-			if (graduacao.equals(GraduacaoService.DIAMANTE)) {
+			if (graduacao.equals(MalaDiretaService.DIAMANTE)) {
 
 				porcentagem = DIAMANTE_PORCENTAGEM;
 			}

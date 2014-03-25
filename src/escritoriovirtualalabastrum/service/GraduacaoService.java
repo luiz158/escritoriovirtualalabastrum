@@ -1,31 +1,29 @@
 package escritoriovirtualalabastrum.service;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 public class GraduacaoService {
 
-	public static final String BRONZE = "BRONZE";
 	public static final BigDecimal BRONZE_PONTUACAO = new BigDecimal("2000");
 
-	public static final String PRATA = "PRATA";
 	public static final BigDecimal PRATA_PONTUACAO = new BigDecimal("4000");
 	public static final Integer PRATA_GRADUADOS = 1;
 
-	public static final String OURO = "OURO";
 	public static final BigDecimal OURO_PONTUACAO = new BigDecimal("6000");
 	public static final Integer OURO_GRADUADOS = 2;
 
-	public static final String ESMERALDA = "ESMERALDA";
 	public static final BigDecimal ESMERALDA_PONTUACAO = new BigDecimal("20000");
 	public static final Integer ESMERALDA_GRADUADOS = 3;
 
-	public static final String TOPAZIO = "TOPAZIO";
 	public static final BigDecimal TOPAZIO_PONTUACAO = new BigDecimal("40000");
 	public static final Integer TOPAZIO_GRADUADOS = 4;
 
-	public static final String DIAMANTE = "DIAMANTE";
 	public static final BigDecimal DIAMANTE_PONTUACAO = new BigDecimal("60000");
 	public static final Integer DIAMANTE_GRADUADOS = 5;
+
+	public static final List<String> GRADUACOES = Arrays.asList(MalaDiretaService.GERENTE_BRONZE.toLowerCase(), MalaDiretaService.GERENTE_PRATA.toLowerCase(), MalaDiretaService.GERENTE_OURO.toLowerCase(), MalaDiretaService.ESMERALDA.toLowerCase(), MalaDiretaService.TOPÁZIO.toLowerCase(), MalaDiretaService.DIAMANTE.toLowerCase());
 
 	public String verificaGraduacao(BigDecimal pontuacao, Integer quantidadeGraduados) {
 
@@ -33,32 +31,32 @@ public class GraduacaoService {
 
 		if (pontuacao.compareTo(BRONZE_PONTUACAO) >= 0) {
 
-			graduacao = BRONZE;
+			graduacao = MalaDiretaService.GERENTE_BRONZE;
 		}
 
 		if (pontuacao.compareTo(PRATA_PONTUACAO) >= 0 && quantidadeGraduados >= PRATA_GRADUADOS) {
 
-			graduacao = PRATA;
+			graduacao = MalaDiretaService.GERENTE_PRATA;
 		}
 
 		if (pontuacao.compareTo(OURO_PONTUACAO) >= 0 && quantidadeGraduados >= OURO_GRADUADOS) {
 
-			graduacao = OURO;
+			graduacao = MalaDiretaService.GERENTE_OURO;
 		}
 
 		if (pontuacao.compareTo(ESMERALDA_PONTUACAO) >= 0 && quantidadeGraduados >= ESMERALDA_GRADUADOS) {
 
-			graduacao = ESMERALDA;
+			graduacao = MalaDiretaService.ESMERALDA;
 		}
 
 		if (pontuacao.compareTo(TOPAZIO_PONTUACAO) >= 0 && quantidadeGraduados >= TOPAZIO_GRADUADOS) {
 
-			graduacao = TOPAZIO;
+			graduacao = MalaDiretaService.TOPÁZIO;
 		}
 
 		if (pontuacao.compareTo(DIAMANTE_PONTUACAO) >= 0 && quantidadeGraduados >= DIAMANTE_GRADUADOS) {
 
-			graduacao = DIAMANTE;
+			graduacao = MalaDiretaService.DIAMANTE;
 		}
 
 		return graduacao;

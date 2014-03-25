@@ -101,6 +101,7 @@ public class BonificacaoIngressoService {
 		}
 
 		informacoesBonificacoes.setBonificacoes(bonificacoes);
+		informacoesBonificacoes.setMalaDireta(malaDiretaCompleta);
 
 		return informacoesBonificacoes;
 	}

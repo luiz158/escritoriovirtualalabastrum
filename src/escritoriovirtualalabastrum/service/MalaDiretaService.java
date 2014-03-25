@@ -26,8 +26,13 @@ import escritoriovirtualalabastrum.util.Util;
 
 public class MalaDiretaService {
 
-	public static final String TODAS = "Todas";
 	public static final String DIAMANTE = "Diamante";
+	public static final String TOPÁZIO = "Topázio";
+	public static final String ESMERALDA = "Esmeralda";
+	public static final String GERENTE_OURO = "Gerente Ouro";
+	public static final String GERENTE_PRATA = "Gerente Prata";
+	public static final String GERENTE_BRONZE = "Gerente Bronze";
+	public static final String TODAS = "Todas";
 
 	private HibernateUtil hibernateUtil;
 	private Validator validator;
@@ -108,47 +113,6 @@ public class MalaDiretaService {
 					} else {
 
 						gerarMalaDiretaDeAcordoComAtividade(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel, malaDireta);
-					}
-				}
-			}
-		}
-	}
-
-	public void gerarMalaDiretaDeAcordoComAtividadeEAteGeracaoDefinida(String posicao, Integer codigoUsuario, GregorianCalendar dataInicial, GregorianCalendar dataFinal, Integer nivel, TreeMap<Integer, MalaDireta> malaDireta) {
-
-		Usuario usuario = new Usuario();
-
-		try {
-
-			Field field = usuario.getClass().getDeclaredField(posicao);
-
-			field.setAccessible(true);
-
-			field.set(usuario, codigoUsuario);
-		}
-
-		catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		List<Usuario> usuariosPatrocinados = hibernateUtil.buscar(usuario);
-
-		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
-
-			if (!codigoUsuario.equals(usuarioPatrocinado.getId_Codigo())) {
-
-				if (!malaDireta.containsKey(usuarioPatrocinado.getId_Codigo())) {
-
-					malaDireta.put(usuarioPatrocinado.getId_Codigo(), new MalaDireta(usuarioPatrocinado, nivel));
-
-					if (usuarioPatrocinado.isAtivo(dataInicial, dataFinal)) {
-
-						gerarMalaDiretaDeAcordoComAtividadeEAteGeracaoDefinida(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel + 1, malaDireta);
-
-					} else {
-
-						gerarMalaDiretaDeAcordoComAtividadeEAteGeracaoDefinida(posicao, usuarioPatrocinado.getId_Codigo(), dataInicial, dataFinal, nivel, malaDireta);
 					}
 				}
 			}
@@ -462,11 +426,11 @@ public class MalaDiretaService {
 		posicoes.put("id_M8", "G8");
 		posicoes.put("id_M9", "G9");
 		posicoes.put("id_M10", "G10");
-		posicoes.put("id_GB", "Gerente Bronze");
-		posicoes.put("id_GP", "Gerente Prata");
-		posicoes.put("id_GO", "Gerente Ouro");
-		posicoes.put("id_M", "Esmeralda");
-		posicoes.put("id_LA", "Topázio");
+		posicoes.put("id_GB", GERENTE_BRONZE);
+		posicoes.put("id_GP", GERENTE_PRATA);
+		posicoes.put("id_GO", GERENTE_OURO);
+		posicoes.put("id_M", ESMERALDA);
+		posicoes.put("id_LA", TOPÁZIO);
 		posicoes.put("id_CR", DIAMANTE);
 		posicoes.put("id_DR", "Diamante Duplo");
 		posicoes.put("id_DD", "Diamante Triplo");

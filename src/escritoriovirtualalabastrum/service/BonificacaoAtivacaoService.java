@@ -45,12 +45,12 @@ public class BonificacaoAtivacaoService {
 
 			List<Integer> codigosJaAdicionados = new ArrayList<Integer>();
 
-			TreeMap<Integer, MalaDireta> malaDiretaAteGeracaoDefinida = new TreeMap<Integer, MalaDireta>();
+			TreeMap<Integer, MalaDireta> malaDiretaDeAcordoComAtividade = new TreeMap<Integer, MalaDireta>();
 
 			MalaDiretaService malaDiretaService = new MalaDiretaService(hibernateUtil);
-			malaDiretaService.gerarMalaDiretaDeAcordoComAtividadeEAteGeracaoDefinida("id_Patroc", usuario.getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), 1, malaDiretaAteGeracaoDefinida);
+			malaDiretaService.gerarMalaDiretaDeAcordoComAtividade("id_Patroc", usuario.getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), 1, malaDiretaDeAcordoComAtividade);
 
-			for (Entry<Integer, MalaDireta> malaDireta : malaDiretaAteGeracaoDefinida.entrySet()) {
+			for (Entry<Integer, MalaDireta> malaDireta : malaDiretaDeAcordoComAtividade.entrySet()) {
 
 				if (malaDireta.getValue().getUsuario().isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && malaDireta.getValue().getNivel() <= QUANTIDADE_GERACOES_QUE_DISTRIBUIRAO_BONUS) {
 
