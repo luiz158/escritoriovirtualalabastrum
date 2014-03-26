@@ -85,7 +85,7 @@ public class BonificacaoCompraPessoalService {
 		return porcentagem;
 	}
 
-	private BigDecimal calcularTotalBaseCalculo(Usuario usuario, Integer ano, Integer mes) {
+	public BigDecimal calcularTotalBaseCalculo(Usuario usuario, Integer ano, Integer mes) {
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);

@@ -209,7 +209,7 @@ public class MalaDiretaService {
 		return malaDireta;
 	}
 
-	private void pesquisarMalaDiretaComRecursividade(Integer codigo, TreeMap<Integer, MalaDireta> malaDireta, int nivel, String posicao) {
+	public void pesquisarMalaDiretaComRecursividade(Integer codigo, TreeMap<Integer, MalaDireta> malaDireta, int nivel, String posicao) {
 
 		Usuario usuario = new Usuario();
 
