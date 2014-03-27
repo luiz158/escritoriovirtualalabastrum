@@ -3,11 +3,14 @@ package escritoriovirtualalabastrum.service;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 
 import br.com.caelum.vraptor.Result;
@@ -16,8 +19,10 @@ import escritoriovirtualalabastrum.auxiliar.BonificacaoGraduacaoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.controller.PontuacaoController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.ControlePedido;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
+import escritoriovirtualalabastrum.util.Util;
 
 public class BonificacaoGraduacaoService {
 
@@ -59,6 +64,43 @@ public class BonificacaoGraduacaoService {
 		}
 
 		return bonificacaoGraduacaoAuxiliar;
+	}
+
+	public List<ControlePedido> buscarPedidosDaRede(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDireta) {
+
+		List<Integer> idsRede = new ArrayList<Integer>();
+
+		for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
+
+			if (!malaDiretaEntry.getValue().getUsuario().getId_Codigo().equals(usuario.getId_Codigo())) {
+
+				idsRede.add(malaDiretaEntry.getValue().getUsuario().getId_Codigo());
+			}
+		}
+
+		if (Util.preenchido(idsRede)) {
+
+			DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
+			DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+
+			List<Criterion> restricoes = new ArrayList<Criterion>();
+			restricoes.add(Restrictions.between("pedData", dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()));
+			restricoes.add(Restrictions.in("id_Codigo", idsRede));
+			restricoes.add(Restrictions.ne("BaseCalculo", BigDecimal.ZERO));
+
+			List<ControlePedido> pedidos = this.hibernateUtil.buscar(new ControlePedido(), restricoes);
+
+			for (ControlePedido pedido : pedidos) {
+
+				Usuario usuarioDoPedido = this.hibernateUtil.selecionar(new Usuario(pedido.getId_Codigo()));
+
+				pedido.setUsuario(usuarioDoPedido);
+			}
+
+			return pedidos;
+		}
+
+		return new ArrayList<ControlePedido>();
 	}
 
 	private BigDecimal calcularSomatorioPedidosRede(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDireta) {

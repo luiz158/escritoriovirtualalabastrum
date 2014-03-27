@@ -1,4 +1,4 @@
-<%@ include file="/base.jsp" %> 
+<%@ include file="/base.jsp" %>
 
 <style>
 
@@ -21,7 +21,7 @@
 <h3> Bônus de Graduação </h3>
 
 <h6 style="color: rgb(100, 100, 100);" >Mês/ano: ${mesAno}</h6>
-<h6 style="color: rgb(100, 100, 100);" >Bonificação: R$<fmt:formatNumber value="${bonificacaoGraduacao.bonificacao}" pattern="#,##0.00" /> </h6>
+<h6>Bonificação: <span style="font-size: 16px"> R$<fmt:formatNumber value="${bonificacaoGraduacao.bonificacao}" pattern="#,##0.00" /> </span> </h6>
 
 <br>
 <h5> Detalhes </h5>
@@ -33,22 +33,32 @@
 <c:if test="${!empty bonificacaoGraduacao.graduadosEPorcentagens}">
 
 	<br>
-	<h6 style="text-align: center;"> Distribuidores graduados </h6>
+	<h6> Distribuidores graduados e suas porcentagens de graduação ganhas </h6>
 
+	<c:forEach items="${bonificacaoGraduacao.graduadosEPorcentagens}" var="item">
+		<p> ${item.key.id_Codigo} - ${item.key.vNome} <b>(${item.value}%)</b> </p>
+	</c:forEach>
+</c:if>			
+			
+<c:if test="${!empty pedidosDaRede}">
+
+	<br>
+	<h6> Pedidos da rede </h6>
+	
 	<table class="table table-striped table-bordered">
 		<thead>
 	    	<tr>
-                   <th> Distribuidor </th>
-                   <th> Porcentagem </th>
+	            <th> Distribuidor </th>
+	            <th> Base de cálculo </th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${bonificacaoGraduacao.graduadosEPorcentagens}" var="item">
+			<c:forEach items="${pedidosDaRede}" var="item">
 				<tr>
-                       <td> ${item.key.id_Codigo} - ${item.key.vNome} </td>
-                       <td class="centralizado" > ${item.value}% </td>
-				</tr>
-			</c:forEach>
-		</tbody>
+	                <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+	                <td class="centralizado" >  R$<fmt:formatNumber value="${item.baseCalculo}" pattern="#,##0.00" /> </td>
+	            </tr>
+	        </c:forEach>
+	    </tbody>
 	</table>
-</c:if>
+</c:if>	

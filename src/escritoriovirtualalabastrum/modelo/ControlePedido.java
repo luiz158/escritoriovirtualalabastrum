@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
@@ -30,6 +31,18 @@ public class ControlePedido implements Entidade {
 
 	@Index(name = "index_id_Codigo_controle_pedido")
 	private Integer id_Codigo;
+
+	@Transient
+	private Usuario usuario;
+
+	public Usuario getUsuario() {
+
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public Integer getId() {
 		return id;
@@ -118,5 +131,4 @@ public class ControlePedido implements Entidade {
 	public void setId_Codigo(Integer id_Codigo) {
 		this.id_Codigo = id_Codigo;
 	}
-
 }

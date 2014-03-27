@@ -30,7 +30,11 @@ public class BonificacaoGraduacaoController {
 	@Funcionalidade
 	public void gerarRelatorioBonificacaoGraduacao(Integer ano, Integer mes) {
 
-		result.include("bonificacaoGraduacao", new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, sessaoBonificacao.getExtratoSimplificadoAuxiliar().getPontuacao(), sessaoBonificacao.getExtratoSimplificadoAuxiliar().getQuantidadeGraduados(), sessaoBonificacao.getMalaDireta()));
+		BonificacaoGraduacaoService bonificacaoGraduacaoService = new BonificacaoGraduacaoService(hibernateUtil, validator, result);
+
+		result.include("bonificacaoGraduacao", bonificacaoGraduacaoService.calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, sessaoBonificacao.getExtratoSimplificadoAuxiliar().getPontuacao(), sessaoBonificacao.getExtratoSimplificadoAuxiliar().getQuantidadeGraduados(), sessaoBonificacao.getMalaDireta()));
+
+		result.include("pedidosDaRede", bonificacaoGraduacaoService.buscarPedidosDaRede(sessaoUsuario.getUsuario(), ano, mes, sessaoBonificacao.getMalaDireta()));
 
 		result.include("mesAno", mes + "/" + ano);
 	}
