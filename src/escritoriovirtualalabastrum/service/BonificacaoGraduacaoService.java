@@ -51,15 +51,15 @@ public class BonificacaoGraduacaoService {
 			DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
 			DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
-			HashMap<Usuario, BigDecimal> graduadosEPorcentagens = new HashMap<Usuario, BigDecimal>();
+			HashMap<Usuario, BigDecimal> graduadosEPorcentagensComPedidos = new HashMap<Usuario, BigDecimal>();
 
-			BigDecimal porcentagemFinalGanha = calcularPorcentagemFinalGanha(usuario, porcentagem, dataInicial, dataFinal, graduadosEPorcentagens);
+			BigDecimal porcentagemFinalGanha = calcularPorcentagemFinalGanha(usuario, porcentagem, dataInicial, dataFinal, graduadosEPorcentagensComPedidos, ano, mes);
 
 			BigDecimal somatorioPedidosrede = calcularSomatorioPedidosRede(usuario, ano, mes, malaDireta);
 
 			bonificacaoGraduacaoAuxiliar.setPorcentagemUsuarioLogado(porcentagem);
 			bonificacaoGraduacaoAuxiliar.setSomatorioPedidosrede(somatorioPedidosrede);
-			bonificacaoGraduacaoAuxiliar.setGraduadosEPorcentagens(graduadosEPorcentagens);
+			bonificacaoGraduacaoAuxiliar.setGraduadosEPorcentagens(graduadosEPorcentagensComPedidos);
 			bonificacaoGraduacaoAuxiliar.setBonificacao(porcentagemFinalGanha.multiply(somatorioPedidosrede).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP));
 		}
 
@@ -119,7 +119,9 @@ public class BonificacaoGraduacaoService {
 		return somatorioPedidosrede;
 	}
 
-	private BigDecimal calcularPorcentagemFinalGanha(Usuario usuario, BigDecimal porcentagem, DateTime dataInicial, DateTime dataFinal, HashMap<Usuario, BigDecimal> graduadosEPorcentagens) {
+	private BigDecimal calcularPorcentagemFinalGanha(Usuario usuario, BigDecimal porcentagem, DateTime dataInicial, DateTime dataFinal, HashMap<Usuario, BigDecimal> graduadosEPorcentagensComPedidos, Integer ano, Integer mes) {
+
+		HashMap<Usuario, BigDecimal> graduadosEPorcentagens = new HashMap<Usuario, BigDecimal>();
 
 		descerMalaDiretaAteEncontrarGraduados(usuario.getId_Codigo(), new TreeMap<Integer, MalaDireta>(), 1, "id_Patroc", dataInicial, dataFinal, graduadosEPorcentagens);
 
@@ -127,16 +129,40 @@ public class BonificacaoGraduacaoService {
 
 		if (graduadosEPorcentagens.size() > 0) {
 
-			BigDecimal porcentagemTotalDoUsuarioLogado = porcentagem.multiply(new BigDecimal(graduadosEPorcentagens.size()));
-
-			BigDecimal porcentagemTotalDosGraduados = BigDecimal.ZERO;
-
 			for (Entry<Usuario, BigDecimal> graduadoEPorcentagem : graduadosEPorcentagens.entrySet()) {
 
-				porcentagemTotalDosGraduados = porcentagemTotalDosGraduados.add(graduadoEPorcentagem.getValue());
+				MalaDiretaService malaDiretaService = new MalaDiretaService();
+				malaDiretaService.setHibernateUtil(hibernateUtil);
+				malaDiretaService.setValidator(validator);
+
+				TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
+				malaDiretaService.pesquisarMalaDiretaComRecursividade(graduadoEPorcentagem.getKey().getId_Codigo(), malaDireta, 1, "id_Patroc");
+
+				List<ControlePedido> pedidosDaRede = buscarPedidosDaRede(graduadoEPorcentagem.getKey(), ano, mes, malaDireta);
+
+				if (pedidosDaRede.size() != 0) {
+
+					graduadosEPorcentagensComPedidos.put(graduadoEPorcentagem.getKey(), graduadoEPorcentagem.getValue());
+				}
 			}
 
-			porcentagemFinalGanha = porcentagemTotalDoUsuarioLogado.subtract(porcentagemTotalDosGraduados);
+			if (graduadosEPorcentagensComPedidos.size() > 0) {
+
+				BigDecimal porcentagemTotalDoUsuarioLogado = porcentagem.multiply(new BigDecimal(graduadosEPorcentagensComPedidos.size()));
+
+				BigDecimal porcentagemTotalDosGraduados = BigDecimal.ZERO;
+
+				for (Entry<Usuario, BigDecimal> graduadoEPorcentagem : graduadosEPorcentagensComPedidos.entrySet()) {
+
+					porcentagemTotalDosGraduados = porcentagemTotalDosGraduados.add(graduadoEPorcentagem.getValue());
+				}
+
+				porcentagemFinalGanha = porcentagemTotalDoUsuarioLogado.subtract(porcentagemTotalDosGraduados);
+
+			} else {
+
+				porcentagemFinalGanha = porcentagem;
+			}
 
 		} else {
 
