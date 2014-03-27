@@ -23,6 +23,7 @@ import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
 import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
+import escritoriovirtualalabastrum.sessao.SessaoBonificacao;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 import escritoriovirtualalabastrum.util.Util;
 
@@ -32,14 +33,16 @@ public class ExtratoSimplificadoController {
 	private Result result;
 	private HibernateUtil hibernateUtil;
 	private SessaoUsuario sessaoUsuario;
+	private SessaoBonificacao sessaoBonificacao;
 	private Validator validator;
 	private boolean realizarValidacoes = true;
 
-	public ExtratoSimplificadoController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario, Validator validator) {
+	public ExtratoSimplificadoController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario, SessaoBonificacao sessaoBonificacao, Validator validator) {
 
 		this.result = result;
 		this.hibernateUtil = hibernateUtil;
 		this.sessaoUsuario = sessaoUsuario;
+		this.sessaoBonificacao = sessaoBonificacao;
 		this.validator = validator;
 	}
 
@@ -72,7 +75,10 @@ public class ExtratoSimplificadoController {
 		result.include("graduacaoAtual", bonificacaoCompraPessoal.getGraduacao());
 		result.include("porcentagemCompraPessoal", bonificacaoCompraPessoal.getPorcentagem());
 
-		new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, malaDireta);
+		result.include("bonificacaoGraduacao", new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados(), malaDireta));
+
+		sessaoBonificacao.setMalaDireta(malaDireta);
+		sessaoBonificacao.setExtratoSimplificadoAuxiliar(extratoSimplificadoAuxiliar);
 
 		result.include("mes", mes);
 		result.include("ano", ano);

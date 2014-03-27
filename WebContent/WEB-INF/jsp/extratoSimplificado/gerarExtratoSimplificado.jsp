@@ -64,9 +64,9 @@
 			Bônus de Graduação
 		</td>
 		<td>
-			 (AINDA EM CONSTRUÇÃO)
+			 R$<fmt:formatNumber value="${bonificacaoGraduacao.bonificacao}" pattern="#,##0.00" />
 		</td>	
-		<td> </td>		
+		<td> <a href="<c:url value="/bonificacaoGraduacao/gerarRelatorioBonificacaoGraduacao?ano=${ano}&mes=${mes}"/>"> Clique para ver detalhes </a> </td>
 	</tr>
 	<tr>
 		<td>

@@ -16,13 +16,6 @@ import escritoriovirtualalabastrum.modelo.Usuario;
 
 public class BonificacaoCompraPessoalService {
 
-	public static final BigDecimal BRONZE_PORCENTAGEM = new BigDecimal("3");
-	public static final BigDecimal PRATA_PORCENTAGEM = new BigDecimal("6");
-	public static final BigDecimal OURO_PORCENTAGEM = new BigDecimal("9");
-	public static final BigDecimal ESMERALDA_PORCENTAGEM = new BigDecimal("12");
-	public static final BigDecimal TOPAZIO_PORCENTAGEM = new BigDecimal("15");
-	public static final BigDecimal DIAMANTE_PORCENTAGEM = new BigDecimal("18");
-
 	private HibernateUtil hibernateUtil;
 
 	public BonificacaoCompraPessoalService(HibernateUtil hibernateUtil) {
@@ -32,9 +25,11 @@ public class BonificacaoCompraPessoalService {
 
 	public BonificacaoCompraPessoalAuxiliar calcularBonificacoes(Usuario usuario, Integer ano, Integer mes, BigDecimal pontuacao, Integer quantidadeGraduados) {
 
+		GraduacaoService graduacaoService = new GraduacaoService();
+
 		BigDecimal totalBaseCalculo = calcularTotalBaseCalculo(usuario, ano, mes);
-		String graduacao = new GraduacaoService().verificaGraduacao(pontuacao, quantidadeGraduados);
-		BigDecimal porcentagem = calcularPorcentagemDeAcordoComGraduacao(graduacao);
+		String graduacao = graduacaoService.verificaGraduacao(pontuacao, quantidadeGraduados);
+		BigDecimal porcentagem = graduacaoService.calcularPorcentagemDeAcordoComGraduacao(graduacao);
 		BigDecimal bonificacao = totalBaseCalculo.multiply(porcentagem).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
 
 		BonificacaoCompraPessoalAuxiliar bonificacaoCompraPessoalAuxiliar = new BonificacaoCompraPessoalAuxiliar();
@@ -43,46 +38,6 @@ public class BonificacaoCompraPessoalService {
 		bonificacaoCompraPessoalAuxiliar.setBonificacao(bonificacao);
 
 		return bonificacaoCompraPessoalAuxiliar;
-	}
-
-	private BigDecimal calcularPorcentagemDeAcordoComGraduacao(String graduacao) {
-
-		BigDecimal porcentagem = BigDecimal.ZERO;
-
-		if (graduacao != null) {
-
-			if (graduacao.equals(MalaDiretaService.GERENTE_BRONZE)) {
-
-				porcentagem = BRONZE_PORCENTAGEM;
-			}
-
-			if (graduacao.equals(MalaDiretaService.GERENTE_PRATA)) {
-
-				porcentagem = PRATA_PORCENTAGEM;
-			}
-
-			if (graduacao.equals(MalaDiretaService.GERENTE_OURO)) {
-
-				porcentagem = OURO_PORCENTAGEM;
-			}
-
-			if (graduacao.equals(MalaDiretaService.ESMERALDA)) {
-
-				porcentagem = ESMERALDA_PORCENTAGEM;
-			}
-
-			if (graduacao.equals(MalaDiretaService.TOPÁZIO)) {
-
-				porcentagem = TOPAZIO_PORCENTAGEM;
-			}
-
-			if (graduacao.equals(MalaDiretaService.DIAMANTE)) {
-
-				porcentagem = DIAMANTE_PORCENTAGEM;
-			}
-		}
-
-		return porcentagem;
 	}
 
 	public BigDecimal calcularTotalBaseCalculo(Usuario usuario, Integer ano, Integer mes) {
@@ -97,6 +52,11 @@ public class BonificacaoCompraPessoalService {
 		controlePedidoFiltro.setId_Codigo(usuario.getId_Codigo());
 
 		BigDecimal totalBaseCalculo = this.hibernateUtil.somar(controlePedidoFiltro, restricoes, null, "BaseCalculo");
+
+		if (totalBaseCalculo == null) {
+
+			return BigDecimal.ZERO;
+		}
 
 		return totalBaseCalculo;
 	}
