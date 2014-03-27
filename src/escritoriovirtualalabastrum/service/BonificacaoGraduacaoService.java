@@ -55,12 +55,13 @@ public class BonificacaoGraduacaoService {
 
 			BigDecimal porcentagemFinalGanha = calcularPorcentagemFinalGanha(usuario, porcentagem, dataInicial, dataFinal, graduadosEPorcentagensComPedidos, ano, mes);
 
-			BigDecimal somatorioPedidosrede = calcularSomatorioPedidosRede(usuario, ano, mes, malaDireta);
+			BigDecimal somatorioPedidosRedePrimeiroNivel = calcularSomatorioPedidosRedePrimeiroNivel(usuario, ano, mes, malaDireta);
+			BigDecimal somatorioPedidosRedeSegundoNivelEmDiante = calcularSomatorioPedidosRedeSegundoNivelEmDiante(usuario, ano, mes, malaDireta);
 
 			bonificacaoGraduacaoAuxiliar.setPorcentagemUsuarioLogado(porcentagem);
-			bonificacaoGraduacaoAuxiliar.setSomatorioPedidosrede(somatorioPedidosrede);
+			bonificacaoGraduacaoAuxiliar.setSomatorioPedidosrede(somatorioPedidosRedePrimeiroNivel.add(somatorioPedidosRedeSegundoNivelEmDiante));
 			bonificacaoGraduacaoAuxiliar.setGraduadosEPorcentagens(graduadosEPorcentagensComPedidos);
-			bonificacaoGraduacaoAuxiliar.setBonificacao(porcentagemFinalGanha.multiply(somatorioPedidosrede).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP));
+			bonificacaoGraduacaoAuxiliar.setBonificacao((porcentagem.multiply(somatorioPedidosRedePrimeiroNivel).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP)).add(porcentagemFinalGanha.multiply(somatorioPedidosRedeSegundoNivelEmDiante).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP)));
 		}
 
 		return bonificacaoGraduacaoAuxiliar;
@@ -103,7 +104,7 @@ public class BonificacaoGraduacaoService {
 		return new ArrayList<ControlePedido>();
 	}
 
-	private BigDecimal calcularSomatorioPedidosRede(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDireta) {
+	private BigDecimal calcularSomatorioPedidosRedePrimeiroNivel(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDireta) {
 
 		BigDecimal somatorioPedidosrede = BigDecimal.ZERO;
 
@@ -111,8 +112,30 @@ public class BonificacaoGraduacaoService {
 
 			if (!malaDiretaEntry.getValue().getUsuario().getId_Codigo().equals(usuario.getId_Codigo())) {
 
-				BigDecimal compraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularTotalBaseCalculo(malaDiretaEntry.getValue().getUsuario(), ano, mes);
-				somatorioPedidosrede = somatorioPedidosrede.add(compraPessoal);
+				if (malaDiretaEntry.getValue().getNivel() == 1) {
+
+					BigDecimal compraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularTotalBaseCalculo(malaDiretaEntry.getValue().getUsuario(), ano, mes);
+					somatorioPedidosrede = somatorioPedidosrede.add(compraPessoal);
+				}
+			}
+		}
+
+		return somatorioPedidosrede;
+	}
+
+	private BigDecimal calcularSomatorioPedidosRedeSegundoNivelEmDiante(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDireta) {
+
+		BigDecimal somatorioPedidosrede = BigDecimal.ZERO;
+
+		for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDireta.entrySet()) {
+
+			if (!malaDiretaEntry.getValue().getUsuario().getId_Codigo().equals(usuario.getId_Codigo())) {
+
+				if (malaDiretaEntry.getValue().getNivel() > 1) {
+
+					BigDecimal compraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularTotalBaseCalculo(malaDiretaEntry.getValue().getUsuario(), ano, mes);
+					somatorioPedidosrede = somatorioPedidosrede.add(compraPessoal);
+				}
 			}
 		}
 
