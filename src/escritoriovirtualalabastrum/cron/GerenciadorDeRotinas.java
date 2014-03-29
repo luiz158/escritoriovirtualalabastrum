@@ -9,6 +9,6 @@ public class GerenciadorDeRotinas {
 		ThreadRestartHibernate.iniciarThread();
 		new NotificacaoNovatosNaRede().iniciarRotina();
 		new AtualizacaoArquivosAutomaticamente().iniciarRotina();
-		new BonificacaoDaRede().iniciarRotina();
+		new BonificacaoRedeRotina().iniciarRotina();
 	}
 }

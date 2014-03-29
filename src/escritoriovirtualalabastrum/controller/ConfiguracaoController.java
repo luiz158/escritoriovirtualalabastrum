@@ -9,7 +9,7 @@ import org.hibernate.criterion.MatchMode;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
-import escritoriovirtualalabastrum.cron.BonificacaoDaRede;
+import escritoriovirtualalabastrum.cron.BonificacaoRedeRotina;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Configuracao;
 import escritoriovirtualalabastrum.util.Util;
@@ -74,7 +74,7 @@ public class ConfiguracaoController {
 			hibernateUtil.salvarOuAtualizar(configuracao);
 		}
 
-		new BonificacaoDaRede().iniciarRotina();
+		new BonificacaoRedeRotina().iniciarRotina();
 
 		result.include("sucesso", "Configurações salvas com sucesso");
 

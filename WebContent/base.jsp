@@ -79,9 +79,10 @@
 	        <c:if test="${sessaoUsuario.usuario.informacoesFixasUsuario.administrador}">
 		        <h3 class="menu-accordion" >ADMINISTRATIVO </h3>
 		        <div>
-		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivo"/>" class="submenu-accordion" > Atualizar o sistema </a>
 		        	<a href="<c:url value="/assumirIdentidade/acessarTelaAssumirIdentidade"/>" class="submenu-accordion" > Assumir identidade </a>
+		        	<a href="<c:url value="/bonificacaoRede/acessarBonificacaoRede"/>" class="submenu-accordion" > Bonificação dos ativos </a>
 		        	<a href="<c:url value="/configuracao/configuracoes"/>" class="submenu-accordion" > Configurações </a>
+		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivo"/>" class="submenu-accordion" > Atualizar o sistema </a>
 		        </div>
 	        </c:if>
 		</div>

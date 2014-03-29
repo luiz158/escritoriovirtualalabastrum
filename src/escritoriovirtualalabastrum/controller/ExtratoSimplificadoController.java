@@ -84,7 +84,7 @@ public class ExtratoSimplificadoController {
 		result.include("ano", ano);
 	}
 
-	private ExtratoSimplificadoAuxiliar calcularPontuacaoEGraduados(Integer ano, Integer mes, BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso) {
+	public ExtratoSimplificadoAuxiliar calcularPontuacaoEGraduados(Integer ano, Integer mes, BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso) {
 
 		ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = new ExtratoSimplificadoAuxiliar();
 

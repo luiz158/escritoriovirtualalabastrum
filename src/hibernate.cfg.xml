@@ -36,6 +36,8 @@
 		<mapping class="escritoriovirtualalabastrum.modelo.FixoIngresso" />
 		<mapping class="escritoriovirtualalabastrum.modelo.HistoricoKit" />
 		<mapping class="escritoriovirtualalabastrum.modelo.PorcentagemIngresso" />
+		<mapping class="escritoriovirtualalabastrum.modelo.InformacoesGeraisCalculoBonificacaoRede" />
+		<mapping class="escritoriovirtualalabastrum.modelo.BonificacaoRede" />
 
 </session-factory>
 </hibernate-configuration>

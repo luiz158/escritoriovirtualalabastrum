@@ -1,13 +1,10 @@
-import java.math.BigDecimal;
+import escritoriovirtualalabastrum.cron.BonificacaoRedeRotina;
 
 public class MainTest {
 
 	public static void main(String[] args) {
 
-		BigDecimal x = new BigDecimal("10");
-
-		System.out.println(x.multiply(new BigDecimal("10")));
-
-		System.out.println(x);
+		new BonificacaoRedeRotina().run();
+		System.out.println("salvooooooooooooooooo");
 	}
 }
