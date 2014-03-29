@@ -81,6 +81,7 @@
 		        <div>
 		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivo"/>" class="submenu-accordion" > Atualizar o sistema </a>
 		        	<a href="<c:url value="/assumirIdentidade/acessarTelaAssumirIdentidade"/>" class="submenu-accordion" > Assumir identidade </a>
+		        	<a href="<c:url value="/configuracao/configuracoes"/>" class="submenu-accordion" > Configurações </a>
 		        </div>
 	        </c:if>
 		</div>

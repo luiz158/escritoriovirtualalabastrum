@@ -6,12 +6,13 @@ import java.util.Map.Entry;
 
 import org.hibernate.criterion.MatchMode;
 
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.cron.BonificacaoDaRede;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Configuracao;
 import escritoriovirtualalabastrum.util.Util;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
 
 @Resource
 public class ConfiguracaoController {
@@ -72,6 +73,8 @@ public class ConfiguracaoController {
 			configuracao.setValor(configuracaoEntrySet.getValue());
 			hibernateUtil.salvarOuAtualizar(configuracao);
 		}
+
+		new BonificacaoDaRede().iniciarRotina();
 
 		result.include("sucesso", "Configurações salvas com sucesso");
 

@@ -22,8 +22,7 @@ import org.hibernate.criterion.Restrictions;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.RequestScoped;
-import escritoriovirtualalabastrum.cron.AtualizacaoArquivosAutomaticamente;
-import escritoriovirtualalabastrum.cron.NotificacaoNovatosNaRede;
+import escritoriovirtualalabastrum.cron.GerenciadorDeRotinas;
 import escritoriovirtualalabastrum.modelo.Configuracao;
 import escritoriovirtualalabastrum.util.Util;
 import escritoriovirtualalabastrum.util.UtilReflection;
@@ -54,9 +53,8 @@ public class HibernateUtil {
 		if (sessionFactory == null) {
 
 			reiniciarSessionFactory();
-			ThreadRestartHibernate.iniciarThread();
-			new NotificacaoNovatosNaRede().iniciarRotina();
-			new AtualizacaoArquivosAutomaticamente().iniciarRotina();
+
+			GerenciadorDeRotinas.iniciarRotinas();
 		}
 	}
 

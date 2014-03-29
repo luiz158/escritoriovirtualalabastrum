@@ -27,6 +27,9 @@ public class Configuracao implements Entidade {
 		HashMap<String, String> configuracoesPadroes = new HashMap<String, String>();
 
 		configuracoesPadroes.put("quantidadeRegistrosPorPagina", "10");
+		configuracoesPadroes.put("anoRotinaBonificacoes", "2014");
+		configuracoesPadroes.put("mesRotinaBonificacoes", "03");
+		configuracoesPadroes.put("horarioRotinaBonificacoes", "02:30");
 
 		return configuracoesPadroes;
 	}
@@ -73,5 +76,4 @@ public class Configuracao implements Entidade {
 	public void setValor(String valor) {
 		this.valor = valor;
 	}
-
 }
