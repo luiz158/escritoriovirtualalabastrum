@@ -29,7 +29,8 @@ public class BonificacaoGraduacaoService {
 	private HibernateUtil hibernateUtil;
 	private Validator validator;
 	private Result result;
-	BigDecimal somatorioPedidosRede = BigDecimal.ZERO;
+	private BigDecimal somatorioPedidosRede = BigDecimal.ZERO;
+	private List<Integer> usuariosQueDeramAlgumaBonificacao = new ArrayList<Integer>();
 
 	public BonificacaoGraduacaoService(HibernateUtil hibernateUtil, Validator validator, Result result) {
 
@@ -62,12 +63,13 @@ public class BonificacaoGraduacaoService {
 			bonificacaoGraduacaoAuxiliar.setSomatorioPedidosrede(this.somatorioPedidosRede);
 			bonificacaoGraduacaoAuxiliar.setGraduadosEPorcentagens(graduadosEPorcentagensComPedidos);
 			bonificacaoGraduacaoAuxiliar.setBonificacao(bonificacao);
+			bonificacaoGraduacaoAuxiliar.setUsuariosQueDeramAlgumaBonificacao(this.usuariosQueDeramAlgumaBonificacao);
 		}
 
 		return bonificacaoGraduacaoAuxiliar;
 	}
 
-	public List<ControlePedido> buscarPedidosDaRede(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDireta) {
+	public List<ControlePedido> buscarPedidosDaRede(Usuario usuario, Integer ano, Integer mes, TreeMap<Integer, MalaDireta> malaDireta, List<Integer> usuariosQueDeramAlgumaBonificacao) {
 
 		List<Integer> idsRede = new ArrayList<Integer>();
 
@@ -75,7 +77,16 @@ public class BonificacaoGraduacaoService {
 
 			if (!malaDiretaEntry.getValue().getUsuario().getId_Codigo().equals(usuario.getId_Codigo())) {
 
-				idsRede.add(malaDiretaEntry.getValue().getUsuario().getId_Codigo());
+				if (usuariosQueDeramAlgumaBonificacao != null) {
+
+					if (usuariosQueDeramAlgumaBonificacao.contains(malaDiretaEntry.getValue().getUsuario().getId_Codigo())) {
+
+						idsRede.add(malaDiretaEntry.getValue().getUsuario().getId_Codigo());
+					}
+				} else {
+
+					idsRede.add(malaDiretaEntry.getValue().getUsuario().getId_Codigo());
+				}
 			}
 		}
 
@@ -140,6 +151,11 @@ public class BonificacaoGraduacaoService {
 						porcentagemFinal = BigDecimal.ZERO;
 					}
 
+					if (porcentagemFinal.compareTo(BigDecimal.ZERO) > 0) {
+
+						usuariosQueDeramAlgumaBonificacao.add(malaDiretaEntry.getValue().getUsuario().getId_Codigo());
+					}
+
 					bonificacao = bonificacao.add(porcentagemFinal.multiply(compraPessoal).divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP));
 				}
 			}
@@ -167,7 +183,7 @@ public class BonificacaoGraduacaoService {
 				TreeMap<Integer, MalaDireta> malaDireta = new TreeMap<Integer, MalaDireta>();
 				malaDiretaService.pesquisarMalaDiretaComRecursividade(graduadoEPorcentagem.getKey().getId_Codigo(), malaDireta, 1, "id_Patroc");
 
-				List<ControlePedido> pedidosDaRede = buscarPedidosDaRede(graduadoEPorcentagem.getKey(), ano, mes, malaDireta);
+				List<ControlePedido> pedidosDaRede = buscarPedidosDaRede(graduadoEPorcentagem.getKey(), ano, mes, malaDireta, null);
 
 				if (pedidosDaRede.size() != 0) {
 

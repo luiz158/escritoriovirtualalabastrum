@@ -43,7 +43,7 @@
 <c:if test="${!empty pedidosDaRede}">
 
 	<br>
-	<h6> Pedidos da rede </h6>
+	<h6> Movimentação da rede </h6>
 	
 	<table class="table table-striped table-bordered">
 		<thead>

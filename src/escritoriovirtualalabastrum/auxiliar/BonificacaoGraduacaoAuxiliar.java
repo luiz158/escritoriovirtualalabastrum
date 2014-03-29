@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.auxiliar;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 
 import escritoriovirtualalabastrum.modelo.Usuario;
 
@@ -11,6 +12,7 @@ public class BonificacaoGraduacaoAuxiliar {
 	private HashMap<Usuario, BigDecimal> graduadosEPorcentagens;
 	private BigDecimal somatorioPedidosrede;
 	private BigDecimal bonificacao;
+	private List<Integer> usuariosQueDeramAlgumaBonificacao;
 
 	public BigDecimal getPorcentagemUsuarioLogado() {
 		return porcentagemUsuarioLogado;
@@ -42,5 +44,13 @@ public class BonificacaoGraduacaoAuxiliar {
 
 	public void setBonificacao(BigDecimal bonificacao) {
 		this.bonificacao = bonificacao;
+	}
+
+	public List<Integer> getUsuariosQueDeramAlgumaBonificacao() {
+		return usuariosQueDeramAlgumaBonificacao;
+	}
+
+	public void setUsuariosQueDeramAlgumaBonificacao(List<Integer> usuariosQueDeramAlgumaBonificacao) {
+		this.usuariosQueDeramAlgumaBonificacao = usuariosQueDeramAlgumaBonificacao;
 	}
 }

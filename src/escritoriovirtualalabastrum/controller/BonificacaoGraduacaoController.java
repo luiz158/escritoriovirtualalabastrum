@@ -4,6 +4,7 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
+import escritoriovirtualalabastrum.auxiliar.BonificacaoGraduacaoAuxiliar;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
 import escritoriovirtualalabastrum.sessao.SessaoBonificacao;
@@ -32,9 +33,10 @@ public class BonificacaoGraduacaoController {
 
 		BonificacaoGraduacaoService bonificacaoGraduacaoService = new BonificacaoGraduacaoService(hibernateUtil, validator, result);
 
-		result.include("bonificacaoGraduacao", bonificacaoGraduacaoService.calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, sessaoBonificacao.getExtratoSimplificadoAuxiliar().getPontuacao(), sessaoBonificacao.getExtratoSimplificadoAuxiliar().getQuantidadeGraduados(), sessaoBonificacao.getMalaDireta()));
+		BonificacaoGraduacaoAuxiliar bonificacao = bonificacaoGraduacaoService.calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, sessaoBonificacao.getExtratoSimplificadoAuxiliar().getPontuacao(), sessaoBonificacao.getExtratoSimplificadoAuxiliar().getQuantidadeGraduados(), sessaoBonificacao.getMalaDireta());
+		result.include("bonificacaoGraduacao", bonificacao);
 
-		result.include("pedidosDaRede", bonificacaoGraduacaoService.buscarPedidosDaRede(sessaoUsuario.getUsuario(), ano, mes, sessaoBonificacao.getMalaDireta()));
+		result.include("pedidosDaRede", bonificacaoGraduacaoService.buscarPedidosDaRede(sessaoUsuario.getUsuario(), ano, mes, sessaoBonificacao.getMalaDireta(), bonificacao.getUsuariosQueDeramAlgumaBonificacao()));
 
 		result.include("mesAno", mes + "/" + ano);
 	}
