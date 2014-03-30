@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import escritoriovirtualalabastrum.controller.EnviadorEmailsController;
@@ -14,25 +15,43 @@ public class EnviadorEmailsService extends Thread {
 	private String corpo;
 
 	public void run() {
-		
+
 		this.corpo = corpo + "<br> <br> <br> <br> <a href='http://escritoriovirtual.alabastrum.com.br'> Acesse o Escritório Virtual da Alabastrum </a> ";
 
 		HibernateUtil hibernateUtil = new HibernateUtil();
 
 		List<Usuario> usuarios = hibernateUtil.buscar(new Usuario());
 
+		List<String> remetentes = new ArrayList<String>();
+
+		int numeroMaximoRemetentesPorEmail = 300;
+
 		for (Usuario usuario : usuarios) {
 
 			if (Util.preenchido(usuario.geteMail())) {
 
-				try {
+				remetentes.add(usuario.geteMail());
+				EnviadorEmailsController.emailsEnviados.add(usuario);
 
-					JavaMailApp.enviarEmail(assunto, usuario.geteMail(), corpo);
+				if (remetentes.size() >= numeroMaximoRemetentesPorEmail) {
 
-					EnviadorEmailsController.emailsEnviados.add(usuario);
+					String remetentesString = "";
 
-				} catch (Exception e) {
+					for (String remetente : remetentes) {
 
+						remetentesString = remetentesString + remetente + ", ";
+					}
+
+					try {
+
+						JavaMailApp.enviarEmail(assunto, remetentesString, corpo);
+
+					} catch (Exception e) {
+
+					} finally {
+
+						remetentes = new ArrayList<String>();
+					}
 				}
 			}
 		}
