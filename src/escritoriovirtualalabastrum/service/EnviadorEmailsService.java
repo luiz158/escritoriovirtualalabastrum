@@ -13,6 +13,7 @@ public class EnviadorEmailsService extends Thread {
 
 	private String assunto;
 	private String corpo;
+	private List<String> remetentes;
 
 	public void run() {
 
@@ -22,9 +23,10 @@ public class EnviadorEmailsService extends Thread {
 
 		List<Usuario> usuarios = hibernateUtil.buscar(new Usuario());
 
-		List<String> remetentes = new ArrayList<String>();
+		remetentes = new ArrayList<String>();
 
-		int numeroMaximoRemetentesPorEmail = 300;
+		//int numeroMaximoRemetentesPorEmail = 300;
+		int numeroMaximoRemetentesPorEmail = 3;
 
 		for (Usuario usuario : usuarios) {
 
@@ -35,30 +37,40 @@ public class EnviadorEmailsService extends Thread {
 
 				if (remetentes.size() >= numeroMaximoRemetentesPorEmail) {
 
-					String remetentesString = "";
-
-					for (String remetente : remetentes) {
-
-						remetentesString = remetentesString + remetente + ", ";
-					}
-
-					try {
-
-						JavaMailApp.enviarEmail(assunto, remetentesString, corpo);
-
-					} catch (Exception e) {
-
-					} finally {
-
-						remetentes = new ArrayList<String>();
-					}
+					enviarEmailsParaRemetentes();
 				}
 			}
+		}
+
+		if (remetentes.size() > 0) {
+
+			enviarEmailsParaRemetentes();
 		}
 
 		EnviadorEmailsController.emailsEnviados = null;
 
 		hibernateUtil.fecharSessao();
+	}
+
+	private void enviarEmailsParaRemetentes() {
+
+		String remetentesString = "";
+
+		for (String remetente : remetentes) {
+
+			remetentesString = remetentesString + remetente + ", ";
+		}
+
+		try {
+
+			JavaMailApp.enviarEmail(assunto, remetentesString, corpo);
+
+		} catch (Exception e) {
+
+		} finally {
+
+			remetentes = new ArrayList<String>();
+		}
 	}
 
 	public EnviadorEmailsService(String assunto, String corpo) {
