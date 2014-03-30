@@ -6,11 +6,11 @@
 <html lang="pt-br">
 	<head>
 		 <meta charset="utf-8">
-		<title> Escritório Virtual Alabastrum </title>
+		<title> Escritï¿½rio Virtual Alabastrum </title>
 		<link type="text/css" href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/bootstrap-alterado.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/bootstrap-responsive.css"/>" rel="stylesheet" />
-		<link type="text/css" href="<c:url value="/css/estilo.css?ver=3"/>" rel="stylesheet" />
+		<link type="text/css" href="<c:url value="/css/estilo.css?ver=4"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/jquery-ui-1.9.2.custom.min.css"/>" rel="stylesheet" />
 		<link type="text/css" href="<c:url value="/css/menu-accordion.css"/>" rel="stylesheet" />
 		<script type="text/javascript" src="<c:url value="/js/jquery-1.8.3.js"/>"></script>
@@ -34,22 +34,22 @@
 		
 		</div>
 		
-		<p class="bem-vindo" > ${sessaoUsuario.usuario.vNome}, bem vindo(a) ao seu escritório virtual!  </p>
+		<p class="bem-vindo" > ${sessaoUsuario.usuario.vNome}, bem vindo(a) ao seu escritï¿½rio virtual!  </p>
 
  		<div class="menu" data-collapse="persist">
 
 	      	<h3 class="menu-accordion" > MEUS DADOS </h3>
 	        <div>
-	        	<a href="<c:url value="/home/home"/>" class="submenu-accordion" > Página inicial </a>
+	        	<a href="<c:url value="/home/home"/>" class="submenu-accordion" > Pï¿½gina inicial </a>
 	        	<a href="<c:url value="/atualizacaoDados/acessarTelaAtualizacaoDados"/>" class="submenu-accordion" > Dados cadastrais </a>
 	        	<a href="<c:url value="/login/trocarPropriaSenha"/>" class="submenu-accordion" > Troque sua senha </a>
 	        </div>
 	        <h3 class="menu-accordion" > REDE </h3>
 	        <div>
 	        	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" class="submenu-accordion" > Mala direta </a>
-	        	<a href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" class="submenu-accordion" > Pontuação </a>
-	        	<a href="<c:url value="/pontuacaoAnual/acessarTelaPontuacaoAnual"/>" class="submenu-accordion" > Pontuação anual</a>
-	        	<a href="<c:url value="/arvoreRelacionamento/acessarTelaArvoreRelacionamento"/>" class="submenu-accordion" > Árvore de relacionamentos </a>
+	        	<a href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" class="submenu-accordion" > Pontuaï¿½ï¿½o </a>
+	        	<a href="<c:url value="/pontuacaoAnual/acessarTelaPontuacaoAnual"/>" class="submenu-accordion" > Pontuaï¿½ï¿½o anual</a>
+	        	<a href="<c:url value="/arvoreRelacionamento/acessarTelaArvoreRelacionamento"/>" class="submenu-accordion" > ï¿½rvore de relacionamentos </a>
 	        	<a href="<c:url value="/aniversariantes/acessarTelaAniversariantes"/>" class="submenu-accordion" > Aniversariantes </a>
 	        	<a href="<c:url value="/listaIngresso/acessarTelaListaIngresso"/>" class="submenu-accordion" > Lista de ingresso </a>
 	        </div>
@@ -57,9 +57,9 @@
 	        <div>
 	        	<a href="<c:url value="/pedido/acessarTelaPedido"/>" class="submenu-accordion" > Realizar pedido </a>
 	        	<a href="<c:url value="/controlePedido/acessarTelaControlePedido"/>" class="submenu-accordion" > Controle de pedidos </a>
-	        	<a href="<c:url value="/transferenciaCredito/acessarTelaTransferenciaCredito"/>" class="submenu-accordion" > Transferência de crédito </a>
+	        	<a href="<c:url value="/transferenciaCredito/acessarTelaTransferenciaCredito"/>" class="submenu-accordion" > Transferï¿½ncia de crï¿½dito </a>
 	        </div>
-	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3>
+	         <h3 class="menu-accordion" > BONIFICAï¿½ï¿½O </h3>
 	        <div>
 				<a href="<c:url value="/extratoSimplificado/acessarTelaExtratoSimplificado"/>" class="submenu-accordion" > Extrato Simplificado </a>
 	        </div>
@@ -67,12 +67,12 @@
 	        <div>
 	        	<a href="<c:url value="/home/downloads"/>" class="submenu-accordion" > Downloads </a>
 	        	<a href="<c:url value="/home/kitIngresso"/>" class="submenu-accordion" > Kits de ingresso </a>
-	        	<a href="<c:url value="/home/qualificacao"/>" class="submenu-accordion" > Qualificação </a>
-	        	<a href="<c:url value="/centroDistribuicao/listarCentrosDistribuicao"/>" class="submenu-accordion" > Centros de distribuição </a>
+	        	<a href="<c:url value="/home/qualificacao"/>" class="submenu-accordion" > Qualificaï¿½ï¿½o </a>
+	        	<a href="<c:url value="/centroDistribuicao/listarCentrosDistribuicao"/>" class="submenu-accordion" > Centros de distribuiï¿½ï¿½o </a>
 	        	<a href="<c:url value="/linhaAscendente/exibirLinhaAscendente"/>" class="submenu-accordion" > Linha Ascendente </a>
-	        	<a href="<c:url value="/dataQualificacoes/acessarTelaDataQualificacoes"/>" class="submenu-accordion" > Datas de qualificações </a>
+	        	<a href="<c:url value="/dataQualificacoes/acessarTelaDataQualificacoes"/>" class="submenu-accordion" > Datas de qualificaï¿½ï¿½es </a>
 	        </div>
-	        <h3 class="menu-accordion" > INFORMAÇÕES ÚTEIS </h3>
+	        <h3 class="menu-accordion" > INFORMAï¿½ï¿½ES ï¿½TEIS </h3>
 	        <div>
 	        	<a href="<c:url value="/home/emails"/>" class="submenu-accordion" > E-mails </a>
 	        </div>
@@ -80,9 +80,9 @@
 		        <h3 class="menu-accordion" >ADMINISTRATIVO </h3>
 		        <div>
 		        	<a href="<c:url value="/assumirIdentidade/acessarTelaAssumirIdentidade"/>" class="submenu-accordion" > Assumir identidade </a>
-		        	<a href="<c:url value="/bonificacaoRede/acessarBonificacaoRede"/>" class="submenu-accordion" > Bonificação dos ativos </a>
+		        	<a href="<c:url value="/bonificacaoRede/acessarBonificacaoRede"/>" class="submenu-accordion" > Bonificaï¿½ï¿½o dos ativos </a>
 		        	<a href="<c:url value="/enviadorEmails/acessarEnviadorEmails"/>" class="submenu-accordion" > Enviar emails para a rede </a>
-		        	<a href="<c:url value="/configuracao/configuracoes"/>" class="submenu-accordion" > Configurações </a>
+		        	<a href="<c:url value="/configuracao/configuracoes"/>" class="submenu-accordion" > Configuraï¿½ï¿½es </a>
 		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivo"/>" class="submenu-accordion" > Atualizar o sistema </a>
 		        </div>
 	        </c:if>
