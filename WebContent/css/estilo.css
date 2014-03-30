@@ -156,6 +156,10 @@ table:hover{
 	height: 150px !important;
 }
 
+#dicas-html{
+	display: none; 
+}
+
 @media print {
 
 	.topo, .menu, .bem-vindo, #sair, .btn {

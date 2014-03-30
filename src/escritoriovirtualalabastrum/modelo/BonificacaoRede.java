@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 import escritoriovirtualalabastrum.hibernate.Entidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.util.Util;
 
 @Entity
 public class BonificacaoRede implements Entidade {
@@ -27,15 +28,20 @@ public class BonificacaoRede implements Entidade {
 
 	public Usuario getUsuario() {
 
-		HibernateUtil hibernateUtil = new HibernateUtil();
+		if (Util.preenchido(this.id_Codigo)) {
 
-		Usuario usuario = new Usuario(this.id_Codigo);
+			HibernateUtil hibernateUtil = new HibernateUtil();
 
-		usuario = hibernateUtil.selecionar(usuario);
+			Usuario usuario = new Usuario(this.id_Codigo);
 
-		hibernateUtil.fecharSessao();
+			usuario = hibernateUtil.selecionar(usuario);
 
-		return usuario;
+			hibernateUtil.fecharSessao();
+
+			return usuario;
+		}
+
+		return null;
 	}
 
 	public Integer getId() {

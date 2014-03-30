@@ -42,7 +42,7 @@
 			<tbody>
 				<c:forEach items="${bonificacoesRede}" var="item">
 					<tr>
-                        <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+						<td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
                         <td class="centralizado" > ${item.qualificacao} </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoCompraPessoal}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoIngresso}" pattern="#,##0.00" /> </td>
