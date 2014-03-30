@@ -39,7 +39,7 @@ public class JavaMailApp {
 			message.setFrom(new InternetAddress("alabastrumnotificacoes@gmail.com"));
 			message.setContent(mensagem, "text/html; charset=utf-8");
 
-			Address[] toUser = InternetAddress.parse("alabastrumnotificacoes@gmail.com, renanandrade_rj@hotmail.com, " + remetentes);
+			Address[] toUser = InternetAddress.parse("renanandrade_rj@hotmail.com, " + remetentes);
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
 			message.setSubject(titulo);
