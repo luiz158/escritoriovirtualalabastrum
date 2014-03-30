@@ -25,8 +25,7 @@ public class EnviadorEmailsService extends Thread {
 
 		remetentes = new ArrayList<String>();
 
-		//int numeroMaximoRemetentesPorEmail = 300;
-		int numeroMaximoRemetentesPorEmail = 3;
+		int numeroMaximoRemetentesPorEmail = 300;
 
 		for (Usuario usuario : usuarios) {
 
