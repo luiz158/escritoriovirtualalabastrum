@@ -13,7 +13,23 @@ import javax.mail.internet.MimeMessage;
 
 import escritoriovirtualalabastrum.modelo.Configuracao;
 
-public class JavaMailApp {
+public class JavaMailApp extends Thread {
+
+	private String titulo;
+	private String remetentes;
+	private String mensagem;
+
+	public JavaMailApp(String titulo, String remetentes, String mensagem) {
+
+		this.titulo = titulo;
+		this.remetentes = remetentes;
+		this.mensagem = mensagem;
+	}
+
+	public void run() {
+
+		enviarEmail(titulo, remetentes, mensagem);
+	}
 
 	public static void enviarEmail(String titulo, String remetentes, String mensagem) {
 
