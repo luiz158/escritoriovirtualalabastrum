@@ -6,8 +6,8 @@ import java.util.List;
 import escritoriovirtualalabastrum.controller.EnviadorEmailsController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.util.EmailValidator;
 import escritoriovirtualalabastrum.util.JavaMailApp;
-import escritoriovirtualalabastrum.util.Util;
 
 public class EnviadorEmailsService extends Thread {
 
@@ -25,11 +25,11 @@ public class EnviadorEmailsService extends Thread {
 
 		remetentes = new ArrayList<String>();
 
-		int numeroMaximoRemetentesPorEmail = 300;
+		int numeroMaximoRemetentesPorEmail = 90;
 
 		for (Usuario usuario : usuarios) {
 
-			if (Util.preenchido(usuario.geteMail())) {
+			if (EmailValidator.isvalid(usuario.geteMail())) {
 
 				remetentes.add(usuario.geteMail());
 				EnviadorEmailsController.emailsEnviados.add(usuario);
