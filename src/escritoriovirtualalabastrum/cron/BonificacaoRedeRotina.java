@@ -33,7 +33,8 @@ import escritoriovirtualalabastrum.util.Util;
 
 public class BonificacaoRedeRotina implements Runnable {
 
-	private static String id;
+	private static Scheduler scheduler = new Scheduler();
+	private static String idScheduler;
 	private HibernateUtil hibernateUtil;
 
 	public void run() {
@@ -128,21 +129,23 @@ public class BonificacaoRedeRotina implements Runnable {
 
 	public void iniciarRotina() {
 
-		BonificacaoRedeRotina task = new BonificacaoRedeRotina();
-
-		Scheduler scheduler = new Scheduler();
-
 		String horario = new Configuracao().retornarConfiguracao("horarioRotinaBonificacoes");
 
 		String schedulerString = horario.split(":")[1] + " " + horario.split(":")[0] + " * * *";
 
-		if (Util.preenchido(id)) {
+		if (Util.preenchido(idScheduler)) {
 
-			scheduler.deschedule(id);
+			scheduler.reschedule(idScheduler, schedulerString);
 		}
 
-		id = scheduler.schedule(schedulerString, task);
+		else {
 
-		scheduler.start();
+			idScheduler = scheduler.schedule(schedulerString, this);
+		}
+
+		if (!scheduler.isStarted()) {
+
+			scheduler.start();
+		}
 	}
 }
