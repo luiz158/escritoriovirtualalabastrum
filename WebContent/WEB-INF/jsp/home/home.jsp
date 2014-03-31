@@ -173,24 +173,24 @@
 
 </style>
 
-<%-- 	<c:if test="${exibirMensagemAutorizacaoAtivacaoAutomatica}"> --%>
+	<c:if test="${exibirMensagemAutorizacaoAtivacaoAutomatica}">
 	
-<!-- 		<div class="alert" style="padding: 20px"> -->
-<%-- 			<p class="autorizacao-ativacao-automatica"> Eu, <strong> ${sessaoUsuario.usuario.vNome}, </strong> autorizo o débito da minha bonificação o valor para minha ATIVAÇÃO AUTOMÁTICA </p> --%>
+		<div class="alert" style="padding: 20px">
+			<p class="autorizacao-ativacao-automatica"> Eu, <strong> ${sessaoUsuario.usuario.vNome}, </strong> autorizo o débito da minha bonificação o valor para minha ATIVAÇÃO AUTOMÁTICA </p>
 			
-<!-- 			<br> -->
+			<br>
 			
-<%-- 			<form action="<c:url value="/home/autorizarAtivacaoAutomatica"/>" method="post" > --%>
-<!-- 				<input type="submit" class="btn btn-success" name="autorizacao" value="SIM" /> -->
-<!-- 				<input type="submit" class="btn btn-danger" name="autorizacao" value="NÃO" style="margin-left: 10px;" /> -->
-<!-- 			</form> -->
+			<form action="<c:url value="/home/autorizarAtivacaoAutomatica"/>" method="post" >
+				<input type="submit" class="btn btn-success" name="autorizacao" value="SIM" />
+				<input type="submit" class="btn btn-danger" name="autorizacao" value="NÃO" style="margin-left: 10px;" />
+			</form>
 			
-<!-- 		</div> -->
+		</div>
 	
-<!-- 		<br> -->
-<!-- 		<br> -->
-<!-- 		<br> -->
-<%-- 	</c:if> --%>
+		<br>
+		<br>
+		<br>
+	</c:if>
 
   <div class="container">
     <div id="slides">
