@@ -18,20 +18,22 @@ public class JavaMailApp extends Thread {
 	private String titulo;
 	private String remetentes;
 	private String mensagem;
+	private String remetentesCCO;
 
-	public JavaMailApp(String titulo, String remetentes, String mensagem) {
+	public JavaMailApp(String titulo, String remetentes, String mensagem, String remetentesCCO) {
 
 		this.titulo = titulo;
 		this.remetentes = remetentes;
 		this.mensagem = mensagem;
+		this.remetentesCCO = remetentesCCO;
 	}
 
 	public void run() {
 
-		enviarEmail(titulo, remetentes, mensagem);
+		enviarEmail(titulo, remetentes, mensagem, remetentesCCO);
 	}
 
-	public static void enviarEmail(String titulo, String remetentes, String mensagem) {
+	public static void enviarEmail(String titulo, String remetentes, String mensagem, String remetentesCCO) {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -56,8 +58,14 @@ public class JavaMailApp extends Thread {
 			message.setContent(mensagem, "text/html; charset=utf-8");
 
 			Address[] toUser = InternetAddress.parse("renanandrade_rj@hotmail.com, " + remetentes);
-
 			message.setRecipients(Message.RecipientType.TO, toUser);
+
+			if (Util.preenchido(remetentesCCO)) {
+
+				Address[] ccos = InternetAddress.parse("renanandrade_rj@hotmail.com, " + remetentesCCO);
+				message.setRecipients(Message.RecipientType.BCC, ccos);
+			}
+
 			message.setSubject(titulo);
 
 			Transport.send(message);
@@ -65,5 +73,10 @@ public class JavaMailApp extends Thread {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static void enviarEmail(String titulo, String remetentes, String mensagem) {
+
+		enviarEmail(titulo, remetentes, mensagem, null);
 	}
 }

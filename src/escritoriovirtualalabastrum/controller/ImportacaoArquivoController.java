@@ -92,14 +92,14 @@ public class ImportacaoArquivoController {
 	public void processarArquivos() throws IOException {
 
 		processarCSVRelacionamentos();
-		processarCSVPontuacao();
-		processarCSVProdutos();
-		processarCSVCategorias();
-		processarCSVCentroDistribuicao();
-		processarCSVControlePedido();
-		processarCSVFixoIngresso();
-		processarCSVHistoricoKit();
-		processarCSVPorcentagemIngresso();
+//		processarCSVPontuacao();
+//		processarCSVProdutos();
+//		processarCSVCategorias();
+//		processarCSVCentroDistribuicao();
+//		processarCSVControlePedido();
+//		processarCSVFixoIngresso();
+//		processarCSVHistoricoKit();
+//		processarCSVPorcentagemIngresso();
 
 		atualizarInformacoesUltimaAtualizacao();
 	}

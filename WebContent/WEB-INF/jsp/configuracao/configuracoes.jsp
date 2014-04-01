@@ -60,6 +60,17 @@
     		<input type="text" class="input-medium" name="configuracoes(horarioRotinaBonificacoes)" value="${configuracoes.get('horarioRotinaBonificacoes')}">
   		</div>
 	</div>
+	
+	<div class="control-group" > 
+
+        <label class="control-label">Exibir rede fake </label>
+        <div class="controls">
+          <select name="configuracoes(exibicaoRedeFakeRelatorioBonificacao)" >
+          	<option value="false" > Não </option>
+	      	<option value="true" > Sim </option>
+		  </select>
+        </div>
+    </div>
 
 	<br><br>
     <button type="submit" class="btn btn-primary">Salvar</button>

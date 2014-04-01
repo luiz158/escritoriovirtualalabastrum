@@ -56,7 +56,7 @@ public class HomeController {
 		corpo += "<br> <br>";
 		corpo += "Autorização: " + autorizacao;
 
-		new JavaMailApp("Autorização de débito de bonificação para ativação automática ", "financeiro@alabastrum.com.br, " + this.sessaoUsuario.getUsuario().geteMail(), corpo).start();
+		new JavaMailApp("Autorização de débito de bonificação para ativação automática ", "financeiro@alabastrum.com.br, " + this.sessaoUsuario.getUsuario().geteMail(), corpo, null).start();
 
 		AutorizacaoAtivacaoAutomatica autorizacaoAtivacaoAutomatica = new AutorizacaoAtivacaoAutomatica();
 		autorizacaoAtivacaoAutomatica.setId_Codigo(this.sessaoUsuario.getUsuario().getId_Codigo());

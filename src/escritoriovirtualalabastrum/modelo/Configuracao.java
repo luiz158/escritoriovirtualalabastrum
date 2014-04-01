@@ -30,6 +30,7 @@ public class Configuracao implements Entidade {
 		configuracoesPadroes.put("anoRotinaBonificacoes", "2014");
 		configuracoesPadroes.put("mesRotinaBonificacoes", "03");
 		configuracoesPadroes.put("horarioRotinaBonificacoes", "02:30");
+		configuracoesPadroes.put("exibicaoRedeFakeRelatorioBonificacao", "false");
 
 		return configuracoesPadroes;
 	}

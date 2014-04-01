@@ -21,7 +21,9 @@ public class EnviadorEmailsService extends Thread {
 
 		HibernateUtil hibernateUtil = new HibernateUtil();
 
-		List<Usuario> usuarios = hibernateUtil.buscar(new Usuario());
+		Usuario usuarioFiltro = new Usuario();
+		usuarioFiltro.setFake("0");
+		List<Usuario> usuarios = hibernateUtil.buscar(usuarioFiltro);
 
 		remetentes = new ArrayList<String>();
 

@@ -104,7 +104,7 @@ public class BonificacaoRedeRotina implements Runnable {
 
 		String graduacao = new GraduacaoService().verificaGraduacao(extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados());
 		if (graduacao == null) {
-			graduacao = "Nenhuma";
+			graduacao = "Executivo";
 		}
 
 		BigDecimal bonificacaoCompraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados()).getBonificacao();
