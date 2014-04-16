@@ -39,8 +39,6 @@ public class BonificacaoRedeRotina implements Runnable {
 
 	public void run() {
 
-		System.out.println("fsfsf");
-
 		DateTime dataInicioCalculo = new DateTime();
 
 		Integer ano = Integer.valueOf(new Configuracao().retornarConfiguracao("anoRotinaBonificacoes"));
