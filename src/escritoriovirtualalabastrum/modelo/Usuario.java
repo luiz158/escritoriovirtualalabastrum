@@ -68,6 +68,7 @@ public class Usuario implements Entidade {
 	private String cadOrgaoExpedidor;
 	private String cadAtividade;
 	private String fake;
+	private String msg;
 	private String cadCredito;
 	private String Dt_Dem;
 	private String Dt_S;
@@ -907,5 +908,13 @@ public class Usuario implements Entidade {
 
 	public void setFake(String fake) {
 		this.fake = fake;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 }
