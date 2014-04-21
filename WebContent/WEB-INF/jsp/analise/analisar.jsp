@@ -14,7 +14,7 @@ Sessões fechadas hibernate: ${sessoesFechadasHibernate}
 <br>
 <br>
 
-<h4> Total de acessos (Início da contagem em 31/01/2014): &nbsp;&nbsp;   ${total}  </h4>
+<h4> Total de acessos (Início da contagem em 22/04/2014): &nbsp;&nbsp;   ${total}  </h4>
 
 <h4> Média diária: ${mediaDiaria}  </h4>
 
