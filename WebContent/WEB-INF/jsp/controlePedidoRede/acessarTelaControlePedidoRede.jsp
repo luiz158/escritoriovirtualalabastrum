@@ -1,8 +1,8 @@
 <%@ include file="/base.jsp" %> 
 
-<form class="form-horizontal" action="<c:url value="/controlePedido/gerarRecebendoDataInicialEFinal"/>" method="post" >
+<form class="form-horizontal" action="<c:url value="/controlePedidoRede/gerarRecebendoDataInicialEFinal"/>" method="post" >
   <fieldset>
-    <legend> Pedidos pessoais </legend>
+    <legend>Pedidos da rede</legend>
     
     <div class="control-group warning" style="margin-left: -50px;" > 
     

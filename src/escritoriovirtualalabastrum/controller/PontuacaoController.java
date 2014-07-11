@@ -65,7 +65,7 @@ public class PontuacaoController {
 
 		primeiroDiaDoMesAtual = primeiroDiaDoMesAtual.withMillisOfDay(0);
 
-		gerarRelatorioPontuacao(MalaDiretaService.TODAS, null, primeiroDiaDoMesAtual.toGregorianCalendar(), hoje.toGregorianCalendar(), TODOS, TODOS);
+		gerarRelatorioPontuacao(MalaDiretaService.TODAS, this.sessaoUsuario.getUsuario().getId_Codigo(), primeiroDiaDoMesAtual.toGregorianCalendar(), hoje.toGregorianCalendar(), TODOS, TODOS);
 
 		result.forwardTo("/WEB-INF/jsp/pontuacao/gerarRelatorioPontuacao.jsp");
 	}

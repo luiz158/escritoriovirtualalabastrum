@@ -2,7 +2,7 @@
 
 <a class="btn" onclick="window.history.back()" > Voltar </a>
 
-<h3> Pedidos pessoais </h3>
+<h3> Pedidos da rede </h3>
 
 <h6 style="color: rgb(100, 100, 100);" >Distribuidor escolhido: ${usuarioPesquisado.id_Codigo} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} </h6>
 
@@ -14,6 +14,7 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 		    	<tr>
+		    		<th> Distribuidor </th>
                     <th> Pedido </th>
                     <th> Data </th>
                     <th> Base Cálculo </th>
@@ -28,6 +29,7 @@
 			<tbody>
 				<c:forEach items="${controlesPedidos}" var="item">
 					<tr>
+						<td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
                         <td class="centralizado" > ${item.pedNumero} </td>
 						<td class="centralizado" > <fmt:formatDate value="${item.pedData.time}" type="DATE" /> </td>
 						<td class="centralizado" > <fmt:formatNumber value="${item.baseCalculo}" /> </td>
@@ -42,7 +44,7 @@
 			</tbody>
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);" >
-                    <td class="centralizado" colspan="2" > <b> Total </b> </td>
+                    <td class="centralizado" colspan="3" > <b> Total </b> </td>
 					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioBaseCalculo}" /> </td>
 					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioPedOutrosValores}" /> </td>
 					<td class="centralizado" > <fmt:formatNumber value="${somatorioControlePedido.somatorioPedValorPago}" /> </td>

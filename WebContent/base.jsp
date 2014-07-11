@@ -57,7 +57,8 @@
 	        <h3 class="menu-accordion" > PEDIDOS </h3>
 	        <div>
 	        	<a href="<c:url value="/pedido/acessarTelaPedido"/>" class="submenu-accordion" > Realizar pedido </a>
-	        	<a href="<c:url value="/controlePedido/acessarTelaControlePedido"/>" class="submenu-accordion" > Controle de pedidos </a>
+	        	<a href="<c:url value="/controlePedido/acessarTelaControlePedido"/>" class="submenu-accordion" > Pedidos pessoais </a>
+	        	<a href="<c:url value="/controlePedidoRede/acessarTelaControlePedidoRede"/>" class="submenu-accordion" > Pedidos da rede </a>
 	        	<a href="<c:url value="/transferenciaCredito/acessarTelaTransferenciaCredito"/>" class="submenu-accordion" > Transferência de crédito </a>
 	        </div>
 	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3>
