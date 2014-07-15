@@ -350,7 +350,12 @@ public class MalaDiretaService {
 
 				} else {
 
-					return encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, graduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
+					 encontrouGraduado = encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, graduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
+					 
+					 if(encontrouGraduado){
+						 
+						 return true;						 
+					 }
 				}
 			}
 		}
