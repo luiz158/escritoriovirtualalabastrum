@@ -256,7 +256,7 @@ public class BonificacaoGraduacaoService {
 						String graduacao = graduacaoService.verificaGraduacao(pontuacao, quantidadeGraduados);
 						BigDecimal porcentagem = graduacaoService.calcularPorcentagemDeAcordoComGraduacao(graduacao);
 
-						if (porcentagem.compareTo(BigDecimal.ZERO) > 0) {
+						if (porcentagem.compareTo(BigDecimal.ZERO) > 0 && usuarioPatrocinado.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar())) {
 
 							graduadosEPorcentagens.put(usuarioPatrocinado, porcentagem);
 
