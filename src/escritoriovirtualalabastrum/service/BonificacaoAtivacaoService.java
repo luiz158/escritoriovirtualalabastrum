@@ -2,6 +2,7 @@ package escritoriovirtualalabastrum.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -52,15 +53,23 @@ public class BonificacaoAtivacaoService {
 
 			for (Entry<Integer, MalaDireta> malaDireta : malaDiretaDeAcordoComAtividade.entrySet()) {
 
-				if (malaDireta.getValue().getUsuario().isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && malaDireta.getValue().getNivel() <= QUANTIDADE_GERACOES_QUE_DISTRIBUIRAO_BONUS) {
+				Usuario usuarioDaMalaDireta = malaDireta.getValue().getUsuario();
 
-					BonificacaoAtivacaoAuxiliar bonificacaoAtivacaoAuxiliar = new BonificacaoAtivacaoAuxiliar();
-					bonificacaoAtivacaoAuxiliar.setMalaDireta(malaDireta.getValue());
-					bonificacaoAtivacaoAuxiliar.setBonificacao(BONIFICACAO_FIXA_LIDERES_ATIVOS);
+				if (usuarioDaMalaDireta.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && malaDireta.getValue().getNivel() <= QUANTIDADE_GERACOES_QUE_DISTRIBUIRAO_BONUS) {
 
-					bonificacoesAtivacao.add(bonificacaoAtivacaoAuxiliar);
+					String mesEAnoDeIngresso = String.valueOf(usuarioDaMalaDireta.getDt_Ingresso().get(Calendar.MONTH) + 1) + "/" + String.valueOf(usuarioDaMalaDireta.getDt_Ingresso().get(Calendar.YEAR));
+					String mesEAnoFiltroRelatorio = mes + "/" + ano;
 
-					codigosJaAdicionados.add(malaDireta.getValue().getUsuario().getId_Codigo());
+					if (!mesEAnoDeIngresso.equals(mesEAnoFiltroRelatorio)) {
+
+						BonificacaoAtivacaoAuxiliar bonificacaoAtivacaoAuxiliar = new BonificacaoAtivacaoAuxiliar();
+						bonificacaoAtivacaoAuxiliar.setMalaDireta(malaDireta.getValue());
+						bonificacaoAtivacaoAuxiliar.setBonificacao(BONIFICACAO_FIXA_LIDERES_ATIVOS);
+
+						bonificacoesAtivacao.add(bonificacaoAtivacaoAuxiliar);
+
+						codigosJaAdicionados.add(usuarioDaMalaDireta.getId_Codigo());
+					}
 				}
 			}
 
