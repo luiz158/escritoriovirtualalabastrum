@@ -185,55 +185,6 @@
 		</div>
 		
 		<div class="divFormulario" >
-			<label class="labelFormulario" > <b> Dados do 2º titular </b></label> 
-		</div>
-		
-		<div class="corMedia divFormulario" >
-			<label class="labelFormulario" >Nome: </label> 
-			<input type="text" style="width: 580px;"  name="sessaoAtualizacaoDados.vnomeTitular2" value="${sessaoAtualizacaoDados.vNomeTitular2}" >
-		</div>
-		
-		<div class="corClara divFormulario" >
-			<label class="labelFormulario" >Data nasc.: </label> 
-			<input type="text" style="width: 90px;" class="data" name="sessaoAtualizacaoDados.dt_NascTitular2" value="${sessaoAtualizacaoDados.dt_NascTitular2}" >
-			<label class="labelFormulario" >Sexo: </label> 
-			<select name="sessaoAtualizacaoDados.sexoTitular2" style="width: 130px;" >
-				<option value="Masculino" <c:if test="${sessaoAtualizacaoDados.sexoTitular2 == 'Masc'}"> selected="selected" </c:if>  > Masc </option>
-				<option value="Feminino" <c:if test="${sessaoAtualizacaoDados.sexoTitular2 == 'Fem'}"> selected="selected" </c:if> > Fem </option>
-			</select>
-			<label class="labelFormulario" >Estado civil: </label>
-			<select name="sessaoAtualizacaoDados.EstCivilTitular2" style="width: 165px;" >
-				<option value="Solteiro(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Solteiro(a)'}"> selected="selected" </c:if>  > Solteiro(a) </option>
-				<option value="Casado(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Casado(a)'}"> selected="selected" </c:if> > Casado(a) </option>
-				<option value="Divorciado(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Divorciado(a)'}"> selected="selected" </c:if> > Divorciado(a) </option>
-				<option value="Viúvo(a)" <c:if test="${sessaoAtualizacaoDados.estCivilTitular2 == 'Viúvo(a)'}"> selected="selected" </c:if> > Viúvo(a) </option>
-			</select> 		
-		</div>
-		
-		<div class="corMedia divFormulario" >
-			<label class="labelFormulario" > CPF: </label> 
-			<input type="text" style="width: 140px;"  name="sessaoAtualizacaoDados.CPFTitular2" value="${sessaoAtualizacaoDados.CPFTitular2}" >
-			<label class="labelFormulario" > RG: </label> 
-			<input type="text" style="width: 140px;"  name="sessaoAtualizacaoDados.RGTitular2" value="${sessaoAtualizacaoDados.RGTitular2}" >
-			<label class="labelFormulario" > Emissor: </label> 
-			<input type="text" style="width: 145px;"  name="sessaoAtualizacaoDados.emissorTitular2" value="${sessaoAtualizacaoDados.emissorTitular2}" >
-		</div>
-		
-		<div class="corClara divFormulario" >
-			<label class="labelFormulario" >Tel. resid.: </label> 
-			<input type="text" style="width: 225px;" name="sessaoAtualizacaoDados.telTitular2" value="${sessaoAtualizacaoDados.telTitular2}" >
-			
-			<label class="labelFormulario" >Tel. Cel.: </label> 
-			<input type="text" style="width: 230px;" name="sessaoAtualizacaoDados.celTitular2" value="${sessaoAtualizacaoDados.celTitular2}" >
-
-		</div>
-		
-		<div class="corMedia divFormulario" >
-			<label class="labelFormulario" >Email: </label> 
-			<input type="text" style="width: 580px; " name="sessaoAtualizacaoDados.emailTitular2" value="${sessaoAtualizacaoDados.eMailTitular2}">
-		</div>
-		
-		<div class="divFormulario" >
 			<label class="labelFormulario" > <b> Dados bancários para pagamento de bonificação </b></label> 
 		</div>
 		
