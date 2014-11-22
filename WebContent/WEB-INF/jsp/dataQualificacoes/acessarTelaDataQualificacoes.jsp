@@ -46,10 +46,6 @@
 		<td> ${sessaoUsuario.usuario.dt_DD} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Diamante Plenus: </b> </td>
-		<td> ${sessaoUsuario.usuario.dt_DS} </td>
-	</tr>
-	<tr>
 		<td> <b> Data Diamante Real: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_GE} </td>
 	</tr>

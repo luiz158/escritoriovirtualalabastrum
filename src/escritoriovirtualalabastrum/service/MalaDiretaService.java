@@ -350,12 +350,12 @@ public class MalaDiretaService {
 
 				} else {
 
-					 encontrouGraduado = encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, graduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
-					 
-					 if(encontrouGraduado){
-						 
-						 return true;						 
-					 }
+					encontrouGraduado = encontrarGraduadosRecursivamente(usuarioPatrocinado, hibernateUtil, graduados, posicao, nivel + 1, dataInicial, dataFinal, result, validator);
+
+					if (encontrouGraduado) {
+
+						return true;
+					}
 				}
 			}
 		}
@@ -439,7 +439,6 @@ public class MalaDiretaService {
 		posicoes.put("id_CR", DIAMANTE);
 		posicoes.put("id_DR", "Diamante Duplo");
 		posicoes.put("id_DD", "Diamante Triplo");
-		posicoes.put("id_DS", "Diamante Plenus");
 		posicoes.put("id_GE", "Diamante Real");
 		posicoes.put("id_Pres", "Presidente");
 
