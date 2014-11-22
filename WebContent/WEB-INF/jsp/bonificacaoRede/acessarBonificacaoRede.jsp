@@ -32,8 +32,6 @@
 		    	<tr>
                     <th> Distribuidor </th>
                     <th> Qualificação calculada </th>
-                    <th> Bônus de Compra Pessoal </th>
-                    <th> Bônus de Primeira Compra </th>
                     <th> Bônus de Ativação </th>
                     <th> Bônus de Graduação </th>
                     <th> Total </th>
@@ -44,8 +42,6 @@
 					<tr>
 						<td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
                         <td class="centralizado" > ${item.qualificacao} </td>
-                        <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoCompraPessoal}" pattern="#,##0.00" /> </td>
-                        <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoIngresso}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoAtivacao}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoGraduacao}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.total}" pattern="#,##0.00" /> </td>

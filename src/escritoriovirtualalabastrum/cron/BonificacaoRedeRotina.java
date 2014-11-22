@@ -122,7 +122,8 @@ public class BonificacaoRedeRotina implements Runnable {
 		bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
 		bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
 
-		bonificacaoRede.setTotal(bonificacaoIngresso.add(bonificacaoAtivacao).add(bonificacaoCompraPessoal).add(bonificacaoGraduacao));
+		// bonificacaoRede.setTotal(bonificacaoIngresso.add(bonificacaoAtivacao).add(bonificacaoCompraPessoal).add(bonificacaoGraduacao));
+		bonificacaoRede.setTotal(bonificacaoAtivacao.add(bonificacaoGraduacao));
 
 		return bonificacaoRede;
 	}

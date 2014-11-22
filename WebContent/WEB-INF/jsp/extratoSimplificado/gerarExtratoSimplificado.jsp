@@ -32,24 +32,7 @@
 <br> <br>
 
 <table class="table">
-	<tr>
-		<td>
-			Bônus de Compra Pessoal
-		</td>
-		<td>
-			R$<fmt:formatNumber value="${bonificacaoCompraPessoal}" pattern="#,##0.00" />  (${porcentagemCompraPessoal}%)
-		</td>
-		<td> <a href="<c:url value="/controlePedido/gerarRecebendoAnoEMes?ano=${ano}&mes=${mes}"/>"> Clique para ver detalhes </a> </td>		
-	</tr>
-	<tr>
-		<td>
-			Bônus de Primeira Compra
-		</td>
-		<td>
-			 R$<fmt:formatNumber value="${bonificacaoIngresso}" pattern="#,##0.00" />
-		</td>	
-		<td> <a href="<c:url value="/bonificacaoIngresso/gerarRelatorioBonificacaoIngresso?ano=${ano}&mes=${mes}"/>"> Clique para ver detalhes </a> </td>		
-	</tr>
+
 	<tr>
 		<td>
 			Bônus de Ativação
@@ -68,27 +51,10 @@
 		</td>	
 		<td> <a href="<c:url value="/bonificacaoGraduacao/gerarRelatorioBonificacaoGraduacao?ano=${ano}&mes=${mes}"/>"> Clique para ver detalhes </a> </td>
 	</tr>
-	<tr>
-		<td>
-			Bônus de Liderança
-		</td>
-		<td>
-			 (AINDA EM CONSTRUÇÃO)
-		</td>	
-		<td> </td>		
-	</tr>
-	<tr>
-		<td>
-			Bônus Global
-		</td>
-		<td>
-			 (AINDA EM CONSTRUÇÃO)
-		</td>	
-		<td> </td>		
-	</tr>
+
 	<tr style="background-color: rgb(245, 250, 138);" >
 		<td class="centralizado"> <b> Total </b> </td>
-		<td > R$<fmt:formatNumber value="${bonificacaoIngresso + bonificacaoAtivacao + bonificacaoCompraPessoal + bonificacaoGraduacao.bonificacao}" pattern="#,##0.00" /> </td>
+		<td > R$<fmt:formatNumber value="${bonificacaoAtivacao + bonificacaoGraduacao.bonificacao}" pattern="#,##0.00" /> </td>
 		<td></td>
 	</tr>
 </table>
