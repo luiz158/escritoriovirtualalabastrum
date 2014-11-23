@@ -414,6 +414,14 @@ public class MalaDiretaService {
 		}
 	}
 
+	public Integer contarIndicacoes(Usuario usuario) {
+
+		Usuario usuarioFiltro = new Usuario();
+		usuarioFiltro.setId_Indicante(usuario.getId_Indicante());
+
+		return this.hibernateUtil.contar(usuarioFiltro);
+	}
+
 	public LinkedHashMap<String, String> obterPosicoes() {
 
 		LinkedHashMap<String, String> posicoes = new LinkedHashMap<String, String>();

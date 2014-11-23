@@ -31,7 +31,7 @@ public class BonificacaoAtivacao2Service {
 
 		BigDecimal comissao = BigDecimal.ZERO;
 
-		if (usuario.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar())) {
+		if (usuario.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && new MalaDiretaService(this.hibernateUtil).contarIndicacoes(usuario) >= 3) {
 
 			TreeMap<Integer, MalaDireta> malaDiretaDeAcordoComAtividade = new TreeMap<Integer, MalaDireta>();
 

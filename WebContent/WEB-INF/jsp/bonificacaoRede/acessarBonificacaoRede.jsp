@@ -18,7 +18,7 @@
 
 <br><br>
 
-<h3> Bonificação de todos distribuidores ativos </h3>
+<h3> Bonificações de toda a rede </h3>
 
 <h6 style="color: rgb(100, 100, 100);" >Mês/ano: ${InformacoesGeraisCalculoBonificacaoRede.mes}/${InformacoesGeraisCalculoBonificacaoRede.ano}</h6>
 <h6 style="color: rgb(100, 100, 100);" > Data/hora do cálculo <fmt:formatDate value="${InformacoesGeraisCalculoBonificacaoRede.dataHoraCalculo.time}" type="BOTH" /> </h6>
@@ -33,6 +33,7 @@
                     <th> Distribuidor </th>
                     <th> Bônus de Início Rápido </th>
                     <th> Bônus de Ativação </th>
+                    <th> Bônus Unilevel </th>
                     <th> Total </th>
 				</tr>
 			</thead>
@@ -42,13 +43,14 @@
 						<td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoInicioRapido}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoAtivacao2}" pattern="#,##0.00" /> </td>
+                        <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoUniLevel}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.total}" pattern="#,##0.00" /> </td>
 					</tr>
 				</c:forEach>
 			</tbody>
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);" >
-                    <td class="centralizado" colspan="3" > <b> Total </b> </td>
+                    <td class="centralizado" colspan="4" > <b> Total </b> </td>
 					<td class="centralizado" > R$<fmt:formatNumber value="${somatorioBonificacoes}" pattern="#,##0.00" /> </td>
 				</tr>
 			</tfoot>

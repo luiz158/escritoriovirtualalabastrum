@@ -82,7 +82,7 @@
 		        <h3 class="menu-accordion" >ADMINISTRATIVO </h3>
 		        <div>
 		        	<a href="<c:url value="/assumirIdentidade/acessarTelaAssumirIdentidade"/>" class="submenu-accordion" > Assumir identidade </a>
-		        	<a href="<c:url value="/bonificacaoRede/acessarBonificacaoRede"/>" class="submenu-accordion" > Bonificação dos ativos </a>
+		        	<a href="<c:url value="/bonificacaoRede/acessarBonificacaoRede"/>" class="submenu-accordion" > Bonificações de toda a rede </a>
 		        	<a href="<c:url value="/enviadorEmails/acessarEnviadorEmails"/>" class="submenu-accordion" > Enviar emails para a rede </a>
 		        	<a href="<c:url value="/configuracao/configuracoes"/>" class="submenu-accordion" > Configurações </a>
 		        	<a href="<c:url value="/importacaoArquivo/acessarTelaImportacaoArquivo"/>" class="submenu-accordion" > Atualizar o sistema </a>

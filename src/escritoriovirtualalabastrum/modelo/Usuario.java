@@ -243,10 +243,15 @@ public class Usuario implements Entidade {
 
 	public String getAniversario() {
 
-		String dia = this.Dt_Nasc.split("/")[0];
-		String mes = this.Dt_Nasc.split("/")[1];
+		if (this.Dt_Nasc != null) {
 
-		return dia + "/" + mes;
+			String dia = this.Dt_Nasc.split("/")[0];
+			String mes = this.Dt_Nasc.split("/")[1];
+
+			return dia + "/" + mes;
+		}
+
+		return "";
 	}
 
 	public Integer getId() {
@@ -369,14 +374,6 @@ public class Usuario implements Entidade {
 		this.cadCEP = cadCEP;
 	}
 
-	public String getCadEndereco() {
-		return cadEndereco;
-	}
-
-	public void setCadEndereco(String cadEndereco) {
-		this.cadEndereco = cadEndereco;
-	}
-
 	public String getCadBairro() {
 		return cadBairro;
 	}
@@ -407,6 +404,14 @@ public class Usuario implements Entidade {
 
 	public void setCadCelular(String cadCelular) {
 		this.cadCelular = cadCelular;
+	}
+
+	public String getCadEndereco() {
+		return cadEndereco;
+	}
+
+	public void setCadEndereco(String cadEndereco) {
+		this.cadEndereco = cadEndereco;
 	}
 
 	public String getvNomeTitular2() {
@@ -553,12 +558,132 @@ public class Usuario implements Entidade {
 		this.cadAtividade = cadAtividade;
 	}
 
+	public String getFake() {
+		return fake;
+	}
+
+	public void setFake(String fake) {
+		this.fake = fake;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
 	public String getCadCredito() {
 		return cadCredito;
 	}
 
 	public void setCadCredito(String cadCredito) {
 		this.cadCredito = cadCredito;
+	}
+
+	public String getDt_Dem() {
+		return Dt_Dem;
+	}
+
+	public void setDt_Dem(String dt_Dem) {
+		Dt_Dem = dt_Dem;
+	}
+
+	public String getDt_S() {
+		return Dt_S;
+	}
+
+	public void setDt_S(String dt_S) {
+		Dt_S = dt_S;
+	}
+
+	public String getDt_M() {
+		return Dt_M;
+	}
+
+	public void setDt_M(String dt_M) {
+		Dt_M = dt_M;
+	}
+
+	public String getDt_GB() {
+		return Dt_GB;
+	}
+
+	public void setDt_GB(String dt_GB) {
+		Dt_GB = dt_GB;
+	}
+
+	public String getDt_GP() {
+		return Dt_GP;
+	}
+
+	public void setDt_GP(String dt_GP) {
+		Dt_GP = dt_GP;
+	}
+
+	public String getDt_GO() {
+		return Dt_GO;
+	}
+
+	public void setDt_GO(String dt_GO) {
+		Dt_GO = dt_GO;
+	}
+
+	public String getDt_GE() {
+		return Dt_GE;
+	}
+
+	public void setDt_GE(String dt_GE) {
+		Dt_GE = dt_GE;
+	}
+
+	public String getDt_LA() {
+		return Dt_LA;
+	}
+
+	public void setDt_LA(String dt_LA) {
+		Dt_LA = dt_LA;
+	}
+
+	public String getDt_CR() {
+		return Dt_CR;
+	}
+
+	public void setDt_CR(String dt_CR) {
+		Dt_CR = dt_CR;
+	}
+
+	public String getDt_DR() {
+		return Dt_DR;
+	}
+
+	public void setDt_DR(String dt_DR) {
+		Dt_DR = dt_DR;
+	}
+
+	public String getDt_DD() {
+		return Dt_DD;
+	}
+
+	public void setDt_DD(String dt_DD) {
+		Dt_DD = dt_DD;
+	}
+
+	public String getDt_DS() {
+		return Dt_DS;
+	}
+
+	public void setDt_DS(String dt_DS) {
+		Dt_DS = dt_DS;
+	}
+
+	public String getDt_Pres() {
+		return Dt_Pres;
+	}
+
+	public void setDt_Pres(String dt_Pres) {
+		Dt_Pres = dt_Pres;
 	}
 
 	public PontuacaoAuxiliar getPontuacaoAuxiliar() {
@@ -681,6 +806,46 @@ public class Usuario implements Entidade {
 		this.id_M5 = id_M5;
 	}
 
+	public Integer getId_M6() {
+		return id_M6;
+	}
+
+	public void setId_M6(Integer id_M6) {
+		this.id_M6 = id_M6;
+	}
+
+	public Integer getId_M7() {
+		return id_M7;
+	}
+
+	public void setId_M7(Integer id_M7) {
+		this.id_M7 = id_M7;
+	}
+
+	public Integer getId_M8() {
+		return id_M8;
+	}
+
+	public void setId_M8(Integer id_M8) {
+		this.id_M8 = id_M8;
+	}
+
+	public Integer getId_M9() {
+		return id_M9;
+	}
+
+	public void setId_M9(Integer id_M9) {
+		this.id_M9 = id_M9;
+	}
+
+	public Integer getId_M10() {
+		return id_M10;
+	}
+
+	public void setId_M10(Integer id_M10) {
+		this.id_M10 = id_M10;
+	}
+
 	public Integer getId_LA() {
 		return id_LA;
 	}
@@ -761,163 +926,11 @@ public class Usuario implements Entidade {
 		this.id_Pres = id_Pres;
 	}
 
-	public String getDt_Dem() {
-		return Dt_Dem;
+	public Integer getId_Indicante() {
+		return id_Indicante;
 	}
 
-	public void setDt_Dem(String dt_Dem) {
-		Dt_Dem = dt_Dem;
-	}
-
-	public String getDt_S() {
-		return Dt_S;
-	}
-
-	public void setDt_S(String dt_S) {
-		Dt_S = dt_S;
-	}
-
-	public String getDt_M() {
-		return Dt_M;
-	}
-
-	public void setDt_M(String dt_M) {
-		Dt_M = dt_M;
-	}
-
-	public String getDt_GB() {
-		return Dt_GB;
-	}
-
-	public void setDt_GB(String dt_GB) {
-		Dt_GB = dt_GB;
-	}
-
-	public String getDt_GP() {
-		return Dt_GP;
-	}
-
-	public void setDt_GP(String dt_GP) {
-		Dt_GP = dt_GP;
-	}
-
-	public String getDt_GO() {
-		return Dt_GO;
-	}
-
-	public void setDt_GO(String dt_GO) {
-		Dt_GO = dt_GO;
-	}
-
-	public String getDt_GE() {
-		return Dt_GE;
-	}
-
-	public void setDt_GE(String dt_GE) {
-		Dt_GE = dt_GE;
-	}
-
-	public String getDt_LA() {
-		return Dt_LA;
-	}
-
-	public void setDt_LA(String dt_LA) {
-		Dt_LA = dt_LA;
-	}
-
-	public String getDt_CR() {
-		return Dt_CR;
-	}
-
-	public void setDt_CR(String dt_CR) {
-		Dt_CR = dt_CR;
-	}
-
-	public String getDt_DR() {
-		return Dt_DR;
-	}
-
-	public void setDt_DR(String dt_DR) {
-		Dt_DR = dt_DR;
-	}
-
-	public String getDt_DD() {
-		return Dt_DD;
-	}
-
-	public void setDt_DD(String dt_DD) {
-		Dt_DD = dt_DD;
-	}
-
-	public String getDt_DS() {
-		return Dt_DS;
-	}
-
-	public void setDt_DS(String dt_DS) {
-		Dt_DS = dt_DS;
-	}
-
-	public String getDt_Pres() {
-		return Dt_Pres;
-	}
-
-	public void setDt_Pres(String dt_Pres) {
-		Dt_Pres = dt_Pres;
-	}
-
-	public Integer getId_M6() {
-		return id_M6;
-	}
-
-	public void setId_M6(Integer id_M6) {
-		this.id_M6 = id_M6;
-	}
-
-	public Integer getId_M7() {
-		return id_M7;
-	}
-
-	public void setId_M7(Integer id_M7) {
-		this.id_M7 = id_M7;
-	}
-
-	public Integer getId_M8() {
-		return id_M8;
-	}
-
-	public void setId_M8(Integer id_M8) {
-		this.id_M8 = id_M8;
-	}
-
-	public Integer getId_M9() {
-		return id_M9;
-	}
-
-	public void setId_M9(Integer id_M9) {
-		this.id_M9 = id_M9;
-	}
-
-	public Integer getId_M10() {
-		return id_M10;
-	}
-
-	public void setId_M10(Integer id_M10) {
-		this.id_M10 = id_M10;
-	}
-
-	public String getFake() {
-		return fake;
-	}
-
-	public void setFake(String fake) {
-		this.fake = fake;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public void setId_Indicante(Integer id_Indicante) {
+		this.id_Indicante = id_Indicante;
 	}
 }

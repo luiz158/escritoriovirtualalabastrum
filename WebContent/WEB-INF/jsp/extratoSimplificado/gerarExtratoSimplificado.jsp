@@ -54,10 +54,20 @@
 		</td>	
 		<td> </td>
 	</tr>
+	
+	<tr>
+		<td>
+			Bônus Unilevel
+		</td>
+		<td>
+			 R$<fmt:formatNumber value="${bonificacaoUniLevel}" pattern="#,##0.00" />
+		</td>	
+		<td> </td>
+	</tr>
 
 	<tr style="background-color: rgb(245, 250, 138);" >
 		<td class="centralizado"> <b> Total </b> </td>
-		<td > R$<fmt:formatNumber value="${bonificacaoAtivacao2 + bonificacaoInicioRapido}" pattern="#,##0.00" /> </td>
+		<td > R$<fmt:formatNumber value="${bonificacaoAtivacao2 + bonificacaoInicioRapido + bonificacaoUniLevel}" pattern="#,##0.00" /> </td>
 		<td></td>
 	</tr>
 </table>

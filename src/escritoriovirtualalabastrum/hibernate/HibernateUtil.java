@@ -335,7 +335,13 @@ public class HibernateUtil {
 
 		criteria.setProjection(Projections.sum(campo));
 
-		return (BigDecimal) criteria.list().get(0);
+		BigDecimal valor = (BigDecimal) criteria.list().get(0);
+
+		if (valor == null) {
+			valor = BigDecimal.ZERO;
+		}
+
+		return valor;
 	}
 
 	public <E extends Entidade> List<E> buscar(Entidade filtro, List<Criterion> restricoes, Order ordenacao, MatchMode matchMode) {
