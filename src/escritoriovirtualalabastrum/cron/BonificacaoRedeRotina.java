@@ -22,6 +22,7 @@ import escritoriovirtualalabastrum.modelo.BonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Configuracao;
 import escritoriovirtualalabastrum.modelo.InformacoesGeraisCalculoBonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Usuario;
+import escritoriovirtualalabastrum.service.BonificacaoAtivacao2Service;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
 import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
@@ -110,18 +111,19 @@ public class BonificacaoRedeRotina implements Runnable {
 		}
 
 		BigDecimal bonificacaoInicioRapido = new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(sessaoUsuario.getUsuario(), ano, mes);
+		BigDecimal bonificacaoAtivacao2 = new BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 
 		BonificacaoRede bonificacaoRede = new BonificacaoRede();
 		bonificacaoRede.setId_Codigo(usuario.getId_Codigo());
 		bonificacaoRede.setQualificacao(graduacao);
 		bonificacaoRede.setBonificacaoIngresso(bonificacaoIngresso);
 		bonificacaoRede.setBonificacaoAtivacao(bonificacaoAtivacao);
+		bonificacaoRede.setBonificacaoAtivacao2(bonificacaoAtivacao2);
 		bonificacaoRede.setBonificacaoInicioRapido(bonificacaoInicioRapido);
 		bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
 		bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
 
-		// bonificacaoRede.setTotal(bonificacaoIngresso.add(bonificacaoAtivacao).add(bonificacaoCompraPessoal).add(bonificacaoGraduacao.add(bonificacaoInicioRapido)));
-		bonificacaoRede.setTotal(bonificacaoAtivacao.add(bonificacaoGraduacao.add(bonificacaoInicioRapido)));
+		bonificacaoRede.setTotal(bonificacaoAtivacao2.add(bonificacaoInicioRapido));
 
 		return bonificacaoRede;
 	}

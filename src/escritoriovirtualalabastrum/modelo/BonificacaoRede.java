@@ -22,6 +22,7 @@ public class BonificacaoRede implements Entidade {
 
 	private BigDecimal bonificacaoIngresso;
 	private BigDecimal bonificacaoAtivacao;
+	private BigDecimal bonificacaoAtivacao2;
 	private BigDecimal bonificacaoCompraPessoal;
 	private BigDecimal bonificacaoInicioRapido;
 	private BigDecimal bonificacaoGraduacao;
@@ -83,6 +84,14 @@ public class BonificacaoRede implements Entidade {
 
 	public void setBonificacaoAtivacao(BigDecimal bonificacaoAtivacao) {
 		this.bonificacaoAtivacao = bonificacaoAtivacao;
+	}
+
+	public BigDecimal getBonificacaoAtivacao2() {
+		return bonificacaoAtivacao2;
+	}
+
+	public void setBonificacaoAtivacao2(BigDecimal bonificacaoAtivacao2) {
+		this.bonificacaoAtivacao2 = bonificacaoAtivacao2;
 	}
 
 	public BigDecimal getBonificacaoCompraPessoal() {
