@@ -32,6 +32,7 @@
 		    	<tr>
                     <th> Distribuidor </th>
                     <th> Qualificação calculada </th>
+                    <th> Bônus de Início Rápido </th>
                     <th> Bônus de Ativação </th>
                     <th> Bônus de Graduação </th>
                     <th> Total </th>
@@ -42,6 +43,7 @@
 					<tr>
 						<td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
                         <td class="centralizado" > ${item.qualificacao} </td>
+                        <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoInicioRapido}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoAtivacao}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacaoGraduacao}" pattern="#,##0.00" /> </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.total}" pattern="#,##0.00" /> </td>
@@ -50,7 +52,7 @@
 			</tbody>
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);" >
-                    <td class="centralizado" colspan="6" > <b> Total </b> </td>
+                    <td class="centralizado" colspan="5" > <b> Total </b> </td>
 					<td class="centralizado" > R$<fmt:formatNumber value="${somatorioBonificacoes}" pattern="#,##0.00" /> </td>
 				</tr>
 			</tfoot>

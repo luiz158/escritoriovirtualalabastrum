@@ -26,6 +26,7 @@ import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
 import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
+import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
 import escritoriovirtualalabastrum.service.GraduacaoService;
 import escritoriovirtualalabastrum.sessao.SessaoBonificacao;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
@@ -44,9 +45,6 @@ public class BonificacaoRedeRotina implements Runnable {
 		Integer ano = Integer.valueOf(new Configuracao().retornarConfiguracao("anoRotinaBonificacoes"));
 		Integer mes = Integer.valueOf(new Configuracao().retornarConfiguracao("mesRotinaBonificacoes"));
 
-		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
-		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
-
 		HibernateUtil hibernateUtil = new HibernateUtil();
 		this.hibernateUtil = hibernateUtil;
 
@@ -56,14 +54,11 @@ public class BonificacaoRedeRotina implements Runnable {
 
 		for (Usuario usuario : usuarios) {
 
-			if (usuario.getId_Codigo() != 1 && usuario.getId_Codigo() != 2 && usuario.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar())) {
+			BonificacaoRede bonificacoes = calcularBonificacoes(usuario, ano, mes);
 
-				BonificacaoRede bonificacoes = calcularBonificacoes(usuario, ano, mes);
+			if (bonificacoes.getTotal().compareTo(BigDecimal.ZERO) > 0) {
 
-				if (bonificacoes.getTotal().compareTo(BigDecimal.ZERO) > 0) {
-
-					bonificacoesDaRede.add(bonificacoes);
-				}
+				bonificacoesDaRede.add(bonificacoes);
 			}
 		}
 
@@ -114,16 +109,19 @@ public class BonificacaoRedeRotina implements Runnable {
 			bonificacaoGraduacao = BigDecimal.ZERO;
 		}
 
+		BigDecimal bonificacaoInicioRapido = new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(sessaoUsuario.getUsuario(), ano, mes);
+
 		BonificacaoRede bonificacaoRede = new BonificacaoRede();
 		bonificacaoRede.setId_Codigo(usuario.getId_Codigo());
 		bonificacaoRede.setQualificacao(graduacao);
 		bonificacaoRede.setBonificacaoIngresso(bonificacaoIngresso);
 		bonificacaoRede.setBonificacaoAtivacao(bonificacaoAtivacao);
+		bonificacaoRede.setBonificacaoInicioRapido(bonificacaoInicioRapido);
 		bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
 		bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
 
-		// bonificacaoRede.setTotal(bonificacaoIngresso.add(bonificacaoAtivacao).add(bonificacaoCompraPessoal).add(bonificacaoGraduacao));
-		bonificacaoRede.setTotal(bonificacaoAtivacao.add(bonificacaoGraduacao));
+		// bonificacaoRede.setTotal(bonificacaoIngresso.add(bonificacaoAtivacao).add(bonificacaoCompraPessoal).add(bonificacaoGraduacao.add(bonificacaoInicioRapido)));
+		bonificacaoRede.setTotal(bonificacaoAtivacao.add(bonificacaoGraduacao.add(bonificacaoInicioRapido)));
 
 		return bonificacaoRede;
 	}

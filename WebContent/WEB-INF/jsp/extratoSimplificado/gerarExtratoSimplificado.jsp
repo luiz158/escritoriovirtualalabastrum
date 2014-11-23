@@ -35,6 +35,16 @@
 
 	<tr>
 		<td>
+			Bônus de início rápido
+		</td>
+		<td>
+			 R$<fmt:formatNumber value="${bonificacaoInicioRapido}" pattern="#,##0.00" />
+		</td>	
+		<td> </td>
+	</tr>
+
+	<tr>
+		<td>
 			Bônus de Ativação
 		</td>
 		<td>
@@ -54,7 +64,7 @@
 
 	<tr style="background-color: rgb(245, 250, 138);" >
 		<td class="centralizado"> <b> Total </b> </td>
-		<td > R$<fmt:formatNumber value="${bonificacaoAtivacao + bonificacaoGraduacao.bonificacao}" pattern="#,##0.00" /> </td>
+		<td > R$<fmt:formatNumber value="${bonificacaoAtivacao + bonificacaoGraduacao.bonificacao + bonificacaoInicioRapido}" pattern="#,##0.00" /> </td>
 		<td></td>
 	</tr>
 </table>

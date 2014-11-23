@@ -44,7 +44,7 @@ import escritoriovirtualalabastrum.util.Util;
 @Resource
 public class ImportacaoArquivoController {
 
-	public static final String PASTA_RAIZ = "/root/";
+	public static final String PASTA_RAIZ = "C:/root/";
 	public static final String PASTA_ATUALIZACAO_CSV = ImportacaoArquivoController.PASTA_RAIZ + "Dropbox/do-desktop-para-o-escritorio";
 
 	private Result result;

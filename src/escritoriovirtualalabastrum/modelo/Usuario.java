@@ -174,6 +174,9 @@ public class Usuario implements Entidade {
 	@Index(name = "index_id_Pres")
 	private Integer id_Pres;
 
+	@Index(name = "index_id_Indicante")
+	private Integer id_Indicante;
+
 	public Usuario() {
 
 	}
