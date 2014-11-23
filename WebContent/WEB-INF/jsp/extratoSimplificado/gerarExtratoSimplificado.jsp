@@ -12,6 +12,14 @@
     width: 94%;
 }
 
+.table:hover {
+	cursor: auto;
+}
+
+.table tbody tr:hover td, .table tbody tr:hover th {
+	background-color: #FFF;
+}
+
 </style>
 
 <a class="btn" onclick="window.history.back()" > Voltar </a>
