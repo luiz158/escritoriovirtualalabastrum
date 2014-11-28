@@ -87,6 +87,9 @@ public class Usuario implements Entidade {
 	@Transient
 	private PontuacaoAuxiliar pontuacaoAuxiliar;
 
+	@Transient
+	private List<Usuario> usuariosPatrocinados;
+
 	@Index(name = "index_id_Codigo")
 	private Integer id_Codigo;
 
@@ -932,5 +935,13 @@ public class Usuario implements Entidade {
 
 	public void setId_Indicante(Integer id_Indicante) {
 		this.id_Indicante = id_Indicante;
+	}
+
+	public List<Usuario> getUsuariosPatrocinados() {
+		return usuariosPatrocinados;
+	}
+
+	public void setUsuariosPatrocinados(List<Usuario> usuariosPatrocinados) {
+		this.usuariosPatrocinados = usuariosPatrocinados;
 	}
 }
