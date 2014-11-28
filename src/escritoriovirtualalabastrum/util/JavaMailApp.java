@@ -11,6 +11,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import escritoriovirtualalabastrum.modelo.Configuracao;
+
 public class JavaMailApp extends Thread {
 
 	private String titulo;
@@ -43,10 +45,7 @@ public class JavaMailApp extends Thread {
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 
-				// return new
-				// PasswordAuthentication("alabastrumnotificacoes@gmail.com",
-				// new Configuracao().retornarConfiguracao("senhaEmail"));
-				return new PasswordAuthentication("alabastrumnotificacoes@gmail.com", "asfdasf");
+				return new PasswordAuthentication("alabastrumnotificacoes@gmail.com", new Configuracao().retornarConfiguracao("senhaEmail"));
 			}
 		});
 
