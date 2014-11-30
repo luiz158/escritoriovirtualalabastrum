@@ -44,6 +44,7 @@ public class SessaoAtualizacaoDados {
 	private String nomeQuemIndicou;
 	private String observacoes;
 	private String cartaoContaSuper;
+	private String apelido;
 
 	public String getCPF() {
 		return CPF;
@@ -339,6 +340,14 @@ public class SessaoAtualizacaoDados {
 
 	public void setCartaoContaSuper(String cartaoContaSuper) {
 		this.cartaoContaSuper = cartaoContaSuper;
+	}
+
+	public String getApelido() {
+		return apelido;
+	}
+
+	public void setApelido(String apelido) {
+		this.apelido = apelido;
 	}
 
 }

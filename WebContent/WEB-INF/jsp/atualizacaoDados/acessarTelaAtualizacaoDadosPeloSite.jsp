@@ -231,6 +231,11 @@
 			<p> Observação: Antes de contratar esse serviço saiba sobre as taxas </p>
 		</div>
 		
+		<div class="corClara divFormulario" >
+			<label class="labelFormulario" >Informe seu apelido: </label> 
+			<input type="text" style="width: 100px;" maxlength="10" name="sessaoAtualizacaoDados.apelido" value="${sessaoAtualizacaoDados.apelido}">
+		</div>
+		
 		<c:if test="${exibirMensagemAgradecimento != true}" > 
 			<div style="margin-top: 20px; margin-left: 20px" >
 				<button type="submit" class="btn btn-primary" >Enviar</button>

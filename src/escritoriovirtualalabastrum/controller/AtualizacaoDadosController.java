@@ -88,7 +88,7 @@ public class AtualizacaoDadosController {
 
 		criarArquivoNoDisco(montarTextoArquivo());
 
-		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "atendimento@alabastrum.com.br", montarTextoEmail());
+		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "", montarTextoEmail());
 
 		salvarPreCadastroNoBanco();
 
@@ -153,6 +153,7 @@ public class AtualizacaoDadosController {
 		textoEmail += "<br> <b> Nome: </b> " + this.sessaoAtualizacaoDados.getNomeQuemIndicou();
 		textoEmail += "<br> <b> Observações: </b> " + this.sessaoAtualizacaoDados.getObservacoes();
 		textoEmail += "<br><br><br> <b> Nº do CARTÃO CONTA SUPER: </b> " + this.sessaoAtualizacaoDados.getCartaoContaSuper();
+		textoEmail += "<br><br><br> <b> Apelido: </b> " + this.sessaoAtualizacaoDados.getApelido();
 
 		return textoEmail;
 	}
@@ -184,6 +185,7 @@ public class AtualizacaoDadosController {
 		textoArquivo += "nomepatroc: \'" + this.sessaoAtualizacaoDados.getNomeQuemIndicou() + "\'\r\n";
 		textoArquivo += "Observacoes: \'" + this.sessaoAtualizacaoDados.getObservacoes() + "\'\r\n";
 		textoArquivo += "cartao_conta_super: \'" + this.sessaoAtualizacaoDados.getCartaoContaSuper() + "\'\r\n";
+		textoArquivo += "apelido: \'" + this.sessaoAtualizacaoDados.getApelido() + "\'\r\n";
 
 		return textoArquivo;
 	}
