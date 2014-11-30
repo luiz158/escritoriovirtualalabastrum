@@ -123,9 +123,18 @@ public class ArvoreRelacionamento2Controller {
 
 	private void gerarHtmlUsuarios(Usuario usuario, StringBuilder htmlUsuarios) {
 
+		String apelido = usuario.getApelido();
+
+		if (apelido.length() > 10) {
+			apelido = apelido.substring(0, 10);
+		}
+
 		htmlUsuarios.append("<div id='" + usuario.getId_Codigo() + "'>");
-		htmlUsuarios.append(usuario.getApelido());
+		htmlUsuarios.append("<span class='gambi'>1234567890</span>");
 		htmlUsuarios.append("</div>");
+		htmlUsuarios.append("<p class='apelido'>");
+		htmlUsuarios.append(apelido);
+		htmlUsuarios.append("</p>");
 
 		if (Util.preenchido(usuario.getUsuariosPatrocinados())) {
 

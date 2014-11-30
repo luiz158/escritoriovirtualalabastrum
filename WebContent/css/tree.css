@@ -38,9 +38,11 @@ ul.tree li>div {
 	position: relative;
 	min-width: 40px;
 	z-index: 2;
-	background: #27a9e3;
 	color: #fff;
 	font-weight: bold;
+	background-image:  url(images/bonequinho.png);;
+	background-repeat: no-repeat;
+	background-size: 80px;
 }
 
 ul.tree li>div.zindex {
@@ -54,7 +56,6 @@ ul.tree li form {
 	margin-top: 15px;
 	position: absolute;
 	z-index: 4;
-	background: #da9628;
 	color: #fff;
 }
 
@@ -65,7 +66,6 @@ ul.tree li form input[type=checkbox] {
 ul.tree li form img.close {
 	float: right;
 	cursor: pointer;
-	background-color: #e02222;
 	padding: 2px;
 	border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -75,21 +75,12 @@ ul.tree li form img.close {
 ul.tree li textarea {
 	height: 35px;
 	width: 150px;
-	background: #ffc;
 	padding: 4px;
 	font: 12px Arial, Helvetica, sans-serif;
 	color: #000;
 	border: none;
 	margin: 5px 0;
 	display: block;
-}
-
-ul.tree li textarea.error {
-	background: #d84a38;
-}
-
-ul.tree li textarea:focus {
-	background: #ffc;
 }
 
 ul.tree li span.submit, ul.tree li span.edit {
@@ -101,23 +92,6 @@ ul.tree li span.submit, ul.tree li span.edit {
 	padding: 3px 7px;
 	cursor: pointer;
 	margin-top: 3px;
-	background: #4d90fe;
-}
-
-ul.tree li span.submit:hover, ul.tree li span.edit:hover {
-	background: #8a9ef5;
-}
-
-ul.tree li div.current {
-	background: #28b779;
-}
-
-ul.tree li div.children {
-	background: #ffb848;
-}
-
-ul.tree li div.parent {
-	background: #852b99;
 }
 
 ul.tree li span.vertical, ul.tree li span.horizontal {
@@ -161,7 +135,6 @@ ul.tree li span.add_action, ul.tree li span.edit_action, ul.tree li span.highlig
 	cursor: pointer;
 	display: none;
 	padding: 2px;
-	background-color: #e02222;
 	background-position: center;
 	background-repeat: no-repeat;
 	border-radius: 10px;
@@ -217,26 +190,6 @@ div.drag_error, div.delete_msg, div.edit_msg, div.add_msg, div.drop_msg
 	z-index: 999;
 }
 
-div.drag_error {
-	background: #b41616;
-}
-
-div.delete_msg {
-	background: #b41616;
-}
-
-div.edit_msg {
-	background: #17A769;
-}
-
-div.add_msg {
-	background: #27A9E3;
-}
-
-div.drop_msg {
-	background: #852b99;
-}
-
 /*-----Other-----*/
 .accordion-left {
 	float: left;
@@ -254,7 +207,6 @@ div.drop_msg {
 
 .accordion-header {
 	padding: 5px 10px;
-	background-color: #17a769;
 	background-image: url(images/plus.png);
 	background-repeat: no-repeat;
 	background-position: 95% center;
@@ -273,7 +225,6 @@ div.drop_msg {
 
 .accordion-content {
 	padding: 5px 10px;
-	background-color: #2295c9;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	color: #fff;
@@ -313,7 +264,6 @@ div.drop_msg {
 	color: #000;
 	outline: none;
 	border: none;
-	background: #fff;
 }
 
 .other_ul {
@@ -336,7 +286,6 @@ div.drop_msg {
 
 .other_ul li b {
 	border: solid 1px #852b99;
-	background: #fff;
 	padding: 0 5px;
 	display: block;
 	float: left;
@@ -344,7 +293,6 @@ div.drop_msg {
 }
 
 .other_ul li strong {
-	background: #852b99;
 	border: solid 1px #852b99;
 	padding: 0 5px;
 	display: block;
@@ -358,7 +306,6 @@ div.drop_msg {
 	width: 10px;
 	height: 10px;
 	padding: 2px;
-	background-color: #e02222;
 	background-position: center;
 	background-repeat: no-repeat;
 	display: block;
@@ -393,3 +340,4 @@ hr {
 .current {
 	cursor: pointer;
 }
+

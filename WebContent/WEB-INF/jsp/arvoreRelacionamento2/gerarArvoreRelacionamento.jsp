@@ -62,6 +62,20 @@
 		cursor: pointer;
 	}
 	
+	li {
+	 line-height: 80px;
+	}
+	
+	.apelido {
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
+	}
+	
+	.gambi{
+		color: transparent;
+	}
+	
 </style>
 
 <a class="btn" href="<c:url value="/arvoreRelacionamento2/acessarTelaArvoreRelacionamento"/>" > Voltar </a>
@@ -114,12 +128,6 @@
   
   </tbody>
 </table>
-
-<br>
-
-<div style="text-align: center; width: 1500px;">
-<span class="dica negrito"  > Clique no nome para ver informações </span> 
-</div>
 
 <br>
 
