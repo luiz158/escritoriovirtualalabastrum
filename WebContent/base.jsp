@@ -63,7 +63,7 @@
 	        </div>
 	         <h3 class="menu-accordion" > BONIFICAÇÃO </h3>
 	        <div>
-<%-- 				<a href="<c:url value="/extratoSimplificado/acessarTelaExtratoSimplificado"/>" class="submenu-accordion" > Extrato (VISTO APENAS PELO ADMINISTRADOR) </a> --%>
+<%-- 				<a href="<c:url value="/extratoSimplificado/acessarTelaExtratoSimplificado"/>" class="submenu-accordion" > Extrato Simplificado </a> --%>
 				<a href="#" class="submenu-accordion" > Extrato Simplificado (EM CONSTRUÇÃO) </a>
 	        </div>
 	        <h3 class="menu-accordion" > CONSULTA </h3>
