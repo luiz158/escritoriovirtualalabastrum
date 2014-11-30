@@ -43,6 +43,7 @@ public class SessaoAtualizacaoDados {
 	private String codigoQuemIndicou;
 	private String nomeQuemIndicou;
 	private String observacoes;
+	private String cartaoContaSuper;
 
 	public String getCPF() {
 		return CPF;
@@ -330,6 +331,14 @@ public class SessaoAtualizacaoDados {
 
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
+	}
+
+	public String getCartaoContaSuper() {
+		return cartaoContaSuper;
+	}
+
+	public void setCartaoContaSuper(String cartaoContaSuper) {
+		this.cartaoContaSuper = cartaoContaSuper;
 	}
 
 }

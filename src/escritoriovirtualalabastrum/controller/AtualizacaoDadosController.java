@@ -152,6 +152,7 @@ public class AtualizacaoDadosController {
 		textoEmail += "<br> <b> Código: </b> " + this.sessaoAtualizacaoDados.getCodigoQuemIndicou();
 		textoEmail += "<br> <b> Nome: </b> " + this.sessaoAtualizacaoDados.getNomeQuemIndicou();
 		textoEmail += "<br> <b> Observações: </b> " + this.sessaoAtualizacaoDados.getObservacoes();
+		textoEmail += "<br><br><br> <b> Nº do CARTÃO CONTA SUPER: </b> " + this.sessaoAtualizacaoDados.getCartaoContaSuper();
 
 		return textoEmail;
 	}
@@ -182,6 +183,7 @@ public class AtualizacaoDadosController {
 		textoArquivo += "Codigo: \'" + this.sessaoAtualizacaoDados.getCodigoQuemIndicou() + "\'\r\n";
 		textoArquivo += "nomepatroc: \'" + this.sessaoAtualizacaoDados.getNomeQuemIndicou() + "\'\r\n";
 		textoArquivo += "Observacoes: \'" + this.sessaoAtualizacaoDados.getObservacoes() + "\'\r\n";
+		textoArquivo += "cartao_conta_super: \'" + this.sessaoAtualizacaoDados.getCartaoContaSuper() + "\'\r\n";
 
 		return textoArquivo;
 	}

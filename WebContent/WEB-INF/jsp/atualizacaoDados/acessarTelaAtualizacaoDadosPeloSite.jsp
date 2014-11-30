@@ -201,7 +201,7 @@
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Nº Agência: </label> 
-			<input type="text" style="width: 170px;;" name="sessaoAtualizacaoDados.cadAgencia" value="${sessaoAtualizacaoDados.cadAgencia}">
+			<input type="text" style="width: 170px;" name="sessaoAtualizacaoDados.cadAgencia" value="${sessaoAtualizacaoDados.cadAgencia}">
 			<label class="labelFormulario" >Nº da Conta: </label> 
 			<input type="text" style="width: 200px;" name="sessaoAtualizacaoDados.cadCCorrente" value="${sessaoAtualizacaoDados.cadCCorrente}">
 		</div>
@@ -212,7 +212,7 @@
 		
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Código: </label> 
-			<input type="text" style="width: 100px;;" name="sessaoAtualizacaoDados.codigoQuemIndicou" value="${sessaoAtualizacaoDados.codigoQuemIndicou}">
+			<input type="text" style="width: 100px;" name="sessaoAtualizacaoDados.codigoQuemIndicou" value="${sessaoAtualizacaoDados.codigoQuemIndicou}">
 			<label class="labelFormulario" >Nome: </label> 
 			<input type="text" style="width: 350px;" name="sessaoAtualizacaoDados.nomeQuemIndicou" value="${sessaoAtualizacaoDados.nomeQuemIndicou}">
 		</div>
@@ -220,6 +220,11 @@
 		<div class="corClara divFormulario" >
 			<label class="labelFormulario" >Observações gerais: </label> 
 			<textarea name="sessaoAtualizacaoDados.observacoes" rows="5" style="width: 450px" > </textarea>
+		</div>
+		
+		<div class="corMedia divFormulario" >
+			<label class="labelFormulario" >Nº do CARTÃO CONTA SUPER: </label> 
+			<input type="text" style="width: 100px;" name="sessaoAtualizacaoDados.cartaoContaSuper" value="${sessaoAtualizacaoDados.cartaoContaSuper}">
 		</div>
 		
 		<c:if test="${exibirMensagemAgradecimento != true}" > 

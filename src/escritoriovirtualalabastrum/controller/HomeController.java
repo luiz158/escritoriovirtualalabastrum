@@ -52,9 +52,12 @@ public class HomeController {
 	@Funcionalidade
 	public void autorizarAtivacaoAutomatica(String autorizacao) {
 
-		String corpo = "Eu, " + this.sessaoUsuario.getUsuario().getvNome() + ", autorizo o débito da minha bonificação o valor para minha ATIVAÇÃO AUTOMÁTICA";
-		corpo += "<br> <br>";
-		corpo += "Autorização: " + autorizacao;
+		String mensagem = "";
+		if (!autorizacao.equals("SIM")) {
+			mensagem = autorizacao;
+		}
+
+		String corpo = "Eu, " + this.sessaoUsuario.getUsuario().getvNome() + ", " + mensagem + " autorizo o débito da minha bonificação o valor para minha ATIVAÇÃO AUTOMÁTICA";
 
 		new JavaMailApp("Autorização de débito de bonificação para ativação automática ", "financeiro@alabastrum.com.br, " + this.sessaoUsuario.getUsuario().geteMail(), corpo, null).start();
 
