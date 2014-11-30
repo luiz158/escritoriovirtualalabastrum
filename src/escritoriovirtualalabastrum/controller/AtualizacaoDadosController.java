@@ -88,7 +88,7 @@ public class AtualizacaoDadosController {
 
 		criarArquivoNoDisco(montarTextoArquivo());
 
-		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "", montarTextoEmail());
+		JavaMailApp.enviarEmail("Pré-cadastro de distribuidor pelo site", "atendimento@alabastrum.com.br", montarTextoEmail());
 
 		salvarPreCadastroNoBanco();
 
