@@ -86,17 +86,50 @@
 
 </div>
 
-<h3 style="font-size: 20px; margin-bottom: 0px;" > Árvore de relacionamentos </h3>  <span class="dica" > (Clique no nome para ver informações) </span> 
+<h3 style="font-size: 20px; margin-bottom: 0px;" > Árvore de relacionamentos </h3>  
+
+<br><br><br>
+
+<table class="table" style="width: 500px;">
+  <thead>
+   	<tr>
+       <th> Geração </th>
+       <th> Previsto </th>
+       <th> Existente </th>
+    </tr>
+  </thead>
+  <tbody>
+  <c:forEach var="nivel" items="${niveis}">  
+	<tr>
+       <td class="centralizado"> ${nivel.key}ª </td>
+       <td class="centralizado"> ${previstos[nivel.key]} </td>
+       <td class="centralizado"> ${nivel.value} </td>
+    </tr>
+  </c:forEach>
+  	<tr>
+       <td class="centralizado negrito"> Total </td>
+       <td class="centralizado negrito"> 88572 </td>
+       <td class="centralizado negrito"> ${total} </td>
+    </tr>
+  
+  </tbody>
+</table>
 
 <br>
 
-<div style='width: 4000px;'>
-		<ul class="tree">
-			<li>
-				${htmlUsuarios}
-			</li>
-		</ul>
-	</div>
+<div style="text-align: center; width: 1500px;">
+<span class="dica negrito"  > Clique no nome para ver informações </span> 
+</div>
+
+<br>
+
+<div style='width: 2500px;'>
+	<ul class="tree">
+		<li>
+			${htmlUsuarios}
+		</li>
+	</ul>
+</div>
 
 <script>
 

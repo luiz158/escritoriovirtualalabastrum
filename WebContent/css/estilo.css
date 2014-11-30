@@ -160,6 +160,10 @@ table:hover{
 	display: none; 
 }
 
+.negrito{
+	font-weight: bold;
+}
+
 @media print {
 
 	.topo, .menu, .bem-vindo, #sair, .btn {

@@ -92,6 +92,9 @@ public class Usuario implements Entidade {
 	@Transient
 	private List<Usuario> usuariosPatrocinados;
 
+	@Transient
+	private Integer nivel;
+
 	@Index(name = "index_id_Codigo")
 	private Integer id_Codigo;
 
@@ -961,5 +964,13 @@ public class Usuario implements Entidade {
 
 	public void setCadPosRede(Integer cadPosRede) {
 		this.cadPosRede = cadPosRede;
+	}
+
+	public Integer getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(Integer nivel) {
+		this.nivel = nivel;
 	}
 }

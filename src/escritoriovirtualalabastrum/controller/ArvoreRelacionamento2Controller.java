@@ -1,7 +1,10 @@
 package escritoriovirtualalabastrum.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
@@ -45,14 +48,60 @@ public class ArvoreRelacionamento2Controller {
 		}
 
 		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(codigo));
-		acharPatrocinadosRecursivamente(usuario);
+		acharPatrocinadosRecursivamente(usuario, 1);
+
+		TreeMap<Integer, Integer> niveis = new TreeMap<Integer, Integer>();
+		acharNiveis(usuario, niveis);
+		result.include("niveis", niveis);
+		result.include("previstos", getPrevistos());
+
+		Integer total = 0;
+		for (Entry<Integer, Integer> nivel : niveis.entrySet()) {
+			total += nivel.getValue();
+		}
+		result.include("total", total);
 
 		StringBuilder htmlUsuarios = new StringBuilder();
 		gerarHtmlUsuarios(usuario, htmlUsuarios);
 		result.include("htmlUsuarios", htmlUsuarios.toString());
 	}
 
-	private void acharPatrocinadosRecursivamente(Usuario usuario) {
+	private HashMap<Integer, Integer> getPrevistos() {
+
+		HashMap<Integer, Integer> previstos = new HashMap<Integer, Integer>();
+		previstos.put(1, 3);
+		previstos.put(2, 9);
+		previstos.put(3, 27);
+		previstos.put(4, 81);
+		previstos.put(5, 243);
+		previstos.put(6, 729);
+		previstos.put(7, 2187);
+		previstos.put(8, 6561);
+		previstos.put(9, 19683);
+		previstos.put(10, 59049);
+
+		return previstos;
+	}
+
+	private void acharNiveis(Usuario usuario, TreeMap<Integer, Integer> niveis) {
+
+		if (usuario.getNivel() != null && usuario.getNivel() <= 10) {
+
+			if (niveis.get(usuario.getNivel()) == null) {
+				niveis.put(usuario.getNivel(), 1);
+			} else {
+				niveis.put(usuario.getNivel(), niveis.get(usuario.getNivel()) + 1);
+			}
+		}
+
+		if (usuario.getUsuariosPatrocinados() != null) {
+			for (Usuario usuarioPatrocinado : usuario.getUsuariosPatrocinados()) {
+				acharNiveis(usuarioPatrocinado, niveis);
+			}
+		}
+	}
+
+	private void acharPatrocinadosRecursivamente(Usuario usuario, Integer nivel) {
 
 		Usuario usuarioPatrocinadoFiltro = new Usuario();
 		usuarioPatrocinadoFiltro.setId_Patroc(usuario.getId_Codigo());
@@ -64,8 +113,9 @@ public class ArvoreRelacionamento2Controller {
 
 		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
 
+			usuarioPatrocinado.setNivel(nivel);
 			usuarioPatrocinado.calcularPontuacao();
-			acharPatrocinadosRecursivamente(usuarioPatrocinado);
+			acharPatrocinadosRecursivamente(usuarioPatrocinado, nivel + 1);
 		}
 
 		usuario.setUsuariosPatrocinados(usuariosPatrocinados);
