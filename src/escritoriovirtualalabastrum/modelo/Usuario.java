@@ -83,6 +83,8 @@ public class Usuario implements Entidade {
 	private String Dt_DD;
 	private String Dt_DS;
 	private String Dt_Pres;
+	private String apelido;
+	private Integer cadPosRede;
 
 	@Transient
 	private PontuacaoAuxiliar pontuacaoAuxiliar;
@@ -943,5 +945,21 @@ public class Usuario implements Entidade {
 
 	public void setUsuariosPatrocinados(List<Usuario> usuariosPatrocinados) {
 		this.usuariosPatrocinados = usuariosPatrocinados;
+	}
+
+	public String getApelido() {
+		return apelido;
+	}
+
+	public void setApelido(String apelido) {
+		this.apelido = apelido;
+	}
+
+	public Integer getCadPosRede() {
+		return cadPosRede;
+	}
+
+	public void setCadPosRede(Integer cadPosRede) {
+		this.cadPosRede = cadPosRede;
 	}
 }

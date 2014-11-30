@@ -60,7 +60,7 @@ public class ArvoreRelacionamento2Controller {
 		List<Criterion> restricoes = new ArrayList<Criterion>();
 		restricoes.add(Restrictions.ne("id_Codigo", usuario.getId_Codigo()));
 
-		List<Usuario> usuariosPatrocinados = this.hibernateUtil.buscar(usuarioPatrocinadoFiltro, restricoes, Order.asc("id_Codigo"));
+		List<Usuario> usuariosPatrocinados = this.hibernateUtil.buscar(usuarioPatrocinadoFiltro, restricoes, Order.asc("cadPosRede"));
 
 		for (Usuario usuarioPatrocinado : usuariosPatrocinados) {
 
@@ -74,7 +74,7 @@ public class ArvoreRelacionamento2Controller {
 	private void gerarHtmlUsuarios(Usuario usuario, StringBuilder htmlUsuarios) {
 
 		htmlUsuarios.append("<div id='" + usuario.getId_Codigo() + "'>");
-		htmlUsuarios.append(usuario.getvNome());
+		htmlUsuarios.append(usuario.getApelido());
 		htmlUsuarios.append("</div>");
 
 		if (Util.preenchido(usuario.getUsuariosPatrocinados())) {
