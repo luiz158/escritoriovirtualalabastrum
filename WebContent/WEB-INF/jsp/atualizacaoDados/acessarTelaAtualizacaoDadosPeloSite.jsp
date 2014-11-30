@@ -225,6 +225,10 @@
 		<div class="corMedia divFormulario" >
 			<label class="labelFormulario" >Nº do CARTÃO CONTA SUPER: </label> 
 			<input type="text" style="width: 100px;" name="sessaoAtualizacaoDados.cartaoContaSuper" value="${sessaoAtualizacaoDados.cartaoContaSuper}">
+			<br>
+			<a href='https://www.contasuper.com.br/NovoCadastro' target='_blank' > Caso não tenha peça já o seu! </a>
+			<br>
+			<p> Observação: Antes de contratar esse serviço saiba sobre as taxas </p>
 		</div>
 		
 		<c:if test="${exibirMensagemAgradecimento != true}" > 

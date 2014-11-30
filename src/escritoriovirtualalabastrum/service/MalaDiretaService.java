@@ -427,8 +427,8 @@ public class MalaDiretaService {
 		LinkedHashMap<String, String> posicoes = new LinkedHashMap<String, String>();
 
 		posicoes.put(TODAS, TODAS);
-		posicoes.put("id_Patroc", "Patrocinador");
 		posicoes.put("id_Indicante", "Indicante");
+		posicoes.put("id_Patroc", "Patrocinador");
 		posicoes.put("id_S", "Executivo");
 		posicoes.put("id_M1", "G1");
 		posicoes.put("id_M2", "G2");
