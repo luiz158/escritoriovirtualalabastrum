@@ -192,15 +192,15 @@
 		<br>
 	</c:if>
 
-  <div class="container">
-    <div id="slides">
-      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide1.jpg" >
-      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide2.jpg" >
-      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide3.jpg" >
-      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide4.jpg" >
-      <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide5.jpg" >
-    </div>
-  </div>
+<!--   <div class="container"> -->
+<!--     <div id="slides"> -->
+<!--       <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide1.jpg" > -->
+<!--       <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide2.jpg" > -->
+<!--       <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide3.jpg" > -->
+<!--       <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide4.jpg" > -->
+<!--       <img src="http://www.alabastrum.com.br/escritoriovirtual/imagens/slide5.jpg" > -->
+<!--     </div> -->
+<!--   </div> -->
   
   <div class="informacoesHome">
   	  <a style="text-decoration: none;" href="<c:url value="/pontuacao/gerarRelatorioVindoDaTelaInicial"/>"> 
