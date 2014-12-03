@@ -50,7 +50,7 @@
 	        	<a href="<c:url value="/malaDireta/acessarTelaMalaDireta"/>" class="submenu-accordion" > Mala direta </a>
 	        	<a href="<c:url value="/pontuacao/acessarTelaPontuacao"/>" class="submenu-accordion" > Pontuação </a>
 	        	<a href="<c:url value="/pontuacaoAnual/acessarTelaPontuacaoAnual"/>" class="submenu-accordion" > Pontuação anual</a>
-	        	<a href="<c:url value="/arvoreRelacionamento2/acessarTelaArvoreRelacionamento"/>" class="submenu-accordion" > Árvore de relacionamentos </a>
+	        	<a href="<c:url value="/arvoreRelacionamento2/gerarArvoreRelacionamento"/>" class="submenu-accordion" > Árvore de relacionamentos </a>
 	        	<a href="<c:url value="/aniversariantes/acessarTelaAniversariantes"/>" class="submenu-accordion" > Aniversariantes </a>
 	        	<a href="<c:url value="/listaIngresso/acessarTelaListaIngresso"/>" class="submenu-accordion" > Lista de ingresso </a>
 	        	<a href="<c:url value="/cadastrosPendentes/gerarCadastrosPendentes"/>" class="submenu-accordion" > Cadastros pendentes </a>

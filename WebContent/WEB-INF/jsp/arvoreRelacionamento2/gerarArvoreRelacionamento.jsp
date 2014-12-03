@@ -78,7 +78,7 @@
 	
 </style>
 
-<a class="btn" href="<c:url value="/arvoreRelacionamento2/acessarTelaArvoreRelacionamento"/>" > Voltar </a>
+<a class="btn" href="<c:url value="/home/home"/>" > Voltar </a>
 
 <div class="informacoes" >
 

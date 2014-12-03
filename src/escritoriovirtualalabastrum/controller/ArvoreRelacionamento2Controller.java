@@ -35,17 +35,9 @@ public class ArvoreRelacionamento2Controller {
 	}
 
 	@Funcionalidade
-	public void acessarTelaArvoreRelacionamento() {
+	public void gerarArvoreRelacionamento() {
 
-	}
-
-	@Funcionalidade
-	public void gerarArvoreRelacionamento(Integer codigo) {
-
-		if (Util.vazio(codigo)) {
-
-			codigo = this.sessaoUsuario.getUsuario().getId_Codigo();
-		}
+		Integer codigo = this.sessaoUsuario.getUsuario().getId_Codigo();
 
 		Usuario usuario = this.hibernateUtil.selecionar(new Usuario(codigo));
 		acharPatrocinadosRecursivamente(usuario, 1);
