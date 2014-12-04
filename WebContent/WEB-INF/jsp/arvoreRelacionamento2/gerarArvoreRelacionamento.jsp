@@ -131,7 +131,7 @@
 
 <br>
 
-<div style='width: 2500px;'>
+<div style='width: 10000px;'>
 	<ul class="tree">
 		<li>
 			${htmlUsuarios}
