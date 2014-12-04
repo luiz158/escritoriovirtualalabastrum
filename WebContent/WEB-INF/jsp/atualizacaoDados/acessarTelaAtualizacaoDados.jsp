@@ -127,7 +127,7 @@
 			<label class="labelFormulario" >Cidade: </label> 
 			<input type="text" style="width: 340px;" name="sessaoAtualizacaoDados.cadCidade" value="${sessaoAtualizacaoDados.cadCidade}" >
 			<label class="labelFormulario" >Estado: </label> 
-			<select name="sessaoAtualizacaoDados.cadUF" style="width: 160px;" >
+			<select id='uf' name="sessaoAtualizacaoDados.cadUF" style="width: 160px;" >
 				<option value="AC">Acre</option>
 				<option value="AL">Alagoas</option>
 				<option value="AP">Amapá</option>
@@ -146,7 +146,7 @@
 				<option value="PR">Paraná</option>
 				<option value="PE">Pernambuco</option>
 				<option value="PI">Piauí</option>
-				<option value="RJ" selected="selected" >Rio de Janeiro</option>
+				<option value="RJ">Rio de Janeiro</option>
 				<option value="RN">Rio Grande do Norte</option>
 				<option value="RS">Rio Grande do Sul</option>
 				<option value="RO">Rondônia</option>
@@ -211,6 +211,8 @@
 </div>
 
 <script>
+
+$('#uf').val('${sessaoAtualizacaoDados.cadUF}');
 
 jQuery("#entregaMercadoria").click(function(){
 	
