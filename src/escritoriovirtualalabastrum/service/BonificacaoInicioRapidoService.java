@@ -56,7 +56,7 @@ public class BonificacaoInicioRapidoService {
 	private BigDecimal encontrarValorDoIngresso(Usuario usuario, DateTime dataInicial, DateTime dataFinal) {
 
 		@SuppressWarnings("unchecked")
-		List<Object> kit = hibernateUtil.buscaPorHQL("select pnt.valorIngresso from Pontuacao pnt where id_Codigo = " + usuario.getId_Codigo() + " and Dt_Pontos between '" + dataInicial.toString("YYYY-MM-dd") + "' and '" + dataFinal.toString("YYYY-MM-dd") + "' order by id desc limit 1");
+		List<Object> kit = hibernateUtil.buscaPorHQL("select sum(pnt.valorIngresso) from Pontuacao pnt where id_Codigo = " + usuario.getId_Codigo() + " and Dt_Pontos between '" + dataInicial.toString("YYYY-MM-dd") + "' and '" + dataFinal.toString("YYYY-MM-dd") + "'");
 
 		if (Util.preenchido(kit)) {
 
