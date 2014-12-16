@@ -1,6 +1,7 @@
 package escritoriovirtualalabastrum.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -15,7 +16,7 @@ import escritoriovirtualalabastrum.util.Util;
 public class BonificacaoAtivacao2Service {
 
 	public static final Integer QUANTIDADE_GERACOES_QUE_DISTRIBUIRAO_BONUS = 10;
-	public static final BigDecimal PORCENTAGEM_COMISSAO_POR_ATIVIDADE = new BigDecimal("4.14");
+	public static final BigDecimal PORCENTAGEM_COMISSAO_POR_ATIVIDADE = new BigDecimal("4.13794");
 
 	private HibernateUtil hibernateUtil;
 
@@ -46,7 +47,7 @@ public class BonificacaoAtivacao2Service {
 					BigDecimal valorAtividade = encontrarValorDaAtividade(usuarioDaMalaDireta, dataInicial, dataFinal);
 
 					if (valorAtividade != null) {
-						comissao = comissao.add(valorAtividade.multiply(PORCENTAGEM_COMISSAO_POR_ATIVIDADE).divide(new BigDecimal("100")));
+						comissao = comissao.add(valorAtividade.multiply(PORCENTAGEM_COMISSAO_POR_ATIVIDADE).divide(new BigDecimal("100").setScale(2, RoundingMode.HALF_UP)));
 					}
 				}
 			}
