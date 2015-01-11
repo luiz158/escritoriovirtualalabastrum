@@ -417,7 +417,7 @@ public class MalaDiretaService {
 	public Integer contarIndicacoes(Usuario usuario) {
 
 		Usuario usuarioFiltro = new Usuario();
-		usuarioFiltro.setId_Indicante(usuario.getId_Indicante());
+		usuarioFiltro.setId_Indicante(usuario.getId_Codigo());
 
 		return this.hibernateUtil.contar(usuarioFiltro);
 	}
