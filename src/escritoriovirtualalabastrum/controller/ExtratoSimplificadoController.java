@@ -63,7 +63,7 @@ public class ExtratoSimplificadoController {
 		result.include("bonificacaoAtivacao2", new BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoUniLevel", new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 
-		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
+		/*BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
 		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
 		result.include("bonificacaoIngresso", bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante())));
 
@@ -86,6 +86,7 @@ public class ExtratoSimplificadoController {
 
 		sessaoBonificacao.setMalaDireta(malaDireta);
 		sessaoBonificacao.setExtratoSimplificadoAuxiliar(extratoSimplificadoAuxiliar);
+		*/
 
 		result.include("mes", mes);
 		result.include("ano", ano);
