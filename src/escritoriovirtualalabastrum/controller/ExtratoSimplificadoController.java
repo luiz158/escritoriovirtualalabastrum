@@ -2,8 +2,6 @@ package escritoriovirtualalabastrum.controller;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
 
 import org.joda.time.DateTime;
 
@@ -12,17 +10,12 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAtivacaoAuxiliar;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoCompraPessoalAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.ExtratoSimplificadoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacao2Service;
-import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
-import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
-import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
-import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
+import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
 import escritoriovirtualalabastrum.service.BonificacaoUniLevelService;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
@@ -62,31 +55,62 @@ public class ExtratoSimplificadoController {
 		result.include("bonificacaoInicioRapido", new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoAtivacao2", new BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoUniLevel", new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
+		result.include("bonificacaoExpansao", new BonificacaoExpansaoService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 
-		/*BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
-		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
-		result.include("bonificacaoIngresso", bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante())));
-
-		TreeMap<Integer, MalaDireta> malaDireta = informacoesBonificacoesIngresso.getMalaDireta();
-
-		BonificacaoAtivacaoService bonificacaoAtivacaoService = new BonificacaoAtivacaoService(hibernateUtil, result, validator);
-		List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao = bonificacaoAtivacaoService.calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
-		result.include("bonificacaoAtivacao", bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao));
-
-		ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
-		result.include("pontuacao", extratoSimplificadoAuxiliar.getPontuacao());
-		result.include("quantidadeGraduados", extratoSimplificadoAuxiliar.getQuantidadeGraduados());
-
-		BonificacaoCompraPessoalAuxiliar bonificacaoCompraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados());
-		result.include("bonificacaoCompraPessoal", bonificacaoCompraPessoal.getBonificacao());
-		result.include("graduacaoAtual", bonificacaoCompraPessoal.getGraduacao());
-		result.include("porcentagemCompraPessoal", bonificacaoCompraPessoal.getPorcentagem());
-
-		result.include("bonificacaoGraduacao", new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados(), malaDireta));
-
-		sessaoBonificacao.setMalaDireta(malaDireta);
-		sessaoBonificacao.setExtratoSimplificadoAuxiliar(extratoSimplificadoAuxiliar);
-		*/
+		/*
+		 * BonificacaoIngressoService bonificacaoIngressoService = new
+		 * BonificacaoIngressoService(hibernateUtil, validator, result);
+		 * BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso =
+		 * bonificacaoIngressoService
+		 * .calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
+		 * result.include("bonificacaoIngresso",
+		 * bonificacaoIngressoService.calcularSomatorioBonificacoes
+		 * (informacoesBonificacoesIngresso
+		 * .getBonificacoes()).add(bonificacaoIngressoService
+		 * .calcularSomatorioBonificacoes
+		 * (informacoesBonificacoesIngresso.getBonificacoesDiamante())));
+		 * 
+		 * TreeMap<Integer, MalaDireta> malaDireta =
+		 * informacoesBonificacoesIngresso.getMalaDireta();
+		 * 
+		 * BonificacaoAtivacaoService bonificacaoAtivacaoService = new
+		 * BonificacaoAtivacaoService(hibernateUtil, result, validator);
+		 * List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao =
+		 * bonificacaoAtivacaoService
+		 * .calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes);
+		 * result.include("bonificacaoAtivacao",
+		 * bonificacaoAtivacaoService.calcularSomatorioBonificacoes
+		 * (bonificacoesAtivacao));
+		 * 
+		 * ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar =
+		 * calcularPontuacaoEGraduados(ano, mes,
+		 * informacoesBonificacoesIngresso); result.include("pontuacao",
+		 * extratoSimplificadoAuxiliar.getPontuacao());
+		 * result.include("quantidadeGraduados",
+		 * extratoSimplificadoAuxiliar.getQuantidadeGraduados());
+		 * 
+		 * BonificacaoCompraPessoalAuxiliar bonificacaoCompraPessoal = new
+		 * BonificacaoCompraPessoalService
+		 * (hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(),
+		 * ano, mes, extratoSimplificadoAuxiliar.getPontuacao(),
+		 * extratoSimplificadoAuxiliar.getQuantidadeGraduados());
+		 * result.include("bonificacaoCompraPessoal",
+		 * bonificacaoCompraPessoal.getBonificacao());
+		 * result.include("graduacaoAtual",
+		 * bonificacaoCompraPessoal.getGraduacao());
+		 * result.include("porcentagemCompraPessoal",
+		 * bonificacaoCompraPessoal.getPorcentagem());
+		 * 
+		 * result.include("bonificacaoGraduacao", new
+		 * BonificacaoGraduacaoService(hibernateUtil, validator,
+		 * result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes,
+		 * extratoSimplificadoAuxiliar.getPontuacao(),
+		 * extratoSimplificadoAuxiliar.getQuantidadeGraduados(), malaDireta));
+		 * 
+		 * sessaoBonificacao.setMalaDireta(malaDireta);
+		 * sessaoBonificacao.setExtratoSimplificadoAuxiliar
+		 * (extratoSimplificadoAuxiliar);
+		 */
 
 		result.include("mes", mes);
 		result.include("ano", ano);

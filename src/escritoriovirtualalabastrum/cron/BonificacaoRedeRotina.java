@@ -25,6 +25,7 @@ import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacao2Service;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
+import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
 import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
 import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
@@ -114,6 +115,7 @@ public class BonificacaoRedeRotina implements Runnable {
 		BigDecimal bonificacaoInicioRapido = new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoAtivacao2 = new BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoUniLevel = new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
+		BigDecimal bonificacaoExpansao = new BonificacaoExpansaoService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 
 		BonificacaoRede bonificacaoRede = new BonificacaoRede();
 		bonificacaoRede.setId_Codigo(usuario.getId_Codigo());
@@ -124,9 +126,10 @@ public class BonificacaoRedeRotina implements Runnable {
 		bonificacaoRede.setBonificacaoInicioRapido(bonificacaoInicioRapido);
 		bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
 		bonificacaoRede.setBonificacaoUniLevel(bonificacaoUniLevel);
+		bonificacaoRede.setBonificacaoExpansao(bonificacaoExpansao);
 		bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
 
-		bonificacaoRede.setTotal(bonificacaoAtivacao2.add(bonificacaoInicioRapido.add(bonificacaoUniLevel)));
+		bonificacaoRede.setTotal(bonificacaoAtivacao2.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao))));
 
 		return bonificacaoRede;
 	}
