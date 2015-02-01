@@ -25,37 +25,59 @@ public class BonificacaoExpansaoService {
 		this.hibernateUtil = hibernateUtil;
 	}
 
-	public BigDecimal calcularBonificacoes(Usuario usuario, Integer ano, Integer mes) {
+	public BigDecimal calcularBonificacoes(Usuario usuario, Integer ano,
+			Integer mes) {
 
 		BigDecimal bonificacao = BigDecimal.ZERO;
 
 		DateTime dataInicial = new DateTime(ano, mes, 1, 0, 0, 0);
-		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth().withMaximumValue().dayOfMonth().get(), 0, 0, 0);
+		DateTime dataFinal = new DateTime(ano, mes, dataInicial.dayOfMonth()
+				.withMaximumValue().dayOfMonth().get(), 0, 0, 0);
 
-		TreeMap<Integer, MalaDireta> malaDiretaCompleta = new TreeMap<Integer, MalaDireta>();
+		if (usuario.isAtivo(dataInicial.toGregorianCalendar(),
+				dataFinal.toGregorianCalendar())
+				&& new MalaDiretaService(this.hibernateUtil)
+						.contarIndicacoes(usuario) >= 3) {
 
-		MalaDiretaService malaDiretaService = new MalaDiretaService(hibernateUtil);
-		malaDiretaService.setHibernateUtil(hibernateUtil);
-		malaDiretaService.gerarMalaDiretaDeAcordoComAtividade("id_Patroc", usuario.getId_Codigo(), dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar(), 1, malaDiretaCompleta);
+			TreeMap<Integer, MalaDireta> malaDiretaCompleta = new TreeMap<Integer, MalaDireta>();
 
-		for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDiretaCompleta.entrySet()) {
+			MalaDiretaService malaDiretaService = new MalaDiretaService(
+					hibernateUtil);
+			malaDiretaService.setHibernateUtil(hibernateUtil);
+			malaDiretaService.gerarMalaDiretaDeAcordoComAtividade("id_Patroc",
+					usuario.getId_Codigo(), dataInicial.toGregorianCalendar(),
+					dataFinal.toGregorianCalendar(), 1, malaDiretaCompleta);
 
-			MalaDireta malaDireta = malaDiretaEntry.getValue();
+			for (Entry<Integer, MalaDireta> malaDiretaEntry : malaDiretaCompleta
+					.entrySet()) {
 
-			Usuario usuarioMalaDireta = malaDireta.getUsuario();
+				MalaDireta malaDireta = malaDiretaEntry.getValue();
 
-			if ((usuarioMalaDireta.getDt_Ingresso().equals(dataInicial.toGregorianCalendar()) || usuarioMalaDireta.getDt_Ingresso().after(dataInicial.toGregorianCalendar())) && (usuarioMalaDireta.getDt_Ingresso().equals(dataFinal.toGregorianCalendar()) || usuarioMalaDireta.getDt_Ingresso().before(dataFinal.toGregorianCalendar()))) {
+				Usuario usuarioMalaDireta = malaDireta.getUsuario();
 
-				bonificacao = bonificacao.add(calcularBonificacoesFixas(ano, mes, malaDireta));
+				if ((usuarioMalaDireta.getDt_Ingresso().equals(
+						dataInicial.toGregorianCalendar()) || usuarioMalaDireta
+						.getDt_Ingresso().after(
+								dataInicial.toGregorianCalendar()))
+						&& (usuarioMalaDireta.getDt_Ingresso().equals(
+								dataFinal.toGregorianCalendar()) || usuarioMalaDireta
+								.getDt_Ingresso().before(
+										dataFinal.toGregorianCalendar()))) {
+
+					bonificacao = bonificacao.add(calcularBonificacoesFixas(
+							ano, mes, malaDireta));
+				}
 			}
 		}
 
 		return bonificacao;
 	}
 
-	private BigDecimal calcularBonificacoesFixas(Integer ano, Integer mes, MalaDireta malaDireta) {
+	private BigDecimal calcularBonificacoesFixas(Integer ano, Integer mes,
+			MalaDireta malaDireta) {
 
-		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(malaDireta.getUsuario(), ano, mes);
+		String kit = encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(
+				malaDireta.getUsuario(), ano, mes);
 
 		if (kit == null) {
 
@@ -66,7 +88,8 @@ public class BonificacaoExpansaoService {
 		fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
 		fixoIngresso.setGeracao(String.valueOf(malaDireta.getNivel()));
 
-		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso, MatchMode.EXACT);
+		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso,
+				MatchMode.EXACT);
 
 		try {
 
@@ -80,10 +103,15 @@ public class BonificacaoExpansaoService {
 		}
 	}
 
-	private String encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(Usuario usuario, Integer ano, Integer mes) {
+	private String encontrarHistoricoKitDeAcordoComUsuarioEDataInformada(
+			Usuario usuario, Integer ano, Integer mes) {
 
 		@SuppressWarnings("unchecked")
-		List<Object> kit = hibernateUtil.buscaPorHQL("select hk.kit from HistoricoKit hk where id_Codigo = " + usuario.getId_Codigo() + " and data_referencia between '2014-01-01' and '" + ano + "-" + mes + "-01' order by id desc limit 1");
+		List<Object> kit = hibernateUtil
+				.buscaPorHQL("select hk.kit from HistoricoKit hk where id_Codigo = "
+						+ usuario.getId_Codigo()
+						+ " and data_referencia between '2014-01-01' and '"
+						+ ano + "-" + mes + "-01' order by id desc limit 1");
 
 		if (Util.preenchido(kit)) {
 
