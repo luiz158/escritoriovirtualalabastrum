@@ -5,33 +5,21 @@ import it.sauronsoftware.cron4j.Scheduler;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoAtivacaoAuxiliar;
-import escritoriovirtualalabastrum.auxiliar.BonificacaoIngressoAuxiliar;
-import escritoriovirtualalabastrum.auxiliar.ExtratoSimplificadoAuxiliar;
-import escritoriovirtualalabastrum.auxiliar.MalaDireta;
-import escritoriovirtualalabastrum.controller.ExtratoSimplificadoController;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.BonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Configuracao;
 import escritoriovirtualalabastrum.modelo.InformacoesGeraisCalculoBonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacao2Service;
-import escritoriovirtualalabastrum.service.BonificacaoAtivacaoService;
-import escritoriovirtualalabastrum.service.BonificacaoCompraPessoalService;
 import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
-import escritoriovirtualalabastrum.service.BonificacaoGraduacaoService;
-import escritoriovirtualalabastrum.service.BonificacaoIngressoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
 import escritoriovirtualalabastrum.service.BonificacaoUniLevelService;
-import escritoriovirtualalabastrum.service.GraduacaoService;
-import escritoriovirtualalabastrum.sessao.SessaoBonificacao;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 import escritoriovirtualalabastrum.util.Util;
 
@@ -88,29 +76,29 @@ public class BonificacaoRedeRotina implements Runnable {
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.login(usuario);
 
-		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
-		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
-		BigDecimal bonificacaoIngresso = bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante()));
-
-		TreeMap<Integer, MalaDireta> malaDireta = informacoesBonificacoesIngresso.getMalaDireta();
-
-		BonificacaoAtivacaoService bonificacaoAtivacaoService = new BonificacaoAtivacaoService(hibernateUtil, result, validator);
-		List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao = bonificacaoAtivacaoService.calcularBonificacoes(usuario, ano, mes);
-		BigDecimal bonificacaoAtivacao = bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao);
-
-		ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = new ExtratoSimplificadoController(result, hibernateUtil, sessaoUsuario, new SessaoBonificacao(), validator).calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
-
-		String graduacao = new GraduacaoService().verificaGraduacao(extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados());
-		if (graduacao == null) {
-			graduacao = "Executivo";
-		}
-
-		BigDecimal bonificacaoCompraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados()).getBonificacao();
-
-		BigDecimal bonificacaoGraduacao = new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados(), malaDireta).getBonificacao();
-		if (Util.vazio(bonificacaoGraduacao)) {
-			bonificacaoGraduacao = BigDecimal.ZERO;
-		}
+//		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
+//		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
+//		BigDecimal bonificacaoIngresso = bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante()));
+//
+//		TreeMap<Integer, MalaDireta> malaDireta = informacoesBonificacoesIngresso.getMalaDireta();
+//
+//		BonificacaoAtivacaoService bonificacaoAtivacaoService = new BonificacaoAtivacaoService(hibernateUtil, result, validator);
+//		List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao = bonificacaoAtivacaoService.calcularBonificacoes(usuario, ano, mes);
+//		BigDecimal bonificacaoAtivacao = bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao);
+//
+//		ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = new ExtratoSimplificadoController(result, hibernateUtil, sessaoUsuario, new SessaoBonificacao(), validator).calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
+//
+//		String graduacao = new GraduacaoService().verificaGraduacao(extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados());
+//		if (graduacao == null) {
+//			graduacao = "Executivo";
+//		}
+//
+//		BigDecimal bonificacaoCompraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados()).getBonificacao();
+//
+//		BigDecimal bonificacaoGraduacao = new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados(), malaDireta).getBonificacao();
+//		if (Util.vazio(bonificacaoGraduacao)) {
+//			bonificacaoGraduacao = BigDecimal.ZERO;
+//		}
 
 		BigDecimal bonificacaoInicioRapido = new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoAtivacao2 = new BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
@@ -119,15 +107,15 @@ public class BonificacaoRedeRotina implements Runnable {
 
 		BonificacaoRede bonificacaoRede = new BonificacaoRede();
 		bonificacaoRede.setId_Codigo(usuario.getId_Codigo());
-		bonificacaoRede.setQualificacao(graduacao);
-		bonificacaoRede.setBonificacaoIngresso(bonificacaoIngresso);
-		bonificacaoRede.setBonificacaoAtivacao(bonificacaoAtivacao);
+		//bonificacaoRede.setQualificacao(graduacao);
+		//bonificacaoRede.setBonificacaoIngresso(bonificacaoIngresso);
+		//bonificacaoRede.setBonificacaoAtivacao(bonificacaoAtivacao);
 		bonificacaoRede.setBonificacaoAtivacao2(bonificacaoAtivacao2);
 		bonificacaoRede.setBonificacaoInicioRapido(bonificacaoInicioRapido);
-		bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
+		//bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
 		bonificacaoRede.setBonificacaoUniLevel(bonificacaoUniLevel);
 		bonificacaoRede.setBonificacaoExpansao(bonificacaoExpansao);
-		bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
+		//bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
 
 		bonificacaoRede.setTotal(bonificacaoAtivacao2.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao))));
 

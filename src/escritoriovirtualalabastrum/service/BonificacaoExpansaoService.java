@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.hibernate.criterion.MatchMode;
 import org.joda.time.DateTime;
 
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
@@ -65,7 +66,7 @@ public class BonificacaoExpansaoService {
 		fixoIngresso.setData_referencia(new GregorianCalendar(ano, mes - 1, 1));
 		fixoIngresso.setGeracao(String.valueOf(malaDireta.getNivel()));
 
-		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso);
+		fixoIngresso = this.hibernateUtil.selecionar(fixoIngresso, MatchMode.EXACT);
 
 		try {
 
