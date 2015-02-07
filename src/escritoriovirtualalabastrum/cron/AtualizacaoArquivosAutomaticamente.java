@@ -17,7 +17,7 @@ public class AtualizacaoArquivosAutomaticamente implements Runnable {
 
 		try {
 
-			if (new File(ImportacaoArquivoController.PASTA_ATUALIZACAO_CSV).list().length >= 9) {
+			if (new File(ImportacaoArquivoController.PASTA_ATUALIZACAO_CSV).list().length >= 10) {
 
 				HibernateUtil hibernateUtil = new HibernateUtil();
 

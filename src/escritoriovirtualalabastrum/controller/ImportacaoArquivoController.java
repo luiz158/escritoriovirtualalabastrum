@@ -29,6 +29,7 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import escritoriovirtualalabastrum.anotacoes.Funcionalidade;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
+import escritoriovirtualalabastrum.modelo.Atividade;
 import escritoriovirtualalabastrum.modelo.Categoria;
 import escritoriovirtualalabastrum.modelo.CentroDistribuicao;
 import escritoriovirtualalabastrum.modelo.ControlePedido;
@@ -100,6 +101,7 @@ public class ImportacaoArquivoController {
 		processarCSVFixoIngresso();
 		processarCSVHistoricoKit();
 		processarCSVPorcentagemIngresso();
+		processarCSVAtividade();
 
 		atualizarInformacoesUltimaAtualizacao();
 	}
@@ -291,6 +293,94 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.executarSQL("delete from porcentagemingresso");
 
 		this.hibernateUtil.salvarOuAtualizar(porcentagensIngresso);
+	}
+
+	private void processarCSVAtividade() throws IOException {
+
+		CSVReader reader = lerArquivo("tblAtividade.csv");
+
+		List<Atividade> atividades = new ArrayList<Atividade>();
+
+		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+
+		String[] nextLine;
+		while ((nextLine = reader.readNext()) != null) {
+
+			String[] colunas = nextLine[0].split(";");
+
+			if (colunas.length <= 2) {
+
+				validarFormato();
+			}
+
+			else {
+
+				for (int i = 0; i < colunas.length; i++) {
+
+					colunas[i] = colunas[i].replaceAll("\"", "");
+				}
+
+				if (!colunas[0].contains("data_referencia")) {
+
+					if (hashColunas.size() == 0) {
+
+						validarFormato();
+					}
+
+					Atividade atividade = new Atividade();
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						Field field = null;
+
+						try {
+
+							field = atividade.getClass().getDeclaredField(hashColunas.get(i));
+
+							field.setAccessible(true);
+
+							try {
+
+								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
+								field.set(atividade, numero);
+							}
+
+							catch (Exception e) {
+
+								try {
+
+									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
+									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
+
+									field.set(atividade, data.toGregorianCalendar());
+								}
+
+								catch (Exception e3) {
+
+									field.set(atividade, colunas[i]);
+								}
+							}
+
+						} catch (Exception e) {
+						}
+					}
+
+					atividades.add(atividade);
+				}
+
+				else {
+
+					for (int i = 0; i < colunas.length; i++) {
+
+						hashColunas.put(i, colunas[i]);
+					}
+				}
+			}
+		}
+
+		this.hibernateUtil.executarSQL("delete from atividade");
+
+		this.hibernateUtil.salvarOuAtualizar(atividades);
 	}
 
 	private void processarCSVHistoricoKit() throws IOException {
