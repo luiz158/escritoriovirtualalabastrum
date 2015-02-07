@@ -43,7 +43,7 @@
 						</td>
 						<td class="centralizado">
 							R$
-							<fmt:formatNumber value="${item.bonificacaoAtivacao2}" pattern="#,##0.00" />
+							<fmt:formatNumber value="${item.bonificacaoAtivacao3}" pattern="#,##0.00" />
 						</td>
 						<td class="centralizado">
 							R$

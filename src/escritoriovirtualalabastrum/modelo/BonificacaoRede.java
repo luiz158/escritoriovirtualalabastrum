@@ -23,6 +23,7 @@ public class BonificacaoRede implements Entidade {
 	private BigDecimal bonificacaoIngresso;
 	private BigDecimal bonificacaoAtivacao;
 	private BigDecimal bonificacaoAtivacao2;
+	private BigDecimal bonificacaoAtivacao3;
 	private BigDecimal bonificacaoCompraPessoal;
 	private BigDecimal bonificacaoInicioRapido;
 	private BigDecimal bonificacaoGraduacao;
@@ -96,6 +97,14 @@ public class BonificacaoRede implements Entidade {
 		this.bonificacaoAtivacao2 = bonificacaoAtivacao2;
 	}
 
+	public BigDecimal getBonificacaoAtivacao3() {
+		return bonificacaoAtivacao3;
+	}
+
+	public void setBonificacaoAtivacao3(BigDecimal bonificacaoAtivacao3) {
+		this.bonificacaoAtivacao3 = bonificacaoAtivacao3;
+	}
+
 	public BigDecimal getBonificacaoCompraPessoal() {
 		return bonificacaoCompraPessoal;
 	}
@@ -120,14 +129,6 @@ public class BonificacaoRede implements Entidade {
 		this.bonificacaoGraduacao = bonificacaoGraduacao;
 	}
 
-	public BigDecimal getTotal() {
-		return total;
-	}
-
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
-
 	public BigDecimal getBonificacaoUniLevel() {
 		return bonificacaoUniLevel;
 	}
@@ -143,4 +144,13 @@ public class BonificacaoRede implements Entidade {
 	public void setBonificacaoExpansao(BigDecimal bonificacaoExpansao) {
 		this.bonificacaoExpansao = bonificacaoExpansao;
 	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
 }

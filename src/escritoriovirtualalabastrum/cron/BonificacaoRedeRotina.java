@@ -16,7 +16,7 @@ import escritoriovirtualalabastrum.modelo.BonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Configuracao;
 import escritoriovirtualalabastrum.modelo.InformacoesGeraisCalculoBonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Usuario;
-import escritoriovirtualalabastrum.service.BonificacaoAtivacao2Service;
+import escritoriovirtualalabastrum.service.BonificacaoAtivacao3Service;
 import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
 import escritoriovirtualalabastrum.service.BonificacaoUniLevelService;
@@ -76,48 +76,73 @@ public class BonificacaoRedeRotina implements Runnable {
 		SessaoUsuario sessaoUsuario = new SessaoUsuario();
 		sessaoUsuario.login(usuario);
 
-//		BonificacaoIngressoService bonificacaoIngressoService = new BonificacaoIngressoService(hibernateUtil, validator, result);
-//		BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso = bonificacaoIngressoService.calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
-//		BigDecimal bonificacaoIngresso = bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante()));
-//
-//		TreeMap<Integer, MalaDireta> malaDireta = informacoesBonificacoesIngresso.getMalaDireta();
-//
-//		BonificacaoAtivacaoService bonificacaoAtivacaoService = new BonificacaoAtivacaoService(hibernateUtil, result, validator);
-//		List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao = bonificacaoAtivacaoService.calcularBonificacoes(usuario, ano, mes);
-//		BigDecimal bonificacaoAtivacao = bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao);
-//
-//		ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = new ExtratoSimplificadoController(result, hibernateUtil, sessaoUsuario, new SessaoBonificacao(), validator).calcularPontuacaoEGraduados(ano, mes, informacoesBonificacoesIngresso);
-//
-//		String graduacao = new GraduacaoService().verificaGraduacao(extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados());
-//		if (graduacao == null) {
-//			graduacao = "Executivo";
-//		}
-//
-//		BigDecimal bonificacaoCompraPessoal = new BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados()).getBonificacao();
-//
-//		BigDecimal bonificacaoGraduacao = new BonificacaoGraduacaoService(hibernateUtil, validator, result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes, extratoSimplificadoAuxiliar.getPontuacao(), extratoSimplificadoAuxiliar.getQuantidadeGraduados(), malaDireta).getBonificacao();
-//		if (Util.vazio(bonificacaoGraduacao)) {
-//			bonificacaoGraduacao = BigDecimal.ZERO;
-//		}
+		// BonificacaoIngressoService bonificacaoIngressoService = new
+		// BonificacaoIngressoService(hibernateUtil, validator, result);
+		// BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso =
+		// bonificacaoIngressoService.calcularBonificacoes(sessaoUsuario.getUsuario(),
+		// ano, mes);
+		// BigDecimal bonificacaoIngresso =
+		// bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoes()).add(bonificacaoIngressoService.calcularSomatorioBonificacoes(informacoesBonificacoesIngresso.getBonificacoesDiamante()));
+		//
+		// TreeMap<Integer, MalaDireta> malaDireta =
+		// informacoesBonificacoesIngresso.getMalaDireta();
+		//
+		// BonificacaoAtivacaoService bonificacaoAtivacaoService = new
+		// BonificacaoAtivacaoService(hibernateUtil, result, validator);
+		// List<BonificacaoAtivacaoAuxiliar> bonificacoesAtivacao =
+		// bonificacaoAtivacaoService.calcularBonificacoes(usuario, ano, mes);
+		// BigDecimal bonificacaoAtivacao =
+		// bonificacaoAtivacaoService.calcularSomatorioBonificacoes(bonificacoesAtivacao);
+		//
+		// ExtratoSimplificadoAuxiliar extratoSimplificadoAuxiliar = new
+		// ExtratoSimplificadoController(result, hibernateUtil, sessaoUsuario,
+		// new SessaoBonificacao(), validator).calcularPontuacaoEGraduados(ano,
+		// mes, informacoesBonificacoesIngresso);
+		//
+		// String graduacao = new
+		// GraduacaoService().verificaGraduacao(extratoSimplificadoAuxiliar.getPontuacao(),
+		// extratoSimplificadoAuxiliar.getQuantidadeGraduados());
+		// if (graduacao == null) {
+		// graduacao = "Executivo";
+		// }
+		//
+		// BigDecimal bonificacaoCompraPessoal = new
+		// BonificacaoCompraPessoalService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(),
+		// ano, mes, extratoSimplificadoAuxiliar.getPontuacao(),
+		// extratoSimplificadoAuxiliar.getQuantidadeGraduados()).getBonificacao();
+		//
+		// BigDecimal bonificacaoGraduacao = new
+		// BonificacaoGraduacaoService(hibernateUtil, validator,
+		// result).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes,
+		// extratoSimplificadoAuxiliar.getPontuacao(),
+		// extratoSimplificadoAuxiliar.getQuantidadeGraduados(),
+		// malaDireta).getBonificacao();
+		// if (Util.vazio(bonificacaoGraduacao)) {
+		// bonificacaoGraduacao = BigDecimal.ZERO;
+		// }
+
+		// BigDecimal bonificacaoAtivacao2 = new
+		// BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(),
+		// ano, mes);
 
 		BigDecimal bonificacaoInicioRapido = new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(sessaoUsuario.getUsuario(), ano, mes);
-		BigDecimal bonificacaoAtivacao2 = new BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoUniLevel = new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoExpansao = new BonificacaoExpansaoService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
+		BigDecimal bonificacaoAtivacao3 = new BonificacaoAtivacao3Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 
 		BonificacaoRede bonificacaoRede = new BonificacaoRede();
 		bonificacaoRede.setId_Codigo(usuario.getId_Codigo());
-		//bonificacaoRede.setQualificacao(graduacao);
-		//bonificacaoRede.setBonificacaoIngresso(bonificacaoIngresso);
-		//bonificacaoRede.setBonificacaoAtivacao(bonificacaoAtivacao);
-		bonificacaoRede.setBonificacaoAtivacao2(bonificacaoAtivacao2);
+		// bonificacaoRede.setQualificacao(graduacao);
+		// bonificacaoRede.setBonificacaoIngresso(bonificacaoIngresso);
+		// bonificacaoRede.setBonificacaoAtivacao(bonificacaoAtivacao);
+		bonificacaoRede.setBonificacaoAtivacao3(bonificacaoAtivacao3);
 		bonificacaoRede.setBonificacaoInicioRapido(bonificacaoInicioRapido);
-		//bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
+		// bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
 		bonificacaoRede.setBonificacaoUniLevel(bonificacaoUniLevel);
 		bonificacaoRede.setBonificacaoExpansao(bonificacaoExpansao);
-		//bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
+		// bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
 
-		bonificacaoRede.setTotal(bonificacaoAtivacao2.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao))));
+		bonificacaoRede.setTotal(bonificacaoAtivacao3.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao))));
 
 		return bonificacaoRede;
 	}
