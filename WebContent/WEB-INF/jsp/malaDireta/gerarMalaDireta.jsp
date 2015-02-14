@@ -186,17 +186,17 @@ label.labelInformacoes{
 			<td id="informacaoCodigoM10" >  </td>
 		</tr>
 		<tr>
-			<td> <b> GB: </b> </td>
+			<td> <b> EB: </b> </td>
 			<td id="informacaoNomeGb" >  </td>
 			<td id="informacaoCodigoGb" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> GP: </b> </td>
+			<td> <b> EP: </b> </td>
 			<td id="informacaoNomeGp" >  </td>
 			<td id="informacaoCodigoGp" >  </td>
 		</tr>	
 		<tr>
-			<td> <b> GO: </b> </td>
+			<td> <b> EO: </b> </td>
 			<td id="informacaoNomeGo" >  </td>
 			<td id="informacaoCodigoGo" >  </td>
 		</tr>
@@ -224,11 +224,6 @@ label.labelInformacoes{
 			<td> <b> DT: </b> </td>
 			<td id="informacaoNomeDd" >  </td>
 			<td id="informacaoCodigoDd" >  </td>
-		</tr>	
-		<tr>
-			<td> <b> DP: </b> </td>
-			<td id="informacaoNomeDs" >  </td>
-			<td id="informacaoCodigoDs" >  </td>
 		</tr>	
 		<tr>
 			<td> <b> DR: </b> </td>

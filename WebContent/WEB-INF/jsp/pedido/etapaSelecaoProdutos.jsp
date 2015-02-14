@@ -28,8 +28,8 @@
 	    
     	<div class="pedidoFeitoPorResponsavel" >
 
-    		<p> Percebemos que você é responsável pelo centro de distribuição: <b>${sessaoPedido.centroDistribuicaoDoResponsavel}.</b> </p>
-    		<p> Como responsável, você tem a possibilidade de realizar pedidos por outros distribuidores e também tem a possibilidade de realizar pedidos para um centro de distribuição específico. </p>
+    		<p> Percebemos que você é responsável pelo ponto de apoio: <b>${sessaoPedido.centroDistribuicaoDoResponsavel}.</b> </p>
+    		<p> Como responsável, você tem a possibilidade de realizar pedidos por outros distribuidores e também tem a possibilidade de realizar pedidos para um ponto de apoio específico. </p>
     		<p> O que você deseja fazer? </p>
     		<label class="radio">
 				<input type="radio" id="realizarPedidoPorOutroDistribuidor" name="sessaoPedido.tipoPedido" value="realizarPedidoPorOutroDistribuidor" <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoPorOutroDistribuidor'}"> checked="checked" </c:if>  >
@@ -37,7 +37,7 @@
 			</label>
 			<label class="radio">
 				<input type="radio" id="realizarPedidoParaUmCentroDeDistribuicao" name="sessaoPedido.tipoPedido" value="realizarPedidoParaUmCentroDeDistribuicao" <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoParaUmCentroDeDistribuicao'}"> checked="checked" </c:if>  >
-				Realizar pedido para um centro de distribuição
+				Realizar pedido para um ponto de apoio
 			</label>
 			<label class="radio">
 				<input type="radio" id="realizarPedidoParaVoceMesmo" name="sessaoPedido.tipoPedido" value="realizarPedidoParaVoceMesmo" <c:if test="${sessaoPedido.tipoPedido == 'realizarPedidoParaVoceMesmo'}"> checked="checked" </c:if>  >
@@ -73,7 +73,7 @@
 				<br><br>
 				
 				<div class="control-group warning">
-		      		<label class="control-label">Centro de distribuição:</label>
+		      		<label class="control-label">Ponto de apoio:</label>
 		      		<div class="controls">
 		        		<select id="centroDistribuicaoDoResponsavel" name="sessaoPedido.centroDistribuicaoDoResponsavel"  >
 			          		<option value="" > Selecione </option>

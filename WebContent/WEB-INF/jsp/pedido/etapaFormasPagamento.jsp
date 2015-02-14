@@ -172,7 +172,7 @@
 			<br>
 			
 			<p>  
-				Escolha abaixo o centro de distribuição que você prefere e também informe a data e a hora que irá buscá-lo.
+				Escolha abaixo o ponto de apoio que você prefere e também informe a data e a hora que irá buscá-lo.
 			</p>
 			
 			<select id="centroDistribuicao" name="sessaoPedido.centroDistribuicao" onchange="escolherCentroDistribuicao()"  >

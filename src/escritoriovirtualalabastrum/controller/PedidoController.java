@@ -208,7 +208,7 @@ public class PedidoController {
 
 				if (Util.vazio(sessaoPedido.getCentroDistribuicao()) || Util.vazio(sessaoPedido.getDataHoraEscolhida())) {
 
-					validator.add(new ValidationMessage("É obrigatória a escolha do centro de distribuição e o preenchimento da data/hora", "Atenção"));
+					validator.add(new ValidationMessage("É obrigatória a escolha do ponto de apoio e o preenchimento da data/hora", "Atenção"));
 					validator.onErrorRedirectTo(this).etapaFormasPagamento(null, null, null, null);
 				}
 
@@ -237,7 +237,7 @@ public class PedidoController {
 
 				if (Util.vazio(sessaoPedido.getCentroDistribuicao()) || Util.vazio(sessaoPedido.getDataHoraEscolhida())) {
 
-					validator.add(new ValidationMessage("É obrigatória a escolha do centro de distribuição e o preenchimento da data/hora", "Atenção"));
+					validator.add(new ValidationMessage("É obrigatória a escolha do ponto de apoio e o preenchimento da data/hora", "Atenção"));
 					validator.onErrorRedirectTo(this).etapaComoDesejaReceberOsProdutos(null);
 				}
 			}
@@ -363,8 +363,8 @@ public class PedidoController {
 		if (this.sessaoPedido.getTipoPedido().equals("realizarPedidoParaUmCentroDeDistribuicao")) {
 
 			textoEmail += "<br> <br><br> ";
-			textoEmail += "<b> Tipo do pedido: </b> <span> Realizar pedido para um centro de distribuição </span> <br> ";
-			textoEmail += "<b> Centro de distribuição: </b> <span>" + this.sessaoPedido.getCentroDistribuicaoDoResponsavel() + " </span> <br>";
+			textoEmail += "<b> Tipo do pedido: </b> <span> Realizar pedido para um ponto de apoio </span> <br> ";
+			textoEmail += "<b> Ponto de apoio: </b> <span>" + this.sessaoPedido.getCentroDistribuicaoDoResponsavel() + " </span> <br>";
 		}
 
 		textoEmail += "<br> <br><br> <h2> Produtos </h2> ";

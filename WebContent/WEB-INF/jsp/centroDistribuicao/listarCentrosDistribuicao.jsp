@@ -1,6 +1,6 @@
 <%@ include file="/base.jsp" %> 
 
-<h4> Centros de distribuição  </h4>
+<h4> Pontos de apoio  </h4>
 
 <table class="table table-striped table-bordered">
 	<thead>

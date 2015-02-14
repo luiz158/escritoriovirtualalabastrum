@@ -29,9 +29,9 @@ public class MalaDiretaService {
 	public static final String DIAMANTE = "Diamante";
 	public static final String TOPÁZIO = "Topázio";
 	public static final String ESMERALDA = "Esmeralda";
-	public static final String GERENTE_OURO = "Gerente Ouro";
-	public static final String GERENTE_PRATA = "Gerente Prata";
-	public static final String GERENTE_BRONZE = "Gerente Bronze";
+	public static final String GERENTE_OURO = "Executivo Ouro";
+	public static final String GERENTE_PRATA = "Executivo Prata";
+	public static final String GERENTE_BRONZE = "Executivo Bronze";
 	public static final String TODAS = "Todas";
 
 	private HibernateUtil hibernateUtil;

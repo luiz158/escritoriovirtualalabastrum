@@ -14,15 +14,15 @@
 		<td> ${sessaoUsuario.usuario.dt_S} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Gerente Bronze: </b> </td>
+		<td> <b> Data Executivo Bronze: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_GB} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Gerente Prata: </b> </td>
+		<td> <b> Data Executivo Prata: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_GP} </td>
 	</tr>
 	<tr>
-		<td> <b> Data Gerente Ouro: </b> </td>
+		<td> <b> Data Executivo Ouro: </b> </td>
 		<td> ${sessaoUsuario.usuario.dt_GO} </td>
 	</tr>
 	<tr>

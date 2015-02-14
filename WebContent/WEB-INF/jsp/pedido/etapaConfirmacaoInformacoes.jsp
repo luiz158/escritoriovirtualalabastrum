@@ -39,8 +39,8 @@
     
     	<br> <br> <br> 
     
-    	<b> Tipo do pedido: </b> <span> Realizar pedido para um centro de distribuição </span> <br>
-    	<b> Centro de distribuição: </b> <span> ${sessaoPedido.centroDistribuicaoDoResponsavel} </span>
+    	<b> Tipo do pedido: </b> <span> Realizar pedido para um ponto de apoio </span> <br>
+    	<b> Ponto de apoio: </b> <span> ${sessaoPedido.centroDistribuicaoDoResponsavel} </span>
     	
     </c:if>   
     
