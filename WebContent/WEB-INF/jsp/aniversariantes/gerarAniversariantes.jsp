@@ -40,7 +40,7 @@
 				<c:forEach items="${aniversariantes}" var="item">
 					<tr>
                         <td class="centralizado" > 
-                        	${item.usuario.id_Codigo}
+                        	${item.usuario.codigoFormatado}
                         </td>
                         <td class="centralizado" > ${item.usuario.posAtual} </td>
                         <td> ${item.usuario.vNome} </td>

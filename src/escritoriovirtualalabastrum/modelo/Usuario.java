@@ -262,6 +262,25 @@ public class Usuario implements Entidade {
 		return "";
 	}
 
+	@Transient
+	public String getCodigoFormatado() {
+
+		String codigoFormatado = "";
+
+		if (Util.preenchido(this.getId_Codigo())) {
+
+			int quantidadeZeros = 5 - String.valueOf(this.getId_Codigo()).length();
+
+			for (int i = 0; i < quantidadeZeros; i++) {
+				codigoFormatado += "0";
+			}
+
+			codigoFormatado += String.valueOf(this.getId_Codigo());
+		}
+
+		return codigoFormatado;
+	}
+
 	public Integer getId() {
 		return id;
 	}

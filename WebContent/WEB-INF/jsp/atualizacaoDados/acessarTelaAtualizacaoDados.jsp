@@ -69,7 +69,7 @@
 	<div class="divInformacoesUsuarios" >
 		<h4> DADOS CADASTRAIS </h4>
 		<hr>
-		<label class="labelEsquerda" > Código de identificação: </label>  <span class="spanDireita"> ${sessaoUsuario.usuario.id_Codigo} </span>  <br><br>
+		<label class="labelEsquerda" > Código de identificação: </label>  <span class="spanDireita"> ${sessaoUsuario.usuario.codigoFormatado} </span>  <br><br>
 		<label class="labelEsquerda" > Nome completo: </label>  <span class="spanDireita"> ${sessaoUsuario.usuario.vNome} </span>  <br><br>
 		<label class="labelEsquerda" > CPF: </label>  <span class="spanDireita"> ${sessaoUsuario.usuario.CPF} </span>  <br>
 	</div>

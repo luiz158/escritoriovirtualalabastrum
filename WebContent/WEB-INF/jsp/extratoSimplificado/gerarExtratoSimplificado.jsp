@@ -29,7 +29,7 @@
 
 <h6 style="color: rgb(100, 100, 100);">Mês/ano: ${mes}/${ano}</h6>
 <h6 style="color: rgb(100, 100, 100);">Distribuidor:
-	${sessaoUsuario.usuario.id_Codigo} - ${sessaoUsuario.usuario.posAtual}
+	${sessaoUsuario.usuario.codigoFormatado} - ${sessaoUsuario.usuario.posAtual}
 	- ${sessaoUsuario.usuario.vNome}</h6>
 
 <br>

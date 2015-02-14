@@ -67,7 +67,7 @@ label.labelInformacoes{
 
 <h3> Mala Direta </h3>
 
-<h6 style="color: rgb(100, 100, 100);" >Líder da equipe: ${usuarioPesquisado.id_Codigo} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} / ${usuarioPesquisado.vNomeTitular2} </h6>
+<h6 style="color: rgb(100, 100, 100);" >Líder da equipe: ${usuarioPesquisado.codigoFormatado} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} / ${usuarioPesquisado.vNomeTitular2} </h6>
 
 <h6 style="color: rgb(100, 100, 100);" >Posição considerada: ${posicaoConsiderada}    </h6>
 
@@ -97,7 +97,7 @@ label.labelInformacoes{
 				<c:forEach items="${malaDireta}" var="item">
 					<tr class="usuario" id="${item.usuario.id_Codigo}" >
                         <td class="centralizado" > 
-                        	${item.usuario.id_Codigo}
+                        	${item.usuario.codigoFormatado}
                         </td>
                         <td class="centralizado" > ${item.usuario.posAtual} </td>
                         <td> ${item.usuario.vNome} </td>

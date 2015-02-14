@@ -205,7 +205,7 @@
   <div class="informacoesHome">
   	  <a style="text-decoration: none;" href="<c:url value="/pontuacao/gerarRelatorioVindoDaTelaInicial"/>"> 
   	  	  <br>
-	      <label class="labelInformacoesHome" > * CÓDIGO: </label> <span class="spanInformacoesHome" > ${sessaoUsuario.usuario.id_Codigo}</span><br>
+	      <label class="labelInformacoesHome" > * CÓDIGO: </label> <span class="spanInformacoesHome" > ${sessaoUsuario.usuario.codigoFormatado}</span><br>
 	      <label class="labelInformacoesHome" > * STATUS: </label> <span class="spanInformacoesHome" > ${sessaoUsuario.usuario.posAtual}</span><br>
 	      <label style="font-size: 18px; color: rgb(119, 47, 119) !important; padding-left: 20px; padding-bottom: 50px; padding-top: 50px; margin-left: 0px;" class="labelInformacoesHome" > CLIQUE PARA CONSULTAR A PONTUAÇÃO DA SUA REDE!</label><br>
 	      <label class="labelInformacoesHome" > * Última atualização: </label> <span class="spanInformacoesHome" > ${dataHoraUltimaAtualizacao}</span><br>

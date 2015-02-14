@@ -31,7 +31,7 @@ b{
 
 <h3> Pontuação Anual </h3>
 
-<h6 style="color: rgb(100, 100, 100);" >Líder da equipe: ${usuarioPesquisado.id_Codigo} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} / ${usuarioPesquisado.vNomeTitular2} </h6>
+<h6 style="color: rgb(100, 100, 100);" >Líder da equipe: ${usuarioPesquisado.codigoFormatado} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} / ${usuarioPesquisado.vNomeTitular2} </h6>
 
 <h6 style="color: rgb(100, 100, 100);" >Posição considerada: ${posicaoConsiderada}    </h6>
 
@@ -105,7 +105,7 @@ b{
 				<c:forEach items="${pontuacoes}" var="item">
 					<tr>
                         <td class="centralizado" > 
-                        	${item.malaDireta.usuario.id_Codigo}
+                        	${item.malaDireta.usuario.codigoFormatado}
                         </td>
                         <td> ${item.malaDireta.usuario.vNome} </td>
 						<td class="centralizado" > ${item.malaDireta.usuario.posAbrev} </td>

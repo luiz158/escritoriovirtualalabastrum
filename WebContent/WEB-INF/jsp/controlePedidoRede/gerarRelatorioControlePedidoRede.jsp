@@ -4,7 +4,7 @@
 
 <h3> Pedidos da rede </h3>
 
-<h6 style="color: rgb(100, 100, 100);" >Distribuidor escolhido: ${usuarioPesquisado.id_Codigo} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} </h6>
+<h6 style="color: rgb(100, 100, 100);" >Distribuidor escolhido: ${usuarioPesquisado.codigoFormatado} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} </h6>
 
 <h6 style="color: rgb(100, 100, 100);" >Período: <fmt:formatDate value="${dataInicialPesquisada.time}" type="DATE" /> - <fmt:formatDate value="${dataFinalPesquisada.time}" type="DATE" />    </h6>
 
@@ -29,7 +29,7 @@
 			<tbody>
 				<c:forEach items="${controlesPedidos}" var="item">
 					<tr>
-						<td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+						<td> ${item.usuario.codigoFormatado} - ${item.usuario.vNome} </td>
                         <td class="centralizado" > ${item.pedNumero} </td>
 						<td class="centralizado" > <fmt:formatDate value="${item.pedData.time}" type="DATE" /> </td>
 						<td class="centralizado" > <fmt:formatNumber value="${item.baseCalculo}" /> </td>

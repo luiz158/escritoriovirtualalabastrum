@@ -40,7 +40,7 @@
 			<tbody>
 				<c:forEach items="${bonificacoes}" var="item">
 					<tr>
-                        <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+                        <td> ${item.usuario.codigoFormatado} - ${item.usuario.vNome} </td>
                         <td class="centralizado" > ${item.geracao} </td>
                         <td class="centralizado" > ${item.kit} </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacao}" pattern="#,##0.00" /> </td>
@@ -49,7 +49,7 @@
 				</c:forEach>
 				<c:forEach items="${bonificacoesDiamante}" var="item">
 					<tr>
-                        <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+                        <td> ${item.usuario.codigoFormatado} - ${item.usuario.vNome} </td>
                         <td></td>
                         <td class="centralizado" > ${item.kit} </td>
                         <td class="centralizado" > R$<fmt:formatNumber value="${item.bonificacao}" pattern="#,##0.00" /> </td>
@@ -93,7 +93,7 @@
 	<ul>
 		<c:forEach items="${graduadosEncontrados}" var="item">
 			<li>
-	         	${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome}
+	         	${item.value.usuario.codigoFormatado} - ${item.value.usuario.vNome}
 			</li>
 	    </c:forEach>
 	</ul>
@@ -107,7 +107,7 @@
 		<ul>
 			<c:forEach items="${diamantesComMetasAlcancadas}" var="item">
 				<li>
-	            	${item.value.usuario.id_Codigo} - ${item.value.usuario.vNome}
+	            	${item.value.usuario.codigoFormatado} - ${item.value.usuario.vNome}
 				</li>
            	</c:forEach>
         </ul>

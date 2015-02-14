@@ -34,9 +34,9 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${usuarios}" var="item">
-					<tr class="usuario" id="${item.id_Codigo}" >
+					<tr class="usuario" id="${item.codigoFormatado}" >
                         <td class="centralizado" > 
-                        	${item.id_Codigo}
+                        	${item.codigoFormatado}
                         </td>
                         <td class="centralizado" > ${item.posAtual} </td>
                         <td> ${item.vNome} </td>

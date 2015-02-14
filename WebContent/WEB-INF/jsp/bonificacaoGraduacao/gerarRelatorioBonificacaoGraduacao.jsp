@@ -36,7 +36,7 @@
 	<h6> Distribuidores graduados e suas porcentagens de graduação ganhas </h6>
 
 	<c:forEach items="${bonificacaoGraduacao.graduadosEPorcentagens}" var="item">
-		<p> ${item.key.id_Codigo} - ${item.key.vNome} <b>(${item.value}%)</b> </p>
+		<p> ${item.key.codigoFormatado} - ${item.key.vNome} <b>(${item.value}%)</b> </p>
 	</c:forEach>
 </c:if>			
 			
@@ -55,7 +55,7 @@
 		<tbody>
 			<c:forEach items="${pedidosDaRede}" var="item">
 				<tr>
-	                <td> ${item.usuario.id_Codigo} - ${item.usuario.vNome} </td>
+	                <td> ${item.usuario.codigoFormatado} - ${item.usuario.vNome} </td>
 	                <td class="centralizado" >  R$<fmt:formatNumber value="${item.baseCalculo}" pattern="#,##0.00" /> </td>
 	            </tr>
 	        </c:forEach>

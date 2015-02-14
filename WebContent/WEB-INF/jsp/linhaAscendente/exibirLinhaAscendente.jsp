@@ -15,7 +15,7 @@
 	<tbody>
 		<c:forEach items="${linhaAscendente}" var="item">
 			<tr>
-	            <td> ${item.value.id_Codigo} </td>
+	            <td> ${item.value.codigoFormatado} </td>
 	            <td> ${item.value.posAtual} </td>
 	            <td> ${item.value.vNome} - ${item.value.vNomeTitular2} </td>
 	            <td> ${item.value.tel} / ${item.value.cadCelular} </td>

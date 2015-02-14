@@ -60,7 +60,7 @@ b{
 			<tbody>
 				<c:forEach items="${malaDireta}" var="item">
 					<tr>
-						<td class="centralizado" > ${item.value.usuario.id_Codigo} </td>
+						<td class="centralizado" > ${item.value.usuario.codigoFormatado} </td>
 						<td class="centralizado" > ${item.value.usuario.posAtual} </td>
 						<td> ${item.value.usuario.vNome} </td>
 						<td class="centralizado" > <fmt:formatDate value="${item.value.usuario.dt_Ingresso.time}" type="DATE" /> </td>

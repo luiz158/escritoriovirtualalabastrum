@@ -4,7 +4,7 @@
 
 <h3> Pedidos pessoais </h3>
 
-<h6 style="color: rgb(100, 100, 100);" >Distribuidor escolhido: ${usuarioPesquisado.id_Codigo} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} </h6>
+<h6 style="color: rgb(100, 100, 100);" >Distribuidor escolhido: ${usuarioPesquisado.codigoFormatado} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} </h6>
 
 <h6 style="color: rgb(100, 100, 100);" >Período: <fmt:formatDate value="${dataInicialPesquisada.time}" type="DATE" /> - <fmt:formatDate value="${dataFinalPesquisada.time}" type="DATE" />    </h6>
 

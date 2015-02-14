@@ -37,7 +37,7 @@ Sessões fechadas hibernate: ${sessoesFechadasHibernate}
 	<tbody>
 		<c:forEach var="acesso" items="${acessosUsuariosOrdenadosPorMaisAtivos}">
 			<tr>
-				<td style="text-align: center"> ${acesso.usuario.id_Codigo} - ${acesso.usuario.vNome} </td>
+				<td style="text-align: center"> ${acesso.usuario.codigoFormatado} - ${acesso.usuario.vNome} </td>
 				<td style="text-align: center"> ${acesso.contagemAcessos} </td>
 			</tr>
 		</c:forEach>

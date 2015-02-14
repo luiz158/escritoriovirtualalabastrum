@@ -36,7 +36,7 @@
 			<tbody>
 				<c:forEach items="${bonificacoesRede}" var="item">
 					<tr>
-						<td>${item.usuario.id_Codigo}- ${item.usuario.vNome}</td>
+						<td>${item.usuario.codigoFormatado}- ${item.usuario.vNome}</td>
 						<td class="centralizado">
 							R$
 							<fmt:formatNumber value="${item.bonificacaoInicioRapido}" pattern="#,##0.00" />

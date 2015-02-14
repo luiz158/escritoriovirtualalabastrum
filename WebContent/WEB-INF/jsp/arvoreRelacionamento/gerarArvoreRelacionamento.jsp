@@ -95,7 +95,7 @@
 		<c:if test="${usuarioSelecionado.pontuacaoAuxiliar.ativo}">
 			<c:set var="ativo" value="ativo" /> 
 		</c:if>
-		<span class="nomeUsuario ${ativo}" >${usuarioSelecionado.id_Codigo} - ${usuarioSelecionado.posAbrev} - ${usuarioSelecionado.vNome}</span>
+		<span class="nomeUsuario ${ativo}" >${usuarioSelecionado.codigoFormatado} - ${usuarioSelecionado.posAbrev} - ${usuarioSelecionado.vNome}</span>
 		<ul> </ul>
 	</li>
 </ul>
