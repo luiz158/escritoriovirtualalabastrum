@@ -43,6 +43,11 @@ public class ArvoreRelacionamento2Controller {
 		acharPatrocinadosRecursivamente(usuario, 1);
 
 		TreeMap<Integer, Integer> niveis = new TreeMap<Integer, Integer>();
+
+		for (int i = 1; i <= 10; i++) {
+			niveis.put(i, 0);
+		}
+
 		acharNiveis(usuario, niveis);
 		result.include("niveis", niveis);
 		result.include("previstos", getPrevistos());
@@ -79,11 +84,8 @@ public class ArvoreRelacionamento2Controller {
 
 		if (usuario.getNivel() != null && usuario.getNivel() <= 10) {
 
-			if (niveis.get(usuario.getNivel()) == null) {
-				niveis.put(usuario.getNivel(), 1);
-			} else {
-				niveis.put(usuario.getNivel(), niveis.get(usuario.getNivel()) + 1);
-			}
+			niveis.put(usuario.getNivel(), niveis.get(usuario.getNivel()) + 1);
+
 		}
 
 		if (usuario.getUsuariosPatrocinados() != null) {

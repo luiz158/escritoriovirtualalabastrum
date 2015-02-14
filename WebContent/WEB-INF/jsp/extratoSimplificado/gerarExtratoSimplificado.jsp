@@ -29,8 +29,8 @@
 
 <h6 style="color: rgb(100, 100, 100);">Mês/ano: ${mes}/${ano}</h6>
 <h6 style="color: rgb(100, 100, 100);">Distribuidor:
-	${sessaoUsuario.usuario.codigoFormatado} - ${sessaoUsuario.usuario.posAtual}
-	- ${sessaoUsuario.usuario.vNome}</h6>
+	${sessaoUsuario.usuario.codigoFormatado} -
+	${sessaoUsuario.usuario.posAtual} - ${sessaoUsuario.usuario.vNome}</h6>
 
 <br>
 <br>
@@ -38,11 +38,10 @@
 <table class="table">
 
 	<tr>
-		<td>Bônus de início rápido</td>
+		<td>Bônus de Indicação</td>
 		<td>R$<fmt:formatNumber value="${bonificacaoInicioRapido}"
 				pattern="#,##0.00" />
 		</td>
-		<td></td>
 	</tr>
 
 	<tr>
@@ -50,7 +49,6 @@
 		<td>R$<fmt:formatNumber value="${bonificacaoAtivacao3}"
 				pattern="#,##0.00" />
 		</td>
-		<td></td>
 	</tr>
 
 	<tr>
@@ -58,7 +56,6 @@
 		<td>R$<fmt:formatNumber value="${bonificacaoUniLevel}"
 				pattern="#,##0.00" />
 		</td>
-		<td></td>
 	</tr>
 
 	<tr>
@@ -66,7 +63,26 @@
 		<td>R$<fmt:formatNumber value="${bonificacaoExpansao}"
 				pattern="#,##0.00" />
 		</td>
-		<td></td>
+	</tr>
+	
+	<tr>
+		<td>Bônus de Liderança</td>
+		<td>R$ 0,00</td>
+	</tr>
+	
+	<tr>
+		<td>Bônus Alabastrum</td>
+		<td>R$ 0,00</td>
+	</tr>
+	
+	<tr>
+		<td>Bônus de Ranking</td>
+		<td>R$ 0,00</td>
+	</tr>
+	
+	<tr>
+		<td>Bônus e-Commerce</td>
+		<td>R$ 0,00</td>
 	</tr>
 
 	<tr style="background-color: rgb(245, 250, 138);">
@@ -75,6 +91,6 @@
 				value="${bonificacaoAtivacao3 + bonificacaoInicioRapido + bonificacaoUniLevel + bonificacaoExpansao}"
 				pattern="#,##0.00" />
 		</td>
-		<td></td>
+	
 	</tr>
 </table>
