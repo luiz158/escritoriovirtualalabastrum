@@ -38,10 +38,13 @@ public class BonificacaoDivisaoService {
 
 				if (usuarioComCota.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && new MalaDiretaService(this.hibernateUtil).contarIndicacoes(usuarioComCota) >= 3) {
 
-					totalCotas = totalCotas.add(historicoKit.getNr_cotas());
+					if (Util.preenchido(historicoKit.getNr_cotas())) {
 
-					if (usuarioComCota.getId_Codigo().equals(usuario.getId_Codigo())) {
-						quantidadeDeCotasDoUsuarioPesquisado = historicoKit.getNr_cotas();
+						totalCotas = totalCotas.add(historicoKit.getNr_cotas());
+
+						if (usuarioComCota.getId_Codigo().equals(usuario.getId_Codigo())) {
+							quantidadeDeCotasDoUsuarioPesquisado = historicoKit.getNr_cotas();
+						}
 					}
 				}
 			}
@@ -74,7 +77,7 @@ public class BonificacaoDivisaoService {
 	private List<HistoricoKit> getUsuariosComCotas(DateTime dataInicial, DateTime dataFinal) {
 
 		@SuppressWarnings("unchecked")
-		List<HistoricoKit> codigos = hibernateUtil.buscaPorHQL("from HistoricoKit where data_referencia between '" + dataInicial.toString("YYYY-MM-dd") + "' and '" + dataFinal.toString("YYYY-MM-dd") + " and nr_cotas > 0" + "'");
+		List<HistoricoKit> codigos = hibernateUtil.buscaPorHQL("from HistoricoKit where data_referencia between '" + dataInicial.toString("YYYY-MM-dd") + "' and '" + dataFinal.toString("YYYY-MM-dd") + "'");
 
 		return codigos;
 	}
