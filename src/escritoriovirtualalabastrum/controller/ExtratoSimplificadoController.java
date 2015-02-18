@@ -15,6 +15,7 @@ import escritoriovirtualalabastrum.auxiliar.ExtratoSimplificadoAuxiliar;
 import escritoriovirtualalabastrum.auxiliar.MalaDireta;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacao3Service;
+import escritoriovirtualalabastrum.service.BonificacaoDivisaoService;
 import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
 import escritoriovirtualalabastrum.service.BonificacaoPontoDeApoioService;
@@ -51,15 +52,19 @@ public class ExtratoSimplificadoController {
 	@Funcionalidade
 	public void gerarExtratoSimplificado(Integer ano, Integer mes) {
 
-		// realizarValidacoes(ano, mes);
-
 		result.include("bonificacaoInicioRapido", new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoAtivacao3", new BonificacaoAtivacao3Service(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoUniLevel", new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoExpansao", new BonificacaoExpansaoService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoPontoDeApoio", new BonificacaoPontoDeApoioService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
+		result.include("bonificacaoDivisao", new BonificacaoDivisaoService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
+
+		result.include("mes", mes);
+		result.include("ano", ano);
 
 		/*
+		 * // realizarValidacoes(ano, mes);
+		 * 
 		 * BonificacaoIngressoService bonificacaoIngressoService = new
 		 * BonificacaoIngressoService(hibernateUtil, validator, result);
 		 * BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso =
@@ -114,8 +119,6 @@ public class ExtratoSimplificadoController {
 		 * (extratoSimplificadoAuxiliar);
 		 */
 
-		result.include("mes", mes);
-		result.include("ano", ano);
 	}
 
 	public ExtratoSimplificadoAuxiliar calcularPontuacaoEGraduados(Integer ano, Integer mes, BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso) {

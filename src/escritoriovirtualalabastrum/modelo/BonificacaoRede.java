@@ -30,6 +30,7 @@ public class BonificacaoRede implements Entidade {
 	private BigDecimal bonificacaoUniLevel;
 	private BigDecimal bonificacaoExpansao;
 	private BigDecimal bonificacaoPontoDeApoio;
+	private BigDecimal BonificacaoDivisao;
 	private BigDecimal total;
 
 	public Usuario getUsuario() {
@@ -160,6 +161,14 @@ public class BonificacaoRede implements Entidade {
 
 	public void setBonificacaoPontoDeApoio(BigDecimal bonificacaoPontoDeApoio) {
 		this.bonificacaoPontoDeApoio = bonificacaoPontoDeApoio;
+	}
+
+	public BigDecimal getBonificacaoDivisao() {
+		return BonificacaoDivisao;
+	}
+
+	public void setBonificacaoDivisao(BigDecimal bonificacaoDivisao) {
+		BonificacaoDivisao = bonificacaoDivisao;
 	}
 
 }

@@ -31,6 +31,7 @@
 					<th>Bônus Unilevel</th>
 					<th>Bônus de Expansão</th>
 					<th>Bônus de PA</th>
+					<th>Bônus de Divisão</th>
 					<th>Total</th>
 				</tr>
 			</thead>
@@ -60,6 +61,10 @@
 						</td>
 						<td class="centralizado">
 							R$
+							<fmt:formatNumber value="${item.bonificacaoDivisao}" pattern="#,##0.00" />
+						</td>
+						<td class="centralizado">
+							R$
 							<fmt:formatNumber value="${item.total}" pattern="#,##0.00" />
 						</td>
 					</tr>
@@ -67,7 +72,7 @@
 			</tbody>
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);">
-					<td class="centralizado" colspan="6">
+					<td class="centralizado" colspan="7">
 						<b> Total </b>
 					</td>
 					<td class="centralizado">

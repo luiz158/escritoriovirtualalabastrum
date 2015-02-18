@@ -63,6 +63,13 @@
 		</td>
 	</tr>
 	<tr>
+		<td>Bônus de Divisão</td>
+		<td>
+			R$
+			<fmt:formatNumber value="${bonificacaoDivisao}" pattern="#,##0.00" />
+		</td>
+	</tr>
+	<tr>
 		<td>Bônus de Liderança</td>
 		<td>R$ 0,00</td>
 	</tr>
@@ -84,7 +91,7 @@
 		</td>
 		<td>
 			R$
-			<fmt:formatNumber value="${bonificacaoAtivacao3 + bonificacaoInicioRapido + bonificacaoUniLevel + bonificacaoExpansao + bonificacaoPontoDeApoio}" pattern="#,##0.00" />
+			<fmt:formatNumber value="${bonificacaoAtivacao3 + bonificacaoInicioRapido + bonificacaoUniLevel + bonificacaoExpansao + bonificacaoPontoDeApoio + bonificacaoDivisao}" pattern="#,##0.00" />
 		</td>
 	</tr>
 </table>

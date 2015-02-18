@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.modelo;
 
+import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ public class HistoricoKit implements Entidade {
 
 	private GregorianCalendar data_referencia;
 	private String kit;
+	private BigDecimal nr_cotas;
 
 	public Integer getId() {
 		return id;
@@ -53,6 +55,14 @@ public class HistoricoKit implements Entidade {
 
 	public void setKit(String kit) {
 		this.kit = kit;
+	}
+
+	public BigDecimal getNr_cotas() {
+		return nr_cotas;
+	}
+
+	public void setNr_cotas(BigDecimal nr_cotas) {
+		this.nr_cotas = nr_cotas;
 	}
 
 }

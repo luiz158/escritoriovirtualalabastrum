@@ -9,14 +9,13 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
-import br.com.caelum.vraptor.util.test.MockResult;
-import br.com.caelum.vraptor.util.test.MockValidator;
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.modelo.BonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Configuracao;
 import escritoriovirtualalabastrum.modelo.InformacoesGeraisCalculoBonificacaoRede;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacao3Service;
+import escritoriovirtualalabastrum.service.BonificacaoDivisaoService;
 import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
 import escritoriovirtualalabastrum.service.BonificacaoPontoDeApoioService;
@@ -72,11 +71,8 @@ public class BonificacaoRedeRotina implements Runnable {
 
 	private BonificacaoRede calcularBonificacoes(Usuario usuario, Integer ano, Integer mes) {
 
-		MockValidator validator = new MockValidator();
-		MockResult result = new MockResult();
-		SessaoUsuario sessaoUsuario = new SessaoUsuario();
-		sessaoUsuario.login(usuario);
-
+		// MockValidator validator = new MockValidator();
+		// MockResult result = new MockResult();
 		// BonificacaoIngressoService bonificacaoIngressoService = new
 		// BonificacaoIngressoService(hibernateUtil, validator, result);
 		// BonificacaoIngressoAuxiliar informacoesBonificacoesIngresso =
@@ -126,11 +122,15 @@ public class BonificacaoRedeRotina implements Runnable {
 		// BonificacaoAtivacao2Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(),
 		// ano, mes);
 
+		SessaoUsuario sessaoUsuario = new SessaoUsuario();
+		sessaoUsuario.login(usuario);
+
 		BigDecimal bonificacaoInicioRapido = new BonificacaoInicioRapidoService(hibernateUtil).calcularBonificacao(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoUniLevel = new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoExpansao = new BonificacaoExpansaoService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoAtivacao3 = new BonificacaoAtivacao3Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoPontoDeApoio = new BonificacaoPontoDeApoioService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
+		BigDecimal bonificacaoDivisao = new BonificacaoDivisaoService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 
 		BonificacaoRede bonificacaoRede = new BonificacaoRede();
 		bonificacaoRede.setId_Codigo(usuario.getId_Codigo());
@@ -139,8 +139,9 @@ public class BonificacaoRedeRotina implements Runnable {
 		bonificacaoRede.setBonificacaoUniLevel(bonificacaoUniLevel);
 		bonificacaoRede.setBonificacaoExpansao(bonificacaoExpansao);
 		bonificacaoRede.setBonificacaoPontoDeApoio(bonificacaoPontoDeApoio);
+		bonificacaoRede.setBonificacaoDivisao(bonificacaoDivisao);
 
-		bonificacaoRede.setTotal(bonificacaoAtivacao3.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao.add(bonificacaoPontoDeApoio)))));
+		bonificacaoRede.setTotal(bonificacaoAtivacao3.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao.add(bonificacaoPontoDeApoio.add(bonificacaoDivisao))))));
 
 		return bonificacaoRede;
 	}
