@@ -19,6 +19,7 @@ import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacao3Service;
 import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
+import escritoriovirtualalabastrum.service.BonificacaoPontoDeApoioService;
 import escritoriovirtualalabastrum.service.BonificacaoUniLevelService;
 import escritoriovirtualalabastrum.sessao.SessaoUsuario;
 import escritoriovirtualalabastrum.util.Util;
@@ -129,20 +130,17 @@ public class BonificacaoRedeRotina implements Runnable {
 		BigDecimal bonificacaoUniLevel = new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoExpansao = new BonificacaoExpansaoService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 		BigDecimal bonificacaoAtivacao3 = new BonificacaoAtivacao3Service(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
+		BigDecimal bonificacaoPontoDeApoio = new BonificacaoPontoDeApoioService(hibernateUtil).calcularBonificacoes(sessaoUsuario.getUsuario(), ano, mes);
 
 		BonificacaoRede bonificacaoRede = new BonificacaoRede();
 		bonificacaoRede.setId_Codigo(usuario.getId_Codigo());
-		// bonificacaoRede.setQualificacao(graduacao);
-		// bonificacaoRede.setBonificacaoIngresso(bonificacaoIngresso);
-		// bonificacaoRede.setBonificacaoAtivacao(bonificacaoAtivacao);
 		bonificacaoRede.setBonificacaoAtivacao3(bonificacaoAtivacao3);
 		bonificacaoRede.setBonificacaoInicioRapido(bonificacaoInicioRapido);
-		// bonificacaoRede.setBonificacaoCompraPessoal(bonificacaoCompraPessoal);
 		bonificacaoRede.setBonificacaoUniLevel(bonificacaoUniLevel);
 		bonificacaoRede.setBonificacaoExpansao(bonificacaoExpansao);
-		// bonificacaoRede.setBonificacaoGraduacao(bonificacaoGraduacao);
+		bonificacaoRede.setBonificacaoPontoDeApoio(bonificacaoPontoDeApoio);
 
-		bonificacaoRede.setTotal(bonificacaoAtivacao3.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao))));
+		bonificacaoRede.setTotal(bonificacaoAtivacao3.add(bonificacaoInicioRapido.add(bonificacaoUniLevel.add(bonificacaoExpansao.add(bonificacaoPontoDeApoio)))));
 
 		return bonificacaoRede;
 	}

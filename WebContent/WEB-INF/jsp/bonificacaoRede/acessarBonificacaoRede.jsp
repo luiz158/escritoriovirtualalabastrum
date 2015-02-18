@@ -26,17 +26,18 @@
 			<thead>
 				<tr>
 					<th>Distribuidor</th>
-					<th>Bônus de Início Rápido</th>
+					<th>Bônus de Indicação</th>
 					<th>Bônus de Ativação</th>
 					<th>Bônus Unilevel</th>
 					<th>Bônus de Expansão</th>
+					<th>Bônus de PA</th>
 					<th>Total</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${bonificacoesRede}" var="item">
 					<tr>
-						<td>${item.usuario.codigoFormatado}- ${item.usuario.vNome}</td>
+						<td>${item.usuario.codigoFormatado}-${item.usuario.vNome}</td>
 						<td class="centralizado">
 							R$
 							<fmt:formatNumber value="${item.bonificacaoInicioRapido}" pattern="#,##0.00" />
@@ -55,6 +56,10 @@
 						</td>
 						<td class="centralizado">
 							R$
+							<fmt:formatNumber value="${item.bonificacaoPontoDeApoio}" pattern="#,##0.00" />
+						</td>
+						<td class="centralizado">
+							R$
 							<fmt:formatNumber value="${item.total}" pattern="#,##0.00" />
 						</td>
 					</tr>
@@ -62,7 +67,7 @@
 			</tbody>
 			<tfoot>
 				<tr style="background-color: rgb(245, 250, 138);">
-					<td class="centralizado" colspan="5">
+					<td class="centralizado" colspan="6">
 						<b> Total </b>
 					</td>
 					<td class="centralizado">

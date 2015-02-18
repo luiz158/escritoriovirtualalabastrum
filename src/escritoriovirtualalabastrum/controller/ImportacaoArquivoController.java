@@ -65,7 +65,7 @@ public class ImportacaoArquivoController {
 	}
 
 	@Funcionalidade(administrativa = "true")
-	public void importarArquivo(UploadedFile arquivo) throws IOException {
+	public void importarArquivo(UploadedFile arquivo) throws Exception {
 
 		InputStream file = arquivo.getFile();
 
@@ -90,7 +90,7 @@ public class ImportacaoArquivoController {
 		result.forwardTo(this).acessarTelaImportacaoArquivo();
 	}
 
-	public void processarArquivos() throws IOException {
+	public void processarArquivos() throws Exception {
 
 		processarCSVRelacionamentos();
 		processarCSVPontuacao();
@@ -106,88 +106,15 @@ public class ImportacaoArquivoController {
 		atualizarInformacoesUltimaAtualizacao();
 	}
 
-	private void processarCSVFixoIngresso() throws IOException {
+	private void processarCSVFixoIngresso() throws Exception {
 
 		CSVReader reader = lerArquivo("tblFixoIngresso.csv");
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
-
 		List<FixoIngresso> fixosIngresso = new ArrayList<FixoIngresso>();
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
+		String nomeDaPrimeiraColuna = "data_referencia";
 
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length <= 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("data_referencia")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					FixoIngresso fixoIngresso = new FixoIngresso();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = fixoIngresso.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
-								field.set(fixoIngresso, numero);
-							}
-
-							catch (Exception e) {
-
-								try {
-
-									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
-									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
-
-									field.set(fixoIngresso, data.toGregorianCalendar());
-								}
-
-								catch (Exception e3) {
-
-									field.set(fixoIngresso, colunas[i]);
-								}
-							}
-
-						} catch (Exception e) {
-						}
-					}
-
-					fixosIngresso.add(fixoIngresso);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i]);
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, fixosIngresso, nomeDaPrimeiraColuna, "FixoIngresso");
 
 		this.hibernateUtil.executarSQL("delete from fixoingresso");
 
@@ -207,99 +134,23 @@ public class ImportacaoArquivoController {
 		return new CSVReader(new FileReader(new File(caminhoCompletoArquivo)), '\t');
 	}
 
-	private void processarCSVPorcentagemIngresso() throws IOException {
+	private void processarCSVPorcentagemIngresso() throws Exception {
 
 		CSVReader reader = lerArquivo("tblPorcentagemIngresso.csv");
 
 		List<PorcentagemIngresso> porcentagensIngresso = new ArrayList<PorcentagemIngresso>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "data_referencia";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length <= 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("data_referencia")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					PorcentagemIngresso porcentagemIngresso = new PorcentagemIngresso();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = porcentagemIngresso.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
-								field.set(porcentagemIngresso, numero);
-							}
-
-							catch (Exception e) {
-
-								try {
-
-									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
-									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
-
-									field.set(porcentagemIngresso, data.toGregorianCalendar());
-								}
-
-								catch (Exception e3) {
-
-									field.set(porcentagemIngresso, colunas[i]);
-								}
-							}
-
-						} catch (Exception e) {
-						}
-					}
-
-					porcentagensIngresso.add(porcentagemIngresso);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i]);
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, porcentagensIngresso, nomeDaPrimeiraColuna, "PorcentagemIngresso");
 
 		this.hibernateUtil.executarSQL("delete from porcentagemingresso");
 
 		this.hibernateUtil.salvarOuAtualizar(porcentagensIngresso);
 	}
 
-	private void processarCSVAtividade() throws IOException {
-
-		CSVReader reader = lerArquivo("tblAtividade.csv");
-
-		List<Atividade> atividades = new ArrayList<Atividade>();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void preencherObjeto(CSVReader reader, List listaDeEntidades, String nomeDaPrimeiraColuna, String nomeDaClasse) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
 		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
 
@@ -308,162 +159,107 @@ public class ImportacaoArquivoController {
 
 			String[] colunas = nextLine[0].split(";");
 
-			if (colunas.length <= 2) {
+			for (int i = 0; i < colunas.length; i++) {
 
-				validarFormato();
+				colunas[i] = colunas[i].replaceAll("\"", "");
 			}
 
-			else {
+			if (!colunas[0].contains(nomeDaPrimeiraColuna)) {
+
+				Object entidade = Class.forName("escritoriovirtualalabastrum.modelo." + nomeDaClasse).newInstance();
 
 				for (int i = 0; i < colunas.length; i++) {
 
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
+					Field field = null;
 
-				if (!colunas[0].contains("data_referencia")) {
+					try {
 
-					if (hashColunas.size() == 0) {
+						field = entidade.getClass().getDeclaredField(hashColunas.get(i));
 
-						validarFormato();
-					}
-
-					Atividade atividade = new Atividade();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
+						field.setAccessible(true);
 
 						try {
 
-							field = atividade.getClass().getDeclaredField(hashColunas.get(i));
+							BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
+							field.set(entidade, numero);
+						}
 
-							field.setAccessible(true);
+						catch (Exception e1) {
 
 							try {
 
-								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
-								field.set(atividade, numero);
+								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
+								field.set(entidade, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
 							}
 
-							catch (Exception e) {
+							catch (Exception e2) {
 
 								try {
 
 									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
 									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
 
-									field.set(atividade, data.toGregorianCalendar());
+									field.set(entidade, data.toGregorianCalendar());
 								}
 
 								catch (Exception e3) {
 
-									field.set(atividade, colunas[i]);
+									try {
+
+										DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
+										DateTime data = formatter.parseDateTime(colunas[i]);
+
+										field.set(entidade, data.toGregorianCalendar());
+
+									} catch (Exception e4) {
+
+										field.set(entidade, colunas[i]);
+									}
 								}
 							}
-
-						} catch (Exception e) {
 						}
-					}
 
-					atividades.add(atividade);
+					} catch (Exception e) {
+					}
 				}
 
-				else {
+				listaDeEntidades.add(entidade);
+			}
 
-					for (int i = 0; i < colunas.length; i++) {
+			else {
 
-						hashColunas.put(i, colunas[i]);
-					}
+				for (int i = 0; i < colunas.length; i++) {
+
+					hashColunas.put(i, colunas[i]);
 				}
 			}
 		}
+	}
+
+	private void processarCSVAtividade() throws Exception {
+
+		CSVReader reader = lerArquivo("tblAtividade.csv");
+
+		List<Atividade> atividades = new ArrayList<Atividade>();
+
+		String nomeDaPrimeiraColuna = "data_referencia";
+
+		preencherObjeto(reader, atividades, nomeDaPrimeiraColuna, "Atividade");
 
 		this.hibernateUtil.executarSQL("delete from atividade");
 
 		this.hibernateUtil.salvarOuAtualizar(atividades);
 	}
 
-	private void processarCSVHistoricoKit() throws IOException {
+	private void processarCSVHistoricoKit() throws Exception {
 
 		CSVReader reader = lerArquivo("tblHistoricoKit.csv");
 
 		List<HistoricoKit> historicosKit = new ArrayList<HistoricoKit>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "id_Codigo";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length < 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("id_Codigo")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					HistoricoKit historicoKit = new HistoricoKit();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = historicoKit.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								field.set(historicoKit, Integer.valueOf(colunas[i]));
-							}
-
-							catch (Exception e) {
-
-								try {
-
-									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yy");
-									DateTime data = formatter.parseDateTime("01/" + colunas[i]);
-
-									field.set(historicoKit, data.toGregorianCalendar());
-								}
-
-								catch (Exception e3) {
-
-									field.set(historicoKit, colunas[i]);
-								}
-							}
-
-						} catch (Exception e) {
-						}
-					}
-
-					historicosKit.add(historicoKit);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i]);
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, historicosKit, nomeDaPrimeiraColuna, "HistoricoKit");
 
 		this.hibernateUtil.executarSQL("delete from historicokit");
 
@@ -491,529 +287,90 @@ public class ImportacaoArquivoController {
 		validator.onErrorForwardTo(this).acessarTelaImportacaoArquivo();
 	}
 
-	private void processarCSVRelacionamentos() throws IOException {
+	private void processarCSVRelacionamentos() throws Exception {
 
 		CSVReader reader = lerArquivo("tblRelacionamentos.csv");
 
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "id_Codigo";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length <= 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("id_Codigo")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					Usuario usuario = new Usuario();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = usuario.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
-								field.set(usuario, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
-							}
-
-							catch (Exception e) {
-
-								try {
-
-									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-									DateTime data = formatter.parseDateTime(colunas[i]);
-
-									field.set(usuario, data.toGregorianCalendar());
-								}
-
-								catch (Exception e2) {
-
-									field.set(usuario, colunas[i]);
-								}
-							}
-
-						} catch (Exception e) {
-
-							// e.printStackTrace();
-						}
-					}
-
-					usuarios.add(usuario);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i]);
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, usuarios, nomeDaPrimeiraColuna, "Usuario");
 
 		this.hibernateUtil.executarSQL("delete from usuario");
 
 		this.hibernateUtil.salvarOuAtualizar(usuarios);
 	}
 
-	private void processarCSVPontuacao() throws IOException {
+	private void processarCSVPontuacao() throws Exception {
 
 		CSVReader reader = lerArquivo("tblPontuacao.csv");
 
 		List<Pontuacao> pontuacoes = new ArrayList<Pontuacao>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "id_Codigo";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length <= 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("id_Codigo")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					Pontuacao pontuacao = new Pontuacao();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = pontuacao.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
-								field.set(pontuacao, numero);
-							}
-
-							catch (Exception e) {
-
-								try {
-
-									DecimalFormatSymbols dsf = new DecimalFormatSymbols();
-									field.set(pontuacao, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
-								}
-
-								catch (Exception e2) {
-
-									DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-									DateTime data = formatter.parseDateTime(colunas[i]);
-
-									field.set(pontuacao, data.toGregorianCalendar());
-								}
-							}
-
-						} catch (Exception e) {
-
-							// e.printStackTrace();
-						}
-					}
-
-					pontuacoes.add(pontuacao);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i]);
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, pontuacoes, nomeDaPrimeiraColuna, "Pontuacao");
 
 		this.hibernateUtil.executarSQL("delete from pontuacao");
 
 		this.hibernateUtil.salvarOuAtualizar(pontuacoes);
 	}
 
-	private void processarCSVControlePedido() throws IOException {
+	private void processarCSVControlePedido() throws Exception {
 
 		CSVReader reader = lerArquivo("tblControlePedidos.csv");
 
 		List<ControlePedido> controlesPedidos = new ArrayList<ControlePedido>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "id_Codigo";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length <= 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("id_Codigo")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					ControlePedido controlePedido = new ControlePedido();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = controlePedido.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
-								field.set(controlePedido, numero);
-							}
-
-							catch (Exception e) {
-
-								try {
-
-									DecimalFormatSymbols dsf = new DecimalFormatSymbols();
-									field.set(controlePedido, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
-								}
-
-								catch (Exception e2) {
-
-									try {
-
-										DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-										DateTime data = formatter.parseDateTime(colunas[i].split(" ")[0]);
-
-										field.set(controlePedido, data.toGregorianCalendar());
-									}
-
-									catch (Exception e3) {
-
-										field.set(controlePedido, colunas[i]);
-									}
-								}
-							}
-
-						} catch (Exception e) {
-
-							// e.printStackTrace();
-						}
-					}
-
-					controlesPedidos.add(controlePedido);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i]);
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, controlesPedidos, nomeDaPrimeiraColuna, "ControlePedido");
 
 		this.hibernateUtil.executarSQL("delete from controlepedido");
 
 		this.hibernateUtil.salvarOuAtualizar(controlesPedidos);
 	}
 
-	private void processarCSVProdutos() throws IOException {
+	private void processarCSVProdutos() throws Exception {
 
 		CSVReader reader = lerArquivo("tblProdutos.csv");
 
 		List<Produto> produtos = new ArrayList<Produto>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "id_Produtos";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length <= 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("id_Produtos")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					Produto produto = new Produto();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = produto.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								BigDecimal numero = Util.converterStringParaBigDecimal(colunas[i]);
-								field.set(produto, numero);
-							}
-
-							catch (Exception e) {
-
-								try {
-
-									DecimalFormatSymbols dsf = new DecimalFormatSymbols();
-									field.set(produto, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
-								}
-
-								catch (Exception e2) {
-
-									field.set(produto, colunas[i]);
-								}
-							}
-						}
-
-						catch (Exception e) {
-
-							// e.printStackTrace();
-						}
-					}
-
-					produtos.add(produto);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i].replaceAll(" ", ""));
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, produtos, nomeDaPrimeiraColuna, "Produto");
 
 		this.hibernateUtil.executarSQL("delete from produto");
 
 		this.hibernateUtil.salvarOuAtualizar(produtos);
 	}
 
-	private void processarCSVCategorias() throws IOException {
+	private void processarCSVCategorias() throws Exception {
 
 		CSVReader reader = lerArquivo("tblCategorias.csv");
 
 		List<Categoria> categorias = new ArrayList<Categoria>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "id_Categoria";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length < 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("id_Categoria")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					Categoria categoria = new Categoria();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = categoria.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
-								field.set(categoria, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
-							}
-
-							catch (Exception e) {
-
-								field.set(categoria, colunas[i]);
-							}
-						}
-
-						catch (Exception e) {
-
-							// e.printStackTrace();
-						}
-					}
-
-					categorias.add(categoria);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i].replaceAll(" ", ""));
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, categorias, nomeDaPrimeiraColuna, "Categoria");
 
 		this.hibernateUtil.executarSQL("delete from categoria");
 
 		this.hibernateUtil.salvarOuAtualizar(categorias);
 	}
 
-	private void processarCSVCentroDistribuicao() throws IOException {
+	private void processarCSVCentroDistribuicao() throws Exception {
 
 		CSVReader reader = lerArquivo("tblCDA.csv");
 
 		List<CentroDistribuicao> centrosDistribuicao = new ArrayList<CentroDistribuicao>();
 
-		HashMap<Integer, String> hashColunas = new HashMap<Integer, String>();
+		String nomeDaPrimeiraColuna = "id_Estoque";
 
-		String[] nextLine;
-		while ((nextLine = reader.readNext()) != null) {
-
-			String[] colunas = nextLine[0].split(";");
-
-			if (colunas.length < 2) {
-
-				validarFormato();
-			}
-
-			else {
-
-				for (int i = 0; i < colunas.length; i++) {
-
-					colunas[i] = colunas[i].replaceAll("\"", "");
-				}
-
-				if (!colunas[0].contains("id_Estoque")) {
-
-					if (hashColunas.size() == 0) {
-
-						validarFormato();
-					}
-
-					CentroDistribuicao centroDistribuicao = new CentroDistribuicao();
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						Field field = null;
-
-						try {
-
-							field = centroDistribuicao.getClass().getDeclaredField(hashColunas.get(i));
-
-							field.setAccessible(true);
-
-							try {
-
-								DecimalFormatSymbols dsf = new DecimalFormatSymbols();
-								field.set(centroDistribuicao, (int) Double.parseDouble(colunas[i].replace(dsf.getDecimalSeparator(), '.')));
-							}
-
-							catch (Exception e) {
-
-								field.set(centroDistribuicao, colunas[i]);
-							}
-						}
-
-						catch (Exception e) {
-
-							// e.printStackTrace();
-						}
-					}
-
-					centrosDistribuicao.add(centroDistribuicao);
-				}
-
-				else {
-
-					for (int i = 0; i < colunas.length; i++) {
-
-						hashColunas.put(i, colunas[i].replaceAll(" ", ""));
-					}
-				}
-			}
-		}
+		preencherObjeto(reader, centrosDistribuicao, nomeDaPrimeiraColuna, "CentroDistribuicao");
 
 		this.hibernateUtil.executarSQL("delete from centrodistribuicao");
 

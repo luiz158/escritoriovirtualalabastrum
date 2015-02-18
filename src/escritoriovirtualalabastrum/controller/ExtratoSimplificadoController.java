@@ -17,6 +17,7 @@ import escritoriovirtualalabastrum.hibernate.HibernateUtil;
 import escritoriovirtualalabastrum.service.BonificacaoAtivacao3Service;
 import escritoriovirtualalabastrum.service.BonificacaoExpansaoService;
 import escritoriovirtualalabastrum.service.BonificacaoInicioRapidoService;
+import escritoriovirtualalabastrum.service.BonificacaoPontoDeApoioService;
 import escritoriovirtualalabastrum.service.BonificacaoUniLevelService;
 import escritoriovirtualalabastrum.service.MalaDiretaService;
 import escritoriovirtualalabastrum.sessao.SessaoBonificacao;
@@ -56,6 +57,7 @@ public class ExtratoSimplificadoController {
 		result.include("bonificacaoAtivacao3", new BonificacaoAtivacao3Service(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoUniLevel", new BonificacaoUniLevelService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 		result.include("bonificacaoExpansao", new BonificacaoExpansaoService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
+		result.include("bonificacaoPontoDeApoio", new BonificacaoPontoDeApoioService(hibernateUtil).calcularBonificacoes(this.sessaoUsuario.getUsuario(), ano, mes));
 
 		/*
 		 * BonificacaoIngressoService bonificacaoIngressoService = new

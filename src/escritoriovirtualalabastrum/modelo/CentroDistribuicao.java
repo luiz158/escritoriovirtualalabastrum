@@ -1,5 +1,8 @@
 package escritoriovirtualalabastrum.modelo;
 
+import java.math.BigDecimal;
+import java.util.GregorianCalendar;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,12 +27,17 @@ public class CentroDistribuicao implements Entidade {
 	private String estqTelefone;
 	private String estqPercentual;
 	private String estqEmail;
+	private GregorianCalendar data_referencia;
+	private BigDecimal ValorBonusPA;
 
 	@Index(name = "index_id_Codigo_tabela_centro_distribuicao")
 	private Integer id_Codigo;
 
 	@Index(name = "index_id_Estoque_tabela_centro_distribuicao")
 	private Integer id_Estoque;
+
+	@Index(name = "index_id_indicantePA_tabela_centro_distribuicao")
+	private Integer id_indicantePA;
 
 	public String getNomeCentroSemEspacos() {
 
@@ -130,6 +138,30 @@ public class CentroDistribuicao implements Entidade {
 
 	public void setId_Estoque(Integer id_Estoque) {
 		this.id_Estoque = id_Estoque;
+	}
+
+	public GregorianCalendar getData_referencia() {
+		return data_referencia;
+	}
+
+	public void setData_referencia(GregorianCalendar data_referencia) {
+		this.data_referencia = data_referencia;
+	}
+
+	public BigDecimal getValorBonusPA() {
+		return ValorBonusPA;
+	}
+
+	public void setValorBonusPA(BigDecimal valorBonusPA) {
+		ValorBonusPA = valorBonusPA;
+	}
+
+	public Integer getId_indicantePA() {
+		return id_indicantePA;
+	}
+
+	public void setId_indicantePA(Integer id_indicantePA) {
+		this.id_indicantePA = id_indicantePA;
 	}
 
 }

@@ -1,5 +1,4 @@
 <%@ include file="/base.jsp"%>
-
 <style>
 .menu {
 	display: none;
@@ -19,78 +18,73 @@
 	background-color: #FFF;
 }
 </style>
-
 <a class="btn" onclick="window.history.back()"> Voltar </a>
-
 <br>
 <br>
-
 <h3>Extrato simplificado</h3>
-
 <h6 style="color: rgb(100, 100, 100);">Mês/ano: ${mes}/${ano}</h6>
-<h6 style="color: rgb(100, 100, 100);">Distribuidor:
-	${sessaoUsuario.usuario.codigoFormatado} -
-	${sessaoUsuario.usuario.posAtual} - ${sessaoUsuario.usuario.vNome}</h6>
-
+<h6 style="color: rgb(100, 100, 100);">Distribuidor: ${sessaoUsuario.usuario.codigoFormatado} - ${sessaoUsuario.usuario.posAtual} - ${sessaoUsuario.usuario.vNome}</h6>
 <br>
 <br>
-
 <table class="table">
-
 	<tr>
 		<td>Bônus de Indicação</td>
-		<td>R$<fmt:formatNumber value="${bonificacaoInicioRapido}"
-				pattern="#,##0.00" />
+		<td>
+			R$
+			<fmt:formatNumber value="${bonificacaoInicioRapido}" pattern="#,##0.00" />
 		</td>
 	</tr>
-
 	<tr>
 		<td>Bônus de Ativação</td>
-		<td>R$<fmt:formatNumber value="${bonificacaoAtivacao3}"
-				pattern="#,##0.00" />
+		<td>
+			R$
+			<fmt:formatNumber value="${bonificacaoAtivacao3}" pattern="#,##0.00" />
 		</td>
 	</tr>
-
 	<tr>
 		<td>Bônus Unilevel</td>
-		<td>R$<fmt:formatNumber value="${bonificacaoUniLevel}"
-				pattern="#,##0.00" />
+		<td>
+			R$
+			<fmt:formatNumber value="${bonificacaoUniLevel}" pattern="#,##0.00" />
 		</td>
 	</tr>
-
 	<tr>
 		<td>Bônus de Expansão</td>
-		<td>R$<fmt:formatNumber value="${bonificacaoExpansao}"
-				pattern="#,##0.00" />
+		<td>
+			R$
+			<fmt:formatNumber value="${bonificacaoExpansao}" pattern="#,##0.00" />
 		</td>
 	</tr>
-	
+	<tr>
+		<td>Bônus de PA</td>
+		<td>
+			R$
+			<fmt:formatNumber value="${bonificacaoPontoDeApoio}" pattern="#,##0.00" />
+		</td>
+	</tr>
 	<tr>
 		<td>Bônus de Liderança</td>
 		<td>R$ 0,00</td>
 	</tr>
-	
 	<tr>
 		<td>Bônus Alabastrum</td>
 		<td>R$ 0,00</td>
 	</tr>
-	
 	<tr>
 		<td>Bônus de Ranking</td>
 		<td>R$ 0,00</td>
 	</tr>
-	
 	<tr>
 		<td>Bônus e-Commerce</td>
 		<td>R$ 0,00</td>
 	</tr>
-
 	<tr style="background-color: rgb(245, 250, 138);">
-		<td class="centralizado"><b> Total </b></td>
-		<td>R$<fmt:formatNumber
-				value="${bonificacaoAtivacao3 + bonificacaoInicioRapido + bonificacaoUniLevel + bonificacaoExpansao}"
-				pattern="#,##0.00" />
+		<td class="centralizado">
+			<b> Total </b>
 		</td>
-	
+		<td>
+			R$
+			<fmt:formatNumber value="${bonificacaoAtivacao3 + bonificacaoInicioRapido + bonificacaoUniLevel + bonificacaoExpansao + bonificacaoPontoDeApoio}" pattern="#,##0.00" />
+		</td>
 	</tr>
 </table>
