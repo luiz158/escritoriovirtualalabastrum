@@ -1,30 +1,27 @@
-<%@ include file="/base.jsp" %> 
-
+<%@ include file="/base.jsp"%>
 <style>
-
 .menu {
 	display: none;
-    width: 0px;
+	width: 0px;
 	min-width: 0px;
 }
 
 .conteudo {
-    width: 94%;
+	width: 94%;
 }
 
-.dica{
+.dica {
 	color: rgb(170, 170, 170);
 	margin-left: 30px;
 }
 
-b{
+b {
 	font-weight: bold;
 	color: rgb(120, 120, 120);
 	font-size: 14px;
 }
 
-.resumo{
-	
+.resumo {
 	border: 1px solid #ddd;
 	border-radius: 7px;
 	width: 300px;
@@ -36,75 +33,98 @@ b{
 	box-shadow: 4px 4px 4px #888;
 }
 
-.informacoesContato{
-
+.informacoesContato {
 	font-weight: bold;
 	color: rgb(90, 90, 90);
 }
-
 </style>
-
-<a class="btn" href="<c:url value="/pontuacaoAcumulada/acessarTelaPontuacaoAcumulada"/>" > Voltar </a>
-
-<br><br>
-
-<h3> Pontuação Acumulada </h3>
-
-<h6 style="color: rgb(100, 100, 100);" >Líder da equipe: ${usuarioPesquisado.codigoFormatado} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} / ${usuarioPesquisado.vNomeTitular2} </h6>
-
-<h6 style="color: rgb(100, 100, 100);" >Posição considerada: ${posicaoConsiderada}    </h6>
-
-<h6 style="color: rgb(100, 100, 100);" >Possui movimentação? ${possuiMovimentacao} </h6>
-
-<h6 style="color: rgb(160, 30, 30);" > Quantidade de registros: ${quantidadeElementos} <span class="dica" > (<b>Dica:</b> Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho <b>CTRL + F</b>) </span> </h6> 
-
+<a class="btn" href="<c:url value="/pontuacaoAcumulada/acessarTelaPontuacaoAcumulada"/>"> Voltar </a>
 <br>
-
+<br>
+<div class="resumo">
+	<h5 style="text-align: center">RESUMO</h5>
+	<h6>
+		Pontuação pessoal:
+		<fmt:formatNumber value="${pontuacaoPessoalUsuarioPesquisado}" />
+	</h6>
+	<h6>
+		Pontuação da rede:
+		<fmt:formatNumber value="${pontuacaoRede}" />
+	</h6>
+</div>
+<br>
+<br>
+<h3>Pontuação Acumulada</h3>
+<h6 style="color: rgb(100, 100, 100);">Líder da equipe: ${usuarioPesquisado.codigoFormatado} - ${usuarioPesquisado.posAtual} - ${usuarioPesquisado.vNome} / ${usuarioPesquisado.vNomeTitular2}</h6>
+<h6 style="color: rgb(100, 100, 100);">Posição considerada: ${posicaoConsiderada}</h6>
+<h6 style="color: rgb(100, 100, 100);">Possui movimentação? ${possuiMovimentacao}</h6>
+<h6 style="color: rgb(160, 30, 30);">
+	Quantidade de registros: ${quantidadeElementos}
+	<span class="dica">
+		(
+		<b>Dica:</b>
+		Para encontrar registros mais rapidamente, utilize a pesquisa através do atalho
+		<b>CTRL + F</b>
+		)
+	</span>
+</h6>
+<br>
 <c:choose>
 	<c:when test="${!empty relatorioPontuacao}">
-
 		<table class="table table-striped table-bordered">
 			<thead>
-		    	<tr>
-                    <th> Código </th>
-                    <th> Posição </th>
-                    <th> Geração </th>
-                    <th> Nome </th>
-                    <th> Informações para contato</th>
-                    <th> Ingresso </th>
-                    <th> Produtos </th>
-                    <th> Atividade </th>
-                    <th> Total </th>
+				<tr>
+					<th>Código</th>
+					<th>Posição</th>
+					<th>Geração</th>
+					<th>Nome</th>
+					<th>Informações para contato</th>
+					<th>Ingresso</th>
+					<th>Produtos</th>
+					<th>Atividade</th>
+					<th>Total</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${relatorioPontuacao}" var="item">
 					<tr>
-                        <td class="centralizado" > 
-                        	${item.malaDireta.usuario.codigoFormatado}
-                        </td>
-						<td class="centralizado" > ${item.malaDireta.usuario.posAtual} </td>
-                        <td class="centralizado" > ${item.malaDireta.nivel} </td>
-                        <td> ${item.malaDireta.usuario.vNome} </td>
-                        <td> 
-                        	<span class="informacoesContato" >Tels fixos:</span> ${item.malaDireta.usuario.tel} <br>
-                        	<span class="informacoesContato" >Celular:</span> ${item.malaDireta.usuario.cadCelular} <br>
-                        	<span class="informacoesContato" >Email:</span> ${item.malaDireta.usuario.eMail} <br>
-                        </td>
-                        <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoIngresso}" /> </td>
-                        <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoProdutos}" /> </td>
-                        <td class="centralizado" > <fmt:formatNumber value="${item.pontuacaoAtividade}" /> </td>
-                        <td class="centralizado" > <fmt:formatNumber value="${item.total}" /> </td>
+						<td class="centralizado">${item.malaDireta.usuario.codigoFormatado}</td>
+						<td class="centralizado">${item.malaDireta.usuario.posAtual}</td>
+						<td class="centralizado">${item.malaDireta.nivel}</td>
+						<td>${item.malaDireta.usuario.vNome}</td>
+						<td>
+							<span class="informacoesContato">Tels fixos:</span>
+							${item.malaDireta.usuario.tel}
+							<br>
+							<span class="informacoesContato">Celular:</span>
+							${item.malaDireta.usuario.cadCelular}
+							<br>
+							<span class="informacoesContato">Email:</span>
+							${item.malaDireta.usuario.eMail}
+							<br>
+						</td>
+						<td class="centralizado">
+							<fmt:formatNumber value="${item.pontuacaoIngresso}" />
+						</td>
+						<td class="centralizado">
+							<fmt:formatNumber value="${item.pontuacaoProdutos}" />
+						</td>
+						<td class="centralizado">
+							<fmt:formatNumber value="${item.pontuacaoAtividade}" />
+						</td>
+						<td class="centralizado">
+							<fmt:formatNumber value="${item.total}" />
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</c:when>
 	<c:otherwise>
-		<br>  <br>  <h4> Nenhum registro foi encontrado </h4>
+		<br>
+		<br>
+		<h4>Nenhum registro foi encontrado</h4>
 	</c:otherwise>
 </c:choose>
-
 <br>
-
-<a class="btn" href="<c:url value="/pontuacaoAcumulada/acessarTelaPontuacaoAcumulada"/>" > Voltar </a>
+<a class="btn" href="<c:url value="/pontuacaoAcumulada/acessarTelaPontuacaoAcumulada"/>"> Voltar </a>

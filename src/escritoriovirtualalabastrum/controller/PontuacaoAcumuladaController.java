@@ -31,9 +31,7 @@ public class PontuacaoAcumuladaController {
 	private SessaoUsuario sessaoUsuario;
 	private Validator validator;
 
-	public PontuacaoAcumuladaController(Result result,
-			HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario,
-			Validator validator) {
+	public PontuacaoAcumuladaController(Result result, HibernateUtil hibernateUtil, SessaoUsuario sessaoUsuario, Validator validator) {
 
 		this.result = result;
 		this.hibernateUtil = hibernateUtil;
@@ -48,35 +46,29 @@ public class PontuacaoAcumuladaController {
 	}
 
 	@Funcionalidade
-	public void gerarRelatorioPontuacaoAcumulada(String posicao,
-			Integer codigoUsuario, String possuiMovimentacao, String ativo) {
+	public void gerarRelatorioPontuacaoAcumulada(String posicao, Integer codigoUsuario, String possuiMovimentacao, String ativo) {
 
-		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario()
-				.getId_Codigo();
+		Integer codigoUsuarioLogado = this.sessaoUsuario.getUsuario().getId_Codigo();
 
-		gerarMalaDiretaECalcularPontuacaoDaRede(posicao, codigoUsuario,
-				possuiMovimentacao, ativo, codigoUsuarioLogado);
+		gerarMalaDiretaECalcularPontuacaoDaRede(posicao, codigoUsuario, possuiMovimentacao, ativo, codigoUsuarioLogado);
+		calcularPontuacaoPessoalUsuarioPesquisado(this.sessaoUsuario.getUsuario());
 
-		result.include("posicaoConsiderada", new MalaDiretaService()
-				.obterPosicoes().get(posicao));
+		result.include("posicaoConsiderada", new MalaDiretaService().obterPosicoes().get(posicao));
 		result.include("possuiMovimentacao", possuiMovimentacao);
 		result.include("ativo", ativo);
 	}
 
-	public BonificacaoIngressoAuxiliar gerarMalaDiretaECalcularPontuacaoDaRede(
-			String posicao, Integer codigoUsuario,
+	public BonificacaoIngressoAuxiliar gerarMalaDiretaECalcularPontuacaoDaRede(String posicao, Integer codigoUsuario,
 
-			String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
+	String possuiMovimentacao, String ativo, Integer codigoUsuarioLogado) {
 
 		MalaDiretaService malaDiretaService = new MalaDiretaService();
 		malaDiretaService.setHibernateUtil(hibernateUtil);
 		malaDiretaService.setValidator(validator);
 
-		TreeMap<Integer, MalaDireta> malaDireta = malaDiretaService
-				.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
+		TreeMap<Integer, MalaDireta> malaDireta = malaDiretaService.gerarMalaDireta(posicao, codigoUsuario, codigoUsuarioLogado);
 
-		BigDecimal pontuacaoDiamante = gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(
-				malaDireta, possuiMovimentacao, ativo, codigoUsuario);
+		BigDecimal pontuacaoDiamante = gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(malaDireta, possuiMovimentacao, ativo, codigoUsuario);
 
 		BonificacaoIngressoAuxiliar bonificacaoAuxiliar = new BonificacaoIngressoAuxiliar();
 		bonificacaoAuxiliar.setMalaDireta(malaDireta);
@@ -85,9 +77,7 @@ public class PontuacaoAcumuladaController {
 		return bonificacaoAuxiliar;
 	}
 
-	public BigDecimal gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(
-			TreeMap<Integer, MalaDireta> malaDireta, String possuiMovimentacao,
-			String ativo, Integer codigoUsuario) {
+	public BigDecimal gerarRelatorioPontuacaoRetornandoPontuacaoDaRede(TreeMap<Integer, MalaDireta> malaDireta, String possuiMovimentacao, String ativo, Integer codigoUsuario) {
 
 		List<PontuacaoAuxiliar> pontuacoesConformeMovimentacoes = new ArrayList<PontuacaoAuxiliar>();
 		List<PontuacaoAuxiliar> pontuacoesConformeAtividade = new ArrayList<PontuacaoAuxiliar>();
@@ -95,23 +85,19 @@ public class PontuacaoAcumuladaController {
 		Usuario usuarioPesquisado = new Usuario();
 		usuarioPesquisado.setId_Codigo(codigoUsuario);
 
-		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado,
-				MatchMode.EXACT);
+		usuarioPesquisado = this.hibernateUtil.selecionar(usuarioPesquisado, MatchMode.EXACT);
 		result.include("usuarioPesquisado", usuarioPesquisado);
 
 		malaDireta.put(0, new MalaDireta(usuarioPesquisado, 0));
 
 		for (Entry<Integer, MalaDireta> usuario : malaDireta.entrySet()) {
 
-			PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(usuario
-					.getValue());
+			PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(usuario.getValue());
 
-			adicionarConformeMovimentacoes(possuiMovimentacao,
-					pontuacoesConformeMovimentacoes, pontuacaoAuxiliar);
+			adicionarConformeMovimentacoes(possuiMovimentacao, pontuacoesConformeMovimentacoes, pontuacaoAuxiliar);
 		}
 
-		adicionarConformeAtividade(ativo, pontuacoesConformeMovimentacoes,
-				pontuacoesConformeAtividade);
+		adicionarConformeAtividade(ativo, pontuacoesConformeMovimentacoes, pontuacoesConformeAtividade);
 
 		contarAtivosDiretos(pontuacoesConformeAtividade);
 		contarTodosAtivos(pontuacoesConformeAtividade);
@@ -120,21 +106,18 @@ public class PontuacaoAcumuladaController {
 
 		result.include("pontuacaoRede", pontuacaoRede);
 		result.include("relatorioPontuacao", pontuacoesConformeAtividade);
-		result.include("quantidadeElementos",
-				pontuacoesConformeAtividade.size());
+		result.include("quantidadeElementos", pontuacoesConformeAtividade.size());
 
 		return pontuacaoRede;
 	}
 
-	private void contarAtivosDiretos(
-			List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+	private void contarAtivosDiretos(List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
 
 		Integer ativosDiretos = 0;
 
 		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoesConformeAtividade) {
 
-			if (pontuacaoAuxiliar.isAtivo()
-					&& pontuacaoAuxiliar.getMalaDireta().getNivel() == 1) {
+			if (pontuacaoAuxiliar.isAtivo() && pontuacaoAuxiliar.getMalaDireta().getNivel() == 1) {
 
 				ativosDiretos++;
 			}
@@ -143,8 +126,13 @@ public class PontuacaoAcumuladaController {
 		result.include("ativosDiretos", ativosDiretos);
 	}
 
-	private void contarTodosAtivos(
-			List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+	private void calcularPontuacaoPessoalUsuarioPesquisado(Usuario usuarioPesquisado) {
+
+		PontuacaoAuxiliar pontuacaoAuxiliar = calcularPontuacoes(new MalaDireta(usuarioPesquisado, 0));
+		result.include("pontuacaoPessoalUsuarioPesquisado", pontuacaoAuxiliar.getTotal());
+	}
+
+	private void contarTodosAtivos(List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
 
 		Integer todosAtivos = 0;
 
@@ -159,8 +147,7 @@ public class PontuacaoAcumuladaController {
 		result.include("todosAtivos", todosAtivos);
 	}
 
-	private BigDecimal calcularPontuacaoRede(
-			List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+	private BigDecimal calcularPontuacaoRede(List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
 
 		BigDecimal pontuacaoRede = BigDecimal.ZERO;
 
@@ -171,9 +158,7 @@ public class PontuacaoAcumuladaController {
 		return pontuacaoRede;
 	}
 
-	private void adicionarConformeAtividade(String ativo,
-			List<PontuacaoAuxiliar> pontuacoes,
-			List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
+	private void adicionarConformeAtividade(String ativo, List<PontuacaoAuxiliar> pontuacoes, List<PontuacaoAuxiliar> pontuacoesConformeAtividade) {
 
 		for (PontuacaoAuxiliar pontuacaoAuxiliar : pontuacoes) {
 
@@ -209,33 +194,22 @@ public class PontuacaoAcumuladaController {
 		pontuacaoAuxiliar.setMalaDireta(informacoesUsuario);
 
 		Pontuacao pontuacaoFiltro = new Pontuacao();
-		pontuacaoFiltro.setId_Codigo(informacoesUsuario.getUsuario()
-				.getId_Codigo());
+		pontuacaoFiltro.setId_Codigo(informacoesUsuario.getUsuario().getId_Codigo());
 
 		List<Pontuacao> pontuacoesBanco = hibernateUtil.buscar(pontuacaoFiltro);
 
 		for (Pontuacao pontuacaoBanco : pontuacoesBanco) {
 
-			pontuacaoAuxiliar.setParametroAtividade(pontuacaoBanco
-					.getParametroAtividade());
+			pontuacaoAuxiliar.setParametroAtividade(pontuacaoBanco.getParametroAtividade());
 
-			pontuacaoAuxiliar.setPontuacaoAtividade(pontuacaoAuxiliar
-					.getPontuacaoAtividade().add(
-							pontuacaoBanco.getPntAtividade()));
-			pontuacaoAuxiliar.setPontuacaoIngresso(pontuacaoAuxiliar
-					.getPontuacaoIngresso()
-					.add(pontuacaoBanco.getPntIngresso()));
-			pontuacaoAuxiliar
-					.setPontuacaoProdutos(pontuacaoAuxiliar
-							.getPontuacaoProdutos().add(
-									pontuacaoBanco.getPntProduto()));
+			pontuacaoAuxiliar.setPontuacaoAtividade(pontuacaoAuxiliar.getPontuacaoAtividade().add(pontuacaoBanco.getPntAtividade()));
+			pontuacaoAuxiliar.setPontuacaoIngresso(pontuacaoAuxiliar.getPontuacaoIngresso().add(pontuacaoBanco.getPntIngresso()));
+			pontuacaoAuxiliar.setPontuacaoProdutos(pontuacaoAuxiliar.getPontuacaoProdutos().add(pontuacaoBanco.getPntProduto()));
 		}
 		return pontuacaoAuxiliar;
 	}
 
-	private void adicionarConformeMovimentacoes(String possuiMovimentacao,
-			List<PontuacaoAuxiliar> pontuacoes,
-			PontuacaoAuxiliar pontuacaoAuxiliar) {
+	private void adicionarConformeMovimentacoes(String possuiMovimentacao, List<PontuacaoAuxiliar> pontuacoes, PontuacaoAuxiliar pontuacaoAuxiliar) {
 
 		if (possuiMovimentacao.equals(TODOS)) {
 
