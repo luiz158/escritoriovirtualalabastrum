@@ -19,7 +19,7 @@ public class CotasDivisao implements Entidade {
 	private Integer id;
 
 	@Index(name = "index_id_Codigo_cotas_divisao")
-	private Integer id_Codigo;
+	private Integer id_codigo;
 
 	private GregorianCalendar data_referencia;
 	private BigDecimal nr_cotas;
@@ -32,12 +32,12 @@ public class CotasDivisao implements Entidade {
 		this.id = id;
 	}
 
-	public Integer getId_Codigo() {
-		return id_Codigo;
+	public Integer getId_codigo() {
+		return id_codigo;
 	}
 
-	public void setId_Codigo(Integer id_Codigo) {
-		this.id_Codigo = id_Codigo;
+	public void setId_codigo(Integer id_codigo) {
+		this.id_codigo = id_codigo;
 	}
 
 	public GregorianCalendar getData_referencia() {
@@ -55,4 +55,5 @@ public class CotasDivisao implements Entidade {
 	public void setNr_cotas(BigDecimal nr_cotas) {
 		this.nr_cotas = nr_cotas;
 	}
+
 }

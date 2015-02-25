@@ -274,7 +274,7 @@ public class ImportacaoArquivoController {
 
 		List<CotasDivisao> cotasDivisao = new ArrayList<CotasDivisao>();
 
-		String nomeDaPrimeiraColuna = "id_Codigo";
+		String nomeDaPrimeiraColuna = "id_codigo";
 
 		preencherObjeto(reader, cotasDivisao, nomeDaPrimeiraColuna, "CotasDivisao");
 

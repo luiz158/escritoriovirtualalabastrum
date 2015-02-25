@@ -34,7 +34,7 @@ public class BonificacaoDivisaoService {
 		if (Util.preenchido(usuariosComCotas)) {
 			for (CotasDivisao cota : usuariosComCotas) {
 
-				Usuario usuarioComCota = this.hibernateUtil.selecionar(new Usuario(cota.getId_Codigo()));
+				Usuario usuarioComCota = this.hibernateUtil.selecionar(new Usuario(cota.getId_codigo()));
 
 				if (usuarioComCota.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && new MalaDiretaService(this.hibernateUtil).contarIndicacoes(usuarioComCota) >= 3) {
 
