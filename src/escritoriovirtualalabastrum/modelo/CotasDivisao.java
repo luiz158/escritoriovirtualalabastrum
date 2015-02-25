@@ -1,5 +1,6 @@
 package escritoriovirtualalabastrum.modelo;
 
+import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
@@ -11,17 +12,17 @@ import org.hibernate.annotations.Index;
 import escritoriovirtualalabastrum.hibernate.Entidade;
 
 @Entity
-public class HistoricoKit implements Entidade {
+public class CotasDivisao implements Entidade {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
 
-	@Index(name = "index_id_Codigo_historico_kit")
+	@Index(name = "index_id_Codigo_cotas_divisao")
 	private Integer id_Codigo;
 
 	private GregorianCalendar data_referencia;
-	private String kit;
+	private BigDecimal nr_cotas;
 
 	public Integer getId() {
 		return id;
@@ -47,12 +48,11 @@ public class HistoricoKit implements Entidade {
 		this.data_referencia = data_referencia;
 	}
 
-	public String getKit() {
-		return kit;
+	public BigDecimal getNr_cotas() {
+		return nr_cotas;
 	}
 
-	public void setKit(String kit) {
-		this.kit = kit;
+	public void setNr_cotas(BigDecimal nr_cotas) {
+		this.nr_cotas = nr_cotas;
 	}
-
 }

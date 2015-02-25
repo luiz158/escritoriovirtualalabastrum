@@ -33,6 +33,7 @@ import escritoriovirtualalabastrum.modelo.Atividade;
 import escritoriovirtualalabastrum.modelo.Categoria;
 import escritoriovirtualalabastrum.modelo.CentroDistribuicao;
 import escritoriovirtualalabastrum.modelo.ControlePedido;
+import escritoriovirtualalabastrum.modelo.CotasDivisao;
 import escritoriovirtualalabastrum.modelo.FixoIngresso;
 import escritoriovirtualalabastrum.modelo.HistoricoKit;
 import escritoriovirtualalabastrum.modelo.InformacoesUltimaAtualizacao;
@@ -100,6 +101,7 @@ public class ImportacaoArquivoController {
 		processarCSVControlePedido();
 		processarCSVFixoIngresso();
 		processarCSVHistoricoKit();
+		processarCSVCotasDivisao();
 		processarCSVPorcentagemIngresso();
 		processarCSVAtividade();
 
@@ -264,6 +266,21 @@ public class ImportacaoArquivoController {
 		this.hibernateUtil.executarSQL("delete from historicokit");
 
 		this.hibernateUtil.salvarOuAtualizar(historicosKit);
+	}
+
+	private void processarCSVCotasDivisao() throws Exception {
+
+		CSVReader reader = lerArquivo("tblCotasDivisao.csv");
+
+		List<CotasDivisao> cotasDivisao = new ArrayList<CotasDivisao>();
+
+		String nomeDaPrimeiraColuna = "id_Codigo";
+
+		preencherObjeto(reader, cotasDivisao, nomeDaPrimeiraColuna, "CotasDivisao");
+
+		this.hibernateUtil.executarSQL("delete from cotasdivisao");
+
+		this.hibernateUtil.salvarOuAtualizar(cotasDivisao);
 	}
 
 	private void atualizarInformacoesUltimaAtualizacao() {

@@ -6,7 +6,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import escritoriovirtualalabastrum.hibernate.HibernateUtil;
-import escritoriovirtualalabastrum.modelo.HistoricoKit;
+import escritoriovirtualalabastrum.modelo.CotasDivisao;
 import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.util.Util;
 
@@ -26,24 +26,24 @@ public class BonificacaoDivisaoService {
 
 		BigDecimal totalIngressoMensal = calcularTotalIngressoMensal(dataInicial, dataFinal);
 		BigDecimal porcentagemDoTotalIngressoMensal = totalIngressoMensal.multiply(new BigDecimal(2)).divide(new BigDecimal(100));
-		List<HistoricoKit> historicosKit = getUsuariosComCotas(dataInicial, dataFinal);
+		List<CotasDivisao> usuariosComCotas = getUsuariosComCotas(dataInicial, dataFinal);
 
 		BigDecimal totalCotas = BigDecimal.ZERO;
 		BigDecimal quantidadeDeCotasDoUsuarioPesquisado = BigDecimal.ZERO;
 
-		if (Util.preenchido(historicosKit)) {
-			for (HistoricoKit historicoKit : historicosKit) {
+		if (Util.preenchido(usuariosComCotas)) {
+			for (CotasDivisao cota : usuariosComCotas) {
 
-				Usuario usuarioComCota = this.hibernateUtil.selecionar(new Usuario(historicoKit.getId_Codigo()));
+				Usuario usuarioComCota = this.hibernateUtil.selecionar(new Usuario(cota.getId_Codigo()));
 
 				if (usuarioComCota.isAtivo(dataInicial.toGregorianCalendar(), dataFinal.toGregorianCalendar()) && new MalaDiretaService(this.hibernateUtil).contarIndicacoes(usuarioComCota) >= 3) {
 
-					if (Util.preenchido(historicoKit.getNr_cotas())) {
+					if (Util.preenchido(cota.getNr_cotas())) {
 
-						totalCotas = totalCotas.add(historicoKit.getNr_cotas());
+						totalCotas = totalCotas.add(cota.getNr_cotas());
 
 						if (usuarioComCota.getId_Codigo().equals(usuario.getId_Codigo())) {
-							quantidadeDeCotasDoUsuarioPesquisado = historicoKit.getNr_cotas();
+							quantidadeDeCotasDoUsuarioPesquisado = cota.getNr_cotas();
 						}
 					}
 				}
@@ -74,10 +74,10 @@ public class BonificacaoDivisaoService {
 		}
 	}
 
-	private List<HistoricoKit> getUsuariosComCotas(DateTime dataInicial, DateTime dataFinal) {
+	private List<CotasDivisao> getUsuariosComCotas(DateTime dataInicial, DateTime dataFinal) {
 
 		@SuppressWarnings("unchecked")
-		List<HistoricoKit> codigos = hibernateUtil.buscaPorHQL("from HistoricoKit where data_referencia between '" + dataInicial.toString("YYYY-MM-dd") + "' and '" + dataFinal.toString("YYYY-MM-dd") + "'");
+		List<CotasDivisao> codigos = hibernateUtil.buscaPorHQL("from CotasDivisao where data_referencia between '" + dataInicial.toString("YYYY-MM-dd") + "' and '" + dataFinal.toString("YYYY-MM-dd") + "'");
 
 		return codigos;
 	}

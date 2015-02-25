@@ -40,6 +40,7 @@
 		<mapping class="escritoriovirtualalabastrum.modelo.BonificacaoRede" />
 		<mapping class="escritoriovirtualalabastrum.modelo.AutorizacaoAtivacaoAutomatica" />
 		<mapping class="escritoriovirtualalabastrum.modelo.Atividade" />
+		<mapping class="escritoriovirtualalabastrum.modelo.CotasDivisao" />
 
 </session-factory>
 </hibernate-configuration>
