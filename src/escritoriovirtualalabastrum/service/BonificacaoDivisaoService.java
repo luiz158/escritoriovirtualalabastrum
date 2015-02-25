@@ -54,7 +54,7 @@ public class BonificacaoDivisaoService {
 
 		if (!totalCotas.equals(BigDecimal.ZERO)) {
 
-			BigDecimal valorDeCadaCota = porcentagemDoTotalIngressoMensal.divide(totalCotas);
+			BigDecimal valorDeCadaCota = porcentagemDoTotalIngressoMensal.divide(totalCotas, 2, BigDecimal.ROUND_HALF_UP);
 
 			bonificacao = quantidadeDeCotasDoUsuarioPesquisado.multiply(valorDeCadaCota);
 		}
