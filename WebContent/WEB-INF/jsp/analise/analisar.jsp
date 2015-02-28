@@ -3,25 +3,25 @@
 <br>
 <br>
 <br>
-⁄ltima atualizaÁ„o do sistema: ${ultimaAtualizacaoSistema}
+√öltima atualiza√ß√£o do sistema: ${ultimaAtualizacaoSistema}
 <br>
-Sessıes tomcat: ${sessoesTomcat}
+Sess√µes tomcat: ${sessoesTomcat}
 <br>
-Sessıes abertas hibernate: ${sessoesAbertasHibernate}
+Sess√µes abertas hibernate: ${sessoesAbertasHibernate}
 <br>
-Sessıes fechadas hibernate: ${sessoesFechadasHibernate}
+Sess√µes fechadas hibernate: ${sessoesFechadasHibernate}
 
 <br>
 <br>
 
-<h4> Total de acessos (InÌcio da contagem em 22/04/2014): &nbsp;&nbsp;   ${total}  </h4>
+<h4> Total de acessos (In√≠cio da contagem em 01/03/2015): &nbsp;&nbsp;   ${total}  </h4>
 
-<h4> MÈdia di·ria: ${mediaDiaria}  </h4>
+<h4> M√©dia di√°ria: ${mediaDiaria}  </h4>
 
 <br>
 <br>
 
-<h3 style="text-align: center"> Usu·rios que mais acessam </h3>
+<h3 style="text-align: center"> Usu√°rios que mais acessam </h3>
 
 <br>
 
@@ -29,7 +29,7 @@ Sessıes fechadas hibernate: ${sessoesFechadasHibernate}
 
 	<thead>
 		<tr>
-			<th> Usu·rio </th>
+			<th> Usu√°rio </th>
 			<th> Quantidade de acessos </th>
 		</tr>
 	</thead>
