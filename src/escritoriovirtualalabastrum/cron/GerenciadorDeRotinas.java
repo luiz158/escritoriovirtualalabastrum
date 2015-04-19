@@ -7,7 +7,6 @@ public class GerenciadorDeRotinas {
 	public static void iniciarRotinas() {
 
 		ThreadRestartHibernate.iniciarThread();
-		new NotificacaoNovatosNaRede().iniciarRotina();
 		new AtualizacaoArquivosAutomaticamente().iniciarRotina();
 		new BonificacaoRedeRotina().iniciarRotina();
 	}

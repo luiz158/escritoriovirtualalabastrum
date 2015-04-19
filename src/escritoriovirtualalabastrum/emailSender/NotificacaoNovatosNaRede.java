@@ -1,6 +1,4 @@
-package escritoriovirtualalabastrum.cron;
-
-import it.sauronsoftware.cron4j.Scheduler;
+package escritoriovirtualalabastrum.emailSender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +10,9 @@ import escritoriovirtualalabastrum.modelo.Usuario;
 import escritoriovirtualalabastrum.util.JavaMailApp;
 import escritoriovirtualalabastrum.util.Util;
 
-public class NotificacaoNovatosNaRede implements Runnable {
+public class NotificacaoNovatosNaRede {
 
-	public void run() {
+	public static void enviarEmail() {
 
 		Usuario usuarioFiltro = new Usuario();
 		usuarioFiltro.setDt_Ingresso(new DateTime().withMillisOfDay(0).toGregorianCalendar());
@@ -191,16 +189,5 @@ public class NotificacaoNovatosNaRede implements Runnable {
 		}
 
 		hibernateUtil.fecharSessao();
-	}
-
-	public void iniciarRotina() {
-
-		NotificacaoNovatosNaRede task = new NotificacaoNovatosNaRede();
-
-		Scheduler scheduler = new Scheduler();
-
-		scheduler.schedule("50 23 * * *", task);
-
-		scheduler.start();
 	}
 }
